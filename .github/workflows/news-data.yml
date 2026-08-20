@@ -1,0 +1,320 @@
+name: Update NOWNEX News
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "7,37 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+
+  update-news:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch football news
+        shell: python
+        run: |
+
+          import json
+          import urllib.request
+          import urllib.parse
+          import xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
+          from html import unescape
+          import re
+
+
+          feeds = [
+
+              {
+                  "category": "football",
+                  "query": "كرة القدم أخبار"
+              },
+
+              {
+                  "category": "stars",
+                  "query": "كرة القدم اللاعبين النجوم"
+              },
+
+              {
+                  "category": "world",
+                  "query": "كرة القدم العالمية"
+              },
+
+              {
+                  "category": "bigMatches",
+                  "query": "مباريات كرة القدم اليوم"
+              },
+
+              {
+                  "category": "competitions",
+                  "query": "دوري أبطال أوروبا الدوري الأوروبي كأس العالم"
+              },
+
+              {
+                  "category": "starMatches",
+                  "query": "ريال مدريد برشلونة ليفربول مانشستر سيتي"
+              }
+
+          ]
+
+
+          articles = []
+
+
+          def clean_text(text):
+
+              if not text:
+                  return ""
+
+              text = unescape(text)
+
+              text = re.sub(
+                  r"<[^>]+>",
+                  "",
+                  text
+              )
+
+              text = re.sub(
+                  r"\s+",
+                  " ",
+                  text
+              )
+
+              return text.strip()
+
+
+          def get_text(item, tag):
+
+              element = item.find(tag)
+
+              if element is None:
+                  return ""
+
+              return element.text or ""
+
+
+          for feed in feeds:
+
+              category = feed["category"]
+
+              query = feed["query"]
+
+              encoded_query = urllib.parse.quote(query)
+
+              url = (
+                  "https://news.google.com/rss/search?"
+                  "q="
+                  + encoded_query
+                  + "&hl=ar&gl=DZ&ceid=DZ:ar"
+              )
+
+
+              print(
+                  "Loading:",
+                  query
+              )
+
+
+              try:
+
+                  request = urllib.request.Request(
+                      url,
+                      headers={
+                          "User-Agent":
+                          "Mozilla/5.0"
+                      }
+                  )
+
+
+                  with urllib.request.urlopen(
+                      request,
+                      timeout=30
+                  ) as response:
+
+                      xml_data = response.read()
+
+
+                  root = ET.fromstring(
+                      xml_data
+                  )
+
+
+                  items = root.findall(
+                      ".//item"
+                  )
+
+
+                  for item in items[:10]:
+
+                      title = clean_text(
+                          get_text(
+                              item,
+                              "title"
+                          )
+                      )
+
+
+                      description = clean_text(
+                          get_text(
+                              item,
+                              "description"
+                          )
+                      )
+
+
+                      link = get_text(
+                          item,
+                          "link"
+                      ).strip()
+
+
+                      pub_date = get_text(
+                          item,
+                          "pubDate"
+                      ).strip()
+
+
+                      source = get_text(
+                          item,
+                          "source"
+                      ).strip()
+
+
+                      if not title:
+                          continue
+
+
+                      articles.append({
+
+                          "category":
+                              category,
+
+                          "title":
+                              title,
+
+                          "description":
+                              description,
+
+                          "url":
+                              link,
+
+                          "source":
+                              source
+                              or "Google News",
+
+                          "date":
+                              pub_date,
+
+                          "image":
+                              ""
+
+                      })
+
+
+              except Exception as error:
+
+                  print(
+                      "Feed error:",
+                      error
+                  )
+
+
+          # إزالة الأخبار المكررة
+
+          unique = {}
+
+          for article in articles:
+
+              key = (
+                  article["title"]
+                  .lower()
+                  .strip()
+              )
+
+              if key not in unique:
+
+                  unique[key] = article
+
+
+          articles = list(
+              unique.values()
+          )
+
+
+          # ترتيب الأخبار
+
+          articles.sort(
+              key=lambda article:
+                  article.get(
+                      "date",
+                      ""
+                  ),
+              reverse=True
+          )
+
+
+          # الاحتفاظ بآخر 60 خبرًا
+
+          articles = articles[:60]
+
+
+          output = {
+
+              "updatedAt":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
+
+              "news":
+                  articles
+
+          }
+
+
+          with open(
+              "data/news.json",
+              "w",
+              encoding="utf-8"
+          ) as file:
+
+              json.dump(
+                  output,
+                  file,
+                  ensure_ascii=False,
+                  indent=2
+              )
+
+
+          print(
+              "News saved:",
+              len(articles)
+          )
+
+
+      - name: Commit updated news
+
+        run: |
+
+          git config user.name \
+            "NOWNEX News Bot"
+
+          git config user.email \
+            "actions@users.noreply.github.com"
+
+          git add data/news.json
+
+          git diff --cached --quiet || \
+            git commit \
+            -m "Update NOWNEX news"
+
+          git push
