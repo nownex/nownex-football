@@ -11,7 +11,8 @@
 <title>NOWNEX FOOTBALL | مباريات ونتائج كرة القدم</title>
 
 <meta name="description"
-      content="NOWNEX FOOTBALL — مباريات اليوم، النتائج المباشرة، أهم البطولات والأخبار الكروية.">
+      content="NOWNEX FOOTBALL — مباريات اليوم، النتائج المباشرة، البطولات، الأخبار والانتقالات.">
+
 
 <style>
 
@@ -44,7 +45,6 @@ html{
     --red2:#ff5360;
 
     --green:#00d889;
-    --blue:#1597ff;
 
     --white:#ffffff;
     --text:#dce5ee;
@@ -54,21 +54,29 @@ html{
 
 }
 
+
+/* =====================================================
+   BODY
+===================================================== */
+
 body{
 
     min-height:100vh;
 
     background:
+
         radial-gradient(
             circle at 10% 0%,
             rgba(239,51,64,.08),
             transparent 28%
         ),
+
         radial-gradient(
             circle at 90% 5%,
             rgba(242,189,50,.07),
             transparent 25%
         ),
+
         linear-gradient(
             180deg,
             #030912 0%,
@@ -106,6 +114,7 @@ button{
 header{
 
     position:sticky;
+
     top:0;
 
     z-index:1000;
@@ -120,6 +129,7 @@ header{
         1px solid var(--border);
 
 }
+
 
 .header{
 
@@ -140,6 +150,9 @@ header{
     gap:20px;
 
 }
+
+
+/* LOGO */
 
 .logo{
 
@@ -164,16 +177,22 @@ header{
 }
 
 .logo-name .nownex{
+
     color:#fff;
+
 }
 
 .logo-name .football{
+
     color:var(--red);
+
 }
+
 
 .logo-box{
 
     width:48px;
+
     height:48px;
 
     border-radius:11px;
@@ -188,6 +207,7 @@ header{
     display:flex;
 
     align-items:center;
+
     justify-content:center;
 
     box-shadow:
@@ -207,6 +227,9 @@ header{
     font-family:Arial,sans-serif;
 
 }
+
+
+/* NAV */
 
 .nav{
 
@@ -247,6 +270,9 @@ header{
 
 }
 
+
+/* HEADER BUTTONS */
+
 .header-buttons{
 
     display:flex;
@@ -258,6 +284,7 @@ header{
 .header-btn{
 
     width:40px;
+
     height:40px;
 
     border:
@@ -271,6 +298,7 @@ header{
     display:flex;
 
     align-items:center;
+
     justify-content:center;
 
     color:#fff;
@@ -293,6 +321,7 @@ header{
     padding:0 20px;
 
 }
+
 
 .hero-box{
 
@@ -325,14 +354,17 @@ header{
 
 }
 
+
 .hero-glow{
 
     position:absolute;
 
     width:430px;
+
     height:430px;
 
     left:-160px;
+
     bottom:-220px;
 
     border-radius:50%;
@@ -347,6 +379,7 @@ header{
 
 }
 
+
 .hero-content{
 
     position:relative;
@@ -356,6 +389,7 @@ header{
     padding:48px 55px;
 
 }
+
 
 .hero-label{
 
@@ -386,9 +420,11 @@ header{
 
 }
 
+
 .hero-label i{
 
     width:7px;
+
     height:7px;
 
     background:var(--red);
@@ -400,6 +436,7 @@ header{
         var(--red);
 
 }
+
 
 .hero h1{
 
@@ -416,11 +453,13 @@ header{
 
 }
 
+
 .hero h1 span{
 
     color:var(--gold2);
 
 }
+
 
 .hero-description{
 
@@ -436,6 +475,7 @@ header{
 
 }
 
+
 .hero-actions{
 
     display:flex;
@@ -445,6 +485,7 @@ header{
     flex-wrap:wrap;
 
 }
+
 
 .btn{
 
@@ -458,6 +499,7 @@ header{
 
 }
 
+
 .btn-gold{
 
     color:#111;
@@ -465,6 +507,7 @@ header{
     background:var(--gold);
 
 }
+
 
 .btn-red{
 
@@ -494,11 +537,13 @@ header{
 
 }
 
+
 .section{
 
     margin-bottom:45px;
 
 }
+
 
 .section-header{
 
@@ -511,6 +556,7 @@ header{
     margin-bottom:18px;
 
 }
+
 
 .section-title{
 
@@ -526,11 +572,13 @@ header{
 
 }
 
+
 .section-title::before{
 
     content:"";
 
     width:4px;
+
     height:25px;
 
     background:var(--gold);
@@ -538,6 +586,7 @@ header{
     border-radius:5px;
 
 }
+
 
 .section-more{
 
@@ -551,12 +600,13 @@ header{
 
 
 /* =====================================================
-   MATCHES PANEL
+   MATCH PANEL
 ===================================================== */
 
 .matches-panel{
 
     background:
+
         linear-gradient(
             145deg,
             rgba(7,26,44,.98),
@@ -587,6 +637,7 @@ header{
 
 }
 
+
 .competition-label{
 
     display:flex;
@@ -599,6 +650,7 @@ header{
 
 }
 
+
 .competition-label h3{
 
     font-size:14px;
@@ -606,6 +658,7 @@ header{
     font-weight:900;
 
 }
+
 
 .competition-label span{
 
@@ -628,7 +681,10 @@ header{
 
     overflow-x:auto;
 
-    padding:3px 2px 10px;
+    padding:
+        3px
+        2px
+        10px;
 
     scrollbar-width:thin;
 
@@ -638,11 +694,13 @@ header{
 
 }
 
+
 .competition-strip::-webkit-scrollbar{
 
     height:4px;
 
 }
+
 
 .competition-strip::-webkit-scrollbar-track{
 
@@ -653,6 +711,7 @@ header{
 
 }
 
+
 .competition-strip::-webkit-scrollbar-thumb{
 
     background:
@@ -661,6 +720,7 @@ header{
     border-radius:10px;
 
 }
+
 
 .competition-btn{
 
@@ -689,6 +749,7 @@ header{
 
 }
 
+
 .competition-btn:hover{
 
     border-color:
@@ -698,9 +759,11 @@ header{
 
 }
 
+
 .competition-btn.active{
 
     background:
+
         linear-gradient(
             135deg,
             rgba(239,51,64,.22),
@@ -736,9 +799,11 @@ header{
 
 }
 
+
 .match-card{
 
     background:
+
         linear-gradient(
             145deg,
             #081c30,
@@ -756,6 +821,7 @@ header{
 
 }
 
+
 .match-card:hover{
 
     transform:
@@ -765,6 +831,19 @@ header{
         rgba(239,51,64,.28);
 
 }
+
+
+.match-card.live-card{
+
+    border-color:
+        rgba(0,216,137,.30);
+
+    box-shadow:
+        0 0 20px
+        rgba(0,216,137,.05);
+
+}
+
 
 .match-header{
 
@@ -777,6 +856,7 @@ header{
     margin-bottom:16px;
 
 }
+
 
 .match-league{
 
@@ -794,6 +874,7 @@ header{
 
 }
 
+
 .match-status{
 
     color:var(--gold2);
@@ -803,6 +884,7 @@ header{
     font-weight:900;
 
 }
+
 
 .match-status.live{
 
@@ -816,6 +898,7 @@ header{
     border-radius:6px;
 
 }
+
 
 .match-teams{
 
@@ -834,9 +917,11 @@ header{
 
 }
 
+
 .club-logo{
 
     width:50px;
+
     height:50px;
 
     object-fit:contain;
@@ -856,6 +941,7 @@ header{
 
 }
 
+
 .club-name{
 
     font-size:13px;
@@ -865,6 +951,7 @@ header{
     line-height:1.4;
 
 }
+
 
 .match-score{
 
@@ -876,6 +963,7 @@ header{
 
 }
 
+
 .match-minute{
 
     color:#94a3b2;
@@ -883,6 +971,7 @@ header{
     font-size:10px;
 
 }
+
 
 .match-footer{
 
@@ -900,6 +989,7 @@ header{
     text-align:center;
 
 }
+
 
 .matches-empty{
 
@@ -932,23 +1022,34 @@ header{
 
 }
 
+
 .loading-dot{
 
     color:var(--gold);
 
     font-size:22px;
 
+    animation:
+        pulse 1.4s infinite;
+
 }
 
-.error-message{
 
-    color:#ff6670;
+@keyframes pulse{
+
+    0%,100%{
+        opacity:.4;
+    }
+
+    50%{
+        opacity:1;
+    }
 
 }
 
 
 /* =====================================================
-   OTHER CARDS
+   OTHER SECTIONS
 ===================================================== */
 
 .hot-grid,
@@ -963,6 +1064,7 @@ header{
     gap:15px;
 
 }
+
 
 .simple-card{
 
@@ -979,6 +1081,7 @@ header{
 
 }
 
+
 .simple-icon{
 
     font-size:36px;
@@ -987,6 +1090,7 @@ header{
 
 }
 
+
 .simple-card h3{
 
     font-size:16px;
@@ -994,6 +1098,7 @@ header{
     margin-bottom:5px;
 
 }
+
 
 .simple-card p{
 
@@ -1019,6 +1124,7 @@ header{
 
 }
 
+
 .transfer-list{
 
     display:flex;
@@ -1028,6 +1134,7 @@ header{
     gap:10px;
 
 }
+
 
 .transfer{
 
@@ -1053,6 +1160,7 @@ header{
 
 }
 
+
 .player{
 
     display:flex;
@@ -1063,9 +1171,11 @@ header{
 
 }
 
+
 .avatar{
 
     width:42px;
+
     height:42px;
 
     border-radius:50%;
@@ -1080,6 +1190,7 @@ header{
 
 }
 
+
 .player-name{
 
     font-size:12px;
@@ -1087,6 +1198,7 @@ header{
     font-weight:900;
 
 }
+
 
 .player-position{
 
@@ -1096,6 +1208,7 @@ header{
 
 }
 
+
 .transfer-arrow{
 
     color:var(--green);
@@ -1104,6 +1217,7 @@ header{
 
 }
 
+
 .transfer-status{
 
     color:var(--gold2);
@@ -1111,6 +1225,7 @@ header{
     font-size:10px;
 
 }
+
 
 .stats{
 
@@ -1122,6 +1237,7 @@ header{
     gap:10px;
 
 }
+
 
 .stat{
 
@@ -1138,11 +1254,13 @@ header{
 
 }
 
+
 .stat-icon{
 
     font-size:20px;
 
 }
+
 
 .stat-label{
 
@@ -1151,6 +1269,7 @@ header{
     font-size:10px;
 
 }
+
 
 .stat-value{
 
@@ -1178,6 +1297,7 @@ footer{
 
 }
 
+
 .footer{
 
     max-width:1250px;
@@ -1194,6 +1314,7 @@ footer{
 
 }
 
+
 .footer-logo{
 
     direction:ltr;
@@ -1204,11 +1325,13 @@ footer{
 
 }
 
-.footer-logo span{
+
+.footer-logo .football{
 
     color:var(--red);
 
 }
+
 
 .footer-text{
 
@@ -1217,6 +1340,7 @@ footer{
     font-size:12px;
 
 }
+
 
 .copyright{
 
@@ -1241,18 +1365,22 @@ footer{
 
     }
 
+
     .logo-name{
 
         font-size:18px;
 
     }
 
+
     .logo-box{
 
         width:39px;
+
         height:39px;
 
     }
+
 
     .logo-box span{
 
@@ -1260,11 +1388,13 @@ footer{
 
     }
 
+
     .nav{
 
         display:none;
 
     }
+
 
     .hero{
 
@@ -1274,6 +1404,7 @@ footer{
 
     }
 
+
     .hero-box{
 
         min-height:330px;
@@ -1282,11 +1413,13 @@ footer{
 
     }
 
+
     .hero-content{
 
         padding:35px 21px;
 
     }
+
 
     .hero h1{
 
@@ -1294,11 +1427,13 @@ footer{
 
     }
 
+
     .hero-description{
 
         font-size:14px;
 
     }
+
 
     .container{
 
@@ -1308,6 +1443,7 @@ footer{
 
     }
 
+
     .matches-panel{
 
         padding:13px;
@@ -1315,6 +1451,7 @@ footer{
         border-radius:17px;
 
     }
+
 
     .matches-grid,
     .hot-grid,
@@ -1325,11 +1462,13 @@ footer{
 
     }
 
+
     .two-columns{
 
         grid-template-columns:1fr;
 
     }
+
 
     .section-title{
 
@@ -1337,17 +1476,20 @@ footer{
 
     }
 
+
     .competition-btn{
 
         padding:9px 13px;
 
     }
 
+
     .match-card{
 
         padding:14px;
 
     }
+
 
     .footer{
 
@@ -1361,7 +1503,7 @@ footer{
 
 
 /* =====================================================
-   VERY SMALL PHONES
+   SMALL MOBILE
 ===================================================== */
 
 @media(max-width:420px){
@@ -1372,12 +1514,15 @@ footer{
 
     }
 
+
     .logo-box{
 
         width:36px;
+
         height:36px;
 
     }
+
 
     .logo-box span{
 
@@ -1385,11 +1530,13 @@ footer{
 
     }
 
+
     .hero h1{
 
         font-size:30px;
 
     }
+
 
     .matches-panel{
 
@@ -1397,35 +1544,12 @@ footer{
 
     }
 
+
     .match-card{
 
         border-radius:14px;
 
     }
-
-}
-
-
-/* =====================================================
-   DARK LOADING ANIMATION
-===================================================== */
-
-@keyframes pulse{
-
-    0%,100%{
-        opacity:.45;
-    }
-
-    50%{
-        opacity:1;
-    }
-
-}
-
-.loading-dot{
-
-    animation:
-        pulse 1.4s infinite;
 
 }
 
@@ -1445,6 +1569,7 @@ footer{
 
 <div class="header">
 
+
 <a href="#" class="logo">
 
     <div class="logo-name">
@@ -1459,8 +1584,11 @@ footer{
 
     </div>
 
+
     <div class="logo-box">
+
         <span>N</span>
+
     </div>
 
 </a>
@@ -1468,21 +1596,28 @@ footer{
 
 <nav class="nav">
 
-    <a href="#" class="active">
+    <a
+        href="#"
+        class="active"
+    >
         الرئيسية
     </a>
+
 
     <a href="#matches">
         المباريات
     </a>
 
+
     <a href="#news">
         الأخبار
     </a>
 
+
     <a href="#transfers">
         الانتقالات
     </a>
+
 
     <a href="#videos">
         الفيديوهات
@@ -1497,15 +1632,18 @@ footer{
         ⌕
     </div>
 
+
     <div class="header-btn">
         ☰
     </div>
 
 </div>
 
+
 </div>
 
 </header>
+
 
 
 <!-- =====================================================
@@ -1518,7 +1656,9 @@ footer{
 
     <div class="hero-glow"></div>
 
+
     <div class="hero-content">
+
 
         <div class="hero-label">
 
@@ -1556,6 +1696,7 @@ footer{
                 مباريات اليوم
             </a>
 
+
             <a
                 href="#news"
                 class="btn btn-red"
@@ -1570,6 +1711,7 @@ footer{
 </div>
 
 </section>
+
 
 
 <!-- =====================================================
@@ -1588,20 +1730,24 @@ footer{
     id="matches"
 >
 
+
 <div class="section-header">
+
 
     <h2 class="section-title">
         مباريات اليوم
     </h2>
 
+
     <span
         class="section-more"
-        id="liveLabel"
     >
         نتائج مباشرة
     </span>
 
+
 </div>
+
 
 
 <div class="matches-panel">
@@ -1613,11 +1759,13 @@ footer{
 
 <div class="competition-group">
 
+
     <div class="competition-label">
 
         <h3>
             🏟️ الدوريات
         </h3>
+
 
         <span>
             الدوريات الرئيسية
@@ -1631,25 +1779,30 @@ footer{
         id="leaguesStrip"
     >
 
+        <!-- يتم ملؤه بواسطة football.js -->
+
     </div>
 
 </div>
 
 
+
 <!-- =====================================================
-     CUPS
+     CLUB CUPS
 ===================================================== -->
 
 <div class="competition-group">
 
+
     <div class="competition-label">
 
         <h3>
-            🏆 الكؤوس والبطولات
+            🏆 كؤوس الأندية
         </h3>
 
+
         <span>
-            البطولات الكبرى
+            البطولات الكبرى للأندية
         </span>
 
     </div>
@@ -1660,13 +1813,50 @@ footer{
         id="cupsStrip"
     >
 
+        <!-- يتم ملؤه بواسطة football.js -->
+
     </div>
 
 </div>
 
 
+
 <!-- =====================================================
-     MATCHES
+     NATIONAL TEAMS
+===================================================== -->
+
+<div class="competition-group">
+
+
+    <div class="competition-label">
+
+        <h3>
+            🌍 منافسات المنتخبات
+        </h3>
+
+
+        <span>
+            البطولات الدولية
+        </span>
+
+    </div>
+
+
+    <div
+        class="competition-strip"
+        id="nationalStrip"
+    >
+
+        <!-- يتم ملؤه بواسطة football.js -->
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MATCHES GRID
 ===================================================== -->
 
 <div
@@ -1674,15 +1864,22 @@ footer{
     id="matchesGrid"
 >
 
+
     <div class="matches-empty">
+
 
         <div class="loading-dot">
             ●
         </div>
 
-        جاري تحميل مباريات اليوم...
+
+        <div>
+            جاري تحميل مباريات اليوم...
+        </div>
+
 
     </div>
+
 
 </div>
 
@@ -1692,11 +1889,13 @@ footer{
 </section>
 
 
+
 <!-- =====================================================
-     HIGHLIGHTS
+     UPCOMING
 ===================================================== -->
 
 <section class="section">
+
 
 <div class="section-header">
 
@@ -1707,61 +1906,79 @@ footer{
 </div>
 
 
+
 <div class="hot-grid">
 
+
     <div class="simple-card">
+
 
         <div class="simple-icon">
             🔥
         </div>
 
+
         <h3>
             قمم كروية
         </h3>
+
 
         <p>
             أقوى المواجهات القادمة حول العالم.
         </p>
 
+
     </div>
 
 
+
     <div class="simple-card">
+
 
         <div class="simple-icon">
             🏆
         </div>
 
+
         <h3>
             البطولات الكبرى
         </h3>
+
 
         <p>
             دوري الأبطال والدوريات الأوروبية.
         </p>
 
+
     </div>
 
 
+
     <div class="simple-card">
+
 
         <div class="simple-icon">
             ⭐
         </div>
 
+
         <h3>
             مباريات النجوم
         </h3>
+
 
         <p>
             المواجهات التي ينتظرها عشاق كرة القدم.
         </p>
 
+
     </div>
+
 
 </div>
 
 </section>
+
 
 
 <!-- =====================================================
@@ -1773,74 +1990,96 @@ footer{
     id="news"
 >
 
+
 <div class="section-header">
+
 
     <h2 class="section-title">
         آخر الأخبار
     </h2>
 
+
     <span class="section-more">
         المزيد ←
     </span>
 
+
 </div>
+
 
 
 <div class="news-grid">
 
+
     <article class="simple-card">
+
 
         <div class="simple-icon">
             📰
         </div>
 
+
         <h3>
             أخبار كرة القدم
         </h3>
+
 
         <p>
             آخر المستجدات والأخبار المهمة.
         </p>
 
+
     </article>
 
 
+
     <article class="simple-card">
+
 
         <div class="simple-icon">
             ⭐
         </div>
 
+
         <h3>
             أخبار النجوم
         </h3>
+
 
         <p>
             أبرز أخبار وتصريحات اللاعبين.
         </p>
 
+
     </article>
 
 
+
     <article class="simple-card">
+
 
         <div class="simple-icon">
             🌍
         </div>
 
+
         <h3>
             الكرة العالمية
         </h3>
+
 
         <p>
             أهم الأحداث من مختلف البطولات.
         </p>
 
+
     </article>
+
 
 </div>
 
 </section>
+
 
 
 <!-- =====================================================
@@ -1852,10 +2091,14 @@ footer{
     id="transfers"
 >
 
+
 <div class="two-columns">
 
 
+<!-- TRANSFERS -->
+
 <div>
+
 
 <div class="section-header">
 
@@ -1866,21 +2109,27 @@ footer{
 </div>
 
 
+
 <div class="transfer-list">
+
 
     <div class="transfer">
 
+
         <div class="player">
+
 
             <div class="avatar">
                 ⭐
             </div>
+
 
             <div>
 
                 <div class="player-name">
                     سوق الانتقالات
                 </div>
+
 
                 <div class="player-position">
                     صفقات جديدة
@@ -1900,22 +2149,28 @@ footer{
             متابعة
         </div>
 
+
     </div>
+
 
 
     <div class="transfer">
 
+
         <div class="player">
+
 
             <div class="avatar">
                 ⚡
             </div>
+
 
             <div>
 
                 <div class="player-name">
                     مفاوضات الأندية
                 </div>
+
 
                 <div class="player-position">
                     آخر الأخبار
@@ -1935,14 +2190,20 @@ footer{
             جديد
         </div>
 
+
     </div>
 
-</div>
 
 </div>
 
+</div>
+
+
+
+<!-- STATS -->
 
 <div>
+
 
 <div class="section-header">
 
@@ -1953,7 +2214,9 @@ footer{
 </div>
 
 
+
 <div class="stats">
+
 
     <div class="stat">
 
@@ -1961,9 +2224,11 @@ footer{
             ⚽
         </div>
 
+
         <div class="stat-label">
             الأهداف
         </div>
+
 
         <div
             class="stat-value"
@@ -1975,15 +2240,18 @@ footer{
     </div>
 
 
+
     <div class="stat">
 
         <div class="stat-icon">
             🟥
         </div>
 
+
         <div class="stat-label">
             بطاقات حمراء
         </div>
+
 
         <div
             class="stat-value"
@@ -1995,15 +2263,18 @@ footer{
     </div>
 
 
+
     <div class="stat">
 
         <div class="stat-icon">
             🟨
         </div>
 
+
         <div class="stat-label">
             بطاقات صفراء
         </div>
+
 
         <div
             class="stat-value"
@@ -2015,15 +2286,18 @@ footer{
     </div>
 
 
+
     <div class="stat">
 
         <div class="stat-icon">
             📅
         </div>
 
+
         <div class="stat-label">
             المباريات
         </div>
+
 
         <div
             class="stat-value"
@@ -2034,13 +2308,16 @@ footer{
 
     </div>
 
+
 </div>
 
 </div>
+
 
 </div>
 
 </section>
+
 
 
 <!-- =====================================================
@@ -2052,6 +2329,7 @@ footer{
     id="videos"
 >
 
+
 <div class="section-header">
 
     <h2 class="section-title">
@@ -2061,57 +2339,74 @@ footer{
 </div>
 
 
+
 <div class="video-grid">
 
+
     <div class="simple-card">
+
 
         <div class="simple-icon">
             ▶️
         </div>
 
+
         <h3>
             أبرز أهداف اليوم
         </h3>
+
 
         <p>
             سنضيف الفيديوهات والملخصات لاحقًا.
         </p>
 
+
     </div>
 
 
+
     <div class="simple-card">
+
 
         <div class="simple-icon">
             🎥
         </div>
 
+
         <h3>
             ملخصات المباريات
         </h3>
+
 
         <p>
             أهم أحداث المباريات في مكان واحد.
         </p>
 
+
     </div>
 
 
+
     <div class="simple-card">
+
 
         <div class="simple-icon">
             🔥
         </div>
 
+
         <h3>
             أجمل اللحظات
         </h3>
+
 
         <p>
             أبرز اللقطات والأهداف.
         </p>
 
+
     </div>
+
 
 </div>
 
@@ -2121,15 +2416,19 @@ footer{
 </main>
 
 
+
 <!-- =====================================================
      FOOTER
 ===================================================== -->
 
 <footer>
 
+
 <div class="footer">
 
+
     <div>
+
 
         <div class="footer-logo">
 
@@ -2137,7 +2436,7 @@ footer{
                 NOWNEX
             </span>
 
-            <span>
+            <span class="football">
                 FOOTBALL
             </span>
 
@@ -2145,1262 +2444,35 @@ footer{
 
 
         <div class="footer-text">
+
             كل ما يحدث في عالم كرة القدم في مكان واحد.
+
         </div>
+
 
     </div>
 
 
     <div class="copyright">
+
         © 2026 NOWNEX FOOTBALL
+
     </div>
+
 
 </div>
 
 </footer>
 
 
-<script>
 
-/* =====================================================
-   NOWNEX FOOTBALL
-   MATCH ENGINE
-===================================================== */
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
-
-/*
- * هذه هي الدوريات الوحيدة المسموح
- * بعرضها في NOWNEX.
- */
-
-const ALLOWED_LEAGUES = [
-
-    {
-        id:39,
-        name:"الدوري الإنجليزي",
-        short:"Premier League"
-    },
-
-    {
-        id:61,
-        name:"الدوري الفرنسي",
-        short:"Ligue 1"
-    },
-
-    {
-        id:140,
-        name:"الدوري الإسباني",
-        short:"La Liga"
-    },
-
-    {
-        id:88,
-        name:"الدوري الهولندي",
-        short:"Eredivisie"
-    },
-
-    {
-        id:94,
-        name:"الدوري البرتغالي",
-        short:"Primeira Liga"
-    },
-
-    {
-        id:144,
-        name:"الدوري البلجيكي",
-        short:"Jupiler Pro League"
-    },
-
-    {
-        id:307,
-        name:"الدوري السعودي",
-        short:"Saudi Pro League"
-    },
-
-    {
-        id:135,
-        name:"الدوري الإيطالي",
-        short:"Serie A"
-    },
-
-    {
-        id:253,
-        name:"الدوري الأمريكي",
-        short:"MLS"
-    }
-
-];
-
-
-/*
- * البطولات التي يمكن إظهارها
- * في قسم الكؤوس.
- */
-
-const ALLOWED_CUPS = [
-
-    {
-        id:2,
-        name:"دوري أبطال أوروبا"
-    },
-
-    {
-        id:3,
-        name:"الدوري الأوروبي"
-    },
-
-    {
-        id:848,
-        name:"دوري المؤتمر الأوروبي"
-    },
-
-    {
-        id:1,
-        name:"كأس العالم"
-    },
-
-    {
-        id:4,
-        name:"كأس أمم أوروبا"
-    },
-
-    {
-        id:5,
-        name:"دوري الأمم الأوروبية"
-    },
-
-    {
-        id:15,
-        name:"كأس العالم للأندية"
-    },
-
-    {
-        id:6,
-        name:"كأس أمم إفريقيا"
-    },
-
-    {
-        id:22,
-        name:"كأس أمم آسيا"
-    }
-
-];
-
-
-/* =====================================================
-   VARIABLES
-===================================================== */
-
-let fixtures = [];
-
-let selectedType = "league";
-
-let selectedCompetition = "all";
-
-
-const leaguesStrip =
-    document.getElementById(
-        "leaguesStrip"
-    );
-
-
-const cupsStrip =
-    document.getElementById(
-        "cupsStrip"
-    );
-
-
-const matchesGrid =
-    document.getElementById(
-        "matchesGrid"
-    );
-
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function escapeHTML(value){
-
-    if(value === null ||
-       value === undefined){
-
-        return "";
-
-    }
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================================
-   GET DATA ARRAY
-===================================================== */
-
-function normalizeData(data){
-
-    if(Array.isArray(data)){
-        return data;
-    }
-
-    if(
-        data &&
-        Array.isArray(data.response)
-    ){
-        return data.response;
-    }
-
-    if(
-        data &&
-        Array.isArray(data.matches)
-    ){
-        return data.matches;
-    }
-
-    if(
-        data &&
-        Array.isArray(data.fixtures)
-    ){
-        return data.fixtures;
-    }
-
-    return [];
-
-}
-
-
-/* =====================================================
-   LEAGUE LOOKUP
-===================================================== */
-
-function getAllowedLeague(id){
-
-    return ALLOWED_LEAGUES.find(
-        league =>
-            Number(league.id) === Number(id)
-    );
-
-}
-
-
-/* =====================================================
-   CUP LOOKUP
-===================================================== */
-
-function getAllowedCup(id){
-
-    return ALLOWED_CUPS.find(
-        cup =>
-            Number(cup.id) === Number(id)
-    );
-
-}
-
-
-/* =====================================================
-   CREATE BUTTON
-===================================================== */
-
-function createCompetitionButton(
-    item,
-    type
-){
-
-    const button =
-        document.createElement(
-            "button"
-        );
-
-    button.className =
-        "competition-btn";
-
-    button.dataset.id =
-        String(item.id);
-
-    button.dataset.type =
-        type;
-
-    button.textContent =
-        item.name;
-
-    button.addEventListener(
-        "click",
-        function(){
-
-            selectedType = type;
-
-            selectedCompetition =
-                String(item.id);
-
-            document
-                .querySelectorAll(
-                    ".competition-btn"
-                )
-                .forEach(
-                    btn =>
-                        btn.classList.remove(
-                            "active"
-                        )
-                );
-
-            button.classList.add(
-                "active"
-            );
-
-            renderMatches();
-
-        }
-    );
-
-    return button;
-
-}
-
-
-/* =====================================================
-   ALL BUTTON
-===================================================== */
-
-function createAllButton(
-    type
-){
-
-    const button =
-        document.createElement(
-            "button"
-        );
-
-    button.className =
-        "competition-btn";
-
-    button.textContent =
-        "الكل";
-
-    button.dataset.id =
-        "all";
-
-    button.dataset.type =
-        type;
-
-    button.addEventListener(
-        "click",
-        function(){
-
-            selectedType = type;
-
-            selectedCompetition =
-                "all";
-
-            document
-                .querySelectorAll(
-                    ".competition-btn"
-                )
-                .forEach(
-                    btn =>
-                        btn.classList.remove(
-                            "active"
-                        )
-                );
-
-            button.classList.add(
-                "active"
-            );
-
-            renderMatches();
-
-        }
-    );
-
-    return button;
-
-}
-
-
-/* =====================================================
-   RENDER COMPETITION BARS
-===================================================== */
-
-function renderCompetitionBars(){
-
-    leaguesStrip.innerHTML = "";
-
-    cupsStrip.innerHTML = "";
-
-
-    /*
-     * الدوريات التسعة فقط
-     */
-
-    ALLOWED_LEAGUES.forEach(
-        league => {
-
-            const button =
-                createCompetitionButton(
-                    league,
-                    "league"
-                );
-
-            leaguesStrip.appendChild(
-                button
-            );
-
-        }
-    );
-
-
-    /*
-     * زر الكل للدوريات
-     */
-
-    const leagueAll =
-        createAllButton(
-            "league"
-        );
-
-    leagueAll.classList.add(
-        "active"
-    );
-
-    leaguesStrip.prepend(
-        leagueAll
-    );
-
-
-    /*
-     * الكؤوس
-     */
-
-    const cupAll =
-        createAllButton(
-            "cup"
-        );
-
-    cupsStrip.appendChild(
-        cupAll
-    );
-
-
-    ALLOWED_CUPS.forEach(
-        cup => {
-
-            const button =
-                createCompetitionButton(
-                    cup,
-                    "cup"
-                );
-
-            cupsStrip.appendChild(
-                button
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   IS LIVE
-===================================================== */
-
-function isLive(match){
-
-    const status =
-        match?.fixture?.status?.short ||
-        match?.status ||
-        "";
-
-    return [
-        "1H",
-        "2H",
-        "ET",
-        "P",
-        "LIVE"
-    ].includes(
-        String(status).toUpperCase()
-    );
-
-}
-
-
-/* =====================================================
-   STATUS TEXT
-===================================================== */
-
-function getStatusText(match){
-
-    const status =
-        match?.fixture?.status?.short ||
-        match?.status ||
-        "";
-
-    const elapsed =
-        match?.fixture?.status?.elapsed;
-
-    if(
-        [
-            "1H",
-            "2H",
-            "ET",
-            "P",
-            "LIVE"
-        ].includes(
-            String(status).toUpperCase()
-        )
-    ){
-
-        return elapsed
-            ? `${elapsed}'`
-            : "مباشر";
-
-    }
-
-
-    if(
-        ["FT","AET","PEN"].includes(
-            String(status).toUpperCase()
-        )
-    ){
-
-        return "انتهت";
-
-    }
-
-
-    if(
-        ["NS","TBD"].includes(
-            String(status).toUpperCase()
-        )
-    ){
-
-        return "لم تبدأ";
-
-    }
-
-
-    return status || "—";
-
-}
-
-
-/* =====================================================
-   TEAM LOGO
-===================================================== */
-
-function teamLogo(team){
-
-    return (
-        team?.logo ||
-        team?.crest ||
-        ""
-    );
-
-}
-
-
-/* =====================================================
-   MATCH DATE
-===================================================== */
-
-function getMatchTime(match){
-
-    const date =
-        match?.fixture?.date ||
-        match?.date;
-
-    if(!date){
-        return "—";
-    }
-
-    try{
-
-        return new Date(
-            date
-        ).toLocaleTimeString(
-            "ar-DZ",
-            {
-                hour:"2-digit",
-                minute:"2-digit"
-            }
-        );
-
-    }catch{
-
-        return "—";
-
-    }
-
-}
-
-
-/* =====================================================
-   CREATE MATCH CARD
-===================================================== */
-
-function createMatchCard(match){
-
-    const league =
-        match?.league || {};
-
-    const home =
-        match?.teams?.home ||
-        match?.home ||
-        {};
-
-    const away =
-        match?.teams?.away ||
-        match?.away ||
-        {};
-
-
-    const homeName =
-        home?.name ||
-        "الفريق المضيف";
-
-    const awayName =
-        away?.name ||
-        "الفريق الضيف";
-
-
-    const homeLogo =
-        teamLogo(home);
-
-    const awayLogo =
-        teamLogo(away);
-
-
-    const goals =
-        match?.goals || {};
-
-
-    const homeGoals =
-        goals?.home ??
-        match?.score?.home ??
-        "-";
-
-
-    const awayGoals =
-        goals?.away ??
-        match?.score?.away ??
-        "-";
-
-
-    const live =
-        isLive(match);
-
-
-    const card =
-        document.createElement(
-            "article"
-        );
-
-    card.className =
-        "match-card";
-
-
-    card.innerHTML = `
-
-        <div class="match-header">
-
-            <div class="match-league">
-
-                ${escapeHTML(
-                    getAllowedLeague(
-                        league.id
-                    )?.name ||
-                    getAllowedCup(
-                        league.id
-                    )?.name ||
-                    league.name ||
-                    "مباراة"
-                )}
-
-            </div>
-
-            <div class="
-                match-status
-                ${live ? "live" : ""}
-            ">
-
-                ${escapeHTML(
-                    getStatusText(match)
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="match-teams">
-
-
-            <div>
-
-                ${
-                    homeLogo
-                    ?
-                    `
-                    <img
-                        class="club-logo"
-                        src="${escapeHTML(homeLogo)}"
-                        alt="${escapeHTML(homeName)}"
-                        loading="lazy"
-                    >
-                    `
-                    :
-                    `
-                    <div class="club-logo">
-                        ⚽
-                    </div>
-                    `
-                }
-
-                <div class="club-name">
-
-                    ${escapeHTML(
-                        homeName
-                    )}
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <div class="match-score">
-
-                    ${escapeHTML(
-                        homeGoals
-                    )}
-
-                    -
-
-                    ${escapeHTML(
-                        awayGoals
-                    )}
-
-                </div>
-
-                <div class="match-minute">
-
-                    ${
-                        live
-                        ?
-                        "مباشر"
-                        :
-                        getMatchTime(match)
-                    }
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                ${
-                    awayLogo
-                    ?
-                    `
-                    <img
-                        class="club-logo"
-                        src="${escapeHTML(awayLogo)}"
-                        alt="${escapeHTML(awayName)}"
-                        loading="lazy"
-                    >
-                    `
-                    :
-                    `
-                    <div class="club-logo">
-                        ⚽
-                    </div>
-                    `
-                }
-
-                <div class="club-name">
-
-                    ${escapeHTML(
-                        awayName
-                    )}
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <div class="match-footer">
-
-            ${escapeHTML(
-                league.round ||
-                getMatchTime(match)
-            )}
-
-        </div>
-
-    `;
-
-
-    return card;
-
-}
-
-
-/* =====================================================
-   FILTER ALLOWED MATCHES
-===================================================== */
-
-function getAllowedMatches(){
-
-    return fixtures.filter(
-        match => {
-
-            const league =
-                match?.league || {};
-
-            const id =
-                Number(
-                    league.id
-                );
-
-
-            /*
-             * أولاً:
-             * إذا كان من الدوريات التسعة
-             */
-
-            if(
-                ALLOWED_LEAGUES.some(
-                    item =>
-                        Number(item.id) === id
-                )
-            ){
-
-                return true;
-
-            }
-
-
-            /*
-             * ثانيًا:
-             * إذا كان من الكؤوس المحددة
-             */
-
-            if(
-                ALLOWED_CUPS.some(
-                    item =>
-                        Number(item.id) === id
-                )
-            ){
-
-                return true;
-
-            }
-
-
-            /*
-             * أي بطولة أخرى ممنوعة.
-             */
-
-            return false;
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   RENDER MATCHES
-===================================================== */
-
-function renderMatches(){
-
-    matchesGrid.innerHTML = "";
-
-
-    let allowed =
-        getAllowedMatches();
-
-
-    /*
-     * فلترة حسب القسم المختار
-     */
-
-    if(
-        selectedType === "league"
-    ){
-
-        allowed =
-            allowed.filter(
-                match =>
-                    ALLOWED_LEAGUES.some(
-                        league =>
-                            Number(
-                                league.id
-                            ) ===
-                            Number(
-                                match?.league?.id
-                            )
-                    )
-            );
-
-    }
-
-
-    if(
-        selectedType === "cup"
-    ){
-
-        allowed =
-            allowed.filter(
-                match =>
-                    ALLOWED_CUPS.some(
-                        cup =>
-                            Number(
-                                cup.id
-                            ) ===
-                            Number(
-                                match?.league?.id
-                            )
-                    )
-            );
-
-    }
-
-
-    /*
-     * فلترة البطولة المحددة
-     */
-
-    if(
-        selectedCompetition !== "all"
-    ){
-
-        allowed =
-            allowed.filter(
-                match =>
-                    Number(
-                        match?.league?.id
-                    ) ===
-                    Number(
-                        selectedCompetition
-                    )
-            );
-
-    }
-
-
-    /*
-     * لا توجد مباريات
-     */
-
-    if(!allowed.length){
-
-        matchesGrid.innerHTML = `
-
-            <div class="matches-empty">
-
-                <div>
-                    ⚽
-                </div>
-
-                <div>
-                    لا توجد مباريات لهذه البطولة اليوم.
-                </div>
-
-            </div>
-
-        `;
-
-        updateStats(
-            allowed
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * ترتيب المباريات حسب الوقت
-     */
-
-    allowed.sort(
-        (a,b) => {
-
-            const dateA =
-                new Date(
-                    a?.fixture?.date ||
-                    a?.date ||
-                    0
-                );
-
-            const dateB =
-                new Date(
-                    b?.fixture?.date ||
-                    b?.date ||
-                    0
-                );
-
-            return dateA - dateB;
-
-        }
-    );
-
-
-    /*
-     * إنشاء البطاقات
-     */
-
-    allowed.forEach(
-        match => {
-
-            matchesGrid.appendChild(
-                createMatchCard(
-                    match
-                )
-            );
-
-        }
-    );
-
-
-    updateStats(
-        allowed
-    );
-
-}
-
-
-/* =====================================================
-   STATS
-===================================================== */
-
-function updateStats(matches){
-
-    const goals =
-        matches.reduce(
-            (total,match) => {
-
-                const home =
-                    Number(
-                        match?.goals?.home
-                    ) || 0;
-
-                const away =
-                    Number(
-                        match?.goals?.away
-                    ) || 0;
-
-                return total +
-                    home +
-                    away;
-
-            },
-            0
-        );
-
-
-    const red =
-        matches.reduce(
-            (total,match) => {
-
-                const events =
-                    Array.isArray(
-                        match?.events
-                    )
-                    ?
-                    match.events
-                    :
-                    [];
-
-                return total +
-                    events.filter(
-                        event =>
-                            event?.type ===
-                            "Card" &&
-                            (
-                                event?.detail ||
-                                ""
-                            )
-                            .toLowerCase()
-                            .includes(
-                                "red"
-                            )
-                    ).length;
-
-            },
-            0
-        );
-
-
-    document.getElementById(
-        "statGoals"
-    ).textContent =
-        goals;
-
-
-    document.getElementById(
-        "statRed"
-    ).textContent =
-        red;
-
-
-    document.getElementById(
-        "statYellow"
-    ).textContent =
-        "—";
-
-
-    document.getElementById(
-        "statMatches"
-    ).textContent =
-        matches.length;
-
-}
-
-
-/* =====================================================
-   LOAD FOOTBALL DATA
-===================================================== */
-
-async function loadFootballData(){
-
-    matchesGrid.innerHTML = `
-
-        <div class="matches-empty">
-
-            <div class="loading-dot">
-                ●
-            </div>
-
-            جاري تحميل مباريات اليوم...
-
-        </div>
-
-    `;
-
-
-    try{
-
-        /*
-         * الملف الذي تنشئه GitHub Actions
-         */
-
-        const response =
-            await fetch(
-                "football-data.json?t=" +
-                Date.now(),
-                {
-                    cache:"no-store"
-                }
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "football-data.json not found"
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        fixtures =
-            normalizeData(
-                data
-            );
-
-
-        /*
-         * منع أي بيانات غير صالحة
-         */
-
-        fixtures =
-            fixtures.filter(
-                match =>
-                    match &&
-                    match.league
-            );
-
-
-        renderCompetitionBars();
-
-        renderMatches();
-
-
-    }catch(error){
-
-        console.error(
-            "NOWNEX Football:",
-            error
-        );
-
-
-        matchesGrid.innerHTML = `
-
-            <div class="matches-empty">
-
-                <div class="error-message">
-                    ⚠️
-                </div>
-
-                <div class="error-message">
-                    تعذر تحميل بيانات المباريات.
-                </div>
-
-                <div>
-                    تأكد من تشغيل GitHub Actions
-                    وتحديث ملف football-data.json.
-                </div>
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-/* =====================================================
-   START
-===================================================== */
-
-renderCompetitionBars();
-
-loadFootballData();
-
-
-/* =====================================================
-   AUTO REFRESH
-===================================================== */
-
-/*
- * تحديث البيانات كل 5 دقائق.
- */
-
-setInterval(
-    loadFootballData,
-    5 * 60 * 1000
-);
-
-</script>
+<script src="football.js"></script>
 
 
 </body>
+
 </html>
