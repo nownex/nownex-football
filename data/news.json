@@ -1,15 +1,6 @@
 {
-  "updatedAt": "2026-08-20T15:06:34.472212+00:00",
+  "updatedAt": "2026-08-20T17:00:38.248237+00:00",
   "news": [
-    {
-      "category": "stars",
-      "title": "ثورة المخضرمين.. كيف هزم نجوم كرة القدم ساعة العمر؟ - العربي الجديد",
-      "description": "ثورة المخضرمين.. كيف هزم نجوم كرة القدم ساعة العمر؟ العربي الجديد",
-      "url": "https://news.google.com/rss/articles/CBMijANBVV95cUxPbUVjS3pqQnFYTnN2SWpOczNpTHpMWlpRdFZ3TkNTM0pTUkJfam5HeEZmRnRIUndYUkY0eDNNMWg4MXNMM29TLXlFZEw3ME9ISEh0WGxITDk1UTRTeXczZkRwcWtKa3FQY3pZZXdXbkFNOUNxZmRiN1hwTVJDRXR0RXp5NlhMV3pvd0ptX1cwZTNIWVlUTmV5a0I0SjZtc2xJX2hCbGNuSVh5aFlBUjBEUHRnRVpUNlV3RGtxTk1MbHhSVEw0TURRQUtlb2lKQ1RZc3lWbE9hZEF5YXhjY0RidnFPaGpTM05oVTh4RXJtUjJoM3IxUENYeGlGTlNyWTQ5c3NzcFUxMERnWjhFTXZiRWNJZG5yUEdXNy1PelBYMzh3c2FfeV9ieXlWNzEzUkZPQlkxdTRaa3pueEo5OG1pWVAyRVBtUzRsZHVnc1NkdDFESjRXSHJRZFc4THhiRlNLaUNnWmxzanpZTWd1RTA3b0RTZkRfaFlibm9xMFQ4bWZZTmpscjFiZ3psTW4?oc=5",
-      "source": "العربي الجديد",
-      "date": "Wed, 29 Jul 2026 07:00:00 GMT",
-      "image": ""
-    },
     {
       "category": "stars",
       "title": "هل ارتدى منتخب مصر للسيدات قميص منتخب الرجال؟ ما القصة؟ - BBC",
@@ -89,6 +80,15 @@
       "url": "https://news.google.com/rss/articles/CBMipAJBVV95cUxNMzBfbTM5enBraHVQc0hLQllhNVZVd3pfZjJwR0RnVTI5U0UxWTRFWVZJdm1yMUpqR19hWk82YW5sUFRHV2F6N2pFVTZ4cW03UnhSMGVmR05xYTFrWlctRXNRMnIyMGVDMkRTcldjdTZlbDdzVENNcjNUWXN3dUlqYU1LUTdhb2tUb19HS0g4NHpGYzJKMGlqWmtXNWhCRW9GSkRzX1ByQkZCYlA3Q2lDcU50YmRNYUhISHBGcGtCUjZ6czNrM3g3b1FESS1ZVHVnT21ZWm9zbTJLSUtsaTlEdmptQ3Y2cnJrTUhVNjFubmd2VGpaSEVRQnFtRFM5ck4tSmk3OGgyVVB2ajdUdWF6WTE4dXBhdXlIVVJQcDVKNVBrVUxL?oc=5",
       "source": "365Scores",
       "date": "Wed, 19 Aug 2026 17:34:00 GMT",
+      "image": ""
+    },
+    {
+      "category": "bigMatches",
+      "title": "ملخص مباراة الأهلي وبرشلونة في كأس خوان جامبر - Masrawy",
+      "description": "ملخص مباراة الأهلي وبرشلونة في كأس خوان جامبر Masrawy",
+      "url": "https://news.google.com/rss/articles/CBMixANBVV95cUxQcmFmbjJJV292Tm1pcXp3Y0F6bnJoUkJrWUtjUmhtd2pZN0N0VHVZR3N0NWYzeXF1ZDgtZlAwallnb1ZTazBOc3ZHNHNZSU9SMkFPaUF2cXY3bW96RkZjT0x0QjFtSDVtS1F5WDliT3hYa2llTE50SjN5TW5EQ0VIc0haaUw1UUxqcUtsbGotTWxObFBaRlF3S0M0ZWRKbjJkSEdIU1FWcWJWNnJfZzlXR3ROS3FKTVNPSWpxYkc2ZGwzZHRneVRYczB2bVA1NHpCT0VZNlhtN2N3ZEdHRVkxUGR6MThLWU5lTlhPWnFHWno0UjA5SzQ5b1Vka3F2NWFnY3k4ZXdjVXZ2RHlsRktBeXZSa1dySlBscDZKaWdPd1ZrX3l0aVZaTGl3NG9Tbmk2T3lLOGVnVDJpS18weF8yNVBoajJ2cUxDTEhOSFdIMW8zY0J2c21PNGFJaWNpOGZjOHgxOGx1dnhMdFJFVXc1UjVLNDF3ZU1RYjVHWFdUMmt0ck9mZS1aQzVmMWw2Z0VfdXNIbmk5MHNoOFNNbzRwcDVYam5YRkwyYUdLbDdXeUpReEp1WDQzeU9BZnNTaXpsMGRXcNIBygNBVV95cUxPQ05EcHJLRkpwSVJDRGdPZ3JCdWJLMkhHUUp5SnBsaEVDRzdtQVB5RVNQcVhGTDNLRHNxa2NzbTBJbV91SDR2TmpoVk85LUxROGdaRXRGWGlvRWVPT0kzZEltZHFPSmFzRUhXQUZNOWVpWFVINjN2Q1p3b3NCZWxYaE5QZG9qODl1UV9DaXE5OUY0MWQtQmtfS3hEVXJ4OVlfUUhyYkhvSEhURnR5MmJIZUtLcEVBa1cwcVJNS25MVlNOdzFxNVYxSEJpbkI0VzYzOFRLMkFjTmdxaWllWnlzZVpQdTlWdW9UQlU3Unh2QjZJYkNkZlkxT0NzZWxDYzh6MGt3Q01RRU9wUnRubmg1MEZzdThhbkhDTk1wb2VuNXpFMnJkcTZIZGFMcGJXWFpIcGpsVjNhZGJPYnRLVU9wNE5BMXRFM0VVWjBDTHRhXy1VS1NiRmF3SjNzWUJqRUNQei1Yd3dQNFhFTEJYcUZ6MXMxcnV3Y3Q4cVhxSWNzZ3k2ckJuazBJTi1oS0VlanF6YnpkXzlkSmViWDJnVWNWNk1aSmlTem9xOTUyN2tsUTd2SnJlMWNCdWZBWU1RaXphUXhJTDJybEljdw?oc=5",
+      "source": "Masrawy",
+      "date": "Wed, 19 Aug 2026 17:16:00 GMT",
       "image": ""
     },
     {
@@ -191,15 +191,6 @@
       "image": ""
     },
     {
-      "category": "bigMatches",
-      "title": "جدول مباريات اليوم الأربعاء 19 أغسطس 2026 .. القنوات الناقلة والمعلقين - Kooora",
-      "description": "جدول مباريات اليوم الأربعاء 19 أغسطس 2026 .. القنوات الناقلة والمعلقين Kooora",
-      "url": "https://news.google.com/rss/articles/CBMi9wRBVV95cUxOTk1PYnhoV256UXlHcTJSNnI2a3EwMjU4UF9aV0ppUEUzQjZHZGRPdi1nX3lYZktDSTFMYkRwSi12WTNMWGNObWQ0eGtIVWJvTVg4cHZsWGhCWXZHSHd0M3JPdEpUSmtmaVBUd1dXZFI4aHN0cDNsMkdrdWtRSEppNWRMYzlWdFRWS19LRnRHRWx2YmZWZDlwNDBkaTBHVjViNkxGM1F5NFFGRjg3dHllNmU4WHN1UHBnX3I4SXFwVmZCd1VIdUF4UnZkaEpfT2lkUDRkQ044ODRHei1VUHJaanNqb2QyNUhFVVAzUWpIdDVjNVRnVDUxaGhNaHhuSkdUNVl0elNjOGRJS0ItRTZjdHRqRmllQ2U4QlZVTkZCNTJVdjYxT0EyVkxnSWthelVrXzM5QTVLT2JMTGpjWUV6bUlIVy03U19xWnZybkpXLWFrdENpNUJvQ282RDFkVGV6UkFFV205ZTg5aVliWTdadk1IQlpQYUljdGNnMWRJMy1CREdibnIxQ3hBdWJUUjMzLXdzZmFJUWxPQ09ucVlkWDJCR1hoa1Z6cjZqd3lEd3VhY0gxNmloS2JjMWJ4akhiUFljYU80M2w5UlF2S1lZVVdudG5OYTVaN2pRdGtXUVlwYzJwNDFneUZjY2tCZzZKMUxkSGNmLVBITDhBcWo4SVJSdjlJc2pxcjI5WGR6Z1FYY2Z3TTl1UERoSEI3dmJUSmp4dXNCZXVObF9CQTJPQW1vWEI2NzJueS0yWDdZRjlJYlNvNmZVeFEyV3lFazVnaTRKbVFLSG9XZE1nRm5MWWtDc1VzdjNra1g0dWdRUGJfZV9rNkdJ?oc=5",
-      "source": "Kooora",
-      "date": "Tue, 18 Aug 2026 20:58:30 GMT",
-      "image": ""
-    },
-    {
       "category": "competitions",
       "title": "عبر دوري أبطال أوروبا.. حكم مباراة مصر والأرجنتين يعود للظهور في الملاعب مجددا - يلاكورة",
       "description": "عبر دوري أبطال أوروبا.. حكم مباراة مصر والأرجنتين يعود للظهور في الملاعب مجددا يلاكورة",
@@ -263,12 +254,48 @@
       "image": ""
     },
     {
-      "category": "football",
-      "title": "ارحل الآن.. اندلاع أكبر ثورة جماهيرية ضد إنفانتينو - Kooora",
-      "description": "ارحل الآن.. اندلاع أكبر ثورة جماهيرية ضد إنفانتينو Kooora",
-      "url": "https://news.google.com/rss/articles/CBMinARBVV95cUxOZWNhazVlSUtyZzNPX3hMZmw1aVBjemRQWk0tbENEQTlwQU83OFlpQkozYkRQbkMzQ0Y1QXZxaUhhQk16MWttNVBINFprRlNGaHpiS05zck5uei05cmhLNUNvMG5WUW1Hb3FFU1ROSG5uVFh3Zk9lME05V0FFcTBtM2ZpampHdUxuYlpDYUtZRHJhSGdQX0JsN3RCSm9ObS1MUXJkYnJyZ2tJZ0I0NzBTMEV6cDRUbDRldWNVdGZ5ZXN4SXJQaEZLd3A1TmRSWGRTaDFMZ3o3TUd2aW1HWW1OMjFiYjhxV01BQTVHNkQ1ZThiZmtEOURQUXhJZWotanNPTnIwTnMtS19pSkJzOTkzQ2huUnZLdDdrdnpUckpsZXFvUk5ycWdQNTZJM19HLXBob2JXNEFKLVJSQU9kWldVcVZTYlF5U1lfdUhOc0pfaTJ5QURubXdxaHRpRVQ3c1BVZVhMQTRfTWJfWXpqSlZkS3YwSjlDYmdJeE9iYUtITW9NOWxQdUNxOTVuLVJWN2Q2YVpiSmttdmM0MS10QnJKUTgyTjdxZTg1bkJMRGR6VnZ2WEtGNC1maTlvM282RmFvRy1sck5LRG1sVnB3UC1DZ183RXNmTEtiLXdKeFlUcXlCWXZmYzB5UGZmQjZqWC05YnZDdzAyMVFnRmZLYXBsYU8wN2t6ZkF0eHVYakdCTUtKbmE3TzlUYVdGV1o?oc=5",
+      "category": "world",
+      "title": "لم يتعلم الدرس.. إنفانتينو يثير الجدل بمشروع جديد - Kooora",
+      "description": "لم يتعلم الدرس.. إنفانتينو يثير الجدل بمشروع جديد Kooora",
+      "url": "https://news.google.com/rss/articles/CBMihARBVV95cUxQTnkzd0o3Qjl2U3RIN2dxcTZiY1pmcXBXM2N4QndPaTRmUS1wWklVb2FkRDVpQXZIZDktMXhsdnFVMzZNU1VNdElGNEZPdThzdjVHTGktelZTLUJXSmQzS05ydDJqWGw5UXVTR2UtbExYMzktb0xRWTdpMjR1Nll1c3NCaVJDMHJScDk1Y3FFU2U2cWRQVkY0ZW9zYlUyU1g1bWc3MHBRM3lmMmU4Y0FvM2tSN01MZU1PaFpSaUtJdkNiay0tbC1vLWpVeDJnNUo1bHdzdzhYN3BKeTM2U1VLZEsxejA1WFRDeUFpdlhMdUdqckhrMU95b0RZLVhqLU1Qc1NyVUl3eFZvSTIxNC05ZXhJTGVBOHdFQ0t4UzNlcDZYOVNIaE5HWmR0dGhzaHE5ZEFYWUpJY1VzRnY3VGJTalZUZDA0OFZXel9wWEEtSjA4ZnBfRUpNZW9idGVocVg5ZUJJSUlrRm1HWUxzU1F6MnFVaThjUDJrREhiVG9TYndmdG9nVGVKX0hETEYyOEl6QjFub2lVQzFtTFVCSXdQTWVuUlhMUGI2UUQ2clQ4U0Z4a2x6SlZRQUlxN3JOY2JwblhBQ2ZHRmlTS1IzOWtHbS1xMElic1hjV2JMc1lVakJMMkczYzl3VE9zRGdOU0pNdFotSjVzcmhPU3ZXcTQ5NWpLSXo?oc=5",
       "source": "Kooora",
-      "date": "Thu, 20 Aug 2026 15:03:33 GMT",
+      "date": "Thu, 20 Aug 2026 16:10:47 GMT",
+      "image": ""
+    },
+    {
+      "category": "football",
+      "title": "اتحاد الكرة ينشر تعديلات قانون كرة القدم لموسم 2026 - 2027 قبل انطلاق الدوري - بوابة أخبار اليوم الإلكترونية",
+      "description": "اتحاد الكرة ينشر تعديلات قانون كرة القدم لموسم 2026 - 2027 قبل انطلاق الدوري بوابة أخبار اليوم الإلكترونية",
+      "url": "https://news.google.com/rss/articles/CBMi9wJBVV95cUxPcV9rRHRRa3BKNHlWbWhvVnVaY3h2R2duWVNFZGpsNDV3dHpYNjBfTkdsUGxkcDFEcWVFbEpRbkFNVWE0ZEM0TXNBSGVkc2pkd2xDSFE1RGNweXZBNkpWLW1nems2bnhEcGR2UE55Tkd5d3pjUDlkQ0NCcjhxTXk0VjdhM1Atdm5kUWNDZU1Sc1RGdDdnZlkwUHlZNTl5c3VMREN2LVpIZnp2aWFrYW90X24xSkxydm94UlFaZjRSTTlvYm5zU2FIcFBWY0J3Vi1CN3FrN3Z0emFoclNCWHc5MHRyclVvVnluSUl3c2NET0pTbm9WOEloT0c0ZWRXTUNadjFYTEJaOGlkVHZ0cF9SdllaM3dpTFlNT0J3U1M5R1Qycko4cVRkREJDZ3l1UV9DYXh2U1R3eVE2NTJiQWo3MEV4NENrSHdmcVQ3cEdtbWJ4cXJlSGdlYWNGZXBHYVdtYlR3dGVTS0FuUDhBX3BCckVyWXB0RXc?oc=5",
+      "source": "بوابة أخبار اليوم الإلكترونية",
+      "date": "Thu, 20 Aug 2026 16:01:44 GMT",
+      "image": ""
+    },
+    {
+      "category": "world",
+      "title": "رونالدينيو ينضم لـ رافينا الإيطالي بعد 11 عامًا من اعتزاله - اليوم السابع",
+      "description": "رونالدينيو ينضم لـ رافينا الإيطالي بعد 11 عامًا من اعتزاله اليوم السابع",
+      "url": "https://news.google.com/rss/articles/CBMi4ANBVV95cUxQa1gwQ0taMnRpeHN0QU9YMFdyaThETHdFbUVickVxYlZQZ0k3YktPQTJja04wVlJSVFliZVJLcWhsVDdiV2trcng5SFVjRndPV3F2eUJMajNUaHlqSURFVHBfZ1ZPVTFZSmJndGhlTExUZENJX3FMRUtyRzlIX01NU2J5NGdiTUR2V3dfUHYzTVUyeHFiSEtCU2xaN1h5ZzFyOUNYa3VsWnI0eldSNG9sZFVhUFNiSUxPWmFGNDFlamRhTFFZR1pZbmhjZGM0U0FvMlBWQXIwajJfZTdTd08zRFJIOHl4X0JQWlByeW04cnllMFctMjNYTG00NnFDd3p6c1dXbDFleU1pLUdjRlItZVVCRHpKQ2UwaTByZHZBRS0yR0lKcGZQSk9Dem1tS1ZGa0EzaVNBYzZTSGRRM0dIUi1hN05fUGJHcHlMR1I2VEluU1FMSkx4bFNlWk85bk5zbnFscGlSTVh1T3cydGZtSDBkb2xaUGl2ZjBNMDcwMWZNNjVEUjFUTmdzNVJ3NGx2XzhuTGx0ZW9UWThrS2NyTV9aWXRqckNVOWlBNXprWFoyYlNuNmZRSExRWVJWdjlnLVJRTzFqOUpvVGZkTGtxbXg3UUZ0c3hERGpYbmxra2vSAdsDQVVfeXFMUHJfQ0tfZjV2VDlUalBFMnBTQ0RGM0N3TXZpNWh0aDhfWlk5djNYUWtHanZGQ1d4TDFUV0NIalk1N2xiVVhsRTVtQm91enI0a0JUUGtMTXVFTFRNcU1GaGd2V2tJbDB6bEZSQWNZUVZXNXJGbU5TTHkwYzJKcWVyaW9qdWMyRlR3em1xR201cEc0SUVHaG1VMV9nRG9kbFowNDQxTVJFTkRvdUlMcWNqTUxNX2g2b2puMjdLOGlfb0JwanZJRnRrVlFEN1l0ZDJLSnFLMUcwQ3EwZElON3VVRjVKX0d5V1liejF1cElPXzROdC1ybFNwY0RtWmtVdmh4NzJrdXppa25DS1ZRZU1LNk45eHl1MmpMdGVWTzRzM1drZW1nd0pHX1VBVGdkMzF3eVVLM19YM3cwM2pzbm5sLUhncmttWDYyV1hOcExmeEFNUURTQ0NWMG1pLVRYT1RHQ1RsXzU4bzc3N3phREo4SG1kWk1lcy1vaVRKVEE1SVZEa2piUjFwZW51WWgzZFRNUzNCNEhIdWRNSk1jVk0yUkdBdURKZ3RGaW9OekdKNkxjMWFoTUl5Yk84M3Y4NjBDNkpLZF9zeExtLVF0Uy1YLVNIN3RZQ1VFdVRpUQ?oc=5",
+      "source": "اليوم السابع",
+      "date": "Thu, 20 Aug 2026 15:58:00 GMT",
+      "image": ""
+    },
+    {
+      "category": "football",
+      "title": "فيفا يبدأ إجراءات تأديبية ضد حسام حسن وزيكو.. ومصر ترد - Kooora",
+      "description": "فيفا يبدأ إجراءات تأديبية ضد حسام حسن وزيكو.. ومصر ترد Kooora",
+      "url": "https://news.google.com/rss/articles/CBMirwRBVV95cUxQOG9makoxNlMySHc3ZUEtejlSdG83MFpfbFBVSkc1czNGeG5qbWJlMnA0eHpNa0VXVkNqZEEzT2hmdDZnN0ZzaTBJZzMxY1VDeXp4M3dNMWxtU2RrUnRkb0p6eTFSSzBUeml1NXg4a2ZVREFMakRBRldZUzIzRHozN1J0NHhRdUVBOE1uOEVWY3VwNzBFd1h2bTEyQUlBYThxN2tOY2Z5TTdCa3BSdXRRQTJBeGwwanpsYnFYSHYyem1tdUd4UXBUQkt6YWo1RVJhanEwTjhHMTh1MUExQVExN1YyblhaODd1Nm4yY2U0alJnQWJsMEFxTS15UWtEVk0zYXZLN2x1NnJGaGhzdk5iNjhtV29kRkljMDBwdWx4SWViVnE1dlRrbkdsaHZVOWZyUWF0eGxmaUpDM3ptX1EwWGxWZmNDNDhQV3AwNmZCWDc1bVpNTTJpaW9xVGFJb3JBcFUxZ2VXU2g3RzJFcTM3bHRxczU1YURhZ3Jtbnd4RXhaX1RxYXJTRndYN3pSM3pvWmJtMF94VzNhLW8zTkhkSk9tb2htVjFJaG1CamxGS2E2UG9OS3ZmMDhxRGJseEJsUFdEUFlLRnN6eGlzQUw5R2NFYUhGa3JPdFhUN2NvQUQxWEtncVhhZVFxSXFQVlRaUUxUMFZBYmhBMU04YW13QkhLcmNtZnVKT0d1WURRTG1wd2ExWkFFNjBtbGd1a3M5TFRrbEVILUpESU4xSHpr?oc=5",
+      "source": "Kooora",
+      "date": "Thu, 20 Aug 2026 15:40:06 GMT",
+      "image": ""
+    },
+    {
+      "category": "football",
+      "title": "لحماية حق التوأم وزيكو.. اتحاد الكرة: سنقدم مذكرات قانونية للفيفا بعد أزمة مباراة الأرجنتين - يلاكورة",
+      "description": "لحماية حق التوأم وزيكو.. اتحاد الكرة: سنقدم مذكرات قانونية للفيفا بعد أزمة مباراة الأرجنتين يلاكورة",
+      "url": "https://news.google.com/rss/articles/CBMizAVBVV95cUxNR0lFalY0V2daZW16WjdWZkxJNG5UWFk4d25ON0xPdFJ6c2NfX2xfak96THJXWTBqd0V3aGNtSFpld1loUlF6SGtfY0J2enNiajYxOWVmQ25Qc3d6OE80QWdETVdFOW5aYXhqU0tsTk5JMVNTVjVoeEszWWhSTjl1RTNUa0xISHVqemVITnJUbXRYUDNobjFIWXZLTUxHZEhEam5FLVRNTkJ1YlBTbGhZYUhUMXBlc0Iwb2l5MW9UYVhscnBNekxSRmxGVWt1N2ZnSVBndHV4RDhRMDdMQm1KRGpsU0FNMm8wVG93OFZ4M1IzZmxoSy1GcGRMaEQ4UWlTWEhfbjAtajJ2QUM0OVpOWmNIbHdvUTEtSlU0RWR0ZXNYVktyY09ISlI4d2lYQ0ZIaDFzc2xjWklWZkZQam42UmdlRlE0cW9YYTBKMmM3WDMybWhac3B0MzhlM2paM1U2RmpkeThiQjg3NkJ1QU5SVmZvVVE2MDA1MVdWTC00N2p6ZVNzRTA1UTliR1RFZnJYV0x1U01UMFptWWRLTk9IcXRaTDlNTktsVVFSc2NES1l2ank3MVg5VXNnLWUwR010VEhCTnV0NUsxNVk2OVl1M1BqdC1MeDkxY2MtWFc1Q21JSkUwSUFvTUtNQzFadHlJODhvcElzbVlqTGtQQ196VV9HT3JVWTBockIzd1g5b2lZaC1HNHd3d0lBUzhWZkItNjQtaXJqNlNBeVRuWGpCTjRtWmNldXY3UVhRZXhIUE11TU9oV3V3YXJqd0NZNHB5TF9Cb08xT19UeVUzdkFvTW85VG4tZXZLMTZSWXR1MWtQbnl6WDRjS1pjbXJZTTZDaUd4WG5lSjd3R2hlb0hqRll5d2Z0VDVZZEpTczZxRTJjcDBrRXAzaVlyWlJ1ZjJaNmpWZm5IMDNpQWpILXoyRUo2a0NEWG56NGNqZNIB0gVBVV95cUxPMldBTm9Ec2pzSUVmdW1YdlZKVTJ0cElldlUxUGQyQVhEemREblZ2VGNGZDBBSkQzUlUtUVNDdFg3cFZ5dWtMNEtYcWh5LTJuT0I4SkZIdUhFbm1QQTM5MGI4dEZtVDFPOWp1UHJXcS1Gb3p6NTZlZENBZEpmRy1zMWdBVDY1YnE3TFJWXzBkazFZMl9XRkkzVWVFVll2ZkRiUHhjU2hQN01zOFBteFVDbGVPX0pncWpiN2drdHhNVlFudzM0WVRLUFZqdGRkS0ZQWXJmSVJjT183UFU3cjFvWmtwS2l4THhsMGVsbjRwQ3pFM3hSWFpVZERZdWpMVDNmSFBQdGI0WU5kZHdVb1E0Y2tLY1k1V2t3N1FlUVE0SjBkX0dSblhielFQcmJUeG9vSXVNbEhmSG1xNHFJSDJIeWtJci1LaU5ENmc4WERXRnZLLTV0UWx4c1RkakQ0OE1MUFJVRm53WF94SjdCOVQwbVZ6TXVoTVBTcXNKVnhJbWNjM3pkN0JPd0ZRbTFWMS1qSHlDMFBLdVpYbWFFMlROa0ZWeEFWejlSdmRSWjJPNzl4LW9aNDA5aF9Mb1lkcVdEZUJRWjJZX3VQM1otUmFZbHVmUUhBMjVGVUNXNnF6UG1aWkR2Rlo2VWdnY294R1I5MXgwczVYUll0MW1uRzE3eU5OaXpkSnlNRG5teF9pSGx2dV9pYjNqcHZwcURaVlVNUm1Bb0NCTllCSndXUy1NTmg0Z1N5TUVyUHFoU2Q3TVdqX0ZfMVRvSUYyQng0SmVFeFNFdDFMRmVYbm5lS244NFRYeUZROU9RZ0QxMi1HMVRUV3ZLUTRPcVo0M0JmZGlna1FTYlFPVWxJZ25PX2ZMbDFXd0NsNFV4TnJubWVubnI1X0xxMmlVdHBzQkp4cGVRSjQ2VkZ5TFZJZ18zSzJJbjNPTXR5cVRTemFiTXRJUk5pQQ?oc=5",
+      "source": "يلاكورة",
+      "date": "Thu, 20 Aug 2026 15:21:00 GMT",
       "image": ""
     },
     {
@@ -308,30 +335,12 @@
       "image": ""
     },
     {
-      "category": "world",
-      "title": "تحركات لحجب الثقة عن إنفانتينو والإطاحة به من رئاسة «فيفا» - البيان",
-      "description": "تحركات لحجب الثقة عن إنفانتينو والإطاحة به من رئاسة «فيفا» البيان",
-      "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5LMXRfWF9zemhFUTJaVkpFRHBWcmdqX3I1RDJVQWhaSVVMcEJTSEZWUFd5U2FqY1ZwT0MtM1huWGFGU3dXYVpfbWs2bUV5MWR5ZFNqUWwtUUhLLWdQMm11aXgzbkJVX3VDdEdTbNIBckFVX3lxTE5MSjdlb0tRaHRSYkVtcVJTc0JwdzRnS3d0RW1RbmFMOHhrOE1vb1d0RS0xRmhpNGlpNHNUX3E1UkE4UFBPU0JFdU82TnlCRE5GUXhtS0RGNU5mR2Qzb2o5ZHFQS1g4WENRNTBFRXAtdnlZUQ?oc=5",
-      "source": "البيان",
-      "date": "Thu, 20 Aug 2026 11:57:00 GMT",
-      "image": ""
-    },
-    {
       "category": "football",
       "title": "\"بداية نهاية كرة القدم\".. رئيس بايرن يوجه انتقادات لاذعة لإنفانتينو - العربية",
       "description": "\"بداية نهاية كرة القدم\".. رئيس بايرن يوجه انتقادات لاذعة لإنفانتينو العربية",
       "url": "https://news.google.com/rss/articles/CBMi6ARBVV95cUxNdG5mTFBSbW1IalFNOXBEMnhjUlg1UExDWjJpMVlvX1ZPUlpsSlVKemI4V3JfMFJ0TXdqWlRsRU1sODRtcnU0bUgxaXJCcC1vdWt1MkhGTEY1Z2hCZ0RnZGNYaHB2cFNVZGRtSV9sTVNTTUF5X3lib1N1V1g3ZFdYYVhxR3AzSU5XcEJDNHpaUFFOVnN5Y3B5LXVBMTNBX1RsU1doaUJDYUE5d3FNY0pVMFdRYVJYRk5LRnE1WWFSaUxRbno5bG80OUtqczFtX1pYakRINDJiNkpBMjg1RHZSSTJCZy1IdWRHWXVFWWZFaE4yQjJLWW9CeDN6NVRVM1VoRkFKV1RyaG85SjNYNlhSdFEtb09nR2hrUXBEWjVIUjNtZVZEX0Z4Uzdqa0djQU5jcnBDLWlDVks4TmJPSGVqS2c2T0o4ZDRfVk8wclFYNTBXdnpOU0FTbEVxWE44X3VHSGZUVGF0TVU2bTdoa3IxOFl4SGZNX19ZVG80OFY5eVpiRzNXcGU2T2lxYU1vVVg5Tnk5eVJIbDJQdW1EWERNSVNuMG5ZLXAwa3NRTzdrODFjZ0ZGYV9GcklEbkFFUkJTczVuc243SldnUl9oTnBYQkh2eVdNaUxfZmk4MDJjcEZPUmx0cDZIRjJ0NUIzNFdIMnQ5R1ZGM1pOcE1VdjRiZ3E2VzE5WDRSOTV2NzJEUndJbjV3azlnWEJ6UnRKODNUZ21KQWltTm1PVkwxbmlGdnBoemU2U1hUci1xTWhSd3J6bmVhaUxQOE9yYmpoVlJ5Y09yNmkwdkxYU3hXNl8wR1BmUXhnTmEz0gGYBEFVX3lxTE54YjZwMmJES0xWME5OS2cyNTR2TENkcGgya0hVMjQxcDFSRFM2MUljaWVfcFNhYlBBWm10N0ZvT29FU0xMaExQczZSUS1ldTRXYVpxbGZhTVdYUnBYRVQxQ1hXYUJxZjVnVTliUlFDby0tSHhQb3RvVzkyMjhUbUF4NFlndmFxYmJTeXp5SHlEWFpEanVfNmgyamxFSXd6SmZqTjBMREpjUHBWWEhmT2ZKMmJvM1VfaTNHMW9GMVpmMkpfc21CRlcyNTBwMWhtczlZV3ZJTTlyY3Fzd1hVSmVSX0hlQzl5XzRMWE1BcHlnSS1QY2VkbjRwd0NqdkU0bTU5Nk1ka2w5RWVyRDdkdjYwWFNYYlVRZE1zNWdyaGdXUTRyR002dmZxOWFsOVJTdUJfREkzVVExTTJkQ21PTV84YkNBbjJiQVpqcVA3SllHcEJLV3FWdHBDeTFNalpxN3E5VUxNRkN1MGtHUVF2MW1YWkl3V1N0aVBxNndGX0RwS0FKSS0wdEVfRWd2OGRBZURSQW01M05fcWhyalo5WlZ3VTY1SG95dVJmaWpSMzd3cUQ5d3RuZWNKWkJObl9JQS1acEJsdDBfNEo2OHFycWw3NmQ1OVdmWXlvWUJyM3N3bmpVMjNGYl9lQlNDWUtHNjQtZklpYW54dU84Q3k4a1hLWncwYlpGYUlXanlFTHo0VWc2cVRKLXl3?oc=5",
       "source": "العربية",
       "date": "Thu, 20 Aug 2026 11:39:01 GMT",
-      "image": ""
-    },
-    {
-      "category": "football",
-      "title": "نجهز مذكرة رسمية.. مصدر باتحاد الكرة يكشف ليلا كورة تفاصيل خطاب فيفا بشأن وقائع كأس العالم - يلاكورة",
-      "description": "نجهز مذكرة رسمية.. مصدر باتحاد الكرة يكشف ليلا كورة تفاصيل خطاب فيفا بشأن وقائع كأس العالم يلاكورة",
-      "url": "https://news.google.com/rss/articles/CBMivwVBVV95cUxOd2tIQy1hNUVQLTNvVEFsZlQwYXhKaDNtZFdhcjh4b1FVclFZdkk1SWsyV2hSRFlmT003RWhJeDNSODlwSHRnX3JvQ21TV2lyTU81dnAxNklmdktzMDhDQjlBMnkzX0lDRV9IVzNfVUFRYm1PVnNBd0NsQk15cHhKcE5rc2g1RnNuTDIyWW1wZHc2Rno4ajB3RkpPQlYxeVUwT2oxbzRVTm9OMTJ3S2lRWElXdWlYYzZCeWk4d09kZWh3c3E0bUNXYXJJdVBWQXVwckhCU1E4QXZIZU5DUHNlT2xKa0xMT3Z1ckFLckpiQU9vU3lKaDhkOEJYUC1uVW1KY05CUlNVc1FZc3ZQUzhZLVp5T2FEOFNCN3Nxb3gxWG0yMldmM0NJVW4zNUVFM21TUHRRNW1vWVF5VHliUWhDUDJ6VlVuS0JCTUJDd1hzUTFkS2hHR0dFWHBHUndrUmk2QmJlNkF5bFNUVzM1LXFxQ2tabk0xUXVWSTVVTmY2X3k1T1ZOZTNNRnphb3l2eEJYSFB0YWYyblZ2c0ZBVGFhbW1tM3lrTmZ6VWNRZmNVdWNUd1BTNU5fUTJDWUczRDNGWWVJaUdGNHVDUjk2WEdZRnk2YlR1ME05SXk3dk1WSWd6ZmRjZmU2V1JTeFZ0OXhvSEtvSnloQWNoUHpUSnhjbFM3RmpLekxjS25jRms2bmpSZ0pkZXl5SXNUWi1QYTlpQl9NS3JSUVBWYmhMbktLWm9hYVhaR0JoaHI4Qk9ZWVNia3ZGbGZjM21KMTJTQXpxSTRKUnhKOGFVT3dVTlY5VnZiVlMyTndyQ3p2ZTV3VW1FYU9CT0FjRVJIeDF2dGpFTkl6NEpPUUN4c3BMQk04TGw3U0luOG1PQUlqT3ZOd1JNZUlsRGxFSFNmdDFXV3kybUtiVllQZnNmX290QURF0gHEBUFVX3lxTE9qYWozUldCY1Z5V3pabEEyc05UUE9yX094OHhUMkJDV1BNelYyMWFxdThYaTExVDhQQVF3cDMyUHdVYUR2SEJCV2JIZms1Qm1QQlgyaXR6cXBLLVE0b3d1bG9GQllQUEhPbVJqalVpdXppRUhQUUp1RF9fbTNmb20yWUpLblljekE1UXdvWlpaLXVlc25YTm1zdUhxVWtjQnRHcHRjRUFZM3g2amhtYWl4ZkFNNUVpTFJyekQ0RWNIalRxeDZkU0dfUDNKZERDbVNGLVF6MFlOYWJ3SlFxVDVMSjQyMVhndGZway1yaUhYRU16SC11V0xCTzZpdzJMMUE4bmpkNng5UG9oY2dtMVJjcTVQZlBKNldzaWVOVEg0N0ZvWDZudGZ3T1RaelJXeTR4ZkU3Rk5tbnRxZkt5S1BVVmNEZ25CU1NsNlZteEdFWWtHeXhFYm1ieE1iOHppZHowNUdHZ3UtS3hjdlRGZU5fbFpjam9RVFVWb0pRMWxua05PSG4td3daUDZodXo0TFNaVlRzdy1FT0x6M2FPWWd5NnV5MHdYLVRhTVBkcTBRU0Z4NGs3cGVSLWVqNXBXZEFpMEFqTUwxWUxjX3E2RkhtcTIxOXc0OW1kUHd3WUxsb2ZwU0tneFp2M3g0YlVkSHY2WW1iTUlxZ19ma1pXYUN5Mm1xb19xWGhhNTVPa25uS0pfOHNCRm5TSGVfcTdkYUdSSXFUS29OTWlZRmtPZ2NLeVRMV0dHRWhYR0IyM2cwZnNkTUprWnNFMXZPR083UEo0TTRFRVlRdVgxbDctWjhiWGtwZ0dTVDJodFI0am51MlQwdXpjdjlIVmhtQkJjVTFqQUVnOU9ZTy1wUkxOLXJoR3dLTjVJd2NZQWhURGpzbERYcENDZjk3ZUJxZzBxeGJCOEJZZUdrSFlEOHF6U09Ga2tzTA?oc=5",
-      "source": "يلاكورة",
-      "date": "Thu, 20 Aug 2026 10:38:00 GMT",
       "image": ""
     },
     {
@@ -467,24 +476,6 @@
       "url": "https://news.google.com/rss/articles/CBMiqwRBVV95cUxNc2czWFVNeHZncmxMNEcyWmlIVzhGd3E4VkdZRGFXS2VlM3VFd25PcFF6TVYybFlpZ1V2aHlsdUNIWlYxLUxtay02bUstN2Y0TnFwTG1DTDV4cFNLQzdfZFRweEpuUkR4OHNIb0pNdnZxR0g1QzVZMG1LU1IyUDVnTElrUkp2UWhrY001bHNpT3RRRTVaZXI1VWZ5ZjBPa3d4Z3hnZWxCdFd2b1A0Vjhmbk5ISnVfcjBxTFBwdnNlOGlUV2FMMzhPVlQ2bkY0ZmMxZ1BTZmpJN3FrRGJ3WmREbkNTTTRRcnk0Z2paWWY4QVl0RndGcmVxVDRHSEZINVRZdDRJSV9ISGEzVGlNeUxlZ3h4WlRFT2hYQ3pQQ0l6cHVCb1JBZWxMRHM5RFhqaF9KNlE4b2VBRkluSno1ZzFCaHNqUUhRUUhvY0Vza0Z3MDltWGE3ZEdxSHhTMWhfNUROUmVUX3U0VkRaVk1mNjVsUUpXMVVZTDJPWWV1ZWtXcFdCZlZlTm9fUFpJdVBfdkp0ZkIyVXMwakRud1RIcDcyZ3BLRE95VU1wdk0xSUh4ZGlxemlPSlllRldJNldHdVJYcmxTWDlLVzBhUjFFNkZLZDgtR3VzMDdpd2tORFotLXRLYk9fMmpmd2kxZWxMWmplaThYTkRZZlk3SWI1TVQ4NjVxM2ZEZ1V1X2V3Ml9QOWJkcjFudU9sWkJaRE93VUx5ZEl3N041TXVwUE3SAbAEQVVfeXFMTnJLR2xpQ21JWlNMMWxqd0RxNHl2dV9qNVF6WHg0WEF1MFFobEtTNnFOQ0dnbkE0bHp4TEF6bFZ6QUh6bE5SUzB0V0R6QjZ3NHJDZ0JxaXJVZnNuRjVSVmVrMDVnRG5vNDZKbEplVkt3cFI2SlBuN1J3QlRqLTZ6T29HMFB3RzF1emw1UlZ1LW5MVHBuMjRETE8tZlhReHhaX29Fb1c1OHBfcFFaVEhUSDlZXzZWb21CbXNyaWcwcnh2ZVFNeTJxVlZ5eEpwWld3V0w2a0RITTFrckFjMkNiUFUwbGFGSl8yLWVjZVZsQzZ0U2xEeDNZNVdEZXhYUHVHS2dSRTNsc09KUkJoOElWN0lCT09WLXVWVEVIaElLamt1QzVOTTcwSzg0WEc0UHBsUF9VVVBpeW5nWFNsQ0xKQ2haSGpDVUJWcWVBMGdCNlNqNWdXNUUwOFd0YjRFajJla1pLQVAyVzQ1NmJ0TzkzYkdfVlpWZUVzLWpGM0gtUnoxd0wtcEY3OVBPQkRPZUJWQnRRbkFNTkVSUnFGTzRiYU93c2ZSNHB0c29CbGRTa2RoU1ZfNmozRUN5eFBEWHZsRHNSRjBLZ2tCVnFYR0U3cFFETXVPRFhHQTYyOV9Md2lVWGJ0VWVOQXZIUU1reVpjSzg1UUVMamtpV2M0bEFDMy1NT3p5enV2VHh0U3hmaXJ6dTRtS0N6S1h5TDE0aEZPdXIxa3FwNy1sdzdkeGFfVnc?oc=5",
       "source": "العربية",
       "date": "Mon, 25 May 2026 07:00:00 GMT",
-      "image": ""
-    },
-    {
-      "category": "world",
-      "title": "مبابي على القمة.. أغلى 10 مهاجمين في التاريخ بأرقام خيالية - اليوم السابع",
-      "description": "مبابي على القمة.. أغلى 10 مهاجمين في التاريخ بأرقام خيالية اليوم السابع",
-      "url": "https://news.google.com/rss/articles/CBMiywNBVV95cUxQQ1l0cV9XVjBfVFZPY3p6LVFnYlMwMTRTdF9lb2ZkcEg5N0hXclBvaVh5NnhiSjhuWDJiaWxodmRIbGdxLTdJVFJOelZMT0hpaTBacnRFREZoX1B1aWktRFItVm9rMkxkdFNoMlNsa05rVHZYR0diRTAxeUs3Ukw5RXd1Y0w0bFl2Tm1RaExSZ1BzNXVCdzRwemxzLTRJTldOci1mVHpvQmQ2VVk3REZORThFcW1PSFlvaGdidmI0Zlp0dEEwRm5GcG96SlZvN3U1aVE5Z1RzRzdnckZEVHViaWtVNlJ1elBsTV9BdDRNZEg4eXJEb1ltakp0UHROdXRPck82R2xZaFkyUmg2SmlOeHBROFk2Q1J3TEZoMk4yZVI2MlR4cVVpaURjUV9ZTWYzYWVYRVh5RFViXzExUHAxMnc1Mkl0eTFKb09SbTRsWkJIU0Jzci1aRVVjM3VHVFRuZl9VSkpWcnVMbjVyc09LSWlGRXBid3hSN3g3WkMzOGNvQkctOUJ1RDdXWWdIUXFHY29fNGxCRGIxc2dkd0puUkdvQy1rdk1ncU9NX1N4cnowMTZkekVwWlByM3FwNDk4V28weWhaVV9MRkHSAcsDQVVfeXFMUENZdHFfV1YwX1RWT2N6ei1RZ2JTMDE0U3RfZW9mZHBIOTdIV3JQb2lYeTZ4Yko4blgyYmlsaHZkSGxncS03SVRSTnpWTE9IaWkwWnJ0RURGaF9QdWlpLURSLVZvazJMZHRTaDJTbGtOa1R2WEdHYkUwMXlLN1JMOUV3dWNMNGxZdk5tUWhMUmdQczV1Qnc0cHpscy00SU5XTnItZlR6b0JkNlVZN0RGTkU4RXFtT0hZb2hnYnZiNGZadHRBMEZuRnBvekpWbzd1NWlROWdUc0c3Z3JGRFR1YmlrVTZSdXpQbE1fQXQ0TWRIOHlyRG9ZbWpKdFB0TnV0T3JPNkdsWWhZMlJoNkppTnhwUThZNkNSd0xGaDJOMmVSNjJUeHFVaWlEY1FfWU1mM2FlWEVYeURVYl8xMVBwMTJ3NTJJdHkxSm9PUm00bFpCSFNCc3ItWkVVYzN1R1RUbmZfVUpKVnJ1TG41cnNPS0lpRkVwYnd4Ujd4N1pDMzhjb0JHLTlCdUQ3V1lnSFFxR2NvXzRsQkRiMXNnZHdKblJHb0Mta3ZNZ3FPTV9TeHJ6MDE2ZHpFcFpQcjNxcDQ5OFdvMHloWlVfTEZB?oc=5",
-      "source": "اليوم السابع",
-      "date": "Mon, 17 Aug 2026 22:03:17 GMT",
-      "image": ""
-    },
-    {
-      "category": "football",
-      "title": "كريستيانو رونالدو: الدون يرجّح اعتزاله كرة القدم نهاية الموسم الحالي، فكيف تفاعل معه المغردون؟ - BBC",
-      "description": "كريستيانو رونالدو: الدون يرجّح اعتزاله كرة القدم نهاية الموسم الحالي، فكيف تفاعل معه المغردون؟ BBC",
-      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5MMWJmQzItRFhTdDZ2RE54b2lRWi1VTldldWJ2alRLdGZ2WHRPeWluWlZ0c1g1NjRRaUJuSHJRVmZ5N2s2Zk1oaXNOT3dOV0hldlhJak15SkZyQmQz0gFiQVVfeXFMTV8yc2JvRFU2bHBRTGMtVlg3Q3dPZHJBb3E2SFZGc29Qanp4bExuY01wZDZrMmRZRmVQZFVhcGx1MnBTdUQ3M3FpQXVXcGFmTUM1Y3VOWFdHWjZkd1Qtczc2NHc?oc=5",
-      "source": "BBC",
-      "date": "Mon, 17 Aug 2026 12:35:17 GMT",
       "image": ""
     },
     {
