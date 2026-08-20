@@ -14,55 +14,216 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let selectedCompetition = "all";
 
-    let selectedType = "all";
+    let selectedType = "league";
+
+
+    /* =====================================================
+       NOWNEX FOOTBALL
+       البطولات الرئيسية فقط
+    ===================================================== */
 
 
     /*
-     * البطولات التي نريد معاملتها ككؤوس/بطولات
+     * 🏟️ الدوريات
+     *
+     * هذه القائمة ثابتة.
+     * لا نسمح لأي دوري آخر بالظهور.
      */
 
-    const cupKeywords = [
-        "champions",
-        "champions league",
-        "uefa champions",
-        "europa league",
-        "conference league",
-        "world cup",
-        "africa cup",
-        "asian cup",
-        "copa",
-        "fa cup",
-        "carabao",
-        "efl cup",
-        "coupe",
-        "cup",
-        "super cup",
-        "community shield",
-        "concacaf",
-        "afc",
-        "caf"
+    const LEAGUES = [
+
+        {
+            id:39,
+            name:"الدوري الإنجليزي",
+            apiName:"Premier League"
+        },
+
+        {
+            id:61,
+            name:"الدوري الفرنسي",
+            apiName:"Ligue 1"
+        },
+
+        {
+            id:140,
+            name:"الدوري الإسباني",
+            apiName:"La Liga"
+        },
+
+        {
+            id:88,
+            name:"الدوري الهولندي",
+            apiName:"Eredivisie"
+        },
+
+        {
+            id:94,
+            name:"الدوري البرتغالي",
+            apiName:"Primeira Liga"
+        },
+
+        {
+            id:144,
+            name:"الدوري البلجيكي",
+            apiName:"Jupiler Pro League"
+        },
+
+        {
+            id:307,
+            name:"الدوري السعودي",
+            apiName:"Saudi Pro League"
+        },
+
+        {
+            id:135,
+            name:"الدوري الإيطالي",
+            apiName:"Serie A"
+        },
+
+        {
+            id:253,
+            name:"الدوري الأمريكي",
+            apiName:"Major League Soccer"
+        }
+
     ];
 
 
-    function isCup(league){
+    /*
+     * 🏆 كؤوس وبطولات الأندية
+     *
+     * لا نخلطها مع المنتخبات.
+     */
 
-        const name =
-            String(league?.name || "")
-            .toLowerCase();
+    const CLUB_CUPS = [
 
-        const type =
-            String(league?.type || "")
-            .toLowerCase();
+        {
+            id:2,
+            name:"دوري أبطال أوروبا"
+        },
 
-        return (
-            type.includes("cup") ||
-            cupKeywords.some(
-                keyword =>
-                    name.includes(keyword)
-            )
-        );
-    }
+        {
+            id:3,
+            name:"الدوري الأوروبي"
+        },
 
+        {
+            id:848,
+            name:"دوري المؤتمر الأوروبي"
+        },
+
+        {
+            id:81,
+            name:"كأس الاتحاد الإنجليزي"
+        },
+
+        {
+            id:45,
+            name:"كأس الاتحاد الإنجليزي"
+        },
+
+        {
+            id:48,
+            name:"كأس الرابطة الإنجليزية"
+        },
+
+        {
+            id:143,
+            name:"كأس ملك إسبانيا"
+        },
+
+        {
+            id:137,
+            name:"كأس إيطاليا"
+        },
+
+        {
+            id:65,
+            name:"كأس فرنسا"
+        },
+
+        {
+            id:147,
+            name:"كأس هولندا"
+        },
+
+        {
+            id:91,
+            name:"كأس البرتغال"
+        },
+
+        {
+            id:145,
+            name:"كأس بلجيكا"
+        },
+
+        {
+            id:504,
+            name:"كأس خادم الحرمين الشريفين"
+        },
+
+        {
+            id:8141,
+            name:"كأس العالم للأندية"
+        }
+
+    ];
+
+
+    /*
+     * 🌍 منافسات المنتخبات
+     *
+     * منفصلة تمامًا عن بطولات الأندية.
+     */
+
+    const NATIONAL_CUPS = [
+
+        {
+            id:1,
+            name:"كأس العالم"
+        },
+
+        {
+            id:4,
+            name:"كأس أمم أوروبا"
+        },
+
+        {
+            id:6,
+            name:"كأس أمم إفريقيا"
+        },
+
+        {
+            id:7,
+            name:"كأس آسيا"
+        },
+
+        {
+            id:9,
+            name:"كوبا أمريكا"
+        },
+
+        {
+            id:12,
+            name:"كأس القارات"
+        },
+
+        {
+            id:5,
+            name:"دوري الأمم الأوروبية"
+        },
+
+        {
+            id:10,
+            name:"تصفيات كأس العالم"
+        }
+
+    ];
+
+
+    /* =====================================================
+       SAFE HTML
+    ===================================================== */
 
     function escapeHTML(value){
 
@@ -72,89 +233,310 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/>/g,"&gt;")
             .replace(/"/g,"&quot;")
             .replace(/'/g,"&#039;");
+
     }
 
+
+    /* =====================================================
+       FIND COMPETITION
+    ===================================================== */
+
+    function findCompetition(id){
+
+        const numberId =
+            Number(id);
+
+
+        const league =
+            LEAGUES.find(
+                item =>
+                    Number(item.id) === numberId
+            );
+
+
+        if(league){
+
+            return {
+                ...league,
+                type:"league"
+            };
+
+        }
+
+
+        const clubCup =
+            CLUB_CUPS.find(
+                item =>
+                    Number(item.id) === numberId
+            );
+
+
+        if(clubCup){
+
+            return {
+                ...clubCup,
+                type:"cup"
+            };
+
+        }
+
+
+        const national =
+            NATIONAL_CUPS.find(
+                item =>
+                    Number(item.id) === numberId
+            );
+
+
+        if(national){
+
+            return {
+                ...national,
+                type:"national"
+            };
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =====================================================
+       FIND COMPETITION BY NAME
+       احتياط إذا كان ID في الملف مختلفًا
+    ===================================================== */
+
+    function findCompetitionByName(name){
+
+        const value =
+            String(name || "")
+                .toLowerCase()
+                .trim();
+
+
+        if(!value){
+            return null;
+        }
+
+
+        const all = [
+
+            ...LEAGUES,
+            ...CLUB_CUPS,
+            ...NATIONAL_CUPS
+
+        ];
+
+
+        return all.find(
+            item => {
+
+                const original =
+                    String(
+                        item.apiName ||
+                        item.name ||
+                        ""
+                    ).toLowerCase();
+
+
+                const arabic =
+                    String(
+                        item.name ||
+                        ""
+                    ).toLowerCase();
+
+
+                return (
+                    value === original ||
+                    value.includes(original) ||
+                    original.includes(value) ||
+                    value === arabic ||
+                    value.includes(arabic) ||
+                    arabic.includes(value)
+                );
+
+            }
+        ) || null;
+
+    }
+
+
+    /* =====================================================
+       MATCH COMPETITION
+    ===================================================== */
+
+    function getCompetition(match){
+
+        const league =
+            match?.league || {};
+
+
+        /*
+         * أولاً نعتمد على ID
+         */
+
+        const byId =
+            findCompetition(
+                league.id
+            );
+
+
+        if(byId){
+            return byId;
+        }
+
+
+        /*
+         * ثم الاسم كحل احتياطي
+         */
+
+        const byName =
+            findCompetitionByName(
+                league.name
+            );
+
+
+        if(byName){
+
+            return {
+                ...byName,
+                id:league.id
+            };
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =====================================================
+       MATCH STATUS
+    ===================================================== */
 
     function getMatchStatus(match){
 
         const status =
-            match?.fixture?.status;
+            match?.fixture?.status || {};
+
 
         const short =
-            status?.short || "";
+            status.short || "";
+
 
         const elapsed =
-            status?.elapsed;
+            status.elapsed;
+
 
         const liveStatuses = [
+
             "1H",
             "2H",
             "HT",
             "ET",
             "BT",
             "P"
+
         ];
 
+
         const finishedStatuses = [
+
             "FT",
             "AET",
             "PEN"
+
         ];
 
-        if(liveStatuses.includes(short)){
+
+        if(
+            liveStatuses.includes(short)
+        ){
 
             return {
+
                 live:true,
+
                 text:
                     elapsed
                     ? `مباشر · ${elapsed}'`
                     : "مباشر"
+
             };
+
         }
 
 
-        if(finishedStatuses.includes(short)){
+        if(
+            finishedStatuses.includes(short)
+        ){
 
             return {
+
                 live:false,
+
                 text:"انتهت"
+
             };
+
         }
 
 
         if(short === "PST"){
 
             return {
+
                 live:false,
+
                 text:"مؤجلة"
+
             };
+
         }
 
 
         if(
-            short === "CANC" ||
-            short === "ABD" ||
-            short === "AWD" ||
-            short === "WO"
+            [
+                "CANC",
+                "ABD",
+                "AWD",
+                "WO"
+            ].includes(short)
         ){
 
             return {
+
                 live:false,
+
                 text:"ملغاة"
+
             };
+
         }
 
 
         const date =
             match?.fixture?.date
-            ? new Date(match.fixture.date)
+            ? new Date(
+                match.fixture.date
+            )
             : null;
 
 
-        if(date && !isNaN(date)){
+        if(
+            date &&
+            !isNaN(
+                date.getTime()
+            )
+        ){
 
             return {
+
                 live:false,
+
                 text:
                     date.toLocaleTimeString(
                         "ar-DZ",
@@ -163,42 +545,70 @@ document.addEventListener("DOMContentLoaded", () => {
                             minute:"2-digit"
                         }
                     )
+
             };
+
         }
 
 
         return {
+
             live:false,
+
             text:"لم تبدأ"
+
         };
+
     }
 
+
+    /* =====================================================
+       SCORE
+    ===================================================== */
 
     function formatScore(value){
 
-        return value === null ||
-               value === undefined
-            ? "-"
-            : value;
+        return (
+            value === null ||
+            value === undefined
+        )
+        ? "-"
+        : value;
+
     }
 
 
-    function createCompetitionButton(
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    function createButton(
         competition,
-        type
+        type,
+        text
     ){
 
         const button =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
+
 
         button.className =
             "competition-btn";
 
+
         button.textContent =
+            text ||
             competition.name;
 
+
         button.dataset.id =
-            String(competition.id);
+            String(
+                competition?.id ||
+                "all"
+            );
+
 
         button.dataset.type =
             type;
@@ -209,7 +619,11 @@ document.addEventListener("DOMContentLoaded", () => {
             () => {
 
                 selectedCompetition =
-                    String(competition.id);
+                    String(
+                        competition?.id ||
+                        "all"
+                    );
+
 
                 selectedType =
                     type;
@@ -233,43 +647,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 renderMatches();
+
             }
         );
 
 
         return button;
+
     }
 
 
-    function renderCompetitionBars(){
+    /* =====================================================
+       ALL BUTTON
+    ===================================================== */
 
-        leaguesStrip.innerHTML = "";
-        cupsStrip.innerHTML = "";
+    function createAllButton(
+        type,
+        text
+    ){
 
-
-        /*
-         * زر الكل للدوريات
-         */
-
-        const leagueAll =
-            document.createElement("button");
-
-        leagueAll.className =
-            "competition-btn active";
-
-        leagueAll.textContent =
-            "كل الدوريات";
+        const button =
+            document.createElement(
+                "button"
+            );
 
 
-        leagueAll.addEventListener(
+        button.className =
+            "competition-btn";
+
+
+        button.textContent =
+            text;
+
+
+        button.dataset.id =
+            "all";
+
+
+        button.dataset.type =
+            type;
+
+
+        button.addEventListener(
             "click",
             () => {
 
                 selectedCompetition =
                     "all";
 
+
                 selectedType =
-                    "league";
+                    type;
 
 
                 document
@@ -283,12 +711,63 @@ document.addEventListener("DOMContentLoaded", () => {
                             )
                     );
 
-                leagueAll.classList.add(
+
+                button.classList.add(
                     "active"
                 );
 
+
                 renderMatches();
+
             }
+        );
+
+
+        return button;
+
+    }
+
+
+    /* =====================================================
+       RENDER BARS
+    ===================================================== */
+
+    function renderCompetitionBars(){
+
+        leaguesStrip.innerHTML = "";
+
+        cupsStrip.innerHTML = "";
+
+
+        /*
+         * نبحث عن الشريط الثالث.
+         *
+         * يجب إضافة عنصر في HTML:
+         *
+         * id="nationalStrip"
+         */
+
+        const nationalStrip =
+            document.getElementById(
+                "nationalStrip"
+            );
+
+
+        /*
+         * ===============================
+         * الدوريات
+         * ===============================
+         */
+
+        const leagueAll =
+            createAllButton(
+                "league",
+                "كل الدوريات"
+            );
+
+
+        leagueAll.classList.add(
+            "active"
         );
 
 
@@ -297,49 +776,31 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
+        LEAGUES.forEach(
+            league => {
+
+                leaguesStrip.appendChild(
+                    createButton(
+                        league,
+                        "league"
+                    )
+                );
+
+            }
+        );
+
+
         /*
-         * زر الكل للكؤوس
+         * ===============================
+         * كؤوس الأندية
+         * ===============================
          */
 
         const cupAll =
-            document.createElement("button");
-
-        cupAll.className =
-            "competition-btn";
-
-        cupAll.textContent =
-            "كل الكؤوس";
-
-
-        cupAll.addEventListener(
-            "click",
-            () => {
-
-                selectedCompetition =
-                    "all";
-
-                selectedType =
-                    "cup";
-
-
-                document
-                    .querySelectorAll(
-                        ".competition-btn"
-                    )
-                    .forEach(
-                        btn =>
-                            btn.classList.remove(
-                                "active"
-                            )
-                    );
-
-                cupAll.classList.add(
-                    "active"
-                );
-
-                renderMatches();
-            }
-        );
+            createAllButton(
+                "cup",
+                "كل الكؤوس"
+            );
 
 
         cupsStrip.appendChild(
@@ -347,180 +808,211 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-        /*
-         * استخراج البطولات بدون تكرار
-         */
+        CLUB_CUPS.forEach(
+            cup => {
 
-        const competitions =
-            new Map();
-
-
-        fixtures.forEach(match => {
-
-            const league =
-                match?.league;
-
-            if(!league?.id) return;
-
-
-            if(
-                !competitions.has(
-                    String(league.id)
-                )
-            ){
-
-                competitions.set(
-                    String(league.id),
-                    {
-                        id:league.id,
-                        name:league.name,
-                        type:
-                            isCup(league)
-                            ? "cup"
-                            : "league"
-                    }
-                );
-            }
-        });
-
-
-        const sorted =
-            [...competitions.values()]
-            .sort(
-                (a,b) =>
-                    a.name.localeCompare(
-                        b.name,
-                        "ar"
+                cupsStrip.appendChild(
+                    createButton(
+                        cup,
+                        "cup"
                     )
-            );
-
-
-        sorted.forEach(
-            competition => {
-
-                const button =
-                    createCompetitionButton(
-                        competition,
-                        competition.type
-                    );
-
-
-                if(
-                    competition.type ===
-                    "cup"
-                ){
-
-                    cupsStrip.appendChild(
-                        button
-                    );
-
-                }else{
-
-                    leaguesStrip.appendChild(
-                        button
-                    );
-                }
+                );
 
             }
         );
+
+
+        /*
+         * ===============================
+         * المنتخبات
+         * ===============================
+         */
+
+        if(nationalStrip){
+
+            nationalStrip.innerHTML = "";
+
+
+            const nationalAll =
+                createAllButton(
+                    "national",
+                    "كل المنتخبات"
+                );
+
+
+            nationalStrip.appendChild(
+                nationalAll
+            );
+
+
+            NATIONAL_CUPS.forEach(
+                national => {
+
+                    nationalStrip.appendChild(
+                        createButton(
+                            national,
+                            "national"
+                        )
+                    );
+
+                }
+            );
+
+        }
+
     }
 
+
+    /* =====================================================
+       FILTER FIXTURES
+    ===================================================== */
+
+    function getFilteredFixtures(){
+
+        return fixtures.filter(
+            match => {
+
+                const competition =
+                    getCompetition(
+                        match
+                    );
+
+
+                /*
+                 * أي بطولة غير معروفة
+                 * يتم إخفاؤها.
+                 */
+
+                if(!competition){
+
+                    return false;
+
+                }
+
+
+                /*
+                 * نوع البطولة
+                 */
+
+                if(
+                    selectedType &&
+                    selectedType !==
+                    "all" &&
+                    competition.type !==
+                    selectedType
+                ){
+
+                    return false;
+
+                }
+
+
+                /*
+                 * بطولة محددة
+                 */
+
+                if(
+                    selectedCompetition !==
+                    "all"
+                ){
+
+                    if(
+                        Number(
+                            competition.id
+                        ) !==
+                        Number(
+                            selectedCompetition
+                        )
+                    ){
+
+                        return false;
+
+                    }
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       RENDER MATCHES
+    ===================================================== */
 
     function renderMatches(){
 
         matchesGrid.innerHTML = "";
 
 
-        let filtered =
-            fixtures.filter(
-                match => {
-
-                    const league =
-                        match?.league;
-
-                    if(!league) return false;
-
-
-                    const cup =
-                        isCup(league);
-
-
-                    const type =
-                        cup
-                        ? "cup"
-                        : "league";
-
-
-                    /*
-                     * إذا تم اختيار نوع محدد
-                     */
-
-                    if(
-                        selectedType !==
-                        "all" &&
-                        selectedType !==
-                        type
-                    ){
-
-                        return false;
-                    }
-
-
-                    /*
-                     * إذا تم اختيار بطولة
-                     */
-
-                    if(
-                        selectedCompetition !==
-                        "all" &&
-                        String(
-                            league.id
-                        ) !==
-                        selectedCompetition
-                    ){
-
-                        return false;
-                    }
-
-
-                    return true;
-                }
-            );
+        const filtered =
+            getFilteredFixtures();
 
 
         /*
-         * ترتيب المباريات:
-         * المباشر أولًا
+         * المباريات المباشرة أولاً
          */
 
         filtered.sort(
             (a,b) => {
 
-                const aLive =
-                    getMatchStatus(a).live;
+                const aStatus =
+                    getMatchStatus(a);
 
-                const bLive =
-                    getMatchStatus(b).live;
 
-                if(
-                    aLive &&
-                    !bLive
-                ) return -1;
+                const bStatus =
+                    getMatchStatus(b);
+
 
                 if(
-                    !aLive &&
-                    bLive
-                ) return 1;
+                    aStatus.live &&
+                    !bStatus.live
+                ){
 
-                return new Date(
-                    a.fixture.date
-                ) -
-                new Date(
-                    b.fixture.date
+                    return -1;
+
+                }
+
+
+                if(
+                    !aStatus.live &&
+                    bStatus.live
+                ){
+
+                    return 1;
+
+                }
+
+
+                const dateA =
+                    new Date(
+                        a?.fixture?.date ||
+                        0
+                    );
+
+
+                const dateB =
+                    new Date(
+                        b?.fixture?.date ||
+                        0
+                    );
+
+
+                return (
+                    dateA - dateB
                 );
+
             }
         );
 
+
+        /*
+         * لا توجد مباريات
+         */
 
         if(!filtered.length){
 
@@ -528,31 +1020,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <div class="matches-empty">
 
-                    لا توجد مباريات
-                    في البطولة المختارة اليوم.
+                    <div style="font-size:28px">
+                        ⚽
+                    </div>
+
+                    <div>
+                        لا توجد مباريات
+                        في البطولة المختارة اليوم.
+                    </div>
 
                 </div>
 
             `;
 
             return;
+
         }
 
+
+        /*
+         * إنشاء البطاقات
+         */
 
         filtered.forEach(
             match => {
 
                 const home =
-                    match.teams?.home;
+                    match?.teams?.home ||
+                    {};
+
 
                 const away =
-                    match.teams?.away;
+                    match?.teams?.away ||
+                    {};
+
 
                 const goals =
-                    match.goals || {};
+                    match?.goals ||
+                    {};
+
 
                 const status =
-                    getMatchStatus(match);
+                    getMatchStatus(
+                        match
+                    );
+
+
+                const competition =
+                    getCompetition(
+                        match
+                    );
 
 
                 const card =
@@ -562,7 +1079,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 card.className =
-                    "match-card";
+                    "match-card" +
+                    (
+                        status.live
+                        ? " live-card"
+                        : ""
+                    );
 
 
                 card.innerHTML = `
@@ -571,27 +1093,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
                         <span
                             class="match-league"
+                            title="${escapeHTML(
+                                match?.league?.name ||
+                                ""
+                            )}"
                         >
+
                             ${escapeHTML(
-                                match.league.name
+                                competition?.name ||
+                                match?.league?.name ||
+                                "مباراة"
                             )}
+
                         </span>
 
+
                         <span
-                            class="match-status ${
-                                status.live
-                                ? "live"
-                                : ""
-                            }"
+                            class="
+                                match-status
+                                ${status.live ? "live" : ""}
+                            "
                         >
+
                             ${
                                 status.live
                                 ? "● "
                                 : ""
                             }
+
                             ${escapeHTML(
                                 status.text
                             )}
+
                         </span>
 
                     </div>
@@ -599,60 +1132,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="match-teams">
 
+
+                        <!-- HOME -->
+
                         <div>
 
                             <img
                                 class="club-logo"
-                                src="${
-                                    escapeHTML(
-                                        home?.logo || ""
-                                    )
-                                }"
-                                alt="${
-                                    escapeHTML(
-                                        home?.name || ""
-                                    )
-                                }"
+                                src="${escapeHTML(
+                                    home?.logo || ""
+                                )}"
+                                alt="${escapeHTML(
+                                    home?.name ||
+                                    ""
+                                )}"
                                 loading="lazy"
+                                onerror="
+                                    this.style.visibility='hidden';
+                                "
                             >
 
-                            <div
-                                class="club-name"
-                            >
-                                ${
-                                    escapeHTML(
-                                        home?.name ||
-                                        "الفريق المضيف"
-                                    )
-                                }
+
+                            <div class="club-name">
+
+                                ${escapeHTML(
+                                    home?.name ||
+                                    "الفريق المضيف"
+                                )}
+
                             </div>
 
                         </div>
 
+
+                        <!-- SCORE -->
 
                         <div>
 
                             <div
                                 class="match-score"
                             >
-                                ${
-                                    formatScore(
-                                        goals.home
-                                    )
-                                }
+
+                                ${formatScore(
+                                    goals?.home
+                                )}
 
                                 -
 
-                                ${
-                                    formatScore(
-                                        goals.away
-                                    )
-                                }
+                                ${formatScore(
+                                    goals?.away
+                                )}
+
                             </div>
+
 
                             <div
                                 class="match-minute"
                             >
+
                                 ${
                                     status.live
                                     ? status.text
@@ -663,37 +1200,39 @@ document.addEventListener("DOMContentLoaded", () => {
                                         : "المباراة"
                                     )
                                 }
+
                             </div>
 
                         </div>
 
 
+                        <!-- AWAY -->
+
                         <div>
 
                             <img
                                 class="club-logo"
-                                src="${
-                                    escapeHTML(
-                                        away?.logo || ""
-                                    )
-                                }"
-                                alt="${
-                                    escapeHTML(
-                                        away?.name || ""
-                                    )
-                                }"
+                                src="${escapeHTML(
+                                    away?.logo || ""
+                                )}"
+                                alt="${escapeHTML(
+                                    away?.name ||
+                                    ""
+                                )}"
                                 loading="lazy"
+                                onerror="
+                                    this.style.visibility='hidden';
+                                "
                             >
 
-                            <div
-                                class="club-name"
-                            >
-                                ${
-                                    escapeHTML(
-                                        away?.name ||
-                                        "الفريق الضيف"
-                                    )
-                                }
+
+                            <div class="club-name">
+
+                                ${escapeHTML(
+                                    away?.name ||
+                                    "الفريق الضيف"
+                                )}
+
                             </div>
 
                         </div>
@@ -701,21 +1240,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
 
 
-                    <div
-                        class="match-footer"
-                    >
-                        ${
-                            escapeHTML(
-                                match.league.country ||
-                                ""
-                            )
-                        }
+                    <div class="match-footer">
+
+                        ${escapeHTML(
+                            match?.league?.country ||
+                            ""
+                        )}
 
                         ${
-                            match.fixture?.venue?.name
+                            match?.league?.round
                             ? " · " +
                               escapeHTML(
-                                match.fixture.venue.name
+                                match.league.round
                               )
                             : ""
                         }
@@ -731,16 +1267,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
         );
+
     }
 
+
+    /* =====================================================
+       LOAD DATA
+    ===================================================== */
 
     async function loadFootballData(){
 
         try{
 
+            matchesGrid.innerHTML = `
+
+                <div class="matches-empty">
+
+                    <div class="loading-dot">
+                        ●
+                    </div>
+
+                    جاري تحميل مباريات اليوم...
+
+                </div>
+
+            `;
+
+
             const response =
                 await fetch(
-                    "data/fixtures.json",
+                    "data/fixtures.json?v=" +
+                    Date.now(),
                     {
                         cache:"no-store"
                     }
@@ -750,8 +1307,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if(!response.ok){
 
                 throw new Error(
-                    "تعذر تحميل بيانات المباريات"
+                    "HTTP " +
+                    response.status
                 );
+
             }
 
 
@@ -759,83 +1318,82 @@ document.addEventListener("DOMContentLoaded", () => {
                 await response.json();
 
 
-            fixtures =
+            /*
+             * API-Football
+             */
+
+            if(
                 Array.isArray(
-                    data.response
+                    data?.response
                 )
-                ? data.response
-                : [];
+            ){
 
+                fixtures =
+                    data.response;
 
-            if(!fixtures.length){
-
-                matchesGrid.innerHTML = `
-
-                    <div class="matches-empty">
-
-                        لا توجد مباريات اليوم
-                        في البيانات الحالية.
-
-                    </div>
-
-                `;
-
-                return;
             }
 
 
             /*
-             * بناء شرائط البطولات
+             * حماية إضافية إذا كان
+             * الملف مجرد Array
+             */
+
+            else if(
+                Array.isArray(data)
+            ){
+
+                fixtures =
+                    data;
+
+            }
+
+
+            else{
+
+                fixtures = [];
+
+            }
+
+
+            console.log(
+                "NOWNEX fixtures:",
+                fixtures.length
+            );
+
+
+            /*
+             * بناء الشرائط
              */
 
             renderCompetitionBars();
 
 
             /*
-             * عرض كل الدوريات افتراضيًا
+             * البداية:
+             * كل الدوريات
              */
-
-            selectedCompetition =
-                "all";
 
             selectedType =
                 "league";
 
 
+            selectedCompetition =
+                "all";
+
+
             /*
-             * تفعيل زر كل الدوريات
+             * عرض المباريات
              */
-
-            const firstLeagueButton =
-                leaguesStrip.querySelector(
-                    ".competition-btn"
-                );
-
-            if(firstLeagueButton){
-
-                document
-                    .querySelectorAll(
-                        ".competition-btn"
-                    )
-                    .forEach(
-                        btn =>
-                            btn.classList.remove(
-                                "active"
-                            )
-                    );
-
-                firstLeagueButton.classList.add(
-                    "active"
-                );
-            }
-
 
             renderMatches();
 
-        }catch(error){
+
+        }
+        catch(error){
 
             console.error(
-                "NOWNEX Football:",
+                "NOWNEX FOOTBALL ERROR:",
                 error
             );
 
@@ -844,17 +1402,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <div class="matches-empty">
 
-                    تعذر تحميل مباريات اليوم.
-                    <br>
-                    حاول تحديث الصفحة لاحقًا.
+                    <div style="font-size:28px">
+                        ⚠️
+                    </div>
+
+                    <div>
+                        تعذر تحميل بيانات المباريات.
+                    </div>
+
+                    <small>
+                        تحقق من ملف
+                        data/fixtures.json
+                    </small>
 
                 </div>
 
             `;
+
         }
+
     }
 
 
+    /* =====================================================
+       START
+    ===================================================== */
+
     loadFootballData();
+
+
+    /*
+     * تحديث كل 5 دقائق
+     */
+
+    setInterval(
+        loadFootballData,
+        5 * 60 * 1000
+    );
 
 });
