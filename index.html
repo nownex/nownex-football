@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NOWNEX FOOTBALL | أخبار ونتائج كرة القدم</title>
+<title>NOWNEX FOOTBALL | مباريات ونتائج كرة القدم</title>
 
-<meta
-    name="description"
-    content="NOWNEX FOOTBALL — مباريات اليوم، النتائج المباشرة، الأخبار، الانتقالات وأهم أحداث كرة القدم."
->
+<meta name="description"
+content="NOWNEX FOOTBALL — مباريات اليوم، النتائج المباشرة، البطولات، الأخبار والانتقالات.">
 
 <style>
 
@@ -21,30 +18,24 @@
 }
 
 :root{
-
     --bg:#030912;
     --bg2:#061321;
-
     --card:#071a2c;
     --card2:#0a2137;
 
     --gold:#f2bd32;
-    --gold-light:#ffd967;
+    --gold2:#ffd967;
 
     --red:#ef3340;
-    --red-light:#ff4d5a;
-    --red-dark:#b91e2b;
+    --red2:#ff5360;
 
     --green:#00d889;
 
-    --white:#ffffff;
-    --text:#dbe4ed;
+    --white:#fff;
+    --text:#dce5ee;
     --muted:#8293a6;
 
     --border:rgba(255,255,255,.09);
-
-    --shadow:
-        0 18px 50px rgba(0,0,0,.25);
 }
 
 html{
@@ -52,23 +43,17 @@ html{
 }
 
 body{
-
-    min-height:100vh;
-
     background:
-
         radial-gradient(
-            circle at 5% 0%,
-            rgba(239,51,64,.09),
-            transparent 28%
+            circle at 10% 0%,
+            rgba(239,51,64,.08),
+            transparent 27%
         ),
-
         radial-gradient(
-            circle at 95% 5%,
-            rgba(242,189,50,.08),
+            circle at 90% 5%,
+            rgba(242,189,50,.07),
             transparent 25%
         ),
-
         linear-gradient(
             180deg,
             #030912,
@@ -93,78 +78,52 @@ a{
     text-decoration:none;
 }
 
-button{
-    font-family:inherit;
-}
 
-
-/* =========================================
+/* =====================================
    HEADER
-========================================= */
+===================================== */
 
 header{
-
     position:sticky;
-
     top:0;
-
     z-index:1000;
 
-    background:
-        rgba(3,9,18,.94);
+    background:rgba(3,9,18,.94);
 
     backdrop-filter:blur(18px);
 
-    border-bottom:
-        1px solid var(--border);
+    border-bottom:1px solid var(--border);
 }
 
 .header{
-
     max-width:1250px;
-
     min-height:76px;
 
     margin:auto;
-
     padding:0 20px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
     gap:25px;
 }
 
-
-/* LOGO */
-
 .logo{
-
     display:flex;
-
     align-items:center;
-
     gap:12px;
 
     direction:ltr;
-
-    white-space:nowrap;
 }
 
 .logo-name{
-
     font-size:25px;
-
     font-weight:900;
-
-    letter-spacing:.3px;
 }
 
 .logo-name .nownex{
-    color:white;
+    color:#fff;
 }
 
 .logo-name .football{
@@ -172,7 +131,6 @@ header{
 }
 
 .logo-box{
-
     width:48px;
     height:48px;
 
@@ -186,289 +144,181 @@ header{
         );
 
     display:flex;
-
     align-items:center;
     justify-content:center;
 
-    border:
-        1px solid
-        rgba(255,255,255,.18);
-
     box-shadow:
-        0 6px 28px
-        rgba(242,189,50,.18);
+        0 6px 28px rgba(242,189,50,.16);
 }
 
 .logo-box span{
-
     color:var(--red);
 
-    font-family:Arial,sans-serif;
-
     font-size:32px;
-
     font-weight:1000;
 
-    line-height:1;
+    font-family:Arial,sans-serif;
 }
 
-
-/* NAVIGATION */
-
 .nav{
-
     display:flex;
-
     align-items:center;
-
     gap:4px;
 }
 
 .nav a{
-
-    position:relative;
-
     padding:10px 14px;
 
     color:#aebbc9;
 
     font-size:14px;
-
     font-weight:700;
 
     border-radius:9px;
-
-    transition:.2s;
 }
 
 .nav a:hover{
-
-    color:white;
-
-    background:
-        rgba(239,51,64,.08);
+    color:#fff;
+    background:rgba(239,51,64,.08);
 }
 
 .nav a.active{
-
-    color:var(--gold-light);
+    color:var(--gold2);
 }
-
-.nav a.active::after{
-
-    content:"";
-
-    position:absolute;
-
-    left:14px;
-    right:14px;
-
-    bottom:2px;
-
-    height:2px;
-
-    background:var(--gold);
-
-    border-radius:5px;
-}
-
-
-/* HEADER BUTTONS */
 
 .header-buttons{
-
     display:flex;
-
     gap:8px;
 }
 
 .header-btn{
-
     width:40px;
     height:40px;
 
-    border:
-        1px solid var(--border);
-
+    border:1px solid var(--border);
     border-radius:10px;
 
-    background:
-        rgba(255,255,255,.025);
-
-    color:white;
+    background:rgba(255,255,255,.025);
 
     display:flex;
-
     align-items:center;
     justify-content:center;
 
+    color:#fff;
     font-size:18px;
-
-    cursor:pointer;
 }
 
 
-/* =========================================
+/* =====================================
    HERO
-========================================= */
+===================================== */
 
 .hero{
-
     max-width:1250px;
 
     margin:28px auto 0;
-
     padding:0 20px;
 }
 
 .hero-box{
-
     position:relative;
 
-    min-height:325px;
+    min-height:315px;
 
     overflow:hidden;
 
-    border-radius:25px;
+    border-radius:24px;
 
-    border:
-        1px solid
-        rgba(239,51,64,.20);
+    border:1px solid rgba(239,51,64,.18);
 
     background:
-
         radial-gradient(
             circle at 12% 55%,
             rgba(239,51,64,.13),
             transparent 34%
         ),
-
-        radial-gradient(
-            circle at 85% 30%,
-            rgba(242,189,50,.06),
-            transparent 25%
-        ),
-
         linear-gradient(
             115deg,
             #040d18,
             #071a2c 55%,
             #040d18
         );
-
-    box-shadow:var(--shadow);
 }
 
 .hero-glow{
-
     position:absolute;
 
     width:430px;
     height:430px;
 
-    left:-150px;
+    left:-160px;
     bottom:-220px;
 
     border-radius:50%;
 
-    border:
-        2px solid
-        rgba(239,51,64,.10);
+    border:2px solid rgba(239,51,64,.10);
 
     box-shadow:
-        0 0 130px
-        rgba(239,51,64,.08);
-}
-
-.hero-glow::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:45px;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        rgba(242,189,50,.06);
+        0 0 130px rgba(239,51,64,.08);
 }
 
 .hero-content{
-
     position:relative;
-
     z-index:2;
 
     padding:48px 55px;
 }
 
 .hero-label{
-
     display:inline-flex;
-
     align-items:center;
-
-    gap:9px;
-
-    color:var(--red-light);
-
-    background:
-        rgba(239,51,64,.07);
-
-    border:
-        1px solid
-        rgba(239,51,64,.30);
-
-    border-radius:50px;
+    gap:8px;
 
     padding:7px 15px;
 
+    color:var(--red2);
+
+    background:rgba(239,51,64,.07);
+
+    border:1px solid rgba(239,51,64,.30);
+
+    border-radius:50px;
+
     font-size:13px;
-
     font-weight:800;
-
-    margin-bottom:17px;
-}
-
-.hero-label i{
-
-    width:7px;
-    height:7px;
-
-    display:block;
-
-    border-radius:50%;
-
-    background:var(--red);
-
-    box-shadow:
-        0 0 12px var(--red);
-}
-
-.hero h1{
-
-    max-width:850px;
-
-    font-size:
-        clamp(36px,5vw,62px);
-
-    line-height:1.18;
-
-    font-weight:900;
 
     margin-bottom:16px;
 }
 
-.hero h1 span{
+.hero-label i{
+    width:7px;
+    height:7px;
 
-    color:var(--gold-light);
+    background:var(--red);
+
+    border-radius:50%;
+
+    box-shadow:0 0 12px var(--red);
+}
+
+.hero h1{
+    max-width:820px;
+
+    font-size:clamp(36px,5vw,60px);
+
+    line-height:1.18;
+
+    margin-bottom:15px;
+
+    font-weight:900;
+}
+
+.hero h1 span{
+    color:var(--gold2);
 }
 
 .hero-description{
-
-    max-width:780px;
+    max-width:760px;
 
     color:#9aaaba;
 
@@ -476,64 +326,43 @@ header{
 
     line-height:2;
 
-    margin-bottom:25px;
+    margin-bottom:24px;
 }
 
 .hero-actions{
-
     display:flex;
-
-    flex-wrap:wrap;
-
     gap:10px;
+    flex-wrap:wrap;
 }
 
 .btn{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
     padding:11px 21px;
 
     border-radius:10px;
 
     font-size:14px;
-
     font-weight:900;
 }
 
 .btn-gold{
-
     color:#111;
-
     background:var(--gold);
-
-    box-shadow:
-        0 8px 25px
-        rgba(242,189,50,.14);
 }
 
 .btn-red{
+    color:#fff;
 
-    color:white;
+    background:rgba(239,51,64,.08);
 
-    background:
-        rgba(239,51,64,.08);
-
-    border:
-        1px solid
-        rgba(239,51,64,.40);
+    border:1px solid rgba(239,51,64,.40);
 }
 
 
-/* =========================================
+/* =====================================
    MAIN
-========================================= */
+===================================== */
 
 .container{
-
     max-width:1250px;
 
     margin:40px auto;
@@ -542,40 +371,30 @@ header{
 }
 
 .section{
-
     margin-bottom:45px;
 }
 
 .section-header{
-
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
     margin-bottom:18px;
 }
 
 .section-title{
-
     display:flex;
-
     align-items:center;
-
     gap:10px;
 
     font-size:23px;
-
     font-weight:900;
 }
 
 .section-title::before{
-
     content:"";
 
     width:4px;
-
     height:25px;
 
     background:var(--gold);
@@ -584,114 +403,194 @@ header{
 }
 
 .section-more{
-
-    color:var(--red-light);
+    color:var(--red2);
 
     font-size:13px;
-
     font-weight:800;
 }
 
 
-/* =========================================
-   MATCHES
-========================================= */
+/* =====================================
+   MATCHES MAIN CARD
+===================================== */
 
-.matches{
+.matches-panel{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7,26,44,.98),
+            rgba(6,19,33,.98)
+        );
+
+    border:1px solid var(--border);
+
+    border-radius:22px;
+
+    padding:20px;
+
+    box-shadow:
+        0 20px 55px rgba(0,0,0,.18);
+}
+
+
+/* LEAGUE / CUP STRIPS */
+
+.competition-group{
+    margin-bottom:22px;
+}
+
+.competition-label{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:9px;
+}
+
+.competition-label h3{
+    font-size:14px;
+    font-weight:900;
+}
+
+.competition-label span{
+    color:var(--muted);
+    font-size:11px;
+}
+
+
+/* horizontal scroll */
+
+.competition-strip{
+
+    display:flex;
+
+    gap:8px;
+
+    overflow-x:auto;
+
+    padding-bottom:8px;
+
+    scrollbar-width:thin;
+
+    direction:rtl;
+}
+
+.competition-strip::-webkit-scrollbar{
+    height:4px;
+}
+
+.competition-strip::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.03);
+    border-radius:10px;
+}
+
+.competition-strip::-webkit-scrollbar-thumb{
+    background:rgba(239,51,64,.55);
+    border-radius:10px;
+}
+
+.competition-btn{
+
+    flex:0 0 auto;
+
+    min-width:max-content;
+
+    padding:9px 15px;
+
+    border-radius:10px;
+
+    border:1px solid var(--border);
+
+    background:#061525;
+
+    color:#aab7c5;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+    font-size:12px;
+
+    font-weight:800;
+
+    transition:.2s;
+}
+
+.competition-btn:hover{
+    border-color:rgba(239,51,64,.35);
+    color:#fff;
+}
+
+.competition-btn.active{
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(239,51,64,.18),
+            rgba(239,51,64,.06)
+        );
+
+    border-color:
+        rgba(239,51,64,.55);
+
+    color:#fff;
+}
+
+
+/* MATCHES GRID */
+
+.matches-grid{
 
     display:grid;
 
     grid-template-columns:
         repeat(3,1fr);
 
-    gap:15px;
-}
+    gap:12px;
 
-
-/*
-   مهم:
-   football.js سيضع البطاقات داخل
-   هذا العنصر.
-*/
-
-.matches .loading{
-
-    grid-column:
-        1 / -1;
-
-    min-height:150px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    color:var(--muted);
-
-    background:var(--card);
-
-    border:
-        1px solid var(--border);
-
-    border-radius:18px;
-
-    font-size:14px;
+    margin-top:16px;
 }
 
 .match-card{
 
     background:
-
         linear-gradient(
             145deg,
-            var(--card),
-            var(--card2)
+            #081c30,
+            #061525
         );
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
-    border-radius:18px;
+    border-radius:16px;
 
-    padding:18px;
+    padding:16px;
 
-    transition:.25s;
-
-    overflow:hidden;
+    transition:.2s;
 }
 
 .match-card:hover{
-
-    transform:
-        translateY(-3px);
+    transform:translateY(-2px);
 
     border-color:
-        rgba(239,51,64,.30);
-}
-
-.match-card.live{
-
-    border-color:
-        rgba(0,216,137,.35);
+        rgba(239,51,64,.28);
 }
 
 .match-header{
 
     display:flex;
-
+    justify-content:space-between;
     align-items:center;
 
-    justify-content:space-between;
-
-    margin-bottom:19px;
+    margin-bottom:16px;
 }
 
-.league{
+.match-league{
 
     color:#8e9dad;
 
-    font-size:12px;
+    font-size:11px;
 
     max-width:65%;
 
@@ -702,32 +601,27 @@ header{
     text-overflow:ellipsis;
 }
 
-.live{
+.match-status{
 
-    color:var(--green);
-
-    background:
-        rgba(0,216,137,.09);
-
-    border-radius:7px;
-
-    padding:5px 9px;
+    color:var(--gold2);
 
     font-size:11px;
 
     font-weight:900;
 }
 
-.match-time{
+.match-status.live{
 
-    color:var(--gold-light);
+    color:var(--green);
 
-    font-size:13px;
+    background:rgba(0,216,137,.08);
 
-    font-weight:800;
+    padding:4px 8px;
+
+    border-radius:6px;
 }
 
-.teams{
+.match-teams{
 
     display:grid;
 
@@ -740,203 +634,102 @@ header{
 
     text-align:center;
 
-    gap:10px;
+    gap:8px;
 }
 
-.team-logo{
+.club-logo{
 
-    width:55px;
-
-    height:55px;
-
-    margin:
-        0 auto 8px;
-
-    display:block;
+    width:50px;
+    height:50px;
 
     object-fit:contain;
 
+    display:block;
+
+    margin:0 auto 7px;
+
+    padding:6px;
+
+    background:#04101c;
+
     border-radius:50%;
 
-    background:#04101d;
-
-    border:
-        1px solid var(--border);
-
-    padding:7px;
+    border:1px solid var(--border);
 }
 
-.team-name{
+.club-name{
 
-    font-size:14px;
+    font-size:13px;
 
     font-weight:800;
 
     line-height:1.4;
 }
 
-.score{
+.match-score{
 
-    font-size:27px;
+    font-size:25px;
 
     font-weight:900;
 
     white-space:nowrap;
 }
 
-.minute{
+.match-minute{
 
-    color:#98a6b5;
+    color:#94a3b2;
 
-    font-size:11px;
-}
-
-.vs{
-
-    color:var(--muted);
-
-    font-size:12px;
+    font-size:10px;
 }
 
 .match-footer{
 
-    border-top:
-        1px solid var(--border);
-
-    margin-top:16px;
-
-    padding-top:11px;
-
-    color:#8799aa;
-
-    text-align:center;
-
-    font-size:11px;
-}
-
-
-/* =========================================
-   HOT MATCHES
-========================================= */
-
-.hot-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:15px;
-}
-
-.hot-card{
-
-    background:
-
-        linear-gradient(
-            145deg,
-            #081b2e,
-            #061525
-        );
-
-    border:
-        1px solid var(--border);
-
-    border-radius:18px;
-
-    padding:20px;
-}
-
-.hot-title{
-
-    text-align:center;
-
-    color:var(--gold-light);
-
-    font-size:12px;
-
-    font-weight:900;
-
-    margin-bottom:17px;
-}
-
-.hot-teams{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    text-align:center;
-}
-
-.hot-team{
-
-    width:38%;
-}
-
-.hot-icon{
-
-    width:59px;
-    height:59px;
-
-    margin:
-        auto auto 8px;
-
-    border-radius:50%;
-
-    background:#04101d;
-
-    border:
-        1px solid var(--border);
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:26px;
-}
-
-.hot-name{
-
-    font-size:13px;
-
-    font-weight:800;
-}
-
-.hot-vs{
-
-    color:#a2adba;
-
-    font-size:20px;
-
-    font-weight:900;
-}
-
-.hot-date{
-
-    border-top:
-        1px solid var(--border);
+    border-top:1px solid var(--border);
 
     margin-top:14px;
 
-    padding-top:11px;
+    padding-top:9px;
 
-    color:var(--gold-light);
+    color:#7e91a4;
+
+    font-size:10px;
+
+    text-align:center;
+}
+
+.matches-empty{
+
+    grid-column:1/-1;
+
+    min-height:130px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 
     text-align:center;
 
-    font-size:11px;
+    color:var(--muted);
+
+    background:#061525;
+
+    border:1px solid var(--border);
+
+    border-radius:15px;
+
+    font-size:13px;
 }
 
 
-/* =========================================
-   NEWS
-========================================= */
+/* =====================================
+   OTHER SECTIONS
+===================================== */
 
-.news-grid{
+.hot-grid,
+.news-grid,
+.video-grid{
 
     display:grid;
 
@@ -946,89 +739,38 @@ header{
     gap:15px;
 }
 
-.news-card{
+.simple-card{
+
+    min-height:150px;
+
+    padding:20px;
 
     background:var(--card);
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:17px;
-
-    overflow:hidden;
-
-    transition:.25s;
 }
 
-.news-card:hover{
-
-    transform:
-        translateY(-3px);
-
-    border-color:
-        rgba(239,51,64,.28);
+.simple-icon{
+    font-size:36px;
+    margin-bottom:10px;
 }
 
-.news-image{
-
-    height:145px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:48px;
-
-    background:
-
-        radial-gradient(
-            circle,
-            rgba(239,51,64,.14),
-            transparent 65%
-        ),
-
-        #071729;
-}
-
-.news-body{
-
-    padding:16px;
-}
-
-.news-category{
-
-    color:var(--red-light);
-
-    font-size:11px;
-
-    font-weight:900;
-
-    margin-bottom:6px;
-}
-
-.news-title{
-
+.simple-card h3{
     font-size:16px;
-
-    line-height:1.65;
-
-    margin-bottom:7px;
+    margin-bottom:5px;
 }
 
-.news-description{
-
-    color:#8495a7;
-
+.simple-card p{
+    color:var(--muted);
     font-size:12px;
-
-    line-height:1.8;
 }
 
 
-/* =========================================
-   TWO COLUMNS
-========================================= */
+/* =====================================
+   TRANSFERS + STATS
+===================================== */
 
 .two-columns{
 
@@ -1039,11 +781,6 @@ header{
 
     gap:18px;
 }
-
-
-/* =========================================
-   TRANSFERS
-========================================= */
 
 .transfer-list{
 
@@ -1061,8 +798,7 @@ header{
     grid-template-columns:
         1fr
         auto
-        1fr
-        auto;
+        1fr;
 
     align-items:center;
 
@@ -1072,8 +808,7 @@ header{
 
     background:var(--card);
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:14px;
 }
@@ -1081,81 +816,52 @@ header{
 .player{
 
     display:flex;
-
     align-items:center;
-
-    gap:10px;
+    gap:9px;
 }
 
 .avatar{
 
-    width:43px;
-    height:43px;
+    width:42px;
+    height:42px;
 
     border-radius:50%;
 
-    background:#112a42;
+    background:#10283f;
 
     display:flex;
-
     align-items:center;
     justify-content:center;
-
-    font-size:20px;
 }
 
 .player-name{
-
-    font-size:13px;
-
+    font-size:12px;
     font-weight:900;
 }
 
 .player-position{
-
     color:var(--muted);
-
     font-size:10px;
 }
 
-.old-club{
-
-    color:#8e9dad;
-
-    text-align:center;
-
-    font-size:11px;
-}
-
-.arrow{
-
+.transfer-arrow{
     color:var(--green);
 
-    font-size:21px;
-
-    font-weight:900;
+    font-size:20px;
 }
 
 .transfer-status{
+    color:var(--gold2);
 
-    color:var(--gold-light);
-
-    font-size:11px;
-
-    font-weight:900;
+    font-size:10px;
 }
-
-
-/* =========================================
-   STATS
-========================================= */
 
 .stats{
 
     display:grid;
 
     grid-template-columns:
-        repeat(4,1fr);
+        repeat(2,1fr);
 
     gap:10px;
 }
@@ -1164,145 +870,34 @@ header{
 
     padding:17px;
 
+    text-align:center;
+
     background:var(--card);
 
-    border:
-        1px solid var(--border);
+    border:1px solid var(--border);
 
     border-radius:14px;
-
-    text-align:center;
 }
 
 .stat-icon{
-
     font-size:20px;
-
-    margin-bottom:4px;
 }
 
 .stat-label{
-
     color:var(--muted);
 
     font-size:10px;
 }
 
 .stat-value{
-
-    font-size:25px;
-
-    font-weight:900;
-
-    margin-top:3px;
-}
-
-
-/* =========================================
-   VIDEOS
-========================================= */
-
-.video-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:15px;
-}
-
-.video-card{
-
-    position:relative;
-
-    height:175px;
-
-    overflow:hidden;
-
-    border-radius:16px;
-
-    border:
-        1px solid var(--border);
-
-    background:#061527;
-}
-
-.video-background{
-
-    height:100%;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    background:
-
-        linear-gradient(
-            135deg,
-            rgba(239,51,64,.12),
-            rgba(242,189,50,.08)
-        );
-}
-
-.play{
-
-    width:48px;
-    height:48px;
-
-    border-radius:50%;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    background:
-        rgba(0,0,0,.65);
-
-    border:
-        1px solid
-        rgba(255,255,255,.20);
-}
-
-.video-info{
-
-    position:absolute;
-
-    right:0;
-    left:0;
-    bottom:0;
-
-    padding:
-        35px 14px 12px;
-
-    background:
-
-        linear-gradient(
-            transparent,
-            rgba(0,0,0,.95)
-        );
-}
-
-.video-title{
-
-    font-size:13px;
-
+    font-size:24px;
     font-weight:900;
 }
 
-.video-type{
 
-    color:#a0acb9;
-
-    font-size:10px;
-}
-
-
-/* =========================================
+/* =====================================
    FOOTER
-========================================= */
+===================================== */
 
 footer{
 
@@ -1312,8 +907,7 @@ footer{
 
     background:#020914;
 
-    border-top:
-        1px solid var(--border);
+    border-top:1px solid var(--border);
 }
 
 .footer{
@@ -1341,173 +935,104 @@ footer{
 }
 
 .footer-logo span{
-
     color:var(--red);
 }
 
-.footer-description{
-
+.footer-text{
     color:var(--muted);
 
     font-size:12px;
-
-    margin-top:3px;
 }
 
 .copyright{
-
     color:#6d7d8d;
 
     font-size:11px;
 }
 
 
-/* =========================================
+/* =====================================
    MOBILE
-========================================= */
+===================================== */
 
 @media(max-width:900px){
 
     .header{
-
         min-height:67px;
-
         padding:0 12px;
     }
 
     .logo-name{
-
         font-size:18px;
     }
 
     .logo-box{
-
         width:39px;
         height:39px;
     }
 
     .logo-box span{
-
         font-size:26px;
     }
 
     .nav{
-
         display:none;
     }
 
     .hero{
-
         padding:0 12px;
-
         margin-top:15px;
     }
 
     .hero-box{
-
-        min-height:340px;
-
+        min-height:330px;
         border-radius:19px;
     }
 
     .hero-content{
-
-        padding:
-            35px 21px;
+        padding:35px 21px;
     }
 
     .hero h1{
-
         font-size:35px;
     }
 
     .hero-description{
-
         font-size:14px;
     }
 
-    .hero-glow{
-
-        width:280px;
-        height:280px;
-
-        left:-100px;
-        bottom:-120px;
-    }
-
     .container{
-
         padding:0 12px;
-
         margin-top:28px;
     }
 
-    .matches,
+    .matches-panel{
+        padding:13px;
+        border-radius:17px;
+    }
+
+    .matches-grid,
     .hot-grid,
     .news-grid,
     .video-grid{
-
         grid-template-columns:1fr;
     }
 
     .two-columns{
-
         grid-template-columns:1fr;
     }
 
-    .stats{
-
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .transfer{
-
-        grid-template-columns:
-            1fr
-            auto
-            1fr;
-    }
-
-    .transfer-status{
-
-        display:none;
-    }
-
-    .footer{
-
-        flex-direction:column;
-
-        text-align:center;
-    }
-
     .section-title{
-
         font-size:20px;
     }
 
-    .section-more{
-
-        font-size:11px;
+    .competition-btn{
+        padding:9px 13px;
     }
 
-}
-
-@media(min-width:901px) and (max-width:1100px){
-
-    .matches,
-    .hot-grid,
-    .news-grid{
-
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .nav a{
-
-        padding:8px;
-
-        font-size:12px;
+    .footer{
+        flex-direction:column;
+        text-align:center;
     }
 }
 
@@ -1518,9 +1043,7 @@ footer{
 <body>
 
 
-<!-- =========================================
-     HEADER
-========================================= -->
+<!-- HEADER -->
 
 <header>
 
@@ -1530,13 +1053,9 @@ footer{
 
     <div class="logo-name">
 
-        <span class="nownex">
-            NOWNEX
-        </span>
+        <span class="nownex">NOWNEX</span>
 
-        <span class="football">
-            FOOTBALL
-        </span>
+        <span class="football"> FOOTBALL</span>
 
     </div>
 
@@ -1574,13 +1093,9 @@ footer{
 
 <div class="header-buttons">
 
-    <div class="header-btn">
-        ⌕
-    </div>
+    <div class="header-btn">⌕</div>
 
-    <div class="header-btn">
-        ☰
-    </div>
+    <div class="header-btn">☰</div>
 
 </div>
 
@@ -1589,10 +1104,7 @@ footer{
 </header>
 
 
-
-<!-- =========================================
-     HERO
-========================================= -->
+<!-- HERO -->
 
 <section class="hero">
 
@@ -1610,7 +1122,6 @@ footer{
 
         </div>
 
-
         <h1>
 
             الخبر،
@@ -1619,16 +1130,13 @@ footer{
 
         </h1>
 
-
         <p class="hero-description">
 
-            تابع عالم كرة القدم من مكان واحد.
-            مباريات اليوم، النتائج المباشرة،
-            أهم المواجهات القادمة، أخبار الأندية،
-            الانتقالات وأبرز أخبار النجوم.
+            تابع مباريات اليوم والنتائج المباشرة
+            وأهم البطولات والمواجهات العالمية
+            في منصة واحدة.
 
         </p>
-
 
         <div class="hero-actions">
 
@@ -1655,13 +1163,12 @@ footer{
 </section>
 
 
-
 <main class="container">
 
 
-<!-- =========================================
-     TODAY MATCHES
-========================================= -->
+<!-- =====================================
+     MATCHES
+===================================== -->
 
 <section
     class="section"
@@ -1674,19 +1181,84 @@ footer{
         مباريات اليوم
     </h2>
 
-    <a
-        href="#"
-        class="section-more"
-    >
-        جميع المباريات ←
-    </a>
+    <span class="section-more">
+        نتائج مباشرة
+    </span>
 
 </div>
 
 
-<div class="matches">
+<div class="matches-panel">
 
-    <div class="loading">
+
+<!-- LEAGUES -->
+
+<div class="competition-group">
+
+    <div class="competition-label">
+
+        <h3>
+            🏟️ الدوريات
+        </h3>
+
+        <span>
+            اختر البطولة
+        </span>
+
+    </div>
+
+    <div
+        class="competition-strip"
+        id="leaguesStrip"
+    >
+
+        <button class="competition-btn active">
+            الكل
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CUPS -->
+
+<div class="competition-group">
+
+    <div class="competition-label">
+
+        <h3>
+            🏆 الكؤوس والبطولات
+        </h3>
+
+        <span>
+            اختر البطولة
+        </span>
+
+    </div>
+
+    <div
+        class="competition-strip"
+        id="cupsStrip"
+    >
+
+        <button class="competition-btn active">
+            الكل
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MATCHES -->
+
+<div
+    class="matches-grid"
+    id="matchesGrid"
+>
+
+    <div class="matches-empty">
 
         جاري تحميل مباريات اليوم...
 
@@ -1694,13 +1266,13 @@ footer{
 
 </div>
 
+
+</div>
+
 </section>
 
 
-
-<!-- =========================================
-     HOT MATCHES
-========================================= -->
+<!-- UPCOMING -->
 
 <section class="section">
 
@@ -1710,171 +1282,67 @@ footer{
         مواجهات تستحق المتابعة
     </h2>
 
-    <a
-        href="#"
-        class="section-more"
-    >
-        الجدول الكامل ←
-    </a>
-
 </div>
 
 
 <div class="hot-grid">
 
+    <div class="simple-card">
 
-<div class="hot-card">
-
-    <div class="hot-title">
-        قمة إنجليزية
-    </div>
-
-    <div class="hot-teams">
-
-        <div class="hot-team">
-
-            <div class="hot-icon">
-                🔴
-            </div>
-
-            <div class="hot-name">
-                ليفربول
-            </div>
-
+        <div class="simple-icon">
+            🔥
         </div>
 
+        <h3>
+            قمم كروية
+        </h3>
 
-        <div class="hot-vs">
-            VS
-        </div>
-
-
-        <div class="hot-team">
-
-            <div class="hot-icon">
-                🔵
-            </div>
-
-            <div class="hot-name">
-                مانشستر سيتي
-            </div>
-
-        </div>
+        <p>
+            أقوى المواجهات القادمة حول العالم.
+        </p>
 
     </div>
 
-    <div class="hot-date">
-        مواجهة مرتقبة
-    </div>
 
-</div>
+    <div class="simple-card">
 
-
-
-<div class="hot-card">
-
-    <div class="hot-title">
-        قمة أوروبية
-    </div>
-
-    <div class="hot-teams">
-
-        <div class="hot-team">
-
-            <div class="hot-icon">
-                ⚪
-            </div>
-
-            <div class="hot-name">
-                ريال مدريد
-            </div>
-
+        <div class="simple-icon">
+            🏆
         </div>
 
+        <h3>
+            البطولات الكبرى
+        </h3>
 
-        <div class="hot-vs">
-            VS
-        </div>
-
-
-        <div class="hot-team">
-
-            <div class="hot-icon">
-                🔵
-            </div>
-
-            <div class="hot-name">
-                مانشستر سيتي
-            </div>
-
-        </div>
+        <p>
+            دوري الأبطال والدوريات الأوروبية.
+        </p>
 
     </div>
 
-    <div class="hot-date">
-        مواجهة مرتقبة
-    </div>
 
-</div>
+    <div class="simple-card">
 
-
-
-<div class="hot-card">
-
-    <div class="hot-title">
-        كلاسيكو إسبانيا
-    </div>
-
-    <div class="hot-teams">
-
-        <div class="hot-team">
-
-            <div class="hot-icon">
-                🔵
-            </div>
-
-            <div class="hot-name">
-                برشلونة
-            </div>
-
+        <div class="simple-icon">
+            ⭐
         </div>
 
+        <h3>
+            مباريات النجوم
+        </h3>
 
-        <div class="hot-vs">
-            VS
-        </div>
-
-
-        <div class="hot-team">
-
-            <div class="hot-icon">
-                ⚪
-            </div>
-
-            <div class="hot-name">
-                ريال مدريد
-            </div>
-
-        </div>
+        <p>
+            المواجهات التي ينتظرها عشاق كرة القدم.
+        </p>
 
     </div>
-
-    <div class="hot-date">
-        مواجهة مرتقبة
-    </div>
-
-</div>
-
 
 </div>
 
 </section>
 
 
-
-<!-- =========================================
-     NEWS
-========================================= -->
+<!-- NEWS -->
 
 <section
     class="section"
@@ -1887,108 +1355,71 @@ footer{
         آخر الأخبار
     </h2>
 
-    <a
-        href="#"
-        class="section-more"
-    >
-        كل الأخبار ←
-    </a>
+    <span class="section-more">
+        المزيد ←
+    </span>
 
 </div>
 
 
 <div class="news-grid">
 
+    <article class="simple-card">
 
-<article class="news-card">
-
-    <div class="news-image">
-        📰
-    </div>
-
-    <div class="news-body">
-
-        <div class="news-category">
-            كرة القدم العالمية
+        <div class="simple-icon">
+            📰
         </div>
 
-        <h3 class="news-title">
-            كل جديد في عالم كرة القدم
+        <h3>
+            أخبار كرة القدم
         </h3>
 
-        <p class="news-description">
-            أهم الأخبار والقصص التي تتصدر
-            المشهد الكروي حول العالم.
+        <p>
+            آخر المستجدات والأخبار المهمة.
         </p>
 
-    </div>
-
-</article>
+    </article>
 
 
+    <article class="simple-card">
 
-<article class="news-card">
+        <div class="simple-icon">
+            ⭐
+        </div>
 
-    <div class="news-image">
-        ⭐
-    </div>
-
-    <div class="news-body">
-
-        <div class="news-category">
+        <h3>
             أخبار النجوم
-        </div>
-
-        <h3 class="news-title">
-            أخبار اللاعبين وأبرز النجوم
         </h3>
 
-        <p class="news-description">
-            آخر المستجدات والتصريحات والأرقام
-            الخاصة بأبرز لاعبي كرة القدم.
+        <p>
+            أبرز أخبار وتصريحات اللاعبين.
         </p>
 
-    </div>
-
-</article>
+    </article>
 
 
+    <article class="simple-card">
 
-<article class="news-card">
-
-    <div class="news-image">
-        🏆
-    </div>
-
-    <div class="news-body">
-
-        <div class="news-category">
-            البطولات
+        <div class="simple-icon">
+            🌍
         </div>
 
-        <h3 class="news-title">
-            أهم البطولات والمنافسات
+        <h3>
+            الكرة العالمية
         </h3>
 
-        <p class="news-description">
-            تابع أخبار البطولات الكبرى ونتائجها
-            وأبرز أحداثها.
+        <p>
+            أهم الأحداث من مختلف البطولات.
         </p>
 
-    </div>
-
-</article>
-
+    </article>
 
 </div>
 
 </section>
 
 
-
-<!-- =========================================
-     TRANSFERS + STATS
-========================================= -->
+<!-- TRANSFERS -->
 
 <section
     class="section"
@@ -1998,8 +1429,6 @@ footer{
 <div class="two-columns">
 
 
-<!-- TRANSFERS -->
-
 <div>
 
 <div class="section-header">
@@ -2008,148 +1437,80 @@ footer{
         آخر الانتقالات
     </h2>
 
-    <a
-        href="#"
-        class="section-more"
-    >
-        المزيد ←
-    </a>
-
 </div>
 
 
 <div class="transfer-list">
 
+    <div class="transfer">
 
-<div class="transfer">
+        <div class="player">
 
-    <div class="player">
+            <div class="avatar">
+                ⭐
+            </div>
 
-        <div class="avatar">
-            ⭐
+            <div>
+
+                <div class="player-name">
+                    سوق الانتقالات
+                </div>
+
+                <div class="player-position">
+                    صفقات جديدة
+                </div>
+
+            </div>
+
         </div>
 
-        <div>
-
-            <div class="player-name">
-                صفقات اليوم
-            </div>
-
-            <div class="player-position">
-                آخر أخبار سوق الانتقالات
-            </div>
-
+        <div class="transfer-arrow">
+            →
         </div>
 
-    </div>
-
-
-    <div class="old-club">
-        النادي
-    </div>
-
-
-    <div class="arrow">
-        →
-    </div>
-
-
-    <div class="transfer-status">
-        قريبًا
-    </div>
-
-</div>
-
-
-
-<div class="transfer">
-
-    <div class="player">
-
-        <div class="avatar">
-            ⚡
-        </div>
-
-        <div>
-
-            <div class="player-name">
-                أخبار الانتقالات
-            </div>
-
-            <div class="player-position">
-                صفقات ومفاوضات
-            </div>
-
+        <div class="transfer-status">
+            متابعة
         </div>
 
     </div>
 
 
-    <div class="old-club">
-        فريق
-    </div>
+    <div class="transfer">
 
+        <div class="player">
 
-    <div class="arrow">
-        →
-    </div>
-
-
-    <div class="transfer-status">
-        متابعة
-    </div>
-
-</div>
-
-
-
-<div class="transfer">
-
-    <div class="player">
-
-        <div class="avatar">
-            👤
-        </div>
-
-        <div>
-
-            <div class="player-name">
-                تحركات اللاعبين
+            <div class="avatar">
+                ⚡
             </div>
 
-            <div class="player-position">
-                جديد السوق
+            <div>
+
+                <div class="player-name">
+                    مفاوضات الأندية
+                </div>
+
+                <div class="player-position">
+                    آخر الأخبار
+                </div>
+
             </div>
 
         </div>
 
+        <div class="transfer-arrow">
+            →
+        </div>
+
+        <div class="transfer-status">
+            جديد
+        </div>
+
     </div>
-
-
-    <div class="old-club">
-        فريق
-    </div>
-
-
-    <div class="arrow">
-        →
-    </div>
-
-
-    <div class="transfer-status">
-        متابعة
-    </div>
-
-</div>
-
 
 </div>
 
 </div>
 
-
-
-<!-- STATS -->
 
 <div>
 
@@ -2164,89 +1525,83 @@ footer{
 
 <div class="stats">
 
+    <div class="stat">
 
-<div class="stat">
+        <div class="stat-icon">
+            ⚽
+        </div>
 
-    <div class="stat-icon">
-        ⚽
+        <div class="stat-label">
+            الأهداف
+        </div>
+
+        <div class="stat-value">
+            —
+        </div>
+
     </div>
 
-    <div class="stat-label">
-        الأهداف
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            🟥
+        </div>
+
+        <div class="stat-label">
+            بطاقات حمراء
+        </div>
+
+        <div class="stat-value">
+            —
+        </div>
+
     </div>
 
-    <div class="stat-value">
-        —
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            🟨
+        </div>
+
+        <div class="stat-label">
+            بطاقات صفراء
+        </div>
+
+        <div class="stat-value">
+            —
+        </div>
+
+    </div>
+
+
+    <div class="stat">
+
+        <div class="stat-icon">
+            📅
+        </div>
+
+        <div class="stat-label">
+            المباريات
+        </div>
+
+        <div class="stat-value">
+            —
+        </div>
+
     </div>
 
 </div>
 
-
-<div class="stat">
-
-    <div class="stat-icon">
-        🟥
-    </div>
-
-    <div class="stat-label">
-        بطاقات حمراء
-    </div>
-
-    <div class="stat-value">
-        —
-    </div>
-
 </div>
-
-
-<div class="stat">
-
-    <div class="stat-icon">
-        🟨
-    </div>
-
-    <div class="stat-label">
-        بطاقات صفراء
-    </div>
-
-    <div class="stat-value">
-        —
-    </div>
-
-</div>
-
-
-<div class="stat">
-
-    <div class="stat-icon">
-        📅
-    </div>
-
-    <div class="stat-label">
-        المباريات
-    </div>
-
-    <div class="stat-value">
-        —
-    </div>
-
-</div>
-
-
-</div>
-
-</div>
-
 
 </div>
 
 </section>
 
 
-
-<!-- =========================================
-     VIDEOS
-========================================= -->
+<!-- VIDEOS -->
 
 <section
     class="section"
@@ -2259,95 +1614,60 @@ footer{
         الأهداف والملخصات
     </h2>
 
-    <a
-        href="#"
-        class="section-more"
-    >
-        مشاهدة المزيد ←
-    </a>
-
 </div>
 
 
 <div class="video-grid">
 
+    <div class="simple-card">
 
-<div class="video-card">
-
-    <div class="video-background">
-
-        <div class="play">
-            ▶
+        <div class="simple-icon">
+            ▶️
         </div>
+
+        <h3>
+            أبرز أهداف اليوم
+        </h3>
+
+        <p>
+            سنضيف الفيديوهات والملخصات لاحقًا.
+        </p>
 
     </div>
 
-    <div class="video-info">
 
-        <div class="video-title">
-            أبرز أهداف المباريات
+    <div class="simple-card">
+
+        <div class="simple-icon">
+            🎥
         </div>
 
-        <div class="video-type">
-            Highlights
-        </div>
+        <h3>
+            ملخصات المباريات
+        </h3>
+
+        <p>
+            أهم أحداث المباريات في مكان واحد.
+        </p>
 
     </div>
 
-</div>
 
+    <div class="simple-card">
 
-
-<div class="video-card">
-
-    <div class="video-background">
-
-        <div class="play">
-            ▶
+        <div class="simple-icon">
+            🔥
         </div>
+
+        <h3>
+            أجمل اللحظات
+        </h3>
+
+        <p>
+            أبرز اللقطات والأهداف.
+        </p>
 
     </div>
-
-    <div class="video-info">
-
-        <div class="video-title">
-            أفضل لحظات الجولة
-        </div>
-
-        <div class="video-type">
-            Highlights
-        </div>
-
-    </div>
-
-</div>
-
-
-
-<div class="video-card">
-
-    <div class="video-background">
-
-        <div class="play">
-            ▶
-        </div>
-
-    </div>
-
-    <div class="video-info">
-
-        <div class="video-title">
-            ملخص أبرز المواجهات
-        </div>
-
-        <div class="video-type">
-            Highlights
-        </div>
-
-    </div>
-
-</div>
-
 
 </div>
 
@@ -2357,10 +1677,7 @@ footer{
 </main>
 
 
-
-<!-- =========================================
-     FOOTER
-========================================= -->
+<!-- FOOTER -->
 
 <footer>
 
@@ -2370,7 +1687,7 @@ footer{
 
         <div class="footer-logo">
 
-            <span style="color:white;">
+            <span style="color:#fff">
                 NOWNEX
             </span>
 
@@ -2380,8 +1697,8 @@ footer{
 
         </div>
 
-        <div class="footer-description">
-            منصة تتابع من خلالها أهم ما يحدث في عالم كرة القدم.
+        <div class="footer-text">
+            كل ما يحدث في عالم كرة القدم في مكان واحد.
         </div>
 
     </div>
@@ -2396,12 +1713,7 @@ footer{
 </footer>
 
 
-<!-- =========================================
-     FOOTBALL DATA
-========================================= -->
-
 <script src="football.js"></script>
-
 
 </body>
 </html>
