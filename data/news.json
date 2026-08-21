@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-21T08:01:17.379111+00:00",
+  "updatedAt": "2026-08-21T09:56:54.588732+00:00",
   "news": [
     {
       "category": "stars",
@@ -7,15 +7,6 @@
       "description": "ثورة المخضرمين.. كيف هزم نجوم كرة القدم ساعة العمر؟ العربي الجديد",
       "url": "https://news.google.com/rss/articles/CBMijANBVV95cUxPbUVjS3pqQnFYTnN2SWpOczNpTHpMWlpRdFZ3TkNTM0pTUkJfam5HeEZmRnRIUndYUkY0eDNNMWg4MXNMM29TLXlFZEw3ME9ISEh0WGxITDk1UTRTeXczZkRwcWtKa3FQY3pZZXdXbkFNOUNxZmRiN1hwTVJDRXR0RXp5NlhMV3pvd0ptX1cwZTNIWVlUTmV5a0I0SjZtc2xJX2hCbGNuSVh5aFlBUjBEUHRnRVpUNlV3RGtxTk1MbHhSVEw0TURRQUtlb2lKQ1RZc3lWbE9hZEF5YXhjY0RidnFPaGpTM05oVTh4RXJtUjJoM3IxUENYeGlGTlNyWTQ5c3NzcFUxMERnWjhFTXZiRWNJZG5yUEdXNy1PelBYMzh3c2FfeV9ieXlWNzEzUkZPQlkxdTRaa3pueEo5OG1pWVAyRVBtUzRsZHVnc1NkdDFESjRXSHJRZFc4THhiRlNLaUNnWmxzanpZTWd1RTA3b0RTZkRfaFlibm9xMFQ4bWZZTmpscjFiZ3psTW4?oc=5",
       "source": "العربي الجديد",
-      "date": "Wed, 29 Jul 2026 07:00:00 GMT",
-      "image": ""
-    },
-    {
-      "category": "stars",
-      "title": "هل ارتدى منتخب مصر للسيدات قميص منتخب الرجال؟ ما القصة؟ - BBC",
-      "description": "هل ارتدى منتخب مصر للسيدات قميص منتخب الرجال؟ ما القصة؟ BBC",
-      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5Ma2ZoM1hNZkJvU05hVXJUa3k3T0pXRWp2WFhWam9qMHp5dVlVZnh1UTVBWGNNOEl3UlQ3X2oyd3NjSnhNTFpsSzh1RU5tN29GbWg5YmFYSzNNMVRB0gFiQVVfeXFMUG9LMXJHOUJpWDcwbHY2eDJlZGl6LTI1bzFZUzlaZFphLTJjRXU2Y1NORDRtNmg3eTlwdjFRb2xpSi0zVkpFS1NjaGVIeTV4Y25nVVlLWlk0SlJpOXVzLTd1VlE?oc=5",
-      "source": "BBC",
       "date": "Wed, 29 Jul 2026 07:00:00 GMT",
       "image": ""
     },
@@ -47,30 +38,12 @@
       "image": ""
     },
     {
-      "category": "bigMatches",
-      "title": "ملخص مباراة الأهلي وبرشلونة في كأس خوان جامبر - Masrawy",
-      "description": "ملخص مباراة الأهلي وبرشلونة في كأس خوان جامبر Masrawy",
-      "url": "https://news.google.com/rss/articles/CBMixANBVV95cUxQcmFmbjJJV292Tm1pcXp3Y0F6bnJoUkJrWUtjUmhtd2pZN0N0VHVZR3N0NWYzeXF1ZDgtZlAwallnb1ZTazBOc3ZHNHNZSU9SMkFPaUF2cXY3bW96RkZjT0x0QjFtSDVtS1F5WDliT3hYa2llTE50SjN5TW5EQ0VIc0haaUw1UUxqcUtsbGotTWxObFBaRlF3S0M0ZWRKbjJkSEdIU1FWcWJWNnJfZzlXR3ROS3FKTVNPSWpxYkc2ZGwzZHRneVRYczB2bVA1NHpCT0VZNlhtN2N3ZEdHRVkxUGR6MThLWU5lTlhPWnFHWno0UjA5SzQ5b1Vka3F2NWFnY3k4ZXdjVXZ2RHlsRktBeXZSa1dySlBscDZKaWdPd1ZrX3l0aVZaTGl3NG9Tbmk2T3lLOGVnVDJpS18weF8yNVBoajJ2cUxDTEhOSFdIMW8zY0J2c21PNGFJaWNpOGZjOHgxOGx1dnhMdFJFVXc1UjVLNDF3ZU1RYjVHWFdUMmt0ck9mZS1aQzVmMWw2Z0VfdXNIbmk5MHNoOFNNbzRwcDVYam5YRkwyYUdLbDdXeUpReEp1WDQzeU9BZnNTaXpsMGRXcNIBygNBVV95cUxPQ05EcHJLRkpwSVJDRGdPZ3JCdWJLMkhHUUp5SnBsaEVDRzdtQVB5RVNQcVhGTDNLRHNxa2NzbTBJbV91SDR2TmpoVk85LUxROGdaRXRGWGlvRWVPT0kzZEltZHFPSmFzRUhXQUZNOWVpWFVINjN2Q1p3b3NCZWxYaE5QZG9qODl1UV9DaXE5OUY0MWQtQmtfS3hEVXJ4OVlfUUhyYkhvSEhURnR5MmJIZUtLcEVBa1cwcVJNS25MVlNOdzFxNVYxSEJpbkI0VzYzOFRLMkFjTmdxaWllWnlzZVpQdTlWdW9UQlU3Unh2QjZJYkNkZlkxT0NzZWxDYzh6MGt3Q01RRU9wUnRubmg1MEZzdThhbkhDTk1wb2VuNXpFMnJkcTZIZGFMcGJXWFpIcGpsVjNhZGJPYnRLVU9wNE5BMXRFM0VVWjBDTHRhXy1VS1NiRmF3SjNzWUJqRUNQei1Yd3dQNFhFTEJYcUZ6MXMxcnV3Y3Q4cVhxSWNzZ3k2ckJuazBJTi1oS0VlanF6YnpkXzlkSmViWDJnVWNWNk1aSmlTem9xOTUyN2tsUTd2SnJlMWNCdWZBWU1RaXphUXhJTDJybEljdw?oc=5",
-      "source": "Masrawy",
-      "date": "Wed, 19 Aug 2026 17:16:00 GMT",
-      "image": ""
-    },
-    {
       "category": "competitions",
       "title": "مفاجآت فى أحدث تصنيف للكرة الذهبية 2026.. هاري كين فى الصدارة - اليوم السابع",
       "description": "مفاجآت فى أحدث تصنيف للكرة الذهبية 2026.. هاري كين فى الصدارة اليوم السابع",
       "url": "https://news.google.com/rss/articles/CBMimwNBVV95cUxOVVpwd2hhUUlTYlBma3Z3WVJTaENUMDF1VDBHWVNjXzVXUzFiaTJDdldzSWpNUnBPMmtWMzJFQUNuWmY3Nm01ZEpzY210ODI1aWdOMGJMd3R6VExocUh4aHNYNGZBRm9RclBmaGQ3ZF9pMkQwblY2cmtPWHNHbTNwTkMyRnVueHJBUkJlZnNGM1FFUjc0RV85WHdiRjNBTVFzeERDekJlRUhtMVdzUmRIb0J3c2d2a1J6eGVUR1Z3TGNydkVGQmFwb1JBam5PNjN6ZnJFUGNPSUh4Z2dSV0JGRHpGT3E2N1dQUUVHVndzZ2hldmUyXzBLbTJGRDJGV2hnNkk0alRJVkIyN0ZKeW5nYjVZT0R5M01jQWItM0FXRjlHV3VqdkJwaXVxQ0VMSVg3MjBCalc5eElZczBjMTVqV2V5blEyXzRpVmZIVUJRSURjMUV0TkhnNURDTFU0djZyQmVMMzhHZjhwSTh5eFdGVkVQZnExaUlLRFpyQmR5V2JtMFJrWHEyZlI1UTEyZE1SLVJFLVVMeW9wdFHSAZYDQVVfeXFMTktBc1AweC1wSEt1d1E0Q2dYVmpRdktXYUVmNG80NWFMRGN6ZDlUbWJoS0pLMnlJWEVtSUVHQzl1YVJQelBQYWpvWnpWQmU2VDI4Wl9EbkQ2R0RlT0ZnSE8teXJjR1hNc05la05WcHFFY1VObXRlblk4eDhnbFZOSWNoRGFlMWZQU3lCWkNEWXVXSFEzQUdJTjJJRWNqaE9kTUZOdWhxYkNxTk81UlQ1T01DZXVSNFRCQVJoZWM5T0tlSHlzRFN1VkpDbVRUdldGRWJVUFBYaURCSVlxNXBYeXdobktSSkhSUTgzYUtFU1EzS0IyUGtzaV9JSGZIUWlLSEFJSmlWcW8yS2JrSE5TRjNNd0NmVjI1NnJ0Xy1LRGFFTUdkdXY1bi11OFR2bFQwR1FJQjZ0dnNKRnZfUm9tVHpqUjZSWm82WEtoMEltX2NkQTdxOEw2RDFkWXZVcEFIdTVqZTkzaGtTQ1laQXduNG5Kb3ljeVBDcWhXakE4YWE2QUdoQlM3YUJwcEZjYjNCeGpnb0tOdw?oc=5",
       "source": "اليوم السابع",
       "date": "Wed, 19 Aug 2026 15:00:00 GMT",
-      "image": ""
-    },
-    {
-      "category": "stars",
-      "title": "نجوم عرب حلّقوا بكرة القدم وحفروا أسماءهم في تاريخ كأس العالم - الشرق الأوسط",
-      "description": "نجوم عرب حلّقوا بكرة القدم وحفروا أسماءهم في تاريخ كأس العالم الشرق الأوسط",
-      "url": "https://news.google.com/rss/articles/CBMinwRBVV95cUxOczgySnpZa1lwNkQ4ZndIZVJxTXFIaHlHN0hia05MT3RXYWN1eFEtNS1NOUg2Smg0STJ0bV9CSnUtOWhmcW5xaENwN2pVbmhUMlBTdkRBZE50bUJJTFhwN1hkUGFtX3RQVnQ1a2czbzJyUlI1Z1ZZb0ZHVjRUZDlkZWtxWkRLbXBicVlUVWtmMWtod3cyaUNXeFBaMHlFMUJ2LThHYUhWVlNVTWVnclg3N2N5UG1NWWd5bm1rRkNXelBkOGxZRTNGTmpHVHdFYlhkaThiWHgxX3BHU3FhVnVrZzBQMVlHeUdJd0NqdENaUEpBVUZmdllZdzZKNFgtR1ZnMDlCRDl5cy1aYzRRSHAxaEVUMlNDVk5GSXIyZGdtUGVHdTlpUnlfME1DdHFPaU5KV0g2TDJPdll2bmtWa01CaUtBeDQ0aVJkdEZTTThEV0xFVmtoQzl6bFZjUVFNZ2FLc215M2xmMWNqdWpKd2ZVUFNiTFBjdjRGdTF4Znp4N3M3OWR5THUxbElDUkhmbWpUX1dtSzNzOVlnZ3JvV0o2QkZVcVRkQWZGemFHd25YU1RUZmNlaTh4eVlROG1vQkJjaXlWemV1dkcwNXZKNU42eDVEQzdPZjZqOVVCb2VFcHMwNEEwbjJOUUM0RE5ucndZVDJkMklKTWY4OVM5VU4tWVlhSWxPaXZNMUlGamVETUpIQXZmRXQyMVFrZlB5TTQ?oc=5",
-      "source": "الشرق الأوسط",
-      "date": "Wed, 19 Aug 2026 14:30:09 GMT",
       "image": ""
     },
     {
@@ -146,30 +119,21 @@
       "image": ""
     },
     {
+      "category": "football",
+      "title": "هل اعتنق أسطورة كرة القدم روبرتو كارلوس الإسلام؟ - اليوم السابع",
+      "description": "هل اعتنق أسطورة كرة القدم روبرتو كارلوس الإسلام؟ اليوم السابع",
+      "url": "https://news.google.com/rss/articles/CBMiowNBVV95cUxOVTBLcE1LMnlBalg4dWhlc0hYSDBlTTNUbFVqQURaXzh5RjFVY0xta1RTbGxlR2kyYllHbExRRWdxNXBGa3F6cVBxb3ZXYlFoMUNyVVdFdldqWmFKSnd4OUdnOWc5OWxfWEF2ekxCOVpoSzZiYlg1LV9iVndvUkJJSlRHOVhjcU91OGVwZXUtVmczQTFST3dWTzE0cDlxaWZXdHdCSlJfZVpqaFRIMmY5RVJoWUIxbVhKQUVGakt2LS1fOHl2dEhVX0JQLXpESGFiWHUzbDQtMFhOTjdobmF1XzZmRXlPMG5naEtpM2FVT2ZqcmVVbHlrbTcxVk9vbGVUWFo3TjBuX19jZzhVWmdOWU05blZEeWJjdGhzYmlvMVZpTVZqUVdsZnl3MHpwOFl5SDRkQ0YwQWh4bXZ3Z3RaajBaejFHZWthTWtENEZ6dUYtV2V3dElrb2RvaFdjV3ZhZTI1am9xaWV5dGU3SzRPSnZzbDZJUWctX05IZjhobGxNd0xWTEVKZS1PcGdUUE0wT1JFT0pnMjF3WDByd0dBU2NHNNIBngNBVV95cUxOazhuZi1ZMTBtTXBhbGNpbWlub1hhYzRWMW1HM0RrY3F3VlJiYklmNGNwQ3piV2dBMXBmSUxndmdGVnRqOXNtR0IwVktZYklOVXh4ZVZPMmxiYjBLMGVDbXJBUDFQSXYxRUkyMDBfSmN4U3JROXhLazZ4X3NkQ1A5b0R5YmY2LWZ4eFRYaE82RWFDSk81QUhEQ05RZXZBRnJoSVZidGdGaDRfREFjYVlXNkNoaXVoR3FjaGhpdEJWLXJLMUgzWm1JS1RyNVhjTEFyX0plak5HS2dSaXdwLVdaeTZ4eWtwM0RiWEt5cjhHLWRwdExvY25MY2g4Yi1GeHRBZ3ZpTlIyVWtTX3Rja0JVa0tYYzVSdVdGRk1TSmxUOWdYUlRrSkhzSkpiQk9ROWhVWnVuUnM3Z1oxMnpubUp6VktTdXlYeHM3MTN6WldQd1FyUHBGS25BU2pKTVpqMDNHU1dZY3ItMVo1TGEtY24ySms1TThyWlMxSkV5RHZFVmgwSmNsVVM2dW5iSDBRY1d1V0hSLWEtZXVCdUU2VlE?oc=5",
+      "source": "اليوم السابع",
+      "date": "Tue, 18 Aug 2026 19:48:00 GMT",
+      "image": ""
+    },
+    {
       "category": "competitions",
       "title": "كأس السوبر الأوروبية.. مدرب سان جيرمان لا يتوقع مواجهة عالية المستوى | التلفزيون العربي - التلفزيون العربي",
       "description": "كأس السوبر الأوروبية.. مدرب سان جيرمان لا يتوقع مواجهة عالية المستوى | التلفزيون العربي التلفزيون العربي",
       "url": "https://news.google.com/rss/articles/CBMikARBVV95cUxPSDVpTUhPS3BTa3J2bHVoZHZ4cnRjU1ZPal9ESng5bm45T0JGTUs2a21QVVMtZmdweHNuejFLY0RzOWxTdHgxXzFNZHFfT2Q1QzMyNzlHemJLSmE4TzJPdDh2QUVyOGZTbVFIWVRjWFpZTEl6VWZVODV1NjkzZFZ4ZGV4TDdIVkhjcEVJWS1SLUdBNTJILVFGYU5VVm9iR3JJamdhRDdab3BEUGMzZEtfSWVpVkVlYmNjb3ItcGFOOURZa2xZTEFDR05FSE45STY5UTJrUi1naDBPRGJFNUtXSC1oZGVzWWxuMHZoeERIaU1WTEdmS3JBUWhFdFBaWHZMOHBUSTNDN3llQlBvYkVQcUtyWC1RSmpOLVdEWGJpa0RrTl9IZGpZWlV3UGFrUmlhN3FXbEFSTkd6WlJsSzI3dE5rSGRWYVBSYnVmcXdHb1RHUmpDdzVPa0VaSkFBc2FnazJGaElsZUxGT1U2SFVobTgzSXB1cTNzaU13TUJpdVI3SnVSYUpZUEozODFfZDZSZHZDOC1uWnM1by1FRUNGZEhydE1yenR4T2hDT1lYNWVwekFsWUgzZmxtT0NiVTk0YkdHMUJPckZmZm1HeTRwMDh1cHc1T3J2bUxVNzY3by1Hd2RGeVJxWHZUQ3Q2SXNmWHNibThsN29uWG93aFd2YXY2Z0xQbGpqZFdTZGtxeDbSAZYEQVVfeXFMT2NYSGNkUmY4TjV3bFg4T0g5czBqVVFoZWMzWFdDdG9zeV82cXdtTEh2LThVRl9HMS05XzhCdWgwaHRidEFOOHlDYjlmTXY4WFdsYlAtQmo0NGwyd2J4SndwNDUtR0I4X0dVSS1MUHpXRXVLN3lpQXlnVld1a1R1UXZFbVZrYkxVcUQ0NDNVTERLdXpvOVFCUy1sX3F3OHdhcnNzdE40SWFiRDJJU0o4RE5kUjBFRjYzNDhQei15bEZvU3VFZWZrNTBRUnI5QUZhNUNaUE5fSlBJTV9PcWQycG5nWlRTMGljTU5TNnpLVS12R3g4ckdJMjh2Vm01ZVZ2eE5STUxXTWNJVEtubTdUOWY2T1hjUzFmc1Q2WXhFZTdSUXN6ZGROa0tLMFBQaDF4STlXeGtfUzVpbUliU0RaeUZRUEtCUVdIM3hSZk45R3NkSHU3NHFkUTJJV0M2RWQ0T3V5NWw4c2tNUDBTam16bldkMlY0TXVxQXk0clNjcGJNRVVldU1PWlRUQmVVTVc4cm16Ml9KcVpvVjlOdkNzM1hfajVpd050Wjlkb0syZ1JMSVVybXJ2SndjeHV2NmNpb1NzNUpCVWRmdzNTeWYwQnY5N1dKTEoxbVlQdnhORjI2cXhjZE5VRmRaREp5aG82bG1SM3gydFFnbVBQaUtKNXl4bDVEbTh5M2NXMzVjSkRCcmY1MXdB?oc=5",
       "source": "التلفزيون العربي",
       "date": "Tue, 11 Aug 2026 19:31:49 GMT",
-      "image": ""
-    },
-    {
-      "category": "world",
-      "title": "يستحق الانتباه الفيفا واليويفا: من يقرر مستقبل كرة القدم العالمية؟ - BBC",
-      "description": "يستحق الانتباه الفيفا واليويفا: من يقرر مستقبل كرة القدم العالمية؟ BBC",
-      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9LNVZCSE02UVd5d01RNlIwd1FzZXgyN2lwZDc4WVV1dk5rOTJNN2tZdlB2ZGNPbFFlWEgwRjdCdmRKVnA5eERJLXJ6b3JheTNuYmNPZm1pNXByQTl4elY3Tm5kWQ?oc=5",
-      "source": "BBC",
-      "date": "Tue, 04 Aug 2026 07:00:00 GMT",
-      "image": ""
-    },
-    {
-      "category": "world",
-      "title": "بين الفيفا ويويفا.. كيف تُدار كرة القدم العالمية وأين يكمن توازن القوى؟ - الجزيرة نت",
-      "description": "بين الفيفا ويويفا.. كيف تُدار كرة القدم العالمية وأين يكمن توازن القوى؟ الجزيرة نت",
-      "url": "https://news.google.com/rss/articles/CBMiywJBVV95cUxNeDA5ZEtwVThJQ0s0VHRBUndmOEh2ZnZqN3JtWGxaYk5sTEJGYXpablVvNjJsOGFxWm1SeXlINmdyTjZpWUtzS2FtelA2bVhvU3lEbFU1SEUxaU5hZ3BRQUQyWktLa3h6RDRwT0QwWVdpdHluUGhQU2dwT2hVZ1VkdjNONXUtQndSVENROTMzaEZrcDNOTFg5c2lDbGRWWlZRLU82RDl6MElfck1iZFlYQmN6cVNhbnlZUmtNMTRncnFqUXh6WnVSZXFucFR0dm1pX1NtMmh4VTJKYUl0aW81bEJVb2N0cEl6d09kNWJuU1VxMFRJT0Y1SkMyNXR5ZHFHb3YxRTFNN0VsbExWTnhsVl8tNlJ2Wl9QckMtUkllSmQ3MHFnMjlsaXlFNV83eEp2c05FUHFtalREVTFKSVFRSFdpZzlxWWhWZ0400gHQAkFVX3lxTE5PSTZwOGI3OTF1cGdKZlZabVNOQy1MOVA1bFpfNkttcUd4SlQycGhlaTRESDhmanpzWWpmNzBmXzJNSEI0YU1qMnFlbnIzMHU2endHWFU4aEozLWE3X040ZmxqdGxqdzRiZV9yS2FZRXZCS1V2NXk5VW9qel81MGh4bE9NbHRiajNubEJlbUhMejBtZndVYmNvQzRaUnlIbHdHWkRRd2U2VEhna1RiTVRvNjJibmJFMEZoY3VaUTdWcUNrdllpRkphaHY4SGVDcFpmS2pSZ0x4WFk5VEFGR3Y1RTJQZFpseFc0RkxQVW1tckpLR1hQN2RUdHpYMmRGUFEtdWluRjFTOFJzakg5YmNaa2pkS1R6RFZoZGdZNnJJVkcxLTA0VkVQXzUxWmQ3dUlRTGh2WEdTLVNVRUg5R1pjYlYyXzV5T05vUmFGNkJzeQ?oc=5",
-      "source": "الجزيرة نت",
-      "date": "Thu, 30 Jul 2026 07:00:00 GMT",
       "image": ""
     },
     {
@@ -218,7 +182,7 @@
       "image": ""
     },
     {
-      "category": "football",
+      "category": "world",
       "title": "أثار ضجة قوية.. إنفانتينو يهز أوساط كرة القدم العالمية بمشروع جديد - إرم نيوز",
       "description": "أثار ضجة قوية.. إنفانتينو يهز أوساط كرة القدم العالمية بمشروع جديد إرم نيوز",
       "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5IVXNlQXVJbVRmSHBsaXFRRmtvU3pJQTIyWEViX0VMaURXQWZiaW9leUdjTzhjeDNIQ3JOb2RsbTlaMXNiTl9JQWlIRWRMdFlZ?oc=5",
@@ -233,15 +197,6 @@
       "url": "https://news.google.com/rss/articles/CBMi2gRBVV95cUxNaTRhcnZmeHV5RlBERlBjTnBhNEVyOUdISXY3Rk1PN3lwWndYX1VrRkNNUHlxaXRGMmdjUjhrR0R4TEhKb0ZYdzl3bVZWWGU1Y2IzX3dvcVdqczMwYnl1a05iOUQydjllNWZkdVRnZnF1LW5WQUNlUWxJUlhjWERMc0kzQ3Z2dEhicVlieWctZjBicHR0eXBHNkZzdGNJV3VlYkswQjhXLVk5bEh2TURZRElacTBBS0NZZHg4dlY2TGNiVzZ4T2oyTFVyclNkYkM5d2lmUzBzQ19IaC1iQVdYMDdiMEg0U09xUHBDN0lYZE5tUTdrbzhWTTY1NnJmVV9iUWFLckZQOU9sMnJrYkZ0QWhOVjVzd1p2ajRfMzg0U1hZWUNBcW55YnRLbm9JcGhwMGhfSjU4dGc5Q0dCakdfYXE1dEZnNVJvZ2ZhenloZUYxUmUtN1hUUXduT0NjZUxNOW81RTA2TTAwUzBFdjd4TnR2QlJwVWxsUHF2aGVVamVZODhDQTZGTzNDTzFlek1QdkVhZ0pnX093c0hyeU1oYWwyaWlTV0JlMHpnX3VaVXBEWUNjZ0V2WjFjTU5BQVpOXzRMemxVRTZiSW1IdDZyaGxjVHF6UkZEODN0MkYyaE9yMzFsX1ZYU1pBVlY4SEJSV0RSWkxTSzNRamdUTHhUM2dYUHZqRF9oOGZPNXVnWUo3YkN4NW9kdlJ6NVFsc01aSjRXYW1kRUlPYmw3UlFIQjM2TUZDQnhWeFUybk9WRFAtcXRraXYzMlpwY3RoYzRmUnlCV3JHYktFQdIB3wRBVV95cUxNZUszNDhZOEwwczJ4aFhTbnNjbXk0SnAwR1c3ZGdBSFhzSjlZeGhzTjY4UjVrU1h0OWxiUDJuWTFDX00yTWxfTjA2RzluUUwtZmRNTVZENzJHb25KdGRRaVdqdUFpYmJxM3QtN2xpUk9EUjUybTFxYV8wYUFQdHhvREVnQV9wWmFBTjBYbWRtQ1VlX25ZVFFaSEFLSEpoTWc3MEh4dWdoSTNWYmUzdE1LNDkyRFZhbVAtTUt1R1VRcVE2ZHRkZ05tZU92QnhTVHUxZ1ZnU284VjhNTnJTS2Y4LV93MEE1ZktMMlMyeTl0TFNiZUJsM2dPRktDc1k3Y1hBdUdUamhKZVhWbGNyVXlqR3NlT0FhSVY2MWFSWXY5WVgzLXQzZEdlQ3NBTHZGV185bldlQjBObmNTbGNvYVV3UVdJQjkxRzBJUzNIWlFySVFEZDJTQVhuOHNkMDNzWmVnc09wVy0zcENHR1FDNW1saTM5eGpyeFU0c1g3U2dkNFY0MGF4NlJPbjZ1TXA3UU9nUER1cFNpdGh6OENFYmgta0tXb0t3cGVFdFlTZnlucjNWaXBldmwwOGR1MHpMNGpIMS1rTzZGdW1PbG5aOGlzZWVUNy0xSTdSektsSGZjOVBYMzdtcVhjTEkxRTh4RWFqaVNkSmhPLWxBNU80R2ZnN3gzSUs2M180U3NxQmpJMFdOUDlMUFB0RWNiU1pwWTBteC0xM0lmMmx3OHpKT1VNSUJmeEM2VVBlSV96TEVfZFdsdHkyazNnUjZBX3VzeHY5ZWVrWXkzaHVaOE12OENr?oc=5",
       "source": "يلاكورة",
       "date": "Thu, 20 Aug 2026 19:27:00 GMT",
-      "image": ""
-    },
-    {
-      "category": "football",
-      "title": "اتحاد الكرة يعلن تعديلات جديدة بخصوص التحكيم قبل الموسم الجديد - Masrawy",
-      "description": "اتحاد الكرة يعلن تعديلات جديدة بخصوص التحكيم قبل الموسم الجديد Masrawy",
-      "url": "https://news.google.com/rss/articles/CBMirARBVV95cUxNdmhlTkNSRjkwOUxWUFduaTRYalQzR1JHRmV5cndRS3lOS1RoRTE3OEpkWkpkajJfQS1nVExfOVE3bXVFekRtRF9OaVBwX1pQX3ZQMzVkZ19raTYydG1PU3l4NGd1bDdZSUpNRnFjZE9TTFJuR1RRTkVyd3BnMHlZTEt1VjRrT0JTYUFvVlVZT0l6QTRJWnNuWWVkdGcwSk96Wk9DbGY5VG51X0RZWDQtTU14Ym9UNm13VWtkRjdwMFIzLUI0Sm1QNGtqNFZVXzlLNHpmRmoyZWMySl9FVEtxWDRXeHBOQWxuZ3FWeDVldU8taDFkcFdZV1o3ZjdSM1BLN1A5dV80OEduZGdRdmVaQ0lZY0lKWklGbjk3ei1QSUJ4bk1hMWMtVnBESzdLS0dwemxlUWxERUpoUkR2WHJ5R0JxZHdkSmsxZ3BXbXViZGJuSF9ydEhqZFphQ2U0RktuejB3enloQ1pFOVJTaHFkWTMzUlAyZElVeVIyNHoxSGJpVFB3ZWxETFhZTnZqVURnZW9kRUNtLUkwajFrRlZJSDAtMzB6bzhQMVVJb1E0VDV5QS1FY3FGRWlKVXJaaXBfdVJlZDhkSjY5VVRiOEY0ZDF6MURjSDkwSzZUQUJtdktudklvVTlpRkw3RXJIVWEtb0FUVmdxVENCQkZNbG9mMkJlZmdiX1ppQy1keVB2NVQzSFhZUThPTWhQOHRfei13MHNqN3JnTzdiQkZD0gGyBEFVX3lxTE5rTTZ0NU5UUm5YZnlnemJialhDQUU2bWtKbVJrQzVkaVE2WnNqNnJYaEJqaW8xOEw2cExuc2UzVlk2Z2pvaFVlaW1kSlphdzdibUlWcVh6MFVuTkU0TnNFQWZTbFk1QldvT05aWlN6S25zRDJ2UG5XN2RyYUhpYzZocFoxOVBnN3F6Z29xQzNQSHRhc0d3NzRWQW4wVnpPS3ZkbUoxOWlsZVNHaFdoRHRibFo2b194VEFjWkZDWndfTmEyQ2dLWDN0OFpJcVFEOUwzWS1PQVlVVGhyUm5DbkJBem9jV3hFQXlWOEdHLTRiNzcwVWM4eG8wdk1hUXB0cXhwRDRxSndHcnozTmxIcU5USU9zTnFkX2RJY1dCYWgwc2xkWHlPQk1JbkxxSHVFRmRkUzdTbG1aTlo3dUZxUzRuQXd6QXQtSGYxcFQ3ZTUxOVJlR2JKMHJ5M2xIQXZzUXZ2WHZLU1RvUzRRS2M0TnlzWUZicmo0QWRfU1gzMXB1MjRsUkFmUFpuc25HaVFlelRtZmVnTnNLeUpFRjF4dFJrMklzWURzdnpaRUxpc2FCTklmNThLVWpvTm5SSXlWNXFBQjdRSHJsOUk2NC0wdkVINkFBeWkxczhzZC1DbTlKZ1Fhc3V5TU4tdm9pSUNHeERzZFRPbnJqSDlzOS1Kb0RWdUllMHhtWlJwS0U0cWxVNGo2LTV2ZVRQaE1tbEYxSVFwTkU3czBkRGwwTFl2bGtKdUE?oc=5",
-      "source": "Masrawy",
-      "date": "Thu, 20 Aug 2026 19:18:00 GMT",
       "image": ""
     },
     {
@@ -299,6 +254,15 @@
       "image": ""
     },
     {
+      "category": "bigMatches",
+      "title": "لأول مرة.. صلاح يقود تشكيل طرابزون سبور أمام فرينسفاروش - يلاكورة",
+      "description": "لأول مرة.. صلاح يقود تشكيل طرابزون سبور أمام فرينسفاروش يلاكورة",
+      "url": "https://news.google.com/rss/articles/CBMi2wNBVV95cUxOLUhOb05BQXNHazFuRTM3STVQck1oYjVmVFJTbDNQQU1iSm9vOUl6akxUYkdaYkdsLWNGd3djTlAtd1JpRGNZcmNYNGc5WGZETnZPX2JYbTJqYW1HSHVOS29BRjdYSXB1TW16TFFRZFhMUXR3VHBvNzZzVlhpaERMSV9KWkhhN0JPY2VDdjZHZEFLa0dIVmstR2dkSnd5dGszYnBsc2dvNGFRa29qVGdXQ3ZoOFJGelJvZkRvQVdTNkNPaXh6VFpsanhwLXk1NnFQWVZ6SDNSMVFrZ3BEZkpSWEF4UFhIMTJhNEYwN05KZHoxUXFOZWtFejd3OFVKcUV4d3dfZU4yd0lKYnJnb0JiUDVSTkF6ZmRwZFlOeTJOaWFEU3htbzVzc0x1bldQdnlsTi1kamJMNzFlZXhISnZmbGVlR0ZUdmpwVUxPZ3RPbDFlZWVkdDk1akVOVW5lcEtGMzhYOVNwcHJvWVlmcGk2TTV6SEpwNWwxRXpCd0hqZk9kYkNtR20yZ3RiNUhhQ3lNQ29RYy1IdVRMVFJjRDltcGxpX2trSXlUNGc4UnE5TVhDVHY1N2d6a3FKNGhFaFNGNEhyWnl0UlVvNHEtZlNyOTlpdkRRRkxkNjZj0gHgA0FVX3lxTE9SLVV3aW83WkhyN080clRMNWJFbnBSVTNGa1dnd3RYcFNGUlBIbU5nd1E1Vlo3YXMyWFpWLXVoSmlRYXVLWDlCNGpiM293NTdIRkhUWUFhUi15NFVnU3paNW9xUHNkaUVYb0xXclA3N3Z1UjB6OXNPaml3Skp2TzFOWnFhWGs2T1lfVjRaWTBCM2FVelpkSUwyVG9oMUh6dmlyWTFDTjVfOXpMWHRTa1FTeDBwajl3RURXUGxpczF0bHBmYnNhczhrWEhMczFvYjFnRUVTaU9OSDNxRm9OdERUTVctUWFhaUtUY08zZ3ZlMVJlNnhNNkM5SnVGS0NtQnBjM3pTbWNkaU9nV0pCQnBRX0dxelpTMHdsVGFwWlc5NWVkNVRGY0hsRS1BNDZZbUdNTzJGdkpnUmJxV3BaV3ZPYVdNRW1ZejdsdzM5MGNwS2JyMkctWmlHTlFBSXloekJHTjhNWVRoU3p6MF9pS0lxS3lDSGxfNlRaYWhZR3htcUZndmxYM0cyWkJiN2dhUl9kT3ZHNFBHYTF4bmQ4SUJTZVNEZXNtS3E4T1Z3OHZOVUtSVFhTRG4zaXBuZGhzcEdaVlBjOUUyNGRvYWh4ZWVxaTNXcm4wOVhVcERVZTNzYg?oc=5",
+      "source": "يلاكورة",
+      "date": "Thu, 20 Aug 2026 15:59:00 GMT",
+      "image": ""
+    },
+    {
       "category": "world",
       "title": "رونالدينيو ينضم لـ رافينا الإيطالي بعد 11 عامًا من اعتزاله - اليوم السابع",
       "description": "رونالدينيو ينضم لـ رافينا الإيطالي بعد 11 عامًا من اعتزاله اليوم السابع",
@@ -326,6 +290,15 @@
       "image": ""
     },
     {
+      "category": "football",
+      "title": "ارحل الآن.. اندلاع أكبر ثورة جماهيرية ضد إنفانتينو - Kooora",
+      "description": "ارحل الآن.. اندلاع أكبر ثورة جماهيرية ضد إنفانتينو Kooora",
+      "url": "https://news.google.com/rss/articles/CBMinARBVV95cUxOZWNhazVlSUtyZzNPX3hMZmw1aVBjemRQWk0tbENEQTlwQU83OFlpQkozYkRQbkMzQ0Y1QXZxaUhhQk16MWttNVBINFprRlNGaHpiS05zck5uei05cmhLNUNvMG5WUW1Hb3FFU1ROSG5uVFh3Zk9lME05V0FFcTBtM2ZpampHdUxuYlpDYUtZRHJhSGdQX0JsN3RCSm9ObS1MUXJkYnJyZ2tJZ0I0NzBTMEV6cDRUbDRldWNVdGZ5ZXN4SXJQaEZLd3A1TmRSWGRTaDFMZ3o3TUd2aW1HWW1OMjFiYjhxV01BQTVHNkQ1ZThiZmtEOURQUXhJZWotanNPTnIwTnMtS19pSkJzOTkzQ2huUnZLdDdrdnpUckpsZXFvUk5ycWdQNTZJM19HLXBob2JXNEFKLVJSQU9kWldVcVZTYlF5U1lfdUhOc0pfaTJ5QURubXdxaHRpRVQ3c1BVZVhMQTRfTWJfWXpqSlZkS3YwSjlDYmdJeE9iYUtITW9NOWxQdUNxOTVuLVJWN2Q2YVpiSmttdmM0MS10QnJKUTgyTjdxZTg1bkJMRGR6VnZ2WEtGNC1maTlvM282RmFvRy1sck5LRG1sVnB3UC1DZ183RXNmTEtiLXdKeFlUcXlCWXZmYzB5UGZmQjZqWC05YnZDdzAyMVFnRmZLYXBsYU8wN2t6ZkF0eHVYakdCTUtKbmE3TzlUYVdGV1o?oc=5",
+      "source": "Kooora",
+      "date": "Thu, 20 Aug 2026 15:03:33 GMT",
+      "image": ""
+    },
+    {
       "category": "bigMatches",
       "title": "أمين عمر لمباراة الزمالك والاتحاد.. حكام اليوم الأول في الدوري المصري - يلاكورة",
       "description": "أمين عمر لمباراة الزمالك والاتحاد.. حكام اليوم الأول في الدوري المصري يلاكورة",
@@ -341,15 +314,6 @@
       "url": "https://news.google.com/rss/articles/CBMivANBVV95cUxNNVNEcGoxa2QzUGVzT3E3Q0dUSENyMDZLbEwxWjNySXJMUDQ2Wl9rTW56X19Oa0VYei0tY2hUQmdpM0VBYzFCZTdzQTQzZFFVcS1hakYycWpmMUUzcThEX2diVklxb2tYY3h1NEFDSnAxdUYtTFUwbktzT2pldzJwajJVYzV5MDQ5cmFLR0NhQU5XanVZdGxzUlJMY2UtVUx2N2x3SmRLOEpvYlBiS2taMzAtMFRBZGtQejdXUmoyYnlPLU12SXZ2dUdOakM3TFk0Q0hnM3ZpUWJkd3RJNEJZVUluMWNkbUJHNVp1OEZKSDdzYXhCMGt1c215UW5PMWRKNk9NVGpzbVcxLTU3T1VBNDVkckliMFMxY0FIVElUbHVvRGpiUmxNVVVQbHcxdm52dlRGbHNsSDh1WVlSR3Z3VVZEcXNBajZ4LTZyOV93bVNWTzJpdHdQa0c5b2JVQURyZC1WblF5anJ1eV93bkdjWnUyYTc5NTgtWjctdHFNeEl1NzAzNDhTd2RleFVsbjViQjZ4ZkxzQWtCTFUyQzRrdWdsLVNYeUt6eUN4dkt2T2dtczVDQWZId281LWbSAcIDQVVfeXFMUFByLUdHdTluMHFRX3EtU09jMHl0QlNDY2N6YnhOU3JPMVNydWRuZkpOTFVMaHFoRXJINndzREw0bVl6bWZUQlpPaC16YlFJZnViM0JndnZjVEdtVHRaY3BteE01X3FWMTZkQ1A1eHVfbHlRbndMMDFvWlhsMHd0V1lnMV9DLTNlYXRPU3ZzRkZiQi1oX2t3dEtlYzMwNEdJRUoxQ1lVZzNHNy1JVFVWUm5zeGhacnpHbzBfQjlvU3ZhM04zN1dRZ0Z6MzlZdkg2bkJzWkRsendjRkFXYWk3VmZBODROZm5xV2FQTklaclRaYm9Iem5RNXFhdXpVTEtPU1RXT2VQMV9JSkxuMml5b3lkSUlDV0tDcDdEVUEtRUszUnI5eWhwcmRCMW5oenA3VVUwMnh6VVgwNi1RUzNzWWlodVBSM3hfTTBMU3AxZG42Qy12THpYdGcya01TZC1rU3dTQklQYkdNOXlHQ0liZzFPcE82NlBlWlM2eVhFWUlabXAwVko3bDBrWEFQMTN4NWpDT29YOTQzZVFCTi1GOW9JWHl0WjRsUGJBOHNxVXdLUnVyRzdwOHAzV05WNW1WZWNB?oc=5",
       "source": "filgoal.com",
       "date": "Thu, 20 Aug 2026 13:36:00 GMT",
-      "image": ""
-    },
-    {
-      "category": "bigMatches",
-      "title": "المواعيد والملاعب.. خريطة مباريات الجولة الأولى من الدوري المصري - يلاكورة",
-      "description": "المواعيد والملاعب.. خريطة مباريات الجولة الأولى من الدوري المصري يلاكورة",
-      "url": "https://news.google.com/rss/articles/CBMipgRBVV95cUxQVkZKeHdmZFVmSFAzQXdPd0VYRXplU3N1dWZodVEwWG9vTUFkWEJ6T2NyZmdwREZRQ25yeUhLdW16alJxNC12bEg1SHdBX0JNSUxjVUJXa3hDQ09ZdUdOWEV6MXBtM1BpUXpVMkJlbkhiZENZS2s5d0lBbEkxck1oOXhTNmlYMElsSm1na05sQU1INFlyNm0wNUlwdTIzcURtcFBSZF9BektIMXhFNm5pWXl6NHN1Y3pfbnNmWTVicGRpaDdqd05TNTdJUW0ycUV6NHVQdmlnUmRLWm05ZjFQaEh0Y2pBUm5qZlBHdFJWWllOSGh0QXBtSkJPd1puQ0otUm1tOGkyall2ajUwbWxhUGs5U0YydkF0R1VJbDhsalZtSDB5dUJYeTJ1bW0ySTYwM1VXdHdFVDRRSVZQa0VuVmM5VklHcFIwRF94cG9Qd0x6VXNVT3o4OTVzSkRGYzdkM2wwbDB1YlZNaXhqcnF3LTlrWWwzZm44NUxfRW0xc2F1bC02RGxMS0NlbWZJMjZoVnVZTFF3UEtnVHd2VHpwUVBMamtKbXlQSXVET3pYZm5SRVlTam42bnFFSU12bGdzd29Cc25ZTkx4YjV6VGx5YXFrSkVYbmEyelhKVVpJZXoxMXJta3JyUUpsYVNmSUl2N0lCVDFIR1hCdFVTaENzb1lJTlp5Tmx2UWQtMmFfTHc2ZUFmOHlNUnVhQWlhcFNiZmwydFNR0gGrBEFVX3lxTE83R2NlZTlqMWxzRFVCSW83OUhhSjE5NjdDSTVsMzI3QmJpaTFER2puRGpiV0lKN0hhR2FNVFpNQ3N3SDVLbEp0YTVFVWM0T1pJekNDUkZEOVN6M3ppblRRaDRLRVdYc3RmX244bFlqeG1xczlCOG9jWld5SG9qZjZPZFo4djZoYlFCaXByRHNHNjdhRkc1dnBxMmpVTXczZWlhVmVSWlNIa0NiX1E1T3FjdUwzR3NEd3lJUTM4NFNseFVYX2s2QUduUUV5TVJTQmY0VmVQdnVoY254ak0zWklacDFFTjNFZzhEX1NydXBFR0JBTkpibDlPX1RqcDc2OTN1NkVrR0dDMjFIb0ZON3Q1V3BVU1prbVY2S1YzaWZsMXZhRUEzaHdVNmJTN0NpdXBSNDBqRFJvcTVwTWZ0a2EzZWJmTEY2Q1MtbUd5RWQtZzZmUjhnVXpvYnhKcnpGNkVqaDNIWXBQRkZ5RjBJOHBnQk4xZzFvNHBWblJjT3BKckd3eWtUQlNpZUQzVkw2U1VJdkMzV09MZ3R0QXFZRkRPQ3RNeWRxcHdYYVZEWDhNcUhaUDUtNklYWUxUZzdhbkhHTDlBbVFfYWVDWjVhekxCTnhvNDJEaTNnc0hPZTRobWdwYk9uMDMzZ0ZaSU5MY2xjaUpGVWNZa1NhTkdDNkVsRXNHQ2NFRmJLb1NOVXE2cm1KVTdBTFVpOHM2UnFJNDd5aGFCSjZmZGN6SQ?oc=5",
-      "source": "يلاكورة",
-      "date": "Thu, 20 Aug 2026 13:25:00 GMT",
       "image": ""
     },
     {
@@ -398,6 +362,15 @@
       "image": ""
     },
     {
+      "category": "stars",
+      "title": "نجوم عرب حلّقوا بكرة القدم وحفروا أسماءهم في تاريخ كأس العالم - الشرق الأوسط",
+      "description": "نجوم عرب حلّقوا بكرة القدم وحفروا أسماءهم في تاريخ كأس العالم الشرق الأوسط",
+      "url": "https://news.google.com/rss/articles/CBMinwRBVV95cUxOczgySnpZa1lwNkQ4ZndIZVJxTXFIaHlHN0hia05MT3RXYWN1eFEtNS1NOUg2Smg0STJ0bV9CSnUtOWhmcW5xaENwN2pVbmhUMlBTdkRBZE50bUJJTFhwN1hkUGFtX3RQVnQ1a2czbzJyUlI1Z1ZZb0ZHVjRUZDlkZWtxWkRLbXBicVlUVWtmMWtod3cyaUNXeFBaMHlFMUJ2LThHYUhWVlNVTWVnclg3N2N5UG1NWWd5bm1rRkNXelBkOGxZRTNGTmpHVHdFYlhkaThiWHgxX3BHU3FhVnVrZzBQMVlHeUdJd0NqdENaUEpBVUZmdllZdzZKNFgtR1ZnMDlCRDl5cy1aYzRRSHAxaEVUMlNDVk5GSXIyZGdtUGVHdTlpUnlfME1DdHFPaU5KV0g2TDJPdll2bmtWa01CaUtBeDQ0aVJkdEZTTThEV0xFVmtoQzl6bFZjUVFNZ2FLc215M2xmMWNqdWpKd2ZVUFNiTFBjdjRGdTF4Znp4N3M3OWR5THUxbElDUkhmbWpUX1dtSzNzOVlnZ3JvV0o2QkZVcVRkQWZGemFHd25YU1RUZmNlaTh4eVlROG1vQkJjaXlWemV1dkcwNXZKNU42eDVEQzdPZjZqOVVCb2VFcHMwNEEwbjJOUUM0RE5ucndZVDJkMklKTWY4OVM5VU4tWVlhSWxPaXZNMUlGamVETUpIQXZmRXQyMVFrZlB5TTQ?oc=5",
+      "source": "الشرق الأوسط",
+      "date": "Thu, 20 Aug 2026 09:25:40 GMT",
+      "image": ""
+    },
+    {
       "category": "bigMatches",
       "title": "موعد مباراة طرابزون سبور وفيرينتسفاروشي في الدوري الأوروبي والقناة الناقلة - يلاكورة",
       "description": "موعد مباراة طرابزون سبور وفيرينتسفاروشي في الدوري الأوروبي والقناة الناقلة يلاكورة",
@@ -426,10 +399,10 @@
     },
     {
       "category": "world",
-      "title": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ - dw.com",
-      "description": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ dw.com",
+      "title": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ - DW.com",
+      "description": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ DW.com",
       "url": "https://news.google.com/rss/articles/CBMizANBVV95cUxPWkFMeGE2Yk9zcGpacjQyT3VPNWxGbzlvbV93enVqbDcxRW1ISnVubmRCZFRzQUlrWXlIYUZkcVNFblZmd25TaFR5M3NKbXkwVDN6cTJvNmlLZnFqRzFMYUpVYUtaTDJnVVRWX3NPLUtGYnk2MHFwUTRseFJzTHdadG5mUTRXMmdfejJxLXJBcU8yM1E0Y2ZQU01KSnU3STI4U0g5cnMtRkF6NUFQamVhM0VoMlFUdUxYNW44OUtxcW5kMmo4VlNOM3c2MERlcWp5ZVh4TzlFRXZzRXd3bzFtRzJLdko0RXhHZjR6Q1c5QWdoekRDQndES0xBNlJOMi0wRUNWbk1JSDFXOUZVOU9hMWdYNTY1ODJqTGZ6ZllPSlRVX2ppN2l6SnJ6S3VfaThnYzZJenV3MWpsMmFXRGFDWlhUSEp0d3BuaFYwUGNaSTFWYjFtaWtZV2FROHk1UWZ6MTgwREh0ZWhQU3VPMTExZ1Rzb3F4T0J4X01PcEs2TnR4NnZzbW5YSHJiMVJ0czVvSklON0hCOEZXWEdqN1dxV0NYZENtelc5RUZCaHFUblluREk4WG1ScnJQZ3ZtaVZVTE9oWjdrc1l4OHk50gHMA0FVX3lxTE1mZnppemstUm5LRlJoVDlwaWlSQUp0VHBaQWh1Ukdmck1lbTNMWEhtb2xZdmZvem1KQnd1ZjdyeWJTNXBOdFRvV2czVG8wdGs3NkE0c2F4YmpGZURNbVo2M25yRE44cGx1WnNrVkdZY3ozbHR3V0ZPZmxObUVXSUVzRzBIM0RJNExablF5dXFveDkwS29nUy0zSnV2aGtXM1BTVUZScEZfUFhXeWZON0J4V19LaEJqQ05EWVdVWmFYZ3ZNcmZhZFBTSUZWQl9ySDVST0tRN3RWVUhLZmtrVWVQd0FBWGtyeUVteU9HUDJEODdVcXBQS0ROMjltOHhHSm5wUFV6akgyTWRoX1hGV3hYRThtQkcyQWZNaEpPbmNyd1p5LUE4dGpjazF6SjZJOEZCZVpXMkRwLVY0dXNUa0xFTXNzaW9EX2FWam81V1N2T0tsTnI0OC1jQ18ycTBlMVBNVXFMcGdlQS1aWVRQX1pPN0c0Vzh1OHhFd2UxX2s2bWZ0Y0xzcmdsLVJVVWw2bTRZQnI2UEJHb1MxRTI1dFFsanpPV29sMzBjU25ZU0h2WXJHSlgzVlNiZ2labVRGN183bW9ZZEl4czRWc1U?oc=5",
-      "source": "dw.com",
+      "source": "DW.com",
       "date": "Thu, 06 Aug 2026 07:00:00 GMT",
       "image": ""
     },
@@ -449,6 +422,15 @@
       "url": "https://news.google.com/rss/articles/CBMisgJBVV95cUxPOXIwUVk2UUdYVGhsU3l0cXFLaDJVYTVVMUVwRlJnaHh1c3lad0NRM0kybmFPRzNFeWdoQWpRX1UxdjBSNWZuc2FqbnpRSWlFd214NEdrdnNUMFhWQnVMRk1aVzlWZkx1QmlDb20zWWQzX1FYeVhmd3V2aGUtNUJjbWEyaVlORDBxa1FoWVA0YXg5M2hVQjl6SkZMRlRpOTNEUFE1RG1tei04Nl9CSHh2MFVvYWw1THZERzJ6dnJ2S2dPNzRjUDM0b3RiWDd2bEJGOEozeV9icm1ZY1ZpbXFoY1NzdThhbWxiRmJaNE9oczQ0cG12TGpSM0lac25zR21kMm91Mmo5cjZXMUV3RmRER0FmcVJvaF9CMUJ6U3BBRVgxS0hFVS01NHowNGdsSnBqcFHSAbcCQVVfeXFMUDQ0MnFRRjltMk8xTjUtcl9halRTTTIxYWVhbEZJd0VIbTdfSktjd1JTamdyMk1MRndoeXlUWnBKV2FqYkFwWTFIZ1J0YlZoczRwQXR2SVRKbG5uc2xzOWMzR25ndXBTZF90NFlWR0oyUExSdEEyMDQ3M3NyNVJVM3ZGZndST0pCblVma0V3Q0NUXzdiYnVJYlRmQ0xKb0laOFUyanZvbjV0ZEJHaGs5eDhsVjNPVmtBbW9iczZuQXlFY2dZRDVVUlByVU51bzRVREhaTGtBcjRqR0NmdXJVVllPQXRkaUFjWFpVdXJYbG5saVBuSmhRZ0U1UkV0TzllVzBZbUZMZkllRExsLW1BSXQzODh6dTFua2lPZld6VUJGcTBLYkZQMmNSSm5NcHozRnczb3QwZkk?oc=5",
       "source": "الجزيرة نت",
       "date": "Sun, 09 Aug 2026 07:00:00 GMT",
+      "image": ""
+    },
+    {
+      "category": "stars",
+      "title": "نجوم أوروبا والدوري السعودي.. قائمة الأعلى أجراً في كرة القدم خلال 2026 - Masrawy",
+      "description": "نجوم أوروبا والدوري السعودي.. قائمة الأعلى أجراً في كرة القدم خلال 2026 Masrawy",
+      "url": "https://news.google.com/rss/articles/CBMixgRBVV95cUxQVFBfY0oxclUyNEpiWGxWNG50RmRSemF5UHNlelhuR1dOendDczZRbFc4UDVyX21LcEFObnR6Wmd1N3dxTXBKaEVCVS1sVU9nWFRaaEFpdEp1Q0JONnlXVVhVa0kwSUxoMmNDV3cwc002MldSaEdXOFVlWDFnYk44LWtGT25SQ2Z6UXZURFJZY1FTTUtOeUY4M01XV0NkS3RiT3NtUGFDY1FfejNGb1JmMW5MXzJmUFktMFp0VGtKSXNwV1E2b0IzTEotNWg2OEpJUVljcFpONmVyS1NmSG1JQzhmQTVoVEZnYU00MVZWMVFtVk1mQnk3M2NVd0hOWURyclBOQzBsdElkSGVRWnF1X3FhTVpTZjJXY2tNdElYbXJyUGNod1RURDR0cXozV2VVeUpRNGx5ejk2NG1ucEdXV01xWWRkQS0tSkJrZ0UxOTJuamV6V0dZcWM2MXhXNlZVNS12VDhHRzZZTGgwcXRqdDVIQTFHaWlEcENPMGtMYXhEeHJkZ1RWMFZmc0FSQmNlZFpmSHVGNzFIT3czU09JRm9ScEx5SDBYXzlkcEo0aWl0MG5Od3JBR2ZvRGl5SDI5TjUtRHBURFZQam55OFA4TzFGdTdETDVMeksyUnVkODI4Qkd4WEFwRmp4NEpiRE1MZUVTRGt5c0JDQ0pMQTM3QWFRdUR1SFEzMmZkZ1RkSGpiZGN2T1lLMjdNRlQ3RDJwd2Mwa0tlNkZEeVY3bVprOEh4OGs1anBlQlhRdXdKSEF1TGtPQUHSAcsEQVVfeXFMTUdneVh3UE9XdWlOa19oQzUzMTR1NU03NkJ4YjViZGoweFluZWFtRW9aV1FlZnFxTzh5MERxX1Itbk9jdndMbXdlWUN0amp3bEdEXzRGalhMeDhNek52M3YtamVKUEVpVmJid1BuWTlvVExFQTdXYnlFT3NuM0VXcF9HakIzd1FST1pwZUN3T0J3VDdYNy1PVXJIRWdodkZ1cU9mcWoyN2lDb3g4azdxUzA5dzNjaHhhWFI2N0J2V2cyWElUbFpkbkcxcTZ6MGxhNXVzblZnVWpSbnhPY3RDa1ZfQXBjbXVndExNbHp5Z2cxQnR4MGV4dmk1OGlVMDI1bFpoLXZnYU5lWmxveUp0WUxjSklvaWs5VnJJSlRFZFoxcl9Na2dDR3VucEZDcWdzbjlMb19YU2otb0VtQkZpekZVTllLT1ZvQjl4UlhHVkdPRzlIenZqTzdKMFZjM2NvR0M3elNpVXVVb1FxUlluajdGamoyNi14dVJ4TzVkQXBlTmZzTjNrem1vOU5iQldDSUZQaUtXOVVFS1NINnpPRWdDNmhRd1l5T1JnUlZtV2lUeDBVNnVnQ1VmV3lFZng5eGh1N251S3BxNXZ0QVBfT2R4a00yRDd5dEFhOXV1TkFuX2xYZmJuTlJ3eUVhc1kzMWYzNXVMLXRubjJNeVNHeHd6X0dmZ1EweWRuUDRqN01WMkowdFFxY1FWcjZ3TlhJV2dIUXU5c3BTdVctdnBZbFNnTl9CaGd5dzN1ME5tMHRpbzMxNHRPVW9tcUk?oc=5",
+      "source": "Masrawy",
+      "date": "Sat, 08 Aug 2026 07:00:00 GMT",
       "image": ""
     },
     {
@@ -506,12 +488,39 @@
       "image": ""
     },
     {
+      "category": "world",
+      "title": "ريال مدريد.. العلامة التجارية الأعلى قيمة في كرة القدم عالميا للعام الثالث على التوالي - الأول",
+      "description": "ريال مدريد.. العلامة التجارية الأعلى قيمة في كرة القدم عالميا للعام الثالث على التوالي الأول",
+      "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE01VmVhWkM5MXV4Rk9QUjNkTUFYbVItMG9YaGZlRmZfTmpRMFpXNE9QcUQxOUZIQ1hNMm5BYTE5cW9XY3VDU3F6dVlJU1ozTFdGTlE5Y0U5aGQtRmV1VDE3R3YxOEMxRnVKOTV4dnhUVW81b01xWmxz?oc=5",
+      "source": "الأول",
+      "date": "Fri, 21 Aug 2026 09:14:39 GMT",
+      "image": ""
+    },
+    {
+      "category": "world",
+      "title": "يُجري الاتحاد الدولي لكرة القدم (فيفا) تحقيقاً في الإجراءات التأديبية ضد المدرب حسام حسن واثنين من أعضاء المنتخب المصري في كأس العالم. - Vietnam.vn",
+      "description": "يُجري الاتحاد الدولي لكرة القدم (فيفا) تحقيقاً في الإجراءات التأديبية ضد المدرب حسام حسن واثنين من أعضاء المنتخب المصري في كأس العالم. Vietnam.vn",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPdEFBMnhZY1BYejNWLUMtc1duYTl0QkhYcU1Oamowb3ZJMjJiTVJVZVZTNC1laFBhV0wwRU5zWHlqUm1YemF1VF9QZnp0emJ3UWNmbkpncHBkZUdLNFlad3RqTnk0QkFvSW5GbkVZSDNlYTJ0aHd6TVF1dTAycXVUU1h5X2lrVzY4NzdnRUU4UWNxMXlGR3VxVW5XT2haQUhKVlgtLWE4cjE3cmJ2M0VlTXBR?oc=5",
+      "source": "Vietnam.vn",
+      "date": "Fri, 21 Aug 2026 08:36:25 GMT",
+      "image": ""
+    },
+    {
       "category": "stars",
       "title": "مواهب الكرة العراقية بين سندان المحترفين ومطرقة المخضرمين - صحيفة الخليج",
       "description": "مواهب الكرة العراقية بين سندان المحترفين ومطرقة المخضرمين صحيفة الخليج",
       "url": "https://news.google.com/rss/articles/CBMi4gRBVV95cUxPbkp5czRXTFRYbXVRVTNUTEhTZU4wOHhhcE5NUi1vSmpwUWJ0MFFMVjZ6Zm0zM29VakhZM0hHUlZET2NqX1M5anRXRTRpOFdwREx3WGR1a194ZzJfQ2RBOVhJTmkweVZOOHNfVk1nTlBnclZwQVBWeUd4dEpIbko1RmJLRHh3OWNPSlBuckpZMDFLbnhwa2E1bEdBSlEtSmkyTGM0bzhJZnoxYWM0X0lJd0kyZG81d05DalI2dEpQb1FsSjhUNGtMbEVqZWotWEdRd0dxRmwya2RyaklJNWpwSWE2NjlwYjltMC0tbjNpR3hLcFgyc3YxdVFGUHRTam1DenZ2QVVZYnJVelREbVpOQjBSZ0hnZlY4QTdrcDlkQU5GWXpaZ1lrOFdySEd2MDRLZXRIQjZvSXdqMXF6cHpQS2szdE44eG1ud0lrYV95Y2wxd3RVLXhjQ0REd21VTk5BSGRzU0tJam00bzZkYUxqSTdqamtmZTVpNk82Z3ZWb1JFVEc4akYyZ3ZtWlJodURSX0dqalJiekhCMmhFMUZYWG5kWEhNSmZydlBibk5saEpLTERhTnVoS3VBR2t6ZTA2a2V5NGxhSkZFa0dBT3p3R3JkWlZGWDVrUFlsZ0Y2Z0FSNFJoU3B1ZUpUWURKYWNrOGI2UWl6UHZQTHpsUW1sWndBTDdDWG0wVlU2S2hQMnRLSGNlejlfSUgxTDNYMFEzd1N0am5RQ2hSWEpxSzhGTDM2QlluNGlEZ19TbWppaERQZEZnc05oYUJRZHREX2g4cll2WDgtVlE4V1p3YlFOU1p3?oc=5",
       "source": "صحيفة الخليج",
       "date": "Fri, 21 Aug 2026 07:16:39 GMT",
+      "image": ""
+    },
+    {
+      "category": "bigMatches",
+      "title": "جدول مباريات كرة القدم اليوم، 21 أغسطس: افتتاح موسم الدوري الإنجليزي الممتاز 2026/27. - Vietnam.vn",
+      "description": "جدول مباريات كرة القدم اليوم، 21 أغسطس: افتتاح موسم الدوري الإنجليزي الممتاز 2026/27. Vietnam.vn",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOYTZ2VUxjVU1FcGdWZ0Z5Wl9EeEZhSmIxN3BUQURZRjhDUzl6UGsySHBFX3h5N2ZKV0NmbUttVDVJdXlraDFwVHBSSHB5MnBWUUNaZnJaLXhnYmtfVFFfVWpsUTBCSHRlUW9neVdPVUM0RnBEaWdFYnVmQUg1RURoQ052OTNXY0FjeEk0WGZtU09sUk0xdmc?oc=5",
+      "source": "Vietnam.vn",
+      "date": "Fri, 21 Aug 2026 04:56:35 GMT",
       "image": ""
     }
   ]
