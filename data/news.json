@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-08-22T03:11:03.623519+00:00",
+  "updatedAt": "2026-08-22T05:02:42.702089+00:00",
   "news": [
     {
       "category": "stars",
@@ -143,6 +143,15 @@
       "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9LNVZCSE02UVd5d01RNlIwd1FzZXgyN2lwZDc4WVV1dk5rOTJNN2tZdlB2ZGNPbFFlWEgwRjdCdmRKVnA5eERJLXJ6b3JheTNuYmNPZm1pNXByQTl4elY3Tm5kWQ?oc=5",
       "source": "BBC",
       "date": "Tue, 04 Aug 2026 07:00:00 GMT",
+      "image": ""
+    },
+    {
+      "category": "world",
+      "title": "بين الفيفا ويويفا.. كيف تُدار كرة القدم العالمية وأين يكمن توازن القوى؟ - الجزيرة نت",
+      "description": "بين الفيفا ويويفا.. كيف تُدار كرة القدم العالمية وأين يكمن توازن القوى؟ الجزيرة نت",
+      "url": "https://news.google.com/rss/articles/CBMiywJBVV95cUxNeDA5ZEtwVThJQ0s0VHRBUndmOEh2ZnZqN3JtWGxaYk5sTEJGYXpablVvNjJsOGFxWm1SeXlINmdyTjZpWUtzS2FtelA2bVhvU3lEbFU1SEUxaU5hZ3BRQUQyWktLa3h6RDRwT0QwWVdpdHluUGhQU2dwT2hVZ1VkdjNONXUtQndSVENROTMzaEZrcDNOTFg5c2lDbGRWWlZRLU82RDl6MElfck1iZFlYQmN6cVNhbnlZUmtNMTRncnFqUXh6WnVSZXFucFR0dm1pX1NtMmh4VTJKYUl0aW81bEJVb2N0cEl6d09kNWJuU1VxMFRJT0Y1SkMyNXR5ZHFHb3YxRTFNN0VsbExWTnhsVl8tNlJ2Wl9QckMtUkllSmQ3MHFnMjlsaXlFNV83eEp2c05FUHFtalREVTFKSVFRSFdpZzlxWWhWZ0400gHQAkFVX3lxTE5PSTZwOGI3OTF1cGdKZlZabVNOQy1MOVA1bFpfNkttcUd4SlQycGhlaTRESDhmanpzWWpmNzBmXzJNSEI0YU1qMnFlbnIzMHU2endHWFU4aEozLWE3X040ZmxqdGxqdzRiZV9yS2FZRXZCS1V2NXk5VW9qel81MGh4bE9NbHRiajNubEJlbUhMejBtZndVYmNvQzRaUnlIbHdHWkRRd2U2VEhna1RiTVRvNjJibmJFMEZoY3VaUTdWcUNrdllpRkphaHY4SGVDcFpmS2pSZ0x4WFk5VEFGR3Y1RTJQZFpseFc0RkxQVW1tckpLR1hQN2RUdHpYMmRGUFEtdWluRjFTOFJzakg5YmNaa2pkS1R6RFZoZGdZNnJJVkcxLTA0VkVQXzUxWmQ3dUlRTGh2WEdTLVNVRUg5R1pjYlYyXzV5T05vUmFGNkJzeQ?oc=5",
+      "source": "الجزيرة نت",
+      "date": "Thu, 30 Jul 2026 07:00:00 GMT",
       "image": ""
     },
     {
@@ -291,10 +300,10 @@
     },
     {
       "category": "world",
-      "title": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ - dw.com",
-      "description": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ dw.com",
+      "title": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ - DW.com",
+      "description": "حرب مفتوحة في كرة القدم العالمية بعد دعم فيفا لإنفانتينو؟ DW.com",
       "url": "https://news.google.com/rss/articles/CBMizANBVV95cUxPWkFMeGE2Yk9zcGpacjQyT3VPNWxGbzlvbV93enVqbDcxRW1ISnVubmRCZFRzQUlrWXlIYUZkcVNFblZmd25TaFR5M3NKbXkwVDN6cTJvNmlLZnFqRzFMYUpVYUtaTDJnVVRWX3NPLUtGYnk2MHFwUTRseFJzTHdadG5mUTRXMmdfejJxLXJBcU8yM1E0Y2ZQU01KSnU3STI4U0g5cnMtRkF6NUFQamVhM0VoMlFUdUxYNW44OUtxcW5kMmo4VlNOM3c2MERlcWp5ZVh4TzlFRXZzRXd3bzFtRzJLdko0RXhHZjR6Q1c5QWdoekRDQndES0xBNlJOMi0wRUNWbk1JSDFXOUZVOU9hMWdYNTY1ODJqTGZ6ZllPSlRVX2ppN2l6SnJ6S3VfaThnYzZJenV3MWpsMmFXRGFDWlhUSEp0d3BuaFYwUGNaSTFWYjFtaWtZV2FROHk1UWZ6MTgwREh0ZWhQU3VPMTExZ1Rzb3F4T0J4X01PcEs2TnR4NnZzbW5YSHJiMVJ0czVvSklON0hCOEZXWEdqN1dxV0NYZENtelc5RUZCaHFUblluREk4WG1ScnJQZ3ZtaVZVTE9oWjdrc1l4OHk50gHMA0FVX3lxTE1mZnppemstUm5LRlJoVDlwaWlSQUp0VHBaQWh1Ukdmck1lbTNMWEhtb2xZdmZvem1KQnd1ZjdyeWJTNXBOdFRvV2czVG8wdGs3NkE0c2F4YmpGZURNbVo2M25yRE44cGx1WnNrVkdZY3ozbHR3V0ZPZmxObUVXSUVzRzBIM0RJNExablF5dXFveDkwS29nUy0zSnV2aGtXM1BTVUZScEZfUFhXeWZON0J4V19LaEJqQ05EWVdVWmFYZ3ZNcmZhZFBTSUZWQl9ySDVST0tRN3RWVUhLZmtrVWVQd0FBWGtyeUVteU9HUDJEODdVcXBQS0ROMjltOHhHSm5wUFV6akgyTWRoX1hGV3hYRThtQkcyQWZNaEpPbmNyd1p5LUE4dGpjazF6SjZJOEZCZVpXMkRwLVY0dXNUa0xFTXNzaW9EX2FWam81V1N2T0tsTnI0OC1jQ18ycTBlMVBNVXFMcGdlQS1aWVRQX1pPN0c0Vzh1OHhFd2UxX2s2bWZ0Y0xzcmdsLVJVVWw2bTRZQnI2UEJHb1MxRTI1dFFsanpPV29sMzBjU25ZU0h2WXJHSlgzVlNiZ2labVRGN183bW9ZZEl4czRWc1U?oc=5",
-      "source": "dw.com",
+      "source": "DW.com",
       "date": "Thu, 06 Aug 2026 07:00:00 GMT",
       "image": ""
     },
@@ -332,6 +341,15 @@
       "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE4tMklTUlY1b0dwSXY1U3hXSmpuaFk1RzYtSmU1T0NhQzZNNmY1Sk4yYWJlMTBaRkgwYjVTZUQ4cnJnclRlWDJlUVcwdTVfTVBTeW9UemRBaHhCRFRzWkpZ?oc=5",
       "source": "المصري اليوم",
       "date": "Sat, 04 Apr 2026 07:00:00 GMT",
+      "image": ""
+    },
+    {
+      "category": "stars",
+      "title": "بعد إعفاء ميسي منها.. ما مباراة كل النجوم في الدوري الأمريكي لكرة القدم؟ - الوطن",
+      "description": "بعد إعفاء ميسي منها.. ما مباراة كل النجوم في الدوري الأمريكي لكرة القدم؟ الوطن",
+      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5WQldUSXc4OGR1dHJNbDh4dkZGdW1xcWc3c2FiREROeWpNQXBxXzlJUnNvT1hqOEgyZlVKU0w3Si1UOWxOQmtxd1dEbFZFZ2xXNUxzblNCVWJlZUhS?oc=5",
+      "source": "الوطن",
+      "date": "Mon, 27 Jul 2026 07:00:00 GMT",
       "image": ""
     },
     {
@@ -512,15 +530,6 @@
       "url": "https://news.google.com/rss/articles/CBMi4ARBVV95cUxOLUtuOW1IUGZoMy1sWVZoVzd0UHpxSmNTMVFiR2EwcmFDWjl5R2JYclNYUFdfVkdKRTRrMEhuUlNlS0w2Njh2U2gyb21ZXzV0NmFFSDhQQ3NGLXdFV05EeWhKV0tNNC1qYVFUdXFXdkFiZzdqblhqbVozS1hlRFhsX1NRenN5SXhFOHV4SUs2UHlzeWhKY25nd1IyX1ZSVDJYemotU004OWtMeERuWEpzalFFRm43YWRuRVBqbWxqTTBjdWppdHdGcGNXMTF3VVpCbXlLaTNNQzV3R2pIdjdfbjBHU2hZemZ1VU5YQXg0Z0VpMkU5SWpub21sQ25tNTRRUC0ySVROUGtFbkRsR1FBX1UxN0Fnc2l3dnRWZmZIT0pXLS1PNHdmb1oxaFhHYkoyQTdDOGdhREoyQU5NWXBWZFcyRlF2SDRRUC1UaFVKZV9rSUpGRFVmTl9LVlhDTGlsclJLLUtBNzdLRXdQRG9nMDdBekIwMnZ5M2RGQlA2d1oyM3FFYkNDRVhOcTU2aENZSFJlNmFnZ0MyUkx5dWRWeDhDVE9UOHVnb1V6T2FRSzd2dGN6NFc4VWV4SVc1R21rSzgyNldiVDRmV21GblBKak1LQWRrTG50NE1MZW5CX0RhX3lxTUw0dzFXUlFETzZkWGwzeVlOX1BWakdIaGZKcFJyZWJ2T1F1Q2gxem14bXZndC10TnhHV29GV0ttamR0a0pRVWN2cDZQVElFcGh0U3JMdVZPbURURDE4Z2R2T0lqZ1gyM1kxcXE0eW1BSy1jRHlaUG1mN2RXQldSUWhDbtIB5gRBVV95cUxOVVRnb0dTa1l4M2QzS1V4Yk5SaFJ0RUJ5eUozSVZrWTMyMjFiZmgxb1pwZnJjZWc5SnJSU3R3emVuVDNQX1p3eDV6UmNHZVpXdDRvR1BuQmJOLWhEM2Z5TkF2U1hucHpVVndRMmQ5dHBZR050cDdDSUMzdEZfMTlmMFpWUHNIY2VTbWthdzExV3RUWlMzS3JyVjkybmI4Vk45VVk3dGNMdlB6V2NZQjM2TDdqWVIyVy01TUJ3S0pxSGxCNTFMT3hpcC1teGFxbFlheS1MUE1WNTBsdnd1N0VvQ29YQWluTXJQTVc5enh1MFo2M09CdWxocXFST1R1eTB0dVZqVTdmT3hnX2JPdzhpZTl3Xy15bU0wTUNsNnlaQllGVE5nVFV5ZDd3WHBMVjRSX2o4ajdSUzAxbDgtRDdSMnk2MnZzV2UwWlZVUEtZNWxaOTZ2dEdzcjJ4a0VLSzRfTlNydmN0dUhQS3VpWnlJa3o5X0hYSHBGYzFGUGU5MzJJYWp0M1puckpqZzN4SVdSTWxOUldSX0JlbmV4X1pYYnR2TnNnd3JmODh1VDJZODNkUWlYcGxtQlVrWXFqTFZQN1FKN3hwaUV5WTlwbWs0Q3hmZ2l3RDFleWFhWmlKRlAyZUdlVkZ4dVNzOWZlVE5ja0V2ZV9vdDdnSUhHWGp0MjNSYmExTUw5Y2JETUZfc2lKS0F4cjhBSEZ4MVA3cllYTUpwanRMRUtmbGFlaEQyVUlVZkVjVy02bkVsbDA1dzNnTnI3NGVkMTlTVi1xZzNlVFIwUXdjdm5xeUZ5bE1Ta0JYTlkxdw?oc=5",
       "source": "يلاكورة",
       "date": "Fri, 21 Aug 2026 09:16:00 GMT",
-      "image": ""
-    },
-    {
-      "category": "world",
-      "title": "يُجري الاتحاد الدولي لكرة القدم (فيفا) تحقيقاً في الإجراءات التأديبية ضد المدرب حسام حسن واثنين من أعضاء المنتخب المصري في كأس العالم. - Vietnam.vn",
-      "description": "يُجري الاتحاد الدولي لكرة القدم (فيفا) تحقيقاً في الإجراءات التأديبية ضد المدرب حسام حسن واثنين من أعضاء المنتخب المصري في كأس العالم. Vietnam.vn",
-      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPdEFBMnhZY1BYejNWLUMtc1duYTl0QkhYcU1Oamowb3ZJMjJiTVJVZVZTNC1laFBhV0wwRU5zWHlqUm1YemF1VF9QZnp0emJ3UWNmbkpncHBkZUdLNFlad3RqTnk0QkFvSW5GbkVZSDNlYTJ0aHd6TVF1dTAycXVUU1h5X2lrVzY4NzdnRUU4UWNxMXlGR3VxVW5XT2haQUhKVlgtLWE4cjE3cmJ2M0VlTXBR?oc=5",
-      "source": "Vietnam.vn",
-      "date": "Fri, 21 Aug 2026 08:36:25 GMT",
       "image": ""
     },
     {
