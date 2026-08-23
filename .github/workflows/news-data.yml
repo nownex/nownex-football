@@ -2,9 +2,7 @@ name: Update NOWNEX FOOTBALL News
 
 on:
   workflow_dispatch:
-
   schedule:
-    # تحديث كل 3 ساعات
     - cron: "7 */3 * * *"
 
 permissions:
@@ -18,723 +16,429 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fetch NOWNEX FOOTBALL News
+      - name: Install parser
+        run: pip install requests beautifulsoup4 lxml
+
+      - name: Build NOWNEX FOOTBALL News
         shell: python
+        env:
+          PYTHONIOENCODING: utf-8
         run: |
           import json
-          import urllib.request
-          import urllib.parse
-          import xml.etree.ElementTree as ET
-          from datetime import datetime, timezone
-          from html import unescape
-          import html as html_lib
           import re
           import time
+          import hashlib
+          from datetime import datetime, timezone
+          from urllib.parse import quote, urljoin, urlparse
+
+          import requests
+          from bs4 import BeautifulSoup
 
           NEWS_FILE = "data/news.json"
           MAX_PER_CATEGORY = 10
           MAX_TOTAL = 50
 
-          USER_AGENT = (
-              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-              "AppleWebKit/537.36 (KHTML, like Gecko) "
-              "Chrome/131.0 Safari/537.36"
-          )
+          HEADERS = {
+              "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/136 Safari/537.36 NOWNEXBot/2.0",
+              "Accept-Language": "ar,en;q=0.8",
+          }
 
-          feeds = [
-              {
-                  "category": "matches",
-                  "name": "أقوى المواجهات",
-                  "queries": [
-                      "مباريات كرة القدم اليوم",
-                      "أقوى مباريات كرة القدم",
-                      "المواجهات الكبرى كرة القدم",
-                      "معاينة مباريات كرة القدم"
-                  ]
-              },
-              {
-                  "category": "transfers",
-                  "name": "أخبار الانتقالات",
-                  "queries": [
-                      "انتقالات كرة القدم",
-                      "سوق الانتقالات كرة القدم",
-                      "صفقات كرة القدم",
-                      "أخبار انتقالات اللاعبين"
-                  ]
-              },
-              {
-                  "category": "stars",
-                  "name": "أخبار النجوم",
-                  "queries": [
-                      "نجوم كرة القدم",
-                      "أخبار لاعبي كرة القدم",
-                      "إصابات لاعبي كرة القدم",
-                      "تصريحات نجوم كرة القدم"
-                  ]
-              },
-              {
-                  "category": "national",
-                  "name": "المنتخبات",
-                  "queries": [
-                      "أخبار المنتخبات الوطنية",
-                      "منتخبات كرة القدم",
-                      "كأس العالم كرة القدم",
-                      "كأس أمم إفريقيا",
-                      "تصفيات كأس العالم"
-                  ]
-              },
-              {
-                  "category": "history",
-                  "name": "تاريخ في الكرة",
-                  "queries": [
-                      "أساطير كرة القدم",
-                      "تاريخ كرة القدم",
-                      "اللحظات التاريخية كرة القدم",
-                      "نهائيات تاريخية كرة القدم",
-                      "لاعبون معتزلون كرة القدم"
-                  ]
-              }
+          # ------------------------------------------------------------
+          # IMPORTANT: We no longer depend on one search query per section.
+          # We collect a large football pool, then classify each article.
+          # This prevents empty sections caused by poor Google query matches.
+          # ------------------------------------------------------------
+
+          CATEGORY_RULES = {
+              "matches": [
+                  "مباراة", "مباريات", "مواجهة", "تشكيلة", "تشكيل", "نتيجة",
+                  "هدف", "أهداف", "دوري", "كأس", "قرعة", "الجولة", "لقاء",
+                  "match", "fixture", "lineup", "result"
+              ],
+              "transfers": [
+                  "انتقال", "انتقالات", "صفقة", "صفقات", "ينضم", "يضم", "تعاقد",
+                  "عرض", "مفاوضات", "ميركاتو", "رحيل", "إعارة", "عقد", "transfer",
+                  "sign", "deal", "loan"
+              ],
+              "stars": [
+                  "رونالدو", "ميسي", "مبابي", "صلاح", "بنزيما", "هالاند", "يامال",
+                  "فينيسيوس", "بيلينغهام", "نيمار", "محرز", "بلايلي", "لاعب", "نجم",
+                  "إصابة", "إصابات", "تصريح", "مدرب", "coach", "player", "injury"
+              ],
+              "national": [
+                  "منتخب", "المنتخبات", "كأس العالم", "تصفيات", "فيفا", "كاف",
+                  "أمم إفريقيا", "أمم اسيا", "أوروبا", "وطني", "national", "fifa"
+              ],
+              "history": [
+                  "تاريخ", "أسطورة", "أساطير", "ذكرى", "في مثل هذا اليوم", "نهائي تاريخي",
+                  "لحظة تاريخية", "مسيرة", "معتزل", "legend", "history", "on this day"
+              ]
+          }
+
+          # Targeted fallback queries ensure every section has a real source pool.
+          QUERIES = [
+              "كرة القدم أخبار مباريات انتقالات لاعبين منتخبات",
+              "كرة القدم اليوم مباريات نتائج أهداف",
+              "سوق انتقالات كرة القدم صفقات أندية لاعبين",
+              "أخبار نجوم كرة القدم إصابات تصريحات",
+              "المنتخبات كأس العالم تصفيات كرة القدم",
+              "تاريخ كرة القدم أساطير في مثل هذا اليوم",
+              "محمد صلاح مبابي رونالدو هالاند يامال كرة القدم",
+              "الدوري الإنجليزي الإسباني الإيطالي السعودي كرة القدم",
+              "دوري أبطال أوروبا كرة القدم",
+              "كرة القدم الجزائر المنتخب الجزائري محرز بلايلي",
           ]
 
-          def clean_text(value):
+          SECTION_QUERIES = {
+              "matches": [
+                  "مباريات كرة القدم اليوم نتائج أهداف تشكيلة",
+                  "مواجهات كرة القدم اليوم الدوري أبطال أوروبا",
+                  "مواعيد مباريات كرة القدم نتائج"
+              ],
+              "transfers": [
+                  "انتقالات كرة القدم صفقات ميركاتو",
+                  "سوق انتقالات اللاعبين أندية كرة القدم",
+                  "مفاوضات انتقال تعاقد لاعب كرة القدم"
+              ],
+              "stars": [
+                  "أخبار نجوم كرة القدم صلاح مبابي رونالدو هالاند يامال",
+                  "إصابات وتصريحات لاعبي كرة القدم",
+                  "أخبار لاعبي كرة القدم"
+              ],
+              "national": [
+                  "أخبار المنتخبات كرة القدم كأس العالم تصفيات",
+                  "المنتخب الجزائري كرة القدم",
+                  "كأس أمم إفريقيا منتخبات كرة القدم"
+              ],
+              "history": [
+                  "أساطير كرة القدم تاريخ كرة القدم",
+                  "في مثل هذا اليوم كرة القدم",
+                  "لحظات تاريخية نهائيات كرة القدم"
+              ]
+          }
+
+          SESSION = requests.Session()
+          SESSION.headers.update(HEADERS)
+
+          def clean(value):
               if not value:
                   return ""
+              soup = BeautifulSoup(str(value), "html.parser")
+              text = soup.get_text(" ", strip=True)
+              text = re.sub(r"\s+", " ", text).strip()
+              return text
 
-              value = unescape(str(value))
-              value = html_lib.unescape(value)
+          def canonical_key(title):
+              text = clean(title).lower()
+              text = re.sub(r"[-|–—].*(google news)$", "", text, flags=re.I)
+              text = re.sub(r"[^\w\u0600-\u06ff ]+", " ", text)
+              return re.sub(r"\s+", " ", text).strip()
 
-              value = re.sub(
-                  r"<script\b[^>]*>.*?</script>",
-                  " ",
-                  value,
-                  flags=re.I | re.S
-              )
-              value = re.sub(
-                  r"<style\b[^>]*>.*?</style>",
-                  " ",
-                  value,
-                  flags=re.I | re.S
-              )
-              value = re.sub(r"<[^>]+>", " ", value)
-              value = re.sub(r"\s+", " ", value)
-              return value.strip()
-
-          def get_text(item, tag):
-              element = item.find(tag)
-              if element is None:
-                  return ""
-              return element.text or ""
-
-          def normalize_url(url, base=""):
-              if not url:
-                  return ""
-              url = unescape(url).strip()
-
-              if url.startswith("//"):
-                  return "https:" + url
-
-              if base:
-                  return urllib.parse.urljoin(base, url)
-
-              return url
-
-          def http_get(url, timeout=15, max_bytes=1800000):
-              if not url:
-                  return "", url, ""
-
+          def fetch(url, timeout=18):
               try:
-                  req = urllib.request.Request(
-                      url,
-                      headers={
-                          "User-Agent": USER_AGENT,
-                          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                          "Accept-Language": "ar,en-US;q=0.9,en;q=0.8",
-                      }
-                  )
+                  r = SESSION.get(url, timeout=timeout, allow_redirects=True)
+                  if r.ok:
+                      return r.text, r.url, r.headers.get("content-type", "")
+              except Exception as e:
+                  print("FETCH ERROR", url[:100], str(e)[:160])
+              return "", url, ""
 
-                  with urllib.request.urlopen(req, timeout=timeout) as response:
-                      final_url = response.geturl() or url
-                      content_type = (
-                          response.headers.get("content-type", "")
-                          .lower()
-                      )
-                      data = response.read(max_bytes)
+          def google_news(query):
+              url = (
+                  "https://news.google.com/rss/search?q=" + quote(query)
+                  + "&hl=ar&gl=DZ&ceid=DZ:ar"
+              )
+              xml, _, _ = fetch(url, 25)
+              if not xml:
+                  return []
+              soup = BeautifulSoup(xml, "xml")
+              out = []
+              for item in soup.find_all("item"):
+                  title = clean(item.title.get_text()) if item.title else ""
+                  link = item.link.get_text(strip=True) if item.link else ""
+                  desc = clean(item.description.get_text()) if item.description else ""
+                  pub = item.pubDate.get_text(strip=True) if item.pubDate else ""
+                  source = item.source.get_text(strip=True) if item.source else ""
+                  if title and link:
+                      out.append({"title": title, "link": link, "desc": desc, "published": pub, "source": source})
+              return out
 
-                      text = data.decode("utf-8", errors="ignore")
-
-                      return text, final_url, content_type
-
-              except Exception as error:
-                  print("GET ERROR:", str(error)[:250])
-                  return "", url, ""
-
-          def resolve_url(url):
-              if not url:
-                  return ""
-
+          def resolve(url):
               try:
-                  req = urllib.request.Request(
-                      url,
-                      headers={"User-Agent": USER_AGENT}
-                  )
-
-                  with urllib.request.urlopen(req, timeout=15) as response:
-                      return response.geturl() or url
-
-              except Exception as error:
-                  print("Resolve error:", str(error)[:200])
+                  r = SESSION.get(url, timeout=18, allow_redirects=True, stream=True)
+                  return r.url or url
+              except Exception:
                   return url
 
-          def get_rss_image(item):
-              for element in item.iter():
-                  tag = element.tag
-                  if not isinstance(tag, str):
-                      continue
+          def meta(soup, key, value):
+              tag = soup.find("meta", attrs={key: value})
+              return clean(tag.get("content", "")) if tag else ""
 
-                  tag_lower = tag.lower()
+          def page_data(url):
+              html, final_url, ctype = fetch(url, 20)
+              if not html or "html" not in ctype.lower() and "text" not in ctype.lower():
+                  return {"url": final_url or url, "image": "", "text": "", "description": ""}
 
-                  if tag_lower.endswith("content"):
-                      url = element.attrib.get("url")
-                      if url and url.startswith("http"):
-                          return url.strip()
+              soup = BeautifulSoup(html, "lxml")
+              image = (
+                  meta(soup, "property", "og:image")
+                  or meta(soup, "name", "twitter:image")
+              )
+              if image:
+                  image = urljoin(final_url, image)
 
-              for element in item.iter():
-                  tag = element.tag
-                  if not isinstance(tag, str):
-                      continue
+              description = (
+                  meta(soup, "name", "description")
+                  or meta(soup, "property", "og:description")
+              )
 
-                  if tag.lower().endswith("thumbnail"):
-                      url = element.attrib.get("url")
-                      if url and url.startswith("http"):
-                          return url.strip()
+              # Prefer JSON-LD articleBody when present.
+              bodies = []
+              for script in soup.find_all("script", type="application/ld+json"):
+                  raw = script.string or script.get_text()
+                  try:
+                      data = json.loads(raw)
+                      stack = data if isinstance(data, list) else [data]
+                      for obj in stack:
+                          if isinstance(obj, dict):
+                              body = obj.get("articleBody")
+                              if isinstance(body, str) and len(clean(body)) > 120:
+                                  bodies.append(clean(body))
+                  except Exception:
+                      pass
 
-              enclosure = item.find("enclosure")
-              if enclosure is not None:
-                  url = enclosure.attrib.get("url")
-                  if url and url.startswith("http"):
-                      return url.strip()
-
-              return ""
-
-          def meta_content(page, attribute, value):
-              patterns = [
-                  rf'<meta[^>]+{attribute}\s*=\s*["\']{re.escape(value)}["\'][^>]+content\s*=\s*["\']([^"\']+)',
-                  rf'<meta[^>]+content\s*=\s*["\']([^"\']+)["\'][^>]+{attribute}\s*=\s*["\']{re.escape(value)}["\']'
+              selectors = [
+                  "article p",
+                  "[itemprop='articleBody'] p",
+                  ".article-body p",
+                  ".article-content p",
+                  ".story-body p",
+                  ".post-content p",
+                  ".entry-content p",
               ]
 
-              for pattern in patterns:
-                  match = re.search(pattern, page, flags=re.I)
-                  if match:
-                      return clean_text(match.group(1))
-
-              return ""
-
-          def extract_jsonld_article_body(page):
-              matches = re.findall(
-                  r'"articleBody"\s*:\s*"((?:\\.|[^"\\])*)"',
-                  page,
-                  flags=re.I | re.S
-              )
-
-              bodies = []
-
-              for raw in matches:
-                  try:
-                      decoded = json.loads('"' + raw + '"')
-                  except Exception:
-                      decoded = raw
-
-                  decoded = clean_text(decoded)
-
-                  if len(decoded) >= 150:
-                      bodies.append(decoded)
-
-              if not bodies:
-                  return ""
-
-              return max(bodies, key=len)
-
-          def extract_paragraphs(page):
-              paragraphs = re.findall(
-                  r"<p\b[^>]*>(.*?)</p>",
-                  page,
-                  flags=re.I | re.S
-              )
-
-              result = []
-
-              for paragraph in paragraphs:
-                  paragraph = clean_text(paragraph)
-
-                  if len(paragraph) < 45:
-                      continue
-
-                  low = paragraph.lower()
-
-                  bad = [
-                      "اشترك",
-                      "تسجيل الدخول",
-                      "تابعنا",
-                      "إعلان",
-                      "privacy policy",
-                      "terms of use",
-                      "cookie",
-                      "حقوق النشر",
-                      "جميع الحقوق"
-                  ]
-
-                  if any(word.lower() in low for word in bad):
-                      continue
-
-                  result.append(paragraph)
-
-                  if len(result) >= 12:
+              paragraphs = []
+              for selector in selectors:
+                  for p in soup.select(selector):
+                      text = clean(p.get_text(" ", strip=True))
+                      if len(text) >= 45:
+                          low = text.lower()
+                          blocked = ["cookie", "privacy policy", "اشترك", "تسجيل الدخول", "تابعنا", "إعلان"]
+                          if not any(x in low for x in blocked):
+                              paragraphs.append(text)
+                  if len(paragraphs) >= 8:
                       break
 
-              return " ".join(result)
+              body = max(bodies, key=len) if bodies else " ".join(paragraphs)
+              return {"url": final_url or url, "image": image, "text": body, "description": description}
 
-          def extract_page(url):
-              """
-              محاولة أولى: الموقع الأصلي.
-              محاولة ثانية: Jina Reader كقارئ صفحات عام.
-              """
-              result = {
-                  "url": url,
-                  "title": "",
-                  "description": "",
-                  "image": "",
-                  "text": ""
-              }
-
-              if not url:
-                  return result
-
-              page, final_url, content_type = http_get(url)
-
-              if page:
-                  result["url"] = final_url or url
-
-                  result["title"] = (
-                      meta_content(page, "property", "og:title")
-                      or meta_content(page, "name", "twitter:title")
-                  )
-
-                  if not result["title"]:
-                      match = re.search(
-                          r"<title[^>]*>(.*?)</title>",
-                          page,
-                          flags=re.I | re.S
-                      )
-                      if match:
-                          result["title"] = clean_text(match.group(1))
-
-                  result["description"] = (
-                      meta_content(page, "name", "description")
-                      or meta_content(page, "property", "og:description")
-                  )
-
-                  result["image"] = (
-                      meta_content(page, "property", "og:image")
-                      or meta_content(page, "name", "twitter:image")
-                  )
-
-                  result["image"] = normalize_url(
-                      result["image"],
-                      result["url"]
-                  )
-
-                  body = extract_jsonld_article_body(page)
-
-                  if len(body) < 150:
-                      body = extract_paragraphs(page)
-
-                  result["text"] = body
-
-                  if len(result["text"]) >= 180:
-                      return result
-
-              # Jina Reader
+          def jina_data(url):
+              # Last-resort reader. It is only used when the publisher blocks normal HTML parsing.
               try:
-                  jina_url = (
-                      "https://r.jina.ai/"
-                      + (final_url or url)
-                  )
-
-                  reader, reader_url, _ = http_get(
-                      jina_url,
-                      timeout=25,
-                      max_bytes=2200000
-                  )
-
-                  if reader:
-                      reader = clean_text(reader)
-
-                      # إزالة بعض رؤوس Jina/Markdown الشائعة
-                      reader = re.sub(
-                          r"^Title:.*?(?=URL Source:|Published Time:|Markdown Content:)",
-                          " ",
-                          reader,
-                          flags=re.I | re.S
-                      )
-                      reader = re.sub(
-                          r"^URL Source:.*?(?=Published Time:|Markdown Content:)",
-                          " ",
-                          reader,
-                          flags=re.I | re.S
-                      )
-                      reader = re.sub(
-                          r"^Published Time:.*?(?=Markdown Content:)",
-                          " ",
-                          reader,
-                          flags=re.I | re.S
-                      )
-                      reader = re.sub(
-                          r"^Markdown Content:",
-                          " ",
-                          reader,
-                          flags=re.I
-                      )
-
-                      reader = clean_text(reader)
-
-                      if len(reader) > len(result["text"]):
-                          result["text"] = reader
-
-                      if not result["title"]:
-                          lines = [
-                              x.strip()
-                              for x in reader.split(" ")
-                              if x.strip()
-                          ]
-                          if lines:
-                              result["title"] = " ".join(lines[:20])
-
-              except Exception as error:
-                  print("Jina error:", str(error)[:200])
-
-              return result
-
-          def remove_title_from_text(text, title):
-              if not text:
+                  reader_url = "https://r.jina.ai/" + url
+                  text, final, _ = fetch(reader_url, 25)
+                  text = clean(text)
+                  if len(text) < 250:
+                      return ""
+                  text = re.sub(r"Title:.*?Markdown Content:", " ", text, flags=re.I | re.S)
+                  return clean(text)
+              except Exception:
                   return ""
 
-              text = clean_text(text)
-
-              if title:
-                  text = re.sub(
-                      re.escape(title),
-                      " ",
-                      text,
-                      flags=re.I
-                  )
-
-              text = re.sub(r"\s+", " ", text)
-              return text.strip()
-
-          def make_summary(title, rss_description, page_description, article_text):
-              candidates = [
-                  article_text,
-                  page_description,
-                  rss_description
-              ]
-
-              best = ""
-
-              for candidate in candidates:
-                  candidate = remove_title_from_text(
-                      candidate,
-                      title
-                  )
-
-                  if len(candidate) > len(best):
-                      best = candidate
-
-              if not best:
-                  return "يتابع NOWNEX FOOTBALL هذا الخبر ويقدم أهم تفاصيله وتطوراته من المصدر الأصلي."
-
-              # تحويل Markdown البسيط إلى نص
-              best = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", best)
-              best = re.sub(r"#{1,6}\s*", "", best)
+          def summary(title, rss_desc, page_desc, body):
+              candidates = [body, page_desc, rss_desc]
+              best = max((clean(x) for x in candidates if x), key=len, default="")
+              best = re.sub(re.escape(clean(title)), " ", best, flags=re.I)
               best = re.sub(r"\s+", " ", best).strip()
 
-              # إذا كانت الصفحة تحتوي نصًا طويلًا، نأخذ ملخصًا
-              # محدودًا بدل نسخ المقال.
-              sentences = re.split(
-                  r"(?<=[.!؟])\s+",
-                  best
-              )
+              # 70-110 words: substantial enough for the NOWNEX card without copying an article.
+              sentences = re.split(r"(?<=[.!؟])\s+", best)
+              picked = []
+              count = 0
+              for s in sentences:
+                  s = s.strip()
+                  if len(s) < 35:
+                      continue
+                  n = len(s.split())
+                  if picked and count + n > 110:
+                      break
+                  picked.append(s)
+                  count += n
+                  if count >= 70:
+                      break
 
-              selected = []
-              words = 0
+              result = " ".join(picked).strip()
+              if len(result.split()) < 45:
+                  result = " ".join(best.split()[:100])
+              if len(result.split()) < 30:
+                  result = clean(rss_desc)
+              return result[:1000]
 
-              for sentence in sentences:
-                  sentence = sentence.strip()
+          def classify(article):
+              text = (article["title"] + " " + article["desc"]).lower()
+              scores = {k: 0 for k in CATEGORY_RULES}
+              for cat, words in CATEGORY_RULES.items():
+                  for word in words:
+                      if word.lower() in text:
+                          scores[cat] += 1
+              # Strong title-first weighting.
+              title = article["title"].lower()
+              for cat, words in CATEGORY_RULES.items():
+                  for word in words:
+                      if word.lower() in title:
+                          scores[cat] += 2
+              return max(scores, key=scores.get), max(scores.values())
 
-                  if len(sentence) < 30:
+          # ------------------------------------------------------------
+          # 1) Build a large candidate pool.
+          # ------------------------------------------------------------
+          pool = {}
+          for q in QUERIES:
+              print("POOL QUERY:", q)
+              for a in google_news(q):
+                  pool.setdefault(canonical_key(a["title"]), a)
+
+          # 2) Add targeted candidates for categories that need them.
+          for category, queries in SECTION_QUERIES.items():
+              for q in queries:
+                  print("SECTION QUERY:", category, q)
+                  for a in google_news(q):
+                      pool.setdefault(canonical_key(a["title"]), a)
+
+          print("CANDIDATE POOL:", len(pool))
+
+          buckets = {k: [] for k in CATEGORY_RULES}
+
+          # First classification pass.
+          for a in pool.values():
+              cat, score = classify(a)
+              if score > 0:
+                  buckets[cat].append(a)
+
+          # If a section is still weak, use its targeted candidates directly.
+          for cat, queries in SECTION_QUERIES.items():
+              if len(buckets[cat]) >= MAX_PER_CATEGORY:
+                  continue
+              seen = {canonical_key(x["title"]) for x in buckets[cat]}
+              for q in queries:
+                  for a in google_news(q):
+                      k = canonical_key(a["title"])
+                      if k not in seen:
+                          buckets[cat].append(a)
+                          seen.add(k)
+                      if len(buckets[cat]) >= MAX_PER_CATEGORY * 2:
+                          break
+                  if len(buckets[cat]) >= MAX_PER_CATEGORY * 2:
+                      break
+
+          final = []
+          seen_global = set()
+
+          # ------------------------------------------------------------
+          # 3) Every category gets its own quota.
+          # ------------------------------------------------------------
+          for category in ["matches", "transfers", "stars", "national", "history"]:
+              print("\nPROCESSING CATEGORY:", category)
+              chosen = 0
+              for a in buckets[category]:
+                  if chosen >= MAX_PER_CATEGORY:
+                      break
+                  key = canonical_key(a["title"])
+                  if key in seen_global:
                       continue
 
-                  count = len(sentence.split())
+                  original = resolve(a["link"])
+                  print("ARTICLE:", a["title"])
+                  print("URL:", original)
 
-                  if selected and words + count > 115:
-                      break
+                  data = page_data(original)
+                  body = data["text"]
+                  if len(body) < 250:
+                      reader = jina_data(data["url"] or original)
+                      if len(reader) > len(body):
+                          body = reader
 
-                  selected.append(sentence)
-                  words += count
+                  # Never discard an article just because the publisher blocks extraction.
+                  # RSS is the guaranteed fallback.
+                  summ = summary(a["title"], a["desc"], data["description"], body)
+                  image = data["image"]
 
-                  if words >= 75:
-                      break
+                  if not image:
+                      # Google News image is often exposed in its HTML even when RSS does not.
+                      try:
+                          ghtml, _, _ = fetch(a["link"], 15)
+                          gsoup = BeautifulSoup(ghtml, "lxml") if ghtml else None
+                          if gsoup:
+                              image = meta(gsoup, "property", "og:image") or meta(gsoup, "name", "twitter:image")
+                              if image:
+                                  image = urljoin(a["link"], image)
+                      except Exception:
+                          pass
 
-              summary = " ".join(selected).strip()
+                  item = {
+                      "category": category,
+                      "title_ar": clean(a["title"]).replace(" - Google News", "").strip(),
+                      "summary_ar": summ,
+                      "image": image or "",
+                      "source": a["source"] or urlparse(data["url"] or original).netloc,
+                      "link": data["url"] or original,
+                      "published": a["published"],
+                      "date": a["published"],
+                  }
 
-              if len(summary.split()) < 25:
-                  words_list = best.split()
-                  summary = " ".join(words_list[:90])
+                  final.append(item)
+                  seen_global.add(key)
+                  chosen += 1
 
-              # لا نسمح بأن يكون الملخص مجرد العنوان.
-              if title and summary.lower().strip() == title.lower().strip():
-                  summary = ""
+                  print("SUMMARY WORDS:", len(summ.split()))
+                  print("IMAGE:", "YES" if image else "NO")
+                  time.sleep(0.15)
 
-              if not summary:
-                  summary = (
-                      "تفاصيل الخبر متوفرة عبر المصدر الأصلي، "
-                      "ويمكن متابعة التطورات من خلال الرابط المباشر."
-                  )
+              print("CATEGORY FINAL:", category, chosen)
 
-              return summary
+          # 4) Safety: if a category is unexpectedly empty, preserve old articles from that category.
+          if len(final) < 5 and __import__('os').path.exists(NEWS_FILE):
+              try:
+                  with open(NEWS_FILE, encoding="utf-8") as f:
+                      old = json.load(f).get("news", [])
+                  old_by_cat = {c: [] for c in CATEGORY_RULES}
+                  for x in old:
+                      if x.get("category") in old_by_cat:
+                          old_by_cat[x["category"]].append(x)
+                  current_cats = {x["category"] for x in final}
+                  for cat, old_items in old_by_cat.items():
+                      if cat not in current_cats:
+                          for x in old_items[:MAX_PER_CATEGORY]:
+                              if canonical_key(x.get("title_ar", "")) not in seen_global:
+                                  final.append(x)
+              except Exception as e:
+                  print("OLD DATA FALLBACK ERROR:", e)
 
-          articles = []
-
-          for feed in feeds:
-              category = feed["category"]
-              category_articles = []
-
-              print("")
-              print("======================================")
-              print("CATEGORY:", feed["name"])
-              print("======================================")
-
-              for query in feed["queries"]:
-                  if len(category_articles) >= MAX_PER_CATEGORY:
-                      break
-
-                  rss_url = (
-                      "https://news.google.com/rss/search?"
-                      "q=" + urllib.parse.quote(query)
-                      + "&hl=ar&gl=DZ&ceid=DZ:ar"
-                  )
-
-                  print("Searching:", query)
-
-                  try:
-                      rss_xml, _, _ = http_get(
-                          rss_url,
-                          timeout=30,
-                          max_bytes=900000
-                      )
-
-                      if not rss_xml:
-                          continue
-
-                      root = ET.fromstring(rss_xml)
-
-                      for item in root.findall(".//item"):
-                          if len(category_articles) >= MAX_PER_CATEGORY:
-                              break
-
-                          title = clean_text(
-                              get_text(item, "title")
-                          )
-
-                          description = clean_text(
-                              get_text(item, "description")
-                          )
-
-                          link = clean_text(
-                              get_text(item, "link")
-                          )
-
-                          pub_date = clean_text(
-                              get_text(item, "pubDate")
-                          )
-
-                          source = clean_text(
-                              get_text(item, "source")
-                          )
-
-                          title = re.sub(
-                              r"\s*-\s*Google News\s*$",
-                              "",
-                              title,
-                              flags=re.I
-                          ).strip()
-
-                          if not title or not link:
-                              continue
-
-                          key = re.sub(
-                              r"\s+",
-                              " ",
-                              title.lower()
-                          ).strip()
-
-                          if any(
-                              x["_key"] == key
-                              for x in category_articles
-                          ):
-                              continue
-
-                          print("")
-                          print("TITLE:", title)
-
-                          original_link = resolve_url(link)
-
-                          print(
-                              "SOURCE URL:",
-                              original_link
-                          )
-
-                          page = extract_page(original_link)
-
-                          summary = make_summary(
-                              title,
-                              description,
-                              page.get("description", ""),
-                              page.get("text", "")
-                          )
-
-                          image = (
-                              page.get("image")
-                              or get_rss_image(item)
-                              or ""
-                          )
-
-                          image = normalize_url(
-                              image,
-                              page.get("url") or original_link
-                          )
-
-                          # لا نحذف الخبر إذا تعذر استخراج المقال.
-                          # نحتفظ بخبر RSS بدل أن تصبح الصفحة فارغة.
-                          article = {
-                              "category": category,
-                              "title_ar": title,
-                              "summary_ar": summary,
-                              "image": image,
-                              "source": (
-                                  source
-                                  or "NOWNEX FOOTBALL"
-                              ),
-                              "link": (
-                                  page.get("url")
-                                  or original_link
-                              ),
-                              "published": pub_date,
-                              "date": pub_date,
-                              "_key": key
-                          }
-
-                          category_articles.append(article)
-
-                          print(
-                              "SUMMARY WORDS:",
-                              len(summary.split())
-                          )
-                          print(
-                              "IMAGE:",
-                              "FOUND" if image else "NOT FOUND"
-                          )
-
-                          time.sleep(0.25)
-
-                  except Exception as error:
-                      print(
-                          "RSS ERROR:",
-                          str(error)[:500]
-                      )
-
-              articles.extend(category_articles)
-
-              print(
-                  "CATEGORY ARTICLES:",
-                  len(category_articles)
-              )
-
-          # إزالة التكرار بين الأقسام
-          unique = {}
-
-          for article in articles:
-              key = article["_key"]
-
-              if key not in unique:
-                  unique[key] = article
-
-          articles = list(unique.values())
-
-          # الأحدث أولًا
-          articles.sort(
-              key=lambda x: x.get("published", "") or "",
-              reverse=True
-          )
-
-          articles = articles[:MAX_TOTAL]
-
-          for article in articles:
-              article.pop("_key", None)
+          final = final[:MAX_TOTAL]
 
           output = {
               "updatedAt": datetime.now(timezone.utc).isoformat(),
-              "count": len(articles),
-              "news": articles
+              "count": len(final),
+              "news": final,
           }
 
-          # حماية مهمة:
-          # لا نستبدل news.json بملف فارغ إذا فشل Google News.
-          if len(articles) == 0:
-              print("ERROR: No articles collected.")
-              print("Keeping the existing data/news.json unchanged.")
-              raise SystemExit(1)
+          # Do not destroy the live dataset.
+          if len(final) < 10:
+              raise RuntimeError("Safety stop: fewer than 10 usable football stories collected")
 
-          with open(
-              NEWS_FILE,
-              "w",
-              encoding="utf-8"
-          ) as file:
-              json.dump(
-                  output,
-                  file,
-                  ensure_ascii=False,
-                  indent=2
-              )
+          with open(NEWS_FILE, "w", encoding="utf-8") as f:
+              json.dump(output, f, ensure_ascii=False, indent=2)
 
-          print("")
+          print("\n======================================")
+          print("NOWNEX FOOTBALL SAVED:", len(final))
+          for cat in CATEGORY_RULES:
+              print(cat, sum(1 for x in final if x["category"] == cat))
           print("======================================")
-          print(
-              "NOWNEX FOOTBALL NEWS SAVED:",
-              len(articles)
-          )
-          print("======================================")
-
-          for feed in feeds:
-              count = sum(
-                  1
-                  for article in articles
-                  if article["category"] == feed["category"]
-              )
-
-              print(
-                  feed["category"],
-                  ":",
-                  count
-              )
 
       - name: Commit updated news
         run: |
           git config user.name "NOWNEX Football News Bot"
           git config user.email "actions@users.noreply.github.com"
-
           git add data/news.json
-
-          git diff --cached --quiet || \
-            git commit -m "Update NOWNEX FOOTBALL news"
-
+          git diff --cached --quiet || git commit -m "Rebuild NOWNEX FOOTBALL news engine"
           git push
