@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NOWNEX FOOTBALL | كرة القدم لحظة بلحظة</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>NOWNEX FOOTBALL — كل ما يحدث في عالم كرة القدم الآن</title>
 
 <meta name="description"
-content="NOWNEX FOOTBALL — مباريات اليوم، النتائج المباشرة، البطولات، أخبار النجوم والكرة العالمية.">
+      content="NOWNEX FOOTBALL — أحدث أخبار كرة القدم، أقوى المواجهات، الانتقالات، النجوم، المنتخبات، التاريخ الكروي ونتائج المباريات.">
+
+<meta name="theme-color"
+      content="#030817">
+
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
+
 
 <style>
 
@@ -16,87 +34,85 @@ content="NOWNEX FOOTBALL — مباريات اليوم، النتائج المب
 ========================================================= */
 
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
 }
 
 :root{
-    --bg:#030912;
-    --bg2:#061321;
-    --card:#071a2c;
-    --card2:#092238;
 
-    --gold:#f2bd32;
-    --gold2:#ffd967;
+    --bg:#030817;
+    --bg2:#071126;
 
-    --red:#ef3340;
-    --red2:#ff5360;
+    --card:#09162c;
 
-    --green:#00d889;
+    --text:#f7f9ff;
 
-    --white:#ffffff;
-    --text:#dce5ee;
-    --muted:#8293a6;
+    --muted:#8f9bb2;
 
-    --border:rgba(255,255,255,.09);
+    --gold:#d9b45b;
+    --gold-light:#ffd978;
 
-    --shadow:0 20px 55px rgba(0,0,0,.22);
+    --blue:#168cff;
+    --blue2:#006cff;
+
+    --cyan:#19bfff;
+
+    --green:#22d47b;
+
+    --red:#ff5268;
+
+    --line:rgba(255,255,255,.09);
+
+    --max:1500px;
+
 }
 
 html{
+
     scroll-behavior:smooth;
+
 }
 
 body{
-    min-height:100vh;
+
+    font-family:"Cairo",Arial,sans-serif;
 
     background:
-        radial-gradient(
-            circle at 10% 0%,
-            rgba(239,51,64,.08),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 90% 5%,
-            rgba(242,189,50,.07),
-            transparent 25%
-        ),
         linear-gradient(
             180deg,
-            #030912 0%,
-            #061321 55%,
-            #030912 100%
+            #020714 0%,
+            #061126 45%,
+            #030817 100%
         );
 
-    color:var(--white);
+    color:var(--text);
 
-    font-family:
-        "Tajawal",
-        "Cairo",
-        "Segoe UI",
-        Arial,
-        sans-serif;
+    min-height:100vh;
 
-    line-height:1.7;
+    overflow-x:hidden;
+
 }
 
-body.no-scroll{
+body.article-open,
+body.search-open{
+
     overflow:hidden;
-}
 
-button,
-input{
-    font-family:inherit;
-}
-
-button{
-    cursor:pointer;
 }
 
 a{
+
     color:inherit;
+
     text-decoration:none;
+
+}
+
+button{
+
+    font-family:inherit;
+
 }
 
 
@@ -105,385 +121,192 @@ a{
 ========================================================= */
 
 header{
-    position:sticky;
-    top:0;
-    z-index:1000;
 
-    background:rgba(3,9,18,.95);
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+
+    height:78px;
+
+    background:
+        rgba(2,7,20,.96);
 
     backdrop-filter:blur(18px);
 
-    border-bottom:1px solid var(--border);
+    border-bottom:
+        1px solid
+        var(--line);
+
 }
 
-.header{
-    max-width:1250px;
-    min-height:76px;
-
-    margin:auto;
-    padding:0 20px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    gap:20px;
-}
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-
-    direction:ltr;
-
-    flex-shrink:0;
-}
-
-.logo-name{
-    font-size:25px;
-    font-weight:900;
-    white-space:nowrap;
-}
-
-.logo-name .nownex{
-    color:#fff;
-}
-
-.logo-name .football{
-    color:var(--red);
-}
-
-.logo-box{
-    width:48px;
-    height:48px;
-
-    border-radius:11px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #ffda5b,
-            #dba72b
-        );
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    box-shadow:
-        0 6px 28px rgba(242,189,50,.18);
-}
-
-.logo-box span{
-    color:var(--red);
-
-    font-size:32px;
-    font-weight:1000;
-
-    font-family:Arial,sans-serif;
-}
-
-.nav{
-    display:flex;
-    align-items:center;
-    gap:4px;
-}
-
-.nav a{
-    padding:10px 14px;
-
-    color:#aebbc9;
-
-    font-size:14px;
-    font-weight:700;
-
-    border-radius:9px;
-
-    transition:.2s;
-}
-
-.nav a:hover{
-    color:#fff;
-    background:rgba(239,51,64,.08);
-}
-
-.nav a.active{
-    color:var(--gold2);
-}
-
-.header-buttons{
-    display:flex;
-    gap:8px;
-}
-
-.header-btn{
-    width:42px;
-    height:42px;
-
-    border:1px solid var(--border);
-    border-radius:11px;
-
-    background:rgba(255,255,255,.025);
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#fff;
-    font-size:19px;
-
-    transition:.2s;
-}
-
-.header-btn:hover{
-    border-color:rgba(239,51,64,.4);
-    background:rgba(239,51,64,.08);
-}
-
-.menu-btn{
-    display:none;
-}
-
-
-/* =========================================================
-   SEARCH OVERLAY
-========================================================= */
-
-.search-overlay{
-    position:fixed;
-    inset:0;
-
-    z-index:2000;
-
-    background:rgba(1,6,13,.82);
-
-    backdrop-filter:blur(14px);
-
-    display:none;
-
-    align-items:flex-start;
-    justify-content:center;
-
-    padding:90px 20px;
-}
-
-.search-overlay.show{
-    display:flex;
-}
-
-.search-box{
-    width:min(700px,100%);
-
-    background:
-        linear-gradient(
-            145deg,
-            #081d31,
-            #061321
-        );
-
-    border:1px solid rgba(239,51,64,.28);
-
-    border-radius:22px;
-
-    padding:22px;
-
-    box-shadow:var(--shadow);
-}
-
-.search-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    margin-bottom:18px;
-}
-
-.search-top h3{
-    font-size:20px;
-}
-
-.close-btn{
-    width:38px;
-    height:38px;
-
-    border:1px solid var(--border);
-
-    border-radius:10px;
-
-    background:#061525;
-
-    color:#fff;
-
-    font-size:20px;
-}
-
-.search-input-wrap{
-    display:flex;
-    gap:8px;
-}
-
-.search-input{
-    flex:1;
-
-    min-width:0;
-
-    padding:14px 16px;
-
-    border:1px solid var(--border);
-
-    border-radius:12px;
-
-    outline:none;
-
-    background:#03101d;
-
-    color:#fff;
-
-    font-size:15px;
-}
-
-.search-input:focus{
-    border-color:rgba(239,51,64,.6);
-}
-
-.search-submit{
-    padding:0 20px;
-
-    border:0;
-
-    border-radius:12px;
-
-    background:var(--gold);
-
-    color:#111;
-
-    font-weight:900;
-}
-
-.search-results{
-    margin-top:15px;
-
-    display:grid;
-
-    gap:8px;
-}
-
-.search-result{
-    padding:13px 15px;
-
-    background:#061525;
-
-    border:1px solid var(--border);
-
-    border-radius:11px;
-
-    color:#cbd6e1;
-
-    cursor:pointer;
-}
-
-.search-result:hover{
-    border-color:rgba(239,51,64,.35);
-}
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-.mobile-menu{
-    position:fixed;
-    inset:0;
-
-    z-index:1900;
-
-    background:rgba(1,6,13,.72);
-
-    backdrop-filter:blur(8px);
-
-    display:none;
-}
-
-.mobile-menu.show{
-    display:block;
-}
-
-.mobile-menu-panel{
-    position:absolute;
-
-    top:0;
-    right:0;
-
-    width:min(340px,86vw);
+.header-inner{
+
+    width:min(
+        var(--max),
+        100%
+    );
 
     height:100%;
 
-    padding:25px;
+    margin:auto;
 
-    background:
-        linear-gradient(
-            180deg,
-            #061321,
-            #030912
-        );
+    padding:0 24px;
 
-    border-left:1px solid var(--border);
-
-    box-shadow:-20px 0 60px rgba(0,0,0,.35);
-
-    animation:menuIn .22s ease;
-}
-
-@keyframes menuIn{
-    from{
-        transform:translateX(100%);
-    }
-    to{
-        transform:translateX(0);
-    }
-}
-
-.mobile-menu-head{
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
-    margin-bottom:30px;
+    gap:20px;
+
 }
 
-.mobile-menu-logo{
-    direction:ltr;
+.logo{
 
-    font-size:20px;
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:25px;
+
     font-weight:900;
+
+    white-space:nowrap;
+
+    order:3;
+
 }
 
-.mobile-menu-logo span{
-    color:var(--red);
+.logo-text{
+
+    color:var(--gold-light);
+
+    letter-spacing:-.5px;
+
 }
 
-.mobile-nav{
-    display:grid;
-    gap:9px;
-}
+.logo-mark{
 
-.mobile-nav a{
-    padding:15px;
+    width:44px;
 
-    border:1px solid var(--border);
+    height:44px;
 
     border-radius:13px;
 
-    background:#061525;
+    display:grid;
 
-    color:#d7e0e9;
+    place-items:center;
 
-    font-weight:800;
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold)
+        );
+
+    color:#080b13;
+
+    font-size:22px;
+
+    font-weight:900;
+
+    box-shadow:
+        0 0 30px
+        rgba(217,180,91,.18);
+
 }
 
-.mobile-nav a:hover{
-    border-color:rgba(239,51,64,.4);
+nav{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:30px;
+
+    order:2;
+
+}
+
+nav a{
+
+    color:#aeb9cf;
+
+    font-size:13px;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+nav a:hover,
+nav a.active{
+
+    color:#fff;
+
+}
+
+.header-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:9px;
+
+    order:1;
+
+}
+
+.search-btn,
+.mobile-menu{
+
+    width:44px;
+
+    height:44px;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.035);
+
+    color:#fff;
+
+    border-radius:13px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    font-size:19px;
+
+}
+
+.mobile-menu{
+
+    display:none;
+
+}
+
+.search-btn:hover,
+.mobile-menu:hover{
+
+    border-color:
+        rgba(79,140,255,.45);
+
+    background:
+        rgba(79,140,255,.08);
+
 }
 
 
@@ -492,485 +315,239 @@ header{
 ========================================================= */
 
 .hero{
-    max-width:1250px;
 
-    margin:28px auto 0;
+    width:100%;
 
-    padding:0 20px;
-}
+    max-width:1536px;
 
-.hero-box{
+    margin:0 auto;
+
+    min-height:520px;
+
+    height:520px;
+
     position:relative;
-
-    min-height:315px;
 
     overflow:hidden;
 
-    border-radius:24px;
-
-    border:1px solid rgba(239,51,64,.18);
-
-    background:
-        radial-gradient(
-            circle at 12% 55%,
-            rgba(239,51,64,.13),
-            transparent 34%
-        ),
+    background-image:
         linear-gradient(
-            115deg,
-            #040d18,
-            #071a2c 55%,
-            #040d18
-        );
+            90deg,
+            rgba(2,7,20,.05),
+            rgba(2,7,20,.02)
+        ),
+        url("football-hero.png");
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    background-size:cover;
+
 }
 
-.hero-glow{
+.hero::before{
+
+    content:"";
+
     position:absolute;
 
-    width:430px;
-    height:430px;
+    inset:0;
 
-    left:-160px;
-    bottom:-220px;
+    z-index:1;
 
-    border-radius:50%;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(2,7,20,.22) 0%,
+            rgba(2,7,20,.05) 45%,
+            rgba(2,7,20,.05) 100%
+        );
 
-    border:2px solid rgba(239,51,64,.10);
+}
 
-    box-shadow:
-        0 0 130px rgba(239,51,64,.08);
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:2;
+
+    pointer-events:none;
+
+    background:
+        linear-gradient(
+            0deg,
+            rgba(3,8,23,.75),
+            transparent 30%
+        );
+
 }
 
 .hero-content{
-    position:relative;
-    z-index:2;
 
-    padding:48px 55px;
+    position:absolute;
+
+    z-index:5;
+
+    left:3%;
+
+    right:auto;
+
+    width:46%;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    text-align:center;
+
+    direction:rtl;
+
+    padding:20px;
+
 }
 
-.hero-label{
+.hero-badge{
+
     display:inline-flex;
+
     align-items:center;
-    gap:8px;
 
-    padding:7px 15px;
+    justify-content:center;
 
-    color:var(--red2);
+    gap:9px;
 
-    background:rgba(239,51,64,.07);
+    padding:8px 17px;
 
-    border:1px solid rgba(239,51,64,.30);
+    margin-bottom:18px;
+
+    border:
+        1px solid
+        rgba(36,143,255,.42);
+
+    background:
+        rgba(0,30,80,.25);
+
+    color:#5caeff;
 
     border-radius:50px;
 
     font-size:13px;
+
     font-weight:800;
 
-    margin-bottom:16px;
+    white-space:nowrap;
+
+    backdrop-filter:blur(5px);
+
 }
 
-.hero-label i{
-    width:7px;
-    height:7px;
+.live-dot{
 
-    background:var(--red);
+    width:8px;
+
+    height:8px;
 
     border-radius:50%;
 
-    box-shadow:0 0 12px var(--red);
+    background:#168cff;
+
+    box-shadow:
+        0 0 13px
+        #168cff;
+
 }
 
 .hero h1{
-    max-width:820px;
 
-    font-size:clamp(36px,5vw,60px);
+    width:100%;
 
-    line-height:1.18;
+    margin:0 0 18px;
 
-    margin-bottom:15px;
-
-    font-weight:900;
-}
-
-.hero h1 span{
-    color:var(--gold2);
-}
-
-.hero-description{
-    max-width:760px;
-
-    color:#9aaaba;
-
-    font-size:16px;
-
-    line-height:2;
-
-    margin-bottom:24px;
-}
-
-.hero-actions{
-    display:flex;
-
-    gap:10px;
-
-    flex-wrap:wrap;
-}
-
-.btn{
-    padding:11px 21px;
-
-    border-radius:10px;
-
-    font-size:14px;
-    font-weight:900;
-
-    transition:.2s;
-}
-
-.btn:hover{
-    transform:translateY(-2px);
-}
-
-.btn-gold{
-    color:#111;
-
-    background:var(--gold);
-}
-
-.btn-red{
-    color:#fff;
-
-    background:rgba(239,51,64,.08);
-
-    border:1px solid rgba(239,51,64,.40);
-}
-
-
-/* =========================================================
-   MAIN
-========================================================= */
-
-.container{
-    max-width:1250px;
-
-    margin:40px auto;
-
-    padding:0 20px;
-}
-
-.section{
-    margin-bottom:45px;
-
-    scroll-margin-top:100px;
-}
-
-.section-header{
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:18px;
-}
-
-.section-title{
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    font-size:23px;
-    font-weight:900;
-}
-
-.section-title::before{
-    content:"";
-
-    width:4px;
-    height:25px;
-
-    background:var(--gold);
-
-    border-radius:5px;
-}
-
-.section-more{
-    color:var(--red2);
-
-    font-size:13px;
-    font-weight:800;
-}
-
-
-/* =========================================================
-   MATCHES
-========================================================= */
-
-.matches-panel{
-    background:
-        linear-gradient(
-            145deg,
-            rgba(7,26,44,.98),
-            rgba(6,19,33,.98)
+    font-size:
+        clamp(
+            40px,
+            4.5vw,
+            70px
         );
 
-    border:1px solid var(--border);
+    line-height:1.08;
 
-    border-radius:22px;
-
-    padding:20px;
-
-    box-shadow:var(--shadow);
-}
-
-.competition-group{
-    margin-bottom:22px;
-}
-
-.competition-label{
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:9px;
-}
-
-.competition-label h3{
-    font-size:14px;
-    font-weight:900;
-}
-
-.competition-label span{
-    color:var(--muted);
-
-    font-size:11px;
-}
-
-.competition-strip{
-    display:flex;
-
-    gap:8px;
-
-    overflow-x:auto;
-
-    padding-bottom:8px;
-
-    scrollbar-width:thin;
-
-    direction:rtl;
-}
-
-.competition-strip::-webkit-scrollbar{
-    height:4px;
-}
-
-.competition-strip::-webkit-scrollbar-track{
-    background:rgba(255,255,255,.03);
-
-    border-radius:10px;
-}
-
-.competition-strip::-webkit-scrollbar-thumb{
-    background:rgba(239,51,64,.55);
-
-    border-radius:10px;
-}
-
-.competition-btn{
-    flex:0 0 auto;
-
-    min-width:max-content;
-
-    padding:9px 15px;
-
-    border-radius:10px;
-
-    border:1px solid var(--border);
-
-    background:#061525;
-
-    color:#aab7c5;
-
-    font-size:12px;
-
-    font-weight:800;
-
-    transition:.2s;
-}
-
-.competition-btn:hover{
-    border-color:rgba(239,51,64,.35);
-
-    color:#fff;
-}
-
-.competition-btn.active{
-    background:
-        linear-gradient(
-            135deg,
-            rgba(239,51,64,.18),
-            rgba(239,51,64,.06)
-        );
-
-    border-color:rgba(239,51,64,.55);
-
-    color:#fff;
-}
-
-.matches-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:12px;
-
-    margin-top:16px;
-}
-
-.match-card{
-    background:
-        linear-gradient(
-            145deg,
-            #081c30,
-            #061525
-        );
-
-    border:1px solid var(--border);
-
-    border-radius:16px;
-
-    padding:16px;
-
-    transition:.2s;
-}
-
-.match-card:hover{
-    transform:translateY(-2px);
-
-    border-color:rgba(239,51,64,.28);
-}
-
-.match-header{
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:16px;
-}
-
-.match-league{
-    color:#8e9dad;
-
-    font-size:11px;
-
-    max-width:65%;
-
-    white-space:nowrap;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-}
-
-.match-status{
-    color:var(--gold2);
-
-    font-size:11px;
+    letter-spacing:-2px;
 
     font-weight:900;
-}
-
-.match-status.live{
-    color:var(--green);
-
-    background:rgba(0,216,137,.08);
-
-    padding:4px 8px;
-
-    border-radius:6px;
-}
-
-.match-teams{
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        auto
-        1fr;
-
-    align-items:center;
 
     text-align:center;
 
-    gap:8px;
+    text-shadow:
+        0 4px 25px
+        rgba(0,0,0,.75);
+
 }
 
-.club-logo{
-    width:50px;
-    height:50px;
-
-    object-fit:contain;
+.hero-title-line{
 
     display:block;
 
-    margin:0 auto 7px;
-
-    padding:6px;
-
-    background:#04101c;
-
-    border-radius:50%;
-
-    border:1px solid var(--border);
-}
-
-.club-name{
-    font-size:13px;
-
-    font-weight:800;
-
-    line-height:1.4;
-}
-
-.match-score{
-    font-size:25px;
-
-    font-weight:900;
-
     white-space:nowrap;
+
 }
 
-.match-minute{
-    color:#94a3b2;
+.hero h1 .gradient{
 
-    font-size:10px;
+    background:
+        linear-gradient(
+            90deg,
+            #20bfff,
+            #347fff,
+            #7566ff
+        );
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    color:transparent;
+
 }
 
-.match-footer{
-    border-top:1px solid var(--border);
+.hero p{
 
-    margin-top:14px;
+    width:100%;
 
-    padding-top:9px;
+    max-width:620px;
 
-    color:#7e91a4;
+    color:#d0d7e5;
 
-    font-size:10px;
+    font-size:15px;
+
+    line-height:1.9;
+
+    margin:0 auto 23px;
+
+    font-weight:500;
 
     text-align:center;
+
+    text-shadow:
+        0 3px 15px
+        rgba(0,0,0,.85);
+
 }
 
-.matches-empty{
-    grid-column:1/-1;
-
-    min-height:130px;
+.hero-buttons{
 
     display:flex;
 
@@ -978,483 +555,1236 @@ header{
 
     justify-content:center;
 
-    text-align:center;
+    gap:12px;
 
-    color:var(--muted);
+    flex-wrap:wrap;
 
-    background:#061525;
+    width:100%;
 
-    border:1px solid var(--border);
+}
 
-    border-radius:15px;
+.primary-btn,
+.secondary-btn{
 
-    font-size:13px;
+    padding:13px 22px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:800;
+
+    border:
+        1px solid
+        var(--line);
+
+    transition:.22s;
+
+    font-size:14px;
+
+    white-space:nowrap;
+
+}
+
+.primary-btn{
+
+    background:
+        linear-gradient(
+            135deg,
+            #159dff,
+            #075fe8
+        );
+
+    color:#fff;
+
+    border:none;
+
+    box-shadow:
+        0 8px 30px
+        rgba(0,110,255,.25);
+
+}
+
+.secondary-btn{
+
+    background:
+        rgba(2,8,20,.42);
+
+    color:#fff;
+
+    border:
+        1px solid
+        rgba(255,255,255,.16);
+
+    backdrop-filter:blur(5px);
+
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+
+    transform:
+        translateY(-3px);
+
 }
 
 
 /* =========================================================
-   FEATURE CARDS
+   CATEGORY SECTION
 ========================================================= */
 
-.feature-grid{
-    display:grid;
+.category-section{
 
-    grid-template-columns:
-        repeat(3,1fr);
+    width:100%;
 
-    gap:15px;
-}
+    max-width:1500px;
 
-.feature-card{
+    margin:-1px auto 0;
+
+    padding:
+        0
+        30px
+        30px;
+
     position:relative;
 
-    min-height:180px;
+    z-index:20;
 
-    padding:25px;
+}
 
-    overflow:hidden;
+.category-slider{
+
+    width:100%;
+
+    display:flex;
+
+    gap:14px;
+
+    overflow-x:auto;
+
+    overflow-y:hidden;
+
+    padding:
+        4px
+        2px
+        12px;
+
+    scroll-snap-type:x mandatory;
+
+    scrollbar-width:none;
+
+    -webkit-overflow-scrolling:touch;
+
+}
+
+.category-slider::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+
+/* =========================================================
+   CATEGORY CARD
+========================================================= */
+
+.category-card{
+
+    flex:0 0 300px;
+
+    min-height:140px;
+
+    scroll-snap-align:start;
+
+    border:
+        1px solid
+        rgba(20,140,255,.35);
 
     background:
         linear-gradient(
             145deg,
-            #071a2c,
-            #061525
+            rgba(11,29,60,.96),
+            rgba(4,13,30,.98)
         );
 
-    border:1px solid var(--border);
+    display:flex;
+
+    align-items:center;
+
+    justify-content:flex-start;
+
+    padding:20px;
+
+    cursor:pointer;
+
+    transition:
+        transform .28s ease,
+        border-color .28s ease,
+        box-shadow .28s ease;
+
+    position:relative;
+
+    overflow:hidden;
 
     border-radius:18px;
 
-    transition:
-        transform .22s,
-        border-color .22s,
-        box-shadow .22s;
+    box-shadow:
+        inset 0 0 30px
+        rgba(0,110,255,.08),
+        0 0 12px
+        rgba(0,100,255,.08);
 
-    cursor:pointer;
 }
 
-.feature-card::after{
+.category-card::before{
+
     content:"";
 
     position:absolute;
 
-    width:150px;
-    height:150px;
+    width:130px;
 
-    left:-65px;
-    bottom:-75px;
+    height:130px;
 
     border-radius:50%;
 
-    border:1px solid rgba(239,51,64,.14);
+    right:-40px;
+
+    top:-45px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(20,145,255,.25),
+            transparent 70%
+        );
+
 }
 
-.feature-card:hover{
-    transform:translateY(-4px);
+.category-card::after{
 
-    border-color:rgba(239,51,64,.32);
+    content:"";
 
-    box-shadow:0 15px 40px rgba(0,0,0,.2);
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(2,7,20,.12),
+            transparent
+        );
+
+    pointer-events:none;
+
+    z-index:1;
+
 }
 
-.feature-icon{
-    font-size:38px;
+.category-icon{
 
-    margin-bottom:10px;
+    position:absolute;
+
+    right:18px;
+
+    top:17px;
+
+    font-size:30px;
+
+    z-index:3;
+
+    opacity:.9;
+
 }
 
-.feature-card h3{
-    font-size:18px;
+.category-text{
 
-    margin-bottom:6px;
-}
+    position:relative;
 
-.feature-card p{
-    color:var(--muted);
+    z-index:3;
 
-    font-size:12px;
+    width:68%;
 
-    line-height:1.9;
-}
-
-.feature-link{
-    display:inline-block;
-
-    margin-top:12px;
-
-    color:var(--red2);
-
-    font-size:11px;
-
-    font-weight:900;
-}
-
-
-/* =========================================================
-   CONTENT SECTIONS
-========================================================= */
-
-.content-grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:15px;
-}
-
-.content-card{
-    padding:22px;
-
-    min-height:165px;
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:17px;
-
-    transition:.2s;
-}
-
-.content-card:hover{
-    border-color:rgba(239,51,64,.3);
-
-    transform:translateY(-3px);
-}
-
-.content-icon{
-    font-size:32px;
-
-    margin-bottom:8px;
-}
-
-.content-card h3{
-    font-size:16px;
-
-    margin-bottom:6px;
-}
-
-.content-card p{
-    color:var(--muted);
-
-    font-size:12px;
-
-    line-height:1.9;
-}
-
-.content-card .card-action{
-    display:inline-block;
-
-    margin-top:12px;
-
-    color:var(--red2);
-
-    font-size:11px;
-
-    font-weight:900;
-}
-
-
-/* =========================================================
-   TRANSFERS
-========================================================= */
-
-.two-columns{
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
-    gap:18px;
-}
-
-.transfer-list{
-    display:flex;
-
-    flex-direction:column;
-
-    gap:10px;
-}
-
-.transfer{
-    display:grid;
-
-    grid-template-columns:
-        1fr
-        auto
-        1fr;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:13px;
-
-    background:var(--card);
-
-    border:1px solid var(--border);
-
-    border-radius:14px;
-}
-
-.player{
-    display:flex;
-
-    align-items:center;
-
-    gap:9px;
-}
-
-.avatar{
-    width:42px;
-    height:42px;
-
-    border-radius:50%;
-
-    background:#10283f;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-}
-
-.player-name{
-    font-size:12px;
-
-    font-weight:900;
-}
-
-.player-position{
-    color:var(--muted);
-
-    font-size:10px;
-}
-
-.transfer-arrow{
-    color:var(--green);
-
-    font-size:20px;
-}
-
-.transfer-status{
-    color:var(--gold2);
-
-    font-size:10px;
-}
-
-.stats{
-    display:grid;
-
-    grid-template-columns:
-        repeat(2,1fr);
-
-    gap:10px;
-}
-
-.stat{
-    padding:17px;
+    min-width:0;
 
     text-align:center;
 
-    background:var(--card);
+    direction:rtl;
 
-    border:1px solid var(--border);
-
-    border-radius:14px;
 }
 
-.stat-icon{
-    font-size:20px;
-}
+.category-text h3{
 
-.stat-label{
-    color:var(--muted);
+    color:#20a8ff;
 
-    font-size:10px;
-}
-
-.stat-value{
-    font-size:24px;
+    font-size:17px;
 
     font-weight:900;
+
+    margin-bottom:6px;
+
+    line-height:1.4;
+
+    text-shadow:
+        0 2px 10px
+        rgba(0,0,0,.9);
+
+}
+
+.category-text p{
+
+    color:#b5c0d2;
+
+    font-size:11px;
+
+    line-height:1.65;
+
+    font-weight:500;
+
+    text-shadow:
+        0 2px 8px
+        rgba(0,0,0,.95);
+
+}
+
+.category-card:hover{
+
+    transform:
+        translateY(-3px)
+        scale(1.015);
+
+    border-color:
+        rgba(40,170,255,.75);
+
+    box-shadow:
+        0 0 0 1px
+        rgba(0,150,255,.15),
+        0 0 28px
+        rgba(0,120,255,.25),
+        inset 0 0 35px
+        rgba(0,130,255,.12);
+
+}
+
+.category-card:active{
+
+    transform:
+        translateY(-1px)
+        scale(1.025);
+
+    border-color:
+        rgba(217,180,91,.85);
+
 }
 
 
 /* =========================================================
-   VIDEO
+   NEWS SECTION
 ========================================================= */
 
-.video-card{
-    position:relative;
+.section{
 
-    min-height:180px;
+    width:min(
+        1500px,
+        100%
+    );
+
+    margin:auto;
+
+    padding:
+        20px
+        30px
+        60px;
+
+}
+
+.trending-header{
 
     display:flex;
 
-    flex-direction:column;
+    align-items:end;
 
-    justify-content:flex-end;
+    justify-content:space-between;
 
-    padding:20px;
+    gap:20px;
 
-    overflow:hidden;
+    margin-bottom:22px;
+
+}
+
+.section-title{
+
+    font-size:
+        clamp(
+            28px,
+            3vw,
+            42px
+        );
+
+    line-height:1.2;
+
+    font-weight:900;
+
+}
+
+.section-title span{
+
+    color:var(--gold-light);
+
+}
+
+.section-description{
+
+    color:#8591a8;
+
+    font-size:13px;
+
+    margin-top:8px;
+
+    line-height:1.7;
+
+}
+
+.view-all{
+
+    color:var(--gold-light);
+
+    font-size:13px;
+
+    font-weight:900;
+
+}
+
+.news-count{
+
+    color:#69758c;
+
+    font-size:11px;
+
+    margin-top:6px;
+
+}
+
+
+/* =========================================================
+   NEWS GRID
+========================================================= */
+
+.trend-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
+
+    gap:18px;
+
+}
+
+.trend-card{
+
+    position:relative;
 
     background:
         linear-gradient(
             145deg,
-            #071a2c,
-            #061321
-        );
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.012)
+        ),
+        #09162c;
 
-    border:1px solid var(--border);
+    border:
+        1px solid
+        rgba(255,255,255,.09);
 
-    border-radius:17px;
+    border-radius:22px;
+
+    overflow:hidden;
 
     cursor:pointer;
+
+    transition:.25s;
+
 }
 
-.video-play{
+.trend-card:hover{
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(20,145,255,.32);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0,70,150,.16);
+
+}
+
+.trend-image-wrapper{
+
+    width:100%;
+
+    height:235px;
+
+    overflow:hidden;
+
+    background:#071126;
+
+    position:relative;
+
+}
+
+.trend-image{
+
+    width:100%;
+
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+
+    object-position:center;
+
+    background:#071126;
+
+    transition:
+        transform .35s ease;
+
+}
+
+.trend-card:hover .trend-image{
+
+    transform:
+        scale(1.025);
+
+}
+
+.trend-card-content{
+
+    padding:
+        17px
+        20px
+        20px;
+
+    min-height:190px;
+
+}
+
+.trend-number{
+
+    color:var(--gold-light);
+
+    font-size:12px;
+
+    font-weight:900;
+
+    margin-bottom:10px;
+
+}
+
+.trend-icon{
+
     position:absolute;
 
-    top:22px;
-    right:22px;
+    left:17px;
 
-    width:48px;
-    height:48px;
+    top:15px;
 
-    border-radius:50%;
+    font-size:28px;
 
-    background:rgba(239,51,64,.15);
+}
 
-    border:1px solid rgba(239,51,64,.4);
+.trend-card h3{
+
+    font-size:18px;
+
+    line-height:1.7;
+
+    font-weight:900;
+
+    margin-bottom:9px;
+
+}
+
+.trend-meta{
+
+    color:#7f8ba2;
+
+    font-size:11px;
+
+    line-height:1.7;
+
+}
+
+.news-link{
+
+    display:inline-block;
+
+    margin-top:12px;
+
+    color:var(--gold-light);
+
+    font-size:12px;
+
+    font-weight:900;
+
+}
+
+
+/* =========================================================
+   MATCH RESULTS
+========================================================= */
+
+#matches{
+
+    padding-top:30px;
+
+}
+
+.results-shell{
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.01)
+        ),
+        #071329;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:24px;
+
+    padding:22px;
+
+    min-height:160px;
+
+}
+
+.results-header{
 
     display:flex;
 
     align-items:center;
 
-    justify-content:center;
+    justify-content:space-between;
 
-    font-size:20px;
+    gap:15px;
+
+    margin-bottom:20px;
+
 }
 
-.video-card h3{
-    font-size:16px;
-}
+.results-live{
 
-.video-card p{
-    color:var(--muted);
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:7px 12px;
+
+    border-radius:30px;
+
+    background:
+        rgba(34,212,123,.08);
+
+    border:
+        1px solid
+        rgba(34,212,123,.2);
+
+    color:var(--green);
 
     font-size:11px;
+
+    font-weight:800;
+
+}
+
+.results-live-dot{
+
+    width:7px;
+
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+    box-shadow:
+        0 0 10px
+        rgba(34,212,123,.8);
+
+}
+
+#footballResults{
+
+    width:100%;
+
+}
+
+.results-placeholder{
+
+    text-align:center;
+
+    padding:35px 20px;
+
+    color:var(--muted);
+
+}
+
+.results-placeholder strong{
+
+    display:block;
+
+    color:#fff;
+
+    font-size:17px;
+
+    margin-bottom:7px;
+
 }
 
 
 /* =========================================================
-   MODAL
+   EMPTY NEWS
 ========================================================= */
 
-.modal{
+.empty-news{
+
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:50px 20px;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:18px;
+
+    background:var(--card);
+
+    color:var(--muted);
+
+}
+
+.empty-news strong{
+
+    display:block;
+
+    color:#fff;
+
+    font-size:18px;
+
+    margin-bottom:8px;
+
+}
+
+
+/* =========================================================
+   ARTICLE
+========================================================= */
+
+.article-overlay{
+
     position:fixed;
 
     inset:0;
 
-    z-index:2100;
+    z-index:500;
 
     display:none;
 
+    background:
+        rgba(2,6,15,.97);
+
+    backdrop-filter:blur(18px);
+
+    overflow-y:auto;
+
+    padding:
+        15px
+        20px
+        60px;
+
+}
+
+.article-overlay.active{
+
+    display:block;
+
+}
+
+.article-container{
+
+    max-width:1050px;
+
+    margin:auto;
+
+}
+
+.article-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
     align-items:center;
 
-    justify-content:center;
+    margin-bottom:20px;
 
-    padding:20px;
-
-    background:rgba(1,6,13,.78);
-
-    backdrop-filter:blur(10px);
 }
 
-.modal.show{
+.article-brand{
+
     display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:var(--gold-light);
+
+    font-weight:900;
+
+    font-size:18px;
+
 }
 
-.modal-box{
-    width:min(600px,100%);
+.article-close{
 
-    max-height:85vh;
+    width:46px;
 
-    overflow:auto;
+    height:46px;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.05);
+
+    color:#fff;
+
+    border-radius:13px;
+
+    cursor:pointer;
+
+    font-size:25px;
+
+}
+
+.article-image-wrapper{
+
+    width:100%;
+
+    margin-bottom:20px;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    border:
+        1px solid
+        var(--line);
+
+}
+
+.article-image{
+
+    width:100%;
+
+    max-height:560px;
+
+    display:block;
+
+    object-fit:cover;
+
+}
+
+.article-category{
+
+    color:var(--gold-light);
+
+    font-size:13px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+}
+
+.article-title{
+
+    font-size:
+        clamp(
+            30px,
+            5vw,
+            54px
+        );
+
+    line-height:1.35;
+
+    font-weight:900;
+
+    margin-bottom:15px;
+
+}
+
+.article-info{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:10px;
+
+    color:var(--muted);
+
+    font-size:13px;
+
+    margin-bottom:20px;
+
+}
+
+.article-info span{
+
+    padding:
+        7px
+        12px;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.035);
+
+    border-radius:9px;
+
+}
+
+.article-summary-box{
 
     background:
         linear-gradient(
             145deg,
-            #081d31,
-            #061321
-        );
+            rgba(255,255,255,.055),
+            rgba(255,255,255,.018)
+        ),
+        var(--card);
 
-    border:1px solid rgba(239,51,64,.25);
+    border:
+        1px solid
+        var(--line);
 
-    border-radius:22px;
+    border-right:
+        3px solid
+        var(--gold);
 
-    padding:25px;
+    border-radius:20px;
 
-    box-shadow:var(--shadow);
+    padding:
+        24px
+        30px;
+
+    margin-bottom:20px;
+
 }
 
-.modal-head{
-    display:flex;
+.article-summary-label{
 
-    align-items:center;
+    color:var(--gold-light);
 
-    justify-content:space-between;
+    font-size:13px;
 
-    margin-bottom:18px;
+    font-weight:900;
+
+    margin-bottom:9px;
+
 }
 
-.modal-head h2{
-    font-size:22px;
+.article-summary{
+
+    color:#e9edf8;
+
+    font-size:18px;
+
+    line-height:1.9;
+
 }
 
-.modal-close{
-    width:38px;
-    height:38px;
+.article-points{
 
-    border:1px solid var(--border);
+    margin-top:15px;
 
-    border-radius:10px;
+    padding:
+        19px
+        21px;
 
-    background:#061525;
+    border-radius:18px;
 
-    color:#fff;
+    background:
+        rgba(79,140,255,.05);
 
-    font-size:20px;
+    border:
+        1px solid
+        rgba(79,140,255,.12);
+
 }
 
-.modal-content{
-    color:#aebdcb;
+.article-points h3{
+
+    color:var(--gold-light);
+
+    font-size:17px;
+
+    margin-bottom:9px;
+
+}
+
+.article-points p{
+
+    color:var(--muted);
+
+    line-height:1.8;
 
     font-size:14px;
 
-    line-height:2;
 }
 
-.modal-list{
-    display:grid;
+.article-source{
 
-    gap:9px;
+    margin-top:20px;
 
-    margin-top:15px;
+    padding:
+        22px 0;
+
+    border-top:
+        1px solid
+        var(--line);
+
 }
 
-.modal-list div{
-    padding:13px;
+.article-source-title{
 
-    background:#061525;
+    color:var(--muted);
 
-    border:1px solid var(--border);
+    font-size:12px;
+
+    margin-bottom:7px;
+
+}
+
+.article-source-name{
+
+    color:#fff;
+
+    font-size:18px;
+
+    font-weight:800;
+
+    margin-bottom:16px;
+
+}
+
+.original-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:
+        13px
+        19px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold)
+        );
+
+    color:#080b13;
 
     border-radius:11px;
+
+    font-size:13px;
+
+    font-weight:900;
+
+}
+
+.article-note{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    line-height:1.8;
+
+    margin-top:13px;
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-panel{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:300;
+
+    background:
+        rgba(4,7,15,.94);
+
+    backdrop-filter:blur(15px);
+
+    padding:
+        100px
+        22px;
+
+}
+
+.search-panel.active{
+
+    display:block;
+
+}
+
+.search-box{
+
+    max-width:750px;
+
+    margin:auto;
+
+    position:relative;
+
+}
+
+.search-box input{
+
+    width:100%;
+
+    padding:
+        20px
+        65px
+        20px
+        25px;
+
+    border-radius:15px;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:var(--card);
+
+    color:#fff;
+
+    outline:none;
+
+    font-size:18px;
+
+    font-family:inherit;
+
+}
+
+.close-search{
+
+    position:absolute;
+
+    right:10px;
+
+    top:10px;
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    background:transparent;
+
+    color:#fff;
+
+    font-size:25px;
+
+    cursor:pointer;
+
+}
+
+.search-results{
+
+    max-width:750px;
+
+    margin:25px auto;
+
+}
+
+.search-result{
+
+    padding:18px;
+
+    margin-bottom:10px;
+
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:14px;
+
+    background:var(--card);
+
+    cursor:pointer;
+
+}
+
+.search-result:hover{
+
+    border-color:
+        rgba(20,145,255,.35);
+
+}
+
+.search-result-title{
+
+    font-size:15px;
+
+    font-weight:800;
+
+    line-height:1.7;
+
+}
+
+.search-result-meta{
+
+    color:var(--muted);
+
+    font-size:11px;
+
+    margin-top:7px;
+
 }
 
 
@@ -1463,89 +1793,122 @@ header{
 ========================================================= */
 
 footer{
-    margin-top:55px;
 
-    padding:35px 20px;
+    border-top:
+        1px solid
+        var(--line);
 
-    background:#020914;
+    background:#020611;
 
-    border-top:1px solid var(--border);
+    margin-top:20px;
+
 }
 
-.footer{
-    max-width:1250px;
+.footer-inner{
+
+    width:min(
+        1500px,
+        100%
+    );
 
     margin:auto;
 
-    display:flex;
+    padding:
+        35px
+        30px;
 
-    align-items:center;
+    display:flex;
 
     justify-content:space-between;
 
-    gap:30px;
+    align-items:center;
+
+    gap:20px;
+
 }
 
-.footer-logo{
-    direction:ltr;
+.footer-copy{
 
-    font-size:23px;
-
-    font-weight:900;
-}
-
-.footer-logo span{
-    color:var(--red);
-}
-
-.footer-text{
     color:var(--muted);
 
     font-size:12px;
+
 }
 
-.copyright{
-    color:#6d7d8d;
+.footer-logo{
 
-    font-size:11px;
+    font-size:21px;
+
+    font-weight:900;
+
+}
+
+.footer-logo span{
+
+    color:var(--gold-light);
+
 }
 
 
 /* =========================================================
-   TOAST
+   TABLET
 ========================================================= */
 
-.toast{
-    position:fixed;
+@media(max-width:1050px){
 
-    left:50%;
+    nav{
 
-    bottom:25px;
+        display:none;
 
-    z-index:3000;
+    }
 
-    transform:
-        translate(-50%,120px);
+    .mobile-menu{
 
-    padding:12px 20px;
+        display:block;
 
-    background:#071a2c;
+    }
 
-    border:1px solid rgba(239,51,64,.35);
+    .hero{
 
-    border-radius:12px;
+        min-height:450px;
 
-    color:#fff;
+        height:450px;
 
-    font-size:12px;
+    }
 
-    box-shadow:var(--shadow);
+    .hero-content{
 
-    transition:.3s;
-}
+        left:3%;
 
-.toast.show{
-    transform:translate(-50%,0);
+        width:48%;
+
+        padding:15px;
+
+    }
+
+    .hero h1{
+
+        font-size:
+            clamp(
+                34px,
+                5vw,
+                58px
+            );
+
+    }
+
+    .hero p{
+
+        font-size:13px;
+
+    }
+
+    .category-card{
+
+        flex-basis:270px;
+
+    }
+
 }
 
 
@@ -1553,1131 +1916,951 @@ footer{
    MOBILE
 ========================================================= */
 
-@media(max-width:900px){
+@media(max-width:700px){
 
-    .header{
-        min-height:67px;
+    header{
 
-        padding:0 12px;
+        height:70px;
+
     }
 
-    .logo-name{
-        font-size:18px;
-    }
+    .header-inner{
 
-    .logo-box{
-        width:39px;
-        height:39px;
-    }
+        padding:
+            0
+            13px;
 
-    .logo-box span{
-        font-size:26px;
-    }
+        gap:7px;
 
-    .nav{
-        display:none;
-    }
-
-    .menu-btn{
-        display:flex;
-    }
-
-    .header{
-        flex-direction:row-reverse;
-    }
-
-    .header-buttons{
-        order:2;
     }
 
     .logo{
-        order:1;
+
+        font-size:17px;
+
+        gap:7px;
+
     }
+
+    .logo-mark{
+
+        width:38px;
+
+        height:38px;
+
+        border-radius:11px;
+
+        font-size:18px;
+
+    }
+
+    .search-btn,
+    .mobile-menu{
+
+        width:40px;
+
+        height:40px;
+
+    }
+
+
+    /* HERO */
 
     .hero{
-        padding:0 12px;
 
-        margin-top:15px;
+        width:100%;
+
+        height:400px;
+
+        min-height:400px;
+
+        background-position:center;
+
+        background-size:cover;
+
     }
 
-    .hero-box{
-        min-height:330px;
+    .hero::before{
 
-        border-radius:19px;
+        background:
+            linear-gradient(
+                90deg,
+                rgba(2,7,20,.42),
+                rgba(2,7,20,.08)
+            );
+
     }
 
     .hero-content{
-        padding:35px 21px;
+
+        left:2%;
+
+        width:50%;
+
+        top:50%;
+
+        padding:10px;
+
+    }
+
+    .hero-badge{
+
+        font-size:8px;
+
+        padding:
+            6px
+            9px;
+
+        margin-bottom:11px;
+
+        gap:5px;
+
+    }
+
+    .live-dot{
+
+        width:6px;
+
+        height:6px;
+
     }
 
     .hero h1{
-        font-size:35px;
+
+        font-size:
+            clamp(
+                22px,
+                6.3vw,
+                35px
+            );
+
+        line-height:1.15;
+
+        letter-spacing:-1px;
+
+        margin-bottom:10px;
+
     }
 
-    .hero-description{
+    .hero-title-line{
+
+        white-space:normal;
+
+    }
+
+    .hero p{
+
+        font-size:8px;
+
+        line-height:1.75;
+
+        max-width:100%;
+
+        margin-bottom:12px;
+
+    }
+
+    .hero-buttons{
+
+        gap:6px;
+
+        flex-direction:column;
+
+        align-items:center;
+
+    }
+
+    .primary-btn,
+    .secondary-btn{
+
+        padding:
+            8px
+            11px;
+
+        font-size:8px;
+
+        border-radius:8px;
+
+    }
+
+
+    /* CATEGORIES */
+
+    .category-section{
+
+        padding:
+            0
+            13px
+            22px;
+
+    }
+
+    .category-slider{
+
+        gap:10px;
+
+    }
+
+    .category-card{
+
+        flex:
+            0 0 220px;
+
+        min-height:105px;
+
+        padding:14px;
+
+        border-radius:16px;
+
+    }
+
+    .category-icon{
+
+        font-size:23px;
+
+        right:13px;
+
+        top:12px;
+
+    }
+
+    .category-text{
+
+        width:66%;
+
+    }
+
+    .category-text h3{
+
         font-size:14px;
+
     }
 
-    .container{
-        padding:0 12px;
+    .category-text p{
 
-        margin-top:28px;
+        font-size:9px;
+
+        line-height:1.55;
+
     }
 
-    .matches-panel{
-        padding:13px;
 
-        border-radius:17px;
+    /* NEWS */
+
+    .section{
+
+        padding:
+            18px
+            13px
+            45px;
+
     }
 
-    .matches-grid{
-        grid-template-columns:1fr;
-    }
+    .trending-header{
 
-    .feature-grid,
-    .content-grid{
-        grid-template-columns:1fr;
-    }
+        align-items:flex-start;
 
-    .two-columns{
-        grid-template-columns:1fr;
+        margin-bottom:17px;
+
     }
 
     .section-title{
-        font-size:20px;
+
+        font-size:27px;
+
     }
 
-    .competition-btn{
-        padding:9px 13px;
+    .section-description{
+
+        font-size:11px;
+
+        line-height:1.7;
+
     }
 
-    .footer{
+    .trend-grid{
+
+        grid-template-columns:1fr;
+
+        gap:15px;
+
+    }
+
+    .trend-image-wrapper{
+
+        height:205px;
+
+    }
+
+    .trend-image{
+
+        height:205px;
+
+    }
+
+    .trend-card-content{
+
+        padding:
+            16px
+            18px
+            19px;
+
+    }
+
+
+    /* RESULTS */
+
+    .results-shell{
+
+        padding:14px;
+
+        border-radius:18px;
+
+    }
+
+    .results-header{
+
         flex-direction:column;
 
-        text-align:center;
+        align-items:flex-start;
+
     }
 
-    .search-input-wrap{
+
+    /* ARTICLE */
+
+    .article-overlay{
+
+        padding:
+            12px
+            13px
+            40px;
+
+    }
+
+    .article-image{
+
+        max-height:330px;
+
+    }
+
+    .article-summary-box{
+
+        padding:
+            19px
+            17px;
+
+    }
+
+    .article-summary{
+
+        font-size:16px;
+
+        line-height:1.85;
+
+    }
+
+    .article-title{
+
+        font-size:30px;
+
+    }
+
+
+    /* FOOTER */
+
+    .footer-inner{
+
         flex-direction:column;
+
+        align-items:flex-start;
+
+        padding:
+            28px
+            16px;
+
     }
 
-    .search-submit{
-        padding:12px;
+}
+
+
+/* =========================================================
+   VERY SMALL
+========================================================= */
+
+@media(max-width:380px){
+
+    .logo{
+
+        font-size:15px;
+
     }
+
+    .hero{
+
+        height:370px;
+
+        min-height:370px;
+
+    }
+
+    .hero h1{
+
+        font-size:21px;
+
+    }
+
+    .hero p{
+
+        font-size:7.5px;
+
+    }
+
+    .category-card{
+
+        flex-basis:205px;
+
+    }
+
+}
+
+
+/* =========================================================
+   FOOTBALL RESULT COMPATIBILITY
+========================================================= */
+
+#footballResults table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+#footballResults img{
+
+    max-width:35px;
+
+    max-height:35px;
+
+    object-fit:contain;
+
+}
+
+#footballResults button{
+
+    font-family:inherit;
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
 
-<!-- =========================================================
-     SEARCH
-========================================================= -->
-
-<div
-    class="search-overlay"
-    id="searchOverlay"
->
-
-    <div class="search-box">
-
-        <div class="search-top">
-
-            <h3>
-                🔎 البحث في NOWNEX
-            </h3>
-
-            <button
-                class="close-btn"
-                id="closeSearch"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <div class="search-input-wrap">
-
-            <input
-                type="text"
-                id="searchInput"
-                class="search-input"
-                placeholder="ابحث عن قسم أو بطولة أو محتوى..."
-                autocomplete="off"
-            >
-
-            <button
-                class="search-submit"
-                id="searchSubmit"
-            >
-                بحث
-            </button>
-
-        </div>
-
-        <div
-            class="search-results"
-            id="searchResults"
-        ></div>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     MOBILE MENU
-========================================================= -->
-
-<div
-    class="mobile-menu"
-    id="mobileMenu"
->
-
-    <div class="mobile-menu-panel">
-
-        <div class="mobile-menu-head">
-
-            <div class="mobile-menu-logo">
-                <span style="color:#fff">
-                    NOWNEX
-                </span>
-                <span>
-                    FOOTBALL
-                </span>
-            </div>
-
-            <button
-                class="close-btn"
-                id="closeMenu"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <nav class="mobile-nav">
-
-            <a href="#top">
-                🏠 الرئيسية
-            </a>
-
-            <a href="#matches">
-                ⚽ مباريات اليوم
-            </a>
-
-            <a href="#news">
-                📰 أخبار كرة القدم
-            </a>
-
-            <a href="#stars">
-                ⭐ أخبار النجوم
-            </a>
-
-            <a href="#world">
-                🌍 الكرة العالمية
-            </a>
-
-            <a href="#big-games">
-                🔥 قمم كروية
-            </a>
-
-            <a href="#competitions">
-                🏆 البطولات الكبرى
-            </a>
-
-            <a href="#transfers">
-                🔄 الانتقالات
-            </a>
-
-            <a href="#videos">
-                ▶️ الأهداف والملخصات
-            </a>
-
-        </nav>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
+<!-- =======================================================
      HEADER
-========================================================= -->
+======================================================= -->
 
 <header>
 
-<div class="header">
-
-    <div class="header-buttons">
-
-        <button
-            class="header-btn menu-btn"
-            id="menuButton"
-            aria-label="القائمة"
-        >
-            ☰
-        </button>
-
-        <button
-            class="header-btn"
-            id="searchButton"
-            aria-label="البحث"
-        >
-            ⌕
-        </button>
-
-    </div>
+<div class="header-inner">
 
 
-    <a
-        href="#top"
-        class="logo"
-    >
+    <a href="#"
+       class="logo"
+       onclick="goHome();return false;">
 
-        <div class="logo-name">
-
-            <span class="nownex">
-                NOWNEX
-            </span>
-
-            <span class="football">
-                FOOTBALL
-            </span>
-
+        <div class="logo-mark">
+            ⚽
         </div>
 
-        <div class="logo-box">
-            <span>N</span>
-        </div>
+        <span class="logo-text">
+            NOWNEX FOOTBALL
+        </span>
 
     </a>
 
 
-    <nav class="nav">
+    <nav>
 
-        <a
-            href="#top"
-            class="active"
-        >
+        <a href="#"
+           class="active"
+           onclick="goHome();return false;">
             الرئيسية
         </a>
 
-        <a href="#matches">
-            المباريات
-        </a>
-
-        <a href="#news">
+        <a href="#trending"
+           onclick="scrollToTrending();return false;">
             الأخبار
         </a>
 
-        <a href="#transfers">
-            الانتقالات
+        <a href="#categories"
+           onclick="scrollToCategories();return false;">
+            الأقسام
         </a>
 
-        <a href="#videos">
-            الفيديوهات
+        <a href="#matches"
+           onclick="scrollToMatches();return false;">
+            النتائج
+        </a>
+
+        <a href="#about"
+           onclick="scrollToAbout();return false;">
+            حول NOWNEX
         </a>
 
     </nav>
+
+
+    <div class="header-actions">
+
+        <button class="search-btn"
+                onclick="openSearch()"
+                aria-label="بحث">
+            🔍
+        </button>
+
+
+        <button class="mobile-menu"
+                onclick="scrollToCategories()"
+                aria-label="القائمة">
+            ☰
+        </button>
+
+    </div>
 
 </div>
 
 </header>
 
 
-<!-- =========================================================
-     HERO
-========================================================= -->
 
-<div id="top"></div>
+<main>
+
+
+<!-- =======================================================
+     HERO
+======================================================= -->
 
 <section class="hero">
 
-<div class="hero-box">
-
-    <div class="hero-glow"></div>
 
     <div class="hero-content">
 
-        <div class="hero-label">
 
-            <i></i>
+        <div class="hero-badge">
 
-            كرة القدم لحظة بلحظة
+            <span class="live-dot"></span>
+
+            <span>
+                NOWNEX FOOTBALL · عالم كرة القدم الآن
+            </span>
 
         </div>
+
 
         <h1>
 
-            الخبر،
-            <span>النتيجة،</span>
-            والمباراة التي تهمك.
+            <span class="hero-title-line">
+                كل ما يحدث في
+            </span>
+
+            <span class="hero-title-line gradient">
+                عالم كرة القدم… الآن
+            </span>
 
         </h1>
 
-        <p class="hero-description">
 
-            كل ما تحتاجه لمتابعة كرة القدم في مكان واحد:
-            مباريات اليوم، النتائج المباشرة، البطولات،
-            أخبار النجوم وأهم الأحداث حول العالم.
+        <p>
+
+            أحدث الأخبار والمواجهات والانتقالات
+            وأخبار النجوم والمنتخبات والتاريخ الكروي،
+            بالإضافة إلى نتائج المباريات لحظة بلحظة.
 
         </p>
 
-        <div class="hero-actions">
 
-            <a
-                href="#matches"
-                class="btn btn-gold"
-            >
-                مباريات اليوم
-            </a>
+        <div class="hero-buttons">
 
-            <a
-                href="#news"
-                class="btn btn-red"
-            >
-                أحدث الأخبار
-            </a>
+            <button class="primary-btn"
+                    onclick="scrollToTrending()">
+
+                ⚡ استكشف آخر الأخبار
+
+            </button>
+
+
+            <button class="secondary-btn"
+                    onclick="scrollToCategories()">
+
+                ⚽ استكشف الأقسام
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     CATEGORIES
+======================================================= -->
+
+<section class="category-section"
+         id="categories">
+
+<div class="category-slider"
+     id="categorySlider">
+
+
+    <!-- =====================================================
+         MATCHES
+    ===================================================== -->
+
+    <div class="category-card"
+         data-category="Matches"
+         onclick="filterByCategory('Matches',this)">
+
+        <div class="category-icon">
+            ⚔️
+        </div>
+
+        <div class="category-text">
+
+            <h3>
+                أقوى المواجهات
+            </h3>
+
+            <p>
+                أخبار المباريات الكبيرة
+                والمواجهات المرتقبة.
+            </p>
 
         </div>
 
     </div>
 
-</div>
-
-</section>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
+    <!-- =====================================================
+         TRANSFERS
+    ===================================================== -->
 
-<main class="container">
+    <div class="category-card"
+         data-category="Transfers"
+         onclick="filterByCategory('Transfers',this)">
 
+        <div class="category-icon">
+            💰
+        </div>
 
-<!-- =========================================================
-     MATCHES
-========================================================= -->
+        <div class="category-text">
 
-<section
-    class="section"
-    id="matches"
->
+            <h3>
+                أخبار الانتقالات
+            </h3>
 
-<div class="section-header">
+            <p>
+                الشائعات والصفقات المرتقبة
+                وآخر أخبار سوق الانتقالات.
+            </p>
 
-    <h2 class="section-title">
-        مباريات اليوم
-    </h2>
-
-    <span class="section-more">
-        نتائج مباشرة
-    </span>
-
-</div>
-
-
-<div class="matches-panel">
-
-
-<!-- LEAGUES -->
-
-<div class="competition-group">
-
-    <div class="competition-label">
-
-        <h3>
-            🏟️ الدوريات
-        </h3>
-
-        <span>
-            اختر البطولة
-        </span>
+        </div>
 
     </div>
 
-    <div
-        class="competition-strip"
-        id="leaguesStrip"
-    >
-
-        <button class="competition-btn active">
-            كل الدوريات
-        </button>
-
-    </div>
-
-</div>
 
 
-<!-- CUPS -->
+    <!-- =====================================================
+         STARS
+    ===================================================== -->
 
-<div class="competition-group">
+    <div class="category-card"
+         data-category="Stars"
+         onclick="filterByCategory('Stars',this)">
 
-    <div class="competition-label">
+        <div class="category-icon">
+            ⭐
+        </div>
 
-        <h3>
-            🏆 كؤوس الأندية
-        </h3>
+        <div class="category-text">
 
-        <span>
-            دوري الأبطال والدوري الأوروبي وغيرها
-        </span>
+            <h3>
+                أخبار النجوم
+            </h3>
 
-    </div>
+            <p>
+                اللاعبون والنجوم والأرقام
+                والتصريحات والأحداث المهمة.
+            </p>
 
-    <div
-        class="competition-strip"
-        id="cupsStrip"
-    >
-
-        <button class="competition-btn">
-            كل الكؤوس
-        </button>
+        </div>
 
     </div>
 
-</div>
 
 
-<!-- NATIONAL TEAMS -->
+    <!-- =====================================================
+         NATIONAL TEAMS
+    ===================================================== -->
 
-<div class="competition-group">
+    <div class="category-card"
+         data-category="NationalTeams"
+         onclick="filterByCategory('NationalTeams',this)">
 
-    <div class="competition-label">
+        <div class="category-icon">
+            🌍
+        </div>
 
-        <h3>
-            🌍 منافسات المنتخبات
-        </h3>
+        <div class="category-text">
 
-        <span>
-            بطولات المنتخبات فقط
-        </span>
+            <h3>
+                المنتخبات
+            </h3>
 
-    </div>
+            <p>
+                كأس العالم والبطولات القارية
+                وتصفيات المنتخبات.
+            </p>
 
-    <div
-        class="competition-strip"
-        id="nationalStrip"
-    >
-
-        <button
-            class="competition-btn active"
-            type="button"
-        >
-            كل منافسات المنتخبات
-        </button>
-
-        <button
-            class="competition-btn"
-            type="button"
-        >
-            كأس العالم
-        </button>
-
-        <button
-            class="competition-btn"
-            type="button"
-        >
-            كأس القارات
-        </button>
-
-        <button
-            class="competition-btn"
-            type="button"
-        >
-            كأس أمم أوروبا
-        </button>
-
-        <button
-            class="competition-btn"
-            type="button"
-        >
-            كأس أمم أفريقيا
-        </button>
-
-        <button
-            class="competition-btn"
-            type="button"
-        >
-            كأس آسيا
-        </button>
+        </div>
 
     </div>
 
-</div>
 
 
-<!-- MATCHES -->
+    <!-- =====================================================
+         HISTORY
+    ===================================================== -->
 
-<div
-    class="matches-grid"
-    id="matchesGrid"
->
+    <div class="category-card"
+         data-category="History"
+         onclick="filterByCategory('History',this)">
 
-    <div class="matches-empty">
+        <div class="category-icon">
+            🏆
+        </div>
 
-        جاري تحميل مباريات اليوم...
+        <div class="category-text">
+
+            <h3>
+                تاريخ في الكرة
+            </h3>
+
+            <p>
+                أساطير الكرة واللاعبون المعتزلون
+                واللحظات التاريخية.
+            </p>
+
+        </div>
 
     </div>
 
-</div>
+
+
+    <!-- =====================================================
+         RESULTS
+    ===================================================== -->
+
+    <div class="category-card"
+         data-category="Results"
+         onclick="scrollToMatches()">
+
+        <div class="category-icon">
+            📊
+        </div>
+
+        <div class="category-text">
+
+            <h3>
+                نتائج المباريات
+            </h3>
+
+            <p>
+                مباريات اليوم والنتائج المباشرة
+                والنهائية والقادمة.
+            </p>
+
+        </div>
+
+    </div>
+
 
 </div>
 
 </section>
 
 
-<!-- =========================================================
-     QUICK DISCOVERY
-========================================================= -->
 
-<section class="section">
-
-<div class="section-header">
-
-    <h2 class="section-title">
-        اكتشف عالم كرة القدم
-    </h2>
-
-</div>
-
-
-<div class="feature-grid">
-
-
-<div
-    class="feature-card"
-    data-modal="news"
->
-
-    <div class="feature-icon">
-        📰
-    </div>
-
-    <h3>
-        أخبار كرة القدم
-    </h3>
-
-    <p>
-        آخر المستجدات والأخبار المهمة
-        من عالم كرة القدم.
-    </p>
-
-    <span class="feature-link">
-        استكشف الأخبار ←
-    </span>
-
-</div>
-
-
-<div
-    class="feature-card"
-    data-modal="stars"
-    id="stars"
->
-
-    <div class="feature-icon">
-        ⭐
-    </div>
-
-    <h3>
-        أخبار النجوم
-    </h3>
-
-    <p>
-        أبرز أخبار اللاعبين وتصريحات
-        النجوم حول العالم.
-    </p>
-
-    <span class="feature-link">
-        أخبار النجوم ←
-    </span>
-
-</div>
-
-
-<div
-    class="feature-card"
-    data-modal="world"
-    id="world"
->
-
-    <div class="feature-icon">
-        🌍
-    </div>
-
-    <h3>
-        الكرة العالمية
-    </h3>
-
-    <p>
-        أهم الأحداث القادمة من مختلف
-        البطولات العالمية.
-    </p>
-
-    <span class="feature-link">
-        اكتشف المزيد ←
-    </span>
-
-</div>
-
-
-<div
-    class="feature-card"
-    data-modal="big"
-    id="big-games"
->
-
-    <div class="feature-icon">
-        🔥
-    </div>
-
-    <h3>
-        قمم كروية
-    </h3>
-
-    <p>
-        أقوى المواجهات والقمم المنتظرة
-        حول العالم.
-    </p>
-
-    <span class="feature-link">
-        المواجهات الكبرى ←
-    </span>
-
-</div>
-
-
-<div
-    class="feature-card"
-    data-modal="competitions"
-    id="competitions"
->
-
-    <div class="feature-icon">
-        🏆
-    </div>
-
-    <h3>
-        البطولات الكبرى
-    </h3>
-
-    <p>
-        دوري الأبطال والدوريات الأوروبية
-        وأهم البطولات.
-    </p>
-
-    <span class="feature-link">
-        البطولات ←
-    </span>
-
-</div>
-
-
-<div
-    class="feature-card"
-    data-modal="stars-matches"
->
-
-    <div class="feature-icon">
-        ⭐
-    </div>
-
-    <h3>
-        مباريات النجوم
-    </h3>
-
-    <p>
-        المواجهات التي ينتظرها عشاق
-        كرة القدم.
-    </p>
-
-    <span class="feature-link">
-        شاهد المباريات ←
-    </span>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
+<!-- =======================================================
      NEWS
-========================================================= -->
+======================================================= -->
 
-<section
-    class="section"
-    id="news"
->
+<section class="section"
+         id="trending">
 
-<div class="section-header">
+<div class="trending-header">
 
-    <h2 class="section-title">
-        آخر الأخبار
-    </h2>
+    <div>
 
-    <span class="section-more">
-        NOWNEX
-    </span>
+        <h2 class="section-title">
+
+            🔥
+
+            <span>
+                آخر أخبار كرة القدم
+            </span>
+
+        </h2>
+
+
+        <p class="section-description">
+
+            أحدث الأخبار والقصص من عالم كرة القدم،
+            يتم تحديثها تلقائياً.
+
+        </p>
+
+
+        <div class="news-count"
+             id="newsCount">
+        </div>
+
+    </div>
+
+
+    <a href="#trending"
+       class="view-all"
+       onclick="showAllNews();return false;">
+
+        عرض الكل ←
+
+    </a>
 
 </div>
 
 
-<div class="content-grid">
 
+<div class="trend-grid"
+     id="newsGrid">
 
-<article class="content-card">
+    <article class="trend-card">
 
-    <div class="content-icon">
-        📰
-    </div>
+        <div class="trend-card-content">
 
-    <h3>
-        أخبار كرة القدم
-    </h3>
+            <div class="trend-number">
+                01
+            </div>
 
-    <p>
-        قسم مخصص لأهم المستجدات والأخبار
-        الكروية من مختلف البطولات.
-    </p>
+            <div class="trend-icon">
+                ⚽
+            </div>
 
-    <a
-        href="#"
-        class="card-action"
-        data-modal-link="news"
-    >
-        فتح القسم ←
-    </a>
+            <h3>
+                جارٍ تحميل آخر أخبار كرة القدم...
+            </h3>
 
-</article>
+            <div class="trend-meta">
+                NOWNEX FOOTBALL · تحديث مباشر
+            </div>
 
+        </div>
 
-<article class="content-card">
-
-    <div class="content-icon">
-        ⭐
-    </div>
-
-    <h3>
-        أخبار النجوم
-    </h3>
-
-    <p>
-        أخبار اللاعبين، التصريحات،
-        الإصابات وأبرز المستجدات.
-    </p>
-
-    <a
-        href="#"
-        class="card-action"
-        data-modal-link="stars"
-    >
-        فتح القسم ←
-    </a>
-
-</article>
-
-
-<article class="content-card">
-
-    <div class="content-icon">
-        🌍
-    </div>
-
-    <h3>
-        الكرة العالمية
-    </h3>
-
-    <p>
-        متابعة شاملة لأهم الأحداث
-        في كرة القدم العالمية.
-    </p>
-
-    <a
-        href="#"
-        class="card-action"
-        data-modal-link="world"
-    >
-        فتح القسم ←
-    </a>
-
-</article>
+    </article>
 
 </div>
 
 </section>
 
 
-<!-- =========================================================
-     TRANSFERS
-========================================================= -->
 
-<section
-    class="section"
-    id="transfers"
->
+<!-- =======================================================
+     RESULTS
+======================================================= -->
 
-<div class="two-columns">
+<section class="section"
+         id="matches">
+
+<div class="trending-header">
+
+    <div>
+
+        <h2 class="section-title">
+
+            📊
+
+            <span>
+                نتائج المباريات
+            </span>
+
+        </h2>
 
 
-<div>
+        <p class="section-description">
 
-<div class="section-header">
+            مباريات اليوم، المباريات الجارية،
+            النتائج النهائية والمباريات القادمة.
 
-    <h2 class="section-title">
-        آخر الانتقالات
-    </h2>
-
-</div>
-
-
-<div class="transfer-list">
-
-    <div class="transfer">
-
-        <div class="player">
-
-            <div class="avatar">
-                ⭐
-            </div>
-
-            <div>
-
-                <div class="player-name">
-                    سوق الانتقالات
-                </div>
-
-                <div class="player-position">
-                    صفقات جديدة
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="transfer-arrow">
-            →
-        </div>
-
-        <div class="transfer-status">
-            متابعة
-        </div>
+        </p>
 
     </div>
 
 
-    <div class="transfer">
+    <div class="results-live">
 
-        <div class="player">
+        <span class="results-live-dot"></span>
 
-            <div class="avatar">
-                ⚡
-            </div>
-
-            <div>
-
-                <div class="player-name">
-                    مفاوضات الأندية
-                </div>
-
-                <div class="player-position">
-                    آخر الأخبار
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="transfer-arrow">
-            →
-        </div>
-
-        <div class="transfer-status">
-            جديد
-        </div>
+        تحديث مباشر
 
     </div>
 
 </div>
 
-</div>
 
 
-<div>
+<div class="results-shell">
 
-<div class="section-header">
+    <div class="results-header">
 
-    <h2 class="section-title">
-        إحصائيات اليوم
-    </h2>
+        <strong>
+            ⚽ مباريات كرة القدم
+        </strong>
 
-</div>
-
-
-<div class="stats">
-
-    <div class="stat">
-
-        <div class="stat-icon">
-            ⚽
-        </div>
-
-        <div class="stat-label">
-            الأهداف
-        </div>
-
-        <div class="stat-value">
-            —
-        </div>
+        <span class="news-count">
+            مباريات اليوم والنتائج
+        </span>
 
     </div>
 
 
-    <div class="stat">
+    <!--
+        football.js سيضع النتائج هنا.
+        لا نحذف هذا العنصر لأنه نقطة الربط
+        بين التصميم ونظام النتائج الحالي.
+    -->
 
-        <div class="stat-icon">
-            🟥
-        </div>
+    <div id="footballResults">
 
-        <div class="stat-label">
-            بطاقات حمراء
-        </div>
+        <div class="results-placeholder">
 
-        <div class="stat-value">
-            —
-        </div>
+            <strong>
+                ⚽ جارٍ تحميل نتائج المباريات...
+            </strong>
 
-    </div>
+            يتم جلب آخر بيانات المباريات.
 
-
-    <div class="stat">
-
-        <div class="stat-icon">
-            🟨
-        </div>
-
-        <div class="stat-label">
-            بطاقات صفراء
-        </div>
-
-        <div class="stat-value">
-            —
         </div>
 
     </div>
-
-
-    <div class="stat">
-
-        <div class="stat-icon">
-            📅
-        </div>
-
-        <div class="stat-label">
-            المباريات
-        </div>
-
-        <div class="stat-value">
-            —
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================================================
-     VIDEOS
-========================================================= -->
-
-<section
-    class="section"
-    id="videos"
->
-
-<div class="section-header">
-
-    <h2 class="section-title">
-        الأهداف والملخصات
-    </h2>
-
-</div>
-
-
-<div class="content-grid">
-
-
-<div
-    class="video-card"
-    data-modal="videos"
->
-
-    <div class="video-play">
-        ▶
-    </div>
-
-    <h3>
-        أبرز أهداف اليوم
-    </h3>
-
-    <p>
-        أهم الأهداف واللحظات الكروية.
-    </p>
-
-</div>
-
-
-<div
-    class="video-card"
-    data-modal="videos"
->
-
-    <div class="video-play">
-        ▶
-    </div>
-
-    <h3>
-        ملخصات المباريات
-    </h3>
-
-    <p>
-        أهم أحداث المباريات في مكان واحد.
-    </p>
-
-</div>
-
-
-<div
-    class="video-card"
-    data-modal="videos"
->
-
-    <div class="video-play">
-        ▶
-    </div>
-
-    <h3>
-        أجمل اللحظات
-    </h3>
-
-    <p>
-        أبرز اللقطات والأهداف.
-    </p>
-
-</div>
 
 </div>
 
@@ -2687,37 +2870,37 @@ footer{
 </main>
 
 
-<!-- =========================================================
+
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
-<footer>
+<footer id="about">
 
-<div class="footer">
+<div class="footer-inner">
 
     <div>
 
         <div class="footer-logo">
 
-            <span style="color:#fff">
-                NOWNEX
-            </span>
-
-            <span>
-                FOOTBALL
-            </span>
+            N<span>OWNEX FOOTBALL</span>
 
         </div>
 
-        <div class="footer-text">
-            كل ما يحدث في عالم كرة القدم في مكان واحد.
+
+        <div class="footer-copy">
+
+            كل ما يحدث في عالم كرة القدم… الآن.
+
         </div>
 
     </div>
 
 
-    <div class="copyright">
-        © 2026 NOWNEX FOOTBALL
+    <div class="footer-copy">
+
+        © 2026 NOWNEX FOOTBALL — جميع الحقوق محفوظة
+
     </div>
 
 </div>
@@ -2725,1004 +2908,1710 @@ footer{
 </footer>
 
 
-<!-- =========================================================
-     MODAL
-========================================================= -->
 
-<div
-    class="modal"
-    id="mainModal"
->
+<!-- =======================================================
+     ARTICLE OVERLAY
+======================================================= -->
 
-    <div class="modal-box">
+<div class="article-overlay"
+     id="articleOverlay">
 
-        <div class="modal-head">
+<div class="article-container">
 
-            <h2 id="modalTitle">
-                NOWNEX
-            </h2>
 
-            <button
-                class="modal-close"
-                id="closeModal"
-            >
-                ×
-            </button>
+    <div class="article-top">
+
+        <div class="article-brand">
+
+            <div class="logo-mark"
+                 style="
+                    width:34px;
+                    height:34px;
+                    font-size:17px;
+                 ">
+                ⚽
+            </div>
+
+            <span>
+                NOWNEX FOOTBALL
+            </span>
 
         </div>
 
-        <div
-            class="modal-content"
-            id="modalContent"
-        >
-        </div>
+
+        <button class="article-close"
+                onclick="closeArticle()">
+
+            ×
+
+        </button>
 
     </div>
 
+
+    <div id="articleContent"></div>
+
+
+</div>
+
 </div>
 
 
-<!-- =========================================================
-     TOAST
-========================================================= -->
 
-<div
-    class="toast"
-    id="toast"
->
+<!-- =======================================================
+     SEARCH
+======================================================= -->
+
+<div class="search-panel"
+     id="searchPanel">
+
+<div class="search-box">
+
+    <input type="text"
+           placeholder="ابحث في أخبار كرة القدم..."
+           id="searchInput"
+           oninput="performSearch()">
+
+
+    <button class="close-search"
+            onclick="closeSearch()">
+
+        ×
+
+    </button>
+
 </div>
 
 
-<!-- =========================================================
-     EXISTING FOOTBALL API SCRIPT
-========================================================= -->
+<div class="search-results"
+     id="searchResults">
+</div>
 
-<script src="football.js"></script>
+</div>
 
 
-<!-- =========================================================
-     NOWNEX INTERACTIONS
-========================================================= -->
+
+<!-- =======================================================
+     NEWS SYSTEM
+======================================================= -->
 
 <script>
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+/* =========================================================
+   DATA
+========================================================= */
+
+let allNews = [];
+
+let trendingNews = [];
+
+let currentCategory = null;
 
 
-        /* =====================================================
-           ELEMENTS
-        ===================================================== */
+/* =========================================================
+   CATEGORY MAP
+========================================================= */
 
-        const searchButton =
-            document.getElementById(
-                "searchButton"
+const categoryNames = {
+
+    Matches:
+        "أقوى المواجهات",
+
+    Transfers:
+        "أخبار الانتقالات",
+
+    Stars:
+        "أخبار النجوم",
+
+    NationalTeams:
+        "المنتخبات",
+
+    History:
+        "تاريخ في الكرة",
+
+    Results:
+        "نتائج المباريات"
+
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function cleanNewsText(value){
+
+    return String(value || "")
+        .replace(/\r\n/g,"\n")
+        .replace(/\u00A0/g," ")
+        .replace(/^[\s\n]+/,"")
+        .replace(/[\s\n]+$/,"")
+        .replace(/\n\s*\n+/g," ")
+        .replace(/[ \t]+/g," ")
+        .trim();
+
+}
+
+
+function containsArabic(value){
+
+    return /[\u0600-\u06FF]/.test(
+        String(value || "")
+    );
+
+}
+
+
+function getNewsTitle(item){
+
+    if(!item){
+
+        return "عنوان الخبر غير متوفر";
+
+    }
+
+
+    return cleanNewsText(
+
+        item.title_ar ||
+
+        (
+            item.title &&
+            containsArabic(item.title)
+                ? item.title
+                : ""
+        ) ||
+
+        item.title ||
+
+        "عنوان الخبر غير متوفر"
+
+    );
+
+}
+
+
+function getNewsSummary(item){
+
+    if(!item){
+
+        return "لا يوجد ملخص متاح حالياً.";
+
+    }
+
+
+    return cleanNewsText(
+
+        item.summary_ar ||
+
+        (
+            item.summary &&
+            containsArabic(item.summary)
+                ? item.summary
+                : ""
+        ) ||
+
+        item.summary ||
+
+        "لا يوجد ملخص متاح لهذا الخبر حالياً."
+
+    );
+
+}
+
+
+function getSearchableText(item){
+
+    return [
+
+        item.title_ar,
+
+        item.summary_ar,
+
+        item.title,
+
+        item.summary,
+
+        item.category,
+
+        item.source
+
+    ]
+
+    .filter(Boolean)
+
+    .join(" ")
+
+    .toLowerCase();
+
+}
+
+
+/* =========================================================
+   SECURITY
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value || "")
+
+        .replace(/&/g,"&amp;")
+
+        .replace(/</g,"&lt;")
+
+        .replace(/>/g,"&gt;")
+
+        .replace(/"/g,"&quot;")
+
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function safeURL(value){
+
+    try{
+
+        const url =
+            new URL(
+                String(value || "#"),
+                window.location.href
             );
 
-        const searchOverlay =
-            document.getElementById(
-                "searchOverlay"
-            );
 
-        const closeSearch =
-            document.getElementById(
-                "closeSearch"
-            );
+        if(
 
-        const searchInput =
-            document.getElementById(
-                "searchInput"
-            );
+            url.protocol === "http:" ||
 
-        const searchSubmit =
-            document.getElementById(
-                "searchSubmit"
-            );
+            url.protocol === "https:"
 
-        const searchResults =
-            document.getElementById(
-                "searchResults"
-            );
+        ){
 
-        const menuButton =
-            document.getElementById(
-                "menuButton"
-            );
+            return url.href;
 
-        const mobileMenu =
-            document.getElementById(
-                "mobileMenu"
-            );
-
-        const closeMenu =
-            document.getElementById(
-                "closeMenu"
-            );
-
-        const modal =
-            document.getElementById(
-                "mainModal"
-            );
-
-        const closeModal =
-            document.getElementById(
-                "closeModal"
-            );
-
-        const modalTitle =
-            document.getElementById(
-                "modalTitle"
-            );
-
-        const modalContent =
-            document.getElementById(
-                "modalContent"
-            );
-
-        const toast =
-            document.getElementById(
-                "toast"
-            );
-
-
-        /* =====================================================
-           TOAST
-        ===================================================== */
-
-        function showToast(message){
-
-            toast.textContent =
-                message;
-
-            toast.classList.add(
-                "show"
-            );
-
-            setTimeout(
-                () => {
-
-                    toast.classList.remove(
-                        "show"
-                    );
-
-                },
-                2500
-            );
         }
 
+    }
 
-        /* =====================================================
-           BODY SCROLL
-        ===================================================== */
+    catch(error){}
 
-        function lockScroll(){
+    return "#";
 
-            document.body.classList.add(
-                "no-scroll"
-            );
-        }
-
-        function unlockScroll(){
-
-            document.body.classList.remove(
-                "no-scroll"
-            );
-        }
+}
 
 
-        /* =====================================================
-           SEARCH
-        ===================================================== */
+/* =========================================================
+   CATEGORY TRANSLATION
+========================================================= */
 
-        function openSearch(){
+function translateCategory(category){
 
-            searchOverlay.classList.add(
-                "show"
-            );
+    return categoryNames[category]
 
-            lockScroll();
+        ||
 
-            setTimeout(
-                () => searchInput.focus(),
-                100
-            );
-        }
+        {
+
+            Match:"أقوى المواجهات",
+
+            Transfers:"أخبار الانتقالات",
+
+            Transfer:"أخبار الانتقالات",
+
+            Stars:"أخبار النجوم",
+
+            Players:"أخبار النجوم",
+
+            NationalTeams:"المنتخبات",
+
+            National:"المنتخبات",
+
+            WorldCup:"المنتخبات",
+
+            History:"تاريخ في الكرة",
+
+            Trending:"أخبار كرة القدم",
+
+            Sports:"أخبار كرة القدم"
+
+        }[category]
+
+        ||
+
+        category
+
+        ||
+
+        "أخبار كرة القدم";
+
+}
 
 
-        function closeSearchBox(){
+/* =========================================================
+   ICONS
+========================================================= */
 
-            searchOverlay.classList.remove(
-                "show"
-            );
+function getNewsIcon(category){
 
-            unlockScroll();
+    const icons = {
 
-            searchInput.value = "";
+        Matches:"⚔️",
 
-            searchResults.innerHTML = "";
-        }
+        Match:"⚔️",
+
+        Transfers:"💰",
+
+        Transfer:"💰",
+
+        Stars:"⭐",
+
+        Players:"⭐",
+
+        NationalTeams:"🌍",
+
+        National:"🌍",
+
+        WorldCup:"🌍",
+
+        History:"🏆",
+
+        Trending:"🔥",
+
+        Sports:"⚽"
+
+    };
 
 
-        searchButton.addEventListener(
-            "click",
-            openSearch
+    return icons[category] || "⚽";
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function goHome(){
+
+    closeArticle();
+
+    closeSearch();
+
+    currentCategory = null;
+
+    document
+        .querySelectorAll(".category-card")
+        .forEach(card => {
+
+            card.style.borderColor = "";
+
+        });
+
+
+    if(allNews.length){
+
+        renderNews(
+            allNews.slice()
+        );
+
+    }
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+function scrollToTrending(){
+
+    closeArticle();
+
+    document
+        .getElementById("trending")
+        .scrollIntoView({
+
+            behavior:"smooth"
+
+        });
+
+}
+
+
+function scrollToCategories(){
+
+    closeArticle();
+
+    document
+        .getElementById("categories")
+        .scrollIntoView({
+
+            behavior:"smooth"
+
+        });
+
+}
+
+
+function scrollToMatches(){
+
+    closeArticle();
+
+    document
+        .getElementById("matches")
+        .scrollIntoView({
+
+            behavior:"smooth"
+
+        });
+
+}
+
+
+function scrollToAbout(){
+
+    closeArticle();
+
+    document
+        .getElementById("about")
+        .scrollIntoView({
+
+            behavior:"smooth"
+
+        });
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function openSearch(){
+
+    document
+        .getElementById("searchPanel")
+        .classList
+        .add("active");
+
+    document.body.classList.add(
+        "search-open"
+    );
+
+
+    setTimeout(()=>{
+
+        document
+            .getElementById("searchInput")
+            .focus();
+
+    },50);
+
+}
+
+
+function closeSearch(){
+
+    document
+        .getElementById("searchPanel")
+        .classList
+        .remove("active");
+
+    document.body.classList.remove(
+        "search-open"
+    );
+
+}
+
+
+function performSearch(){
+
+    const input =
+        document.getElementById(
+            "searchInput"
         );
 
 
-        closeSearch.addEventListener(
-            "click",
-            closeSearchBox
+    const query =
+        input.value
+            .trim()
+            .toLowerCase();
+
+
+    const results =
+        document.getElementById(
+            "searchResults"
         );
 
 
-        searchOverlay.addEventListener(
-            "click",
-            event => {
+    if(!query){
 
-                if(
-                    event.target ===
-                    searchOverlay
-                ){
+        results.innerHTML = "";
 
-                    closeSearchBox();
+        return;
 
-                }
+    }
 
-            }
+
+    const filtered =
+        allNews.filter(item =>
+
+            getSearchableText(item)
+                .includes(query)
+
         );
 
 
-        const searchableItems = [
+    if(!filtered.length){
 
-            {
-                title:"مباريات اليوم",
-                text:"النتائج والمباريات المباشرة",
-                target:"#matches"
-            },
+        results.innerHTML = `
 
-            {
-                title:"الدوري الإنجليزي",
-                text:"Premier League",
-                target:"#matches"
-            },
+            <div class="search-result">
 
-            {
-                title:"الدوري الإسباني",
-                text:"La Liga",
-                target:"#matches"
-            },
+                <div class="search-result-title">
 
-            {
-                title:"الدوري الإيطالي",
-                text:"Serie A",
-                target:"#matches"
-            },
+                    لم نجد أخباراً مطابقة لبحثك.
 
-            {
-                title:"الدوري الفرنسي",
-                text:"Ligue 1",
-                target:"#matches"
-            },
+                </div>
 
-            {
-                title:"الدوري السعودي",
-                text:"Saudi Pro League",
-                target:"#matches"
-            },
+                <div class="search-result-meta">
 
-            {
-                title:"أخبار كرة القدم",
-                text:"آخر الأخبار والمستجدات",
-                target:"#news"
-            },
+                    جرّب كلمة أخرى.
 
-            {
-                title:"أخبار النجوم",
-                text:"أخبار اللاعبين والنجوم",
-                target:"#stars"
-            },
+                </div>
 
-            {
-                title:"الكرة العالمية",
-                text:"أهم الأحداث العالمية",
-                target:"#world"
-            },
+            </div>
 
-            {
-                title:"قمم كروية",
-                text:"أقوى المباريات",
-                target:"#big-games"
-            },
+        `;
 
-            {
-                title:"البطولات الكبرى",
-                text:"أهم البطولات",
-                target:"#competitions"
-            },
+        return;
 
-            {
-                title:"الانتقالات",
-                text:"سوق الانتقالات",
-                target:"#transfers"
-            },
-
-            {
-                title:"الأهداف والملخصات",
-                text:"الفيديوهات والملخصات",
-                target:"#videos"
-            }
-
-        ];
+    }
 
 
-        function performSearch(){
-
-            const query =
-                searchInput.value
-                    .trim()
-                    .toLowerCase();
-
-            searchResults.innerHTML = "";
-
-            if(!query){
-
-                searchResults.innerHTML = `
-
-                    <div class="search-result">
-                        اكتب ما تريد البحث عنه...
-                    </div>
-
-                `;
-
-                return;
-            }
+    results.innerHTML = "";
 
 
-            const results =
-                searchableItems.filter(
-                    item =>
+    filtered
+        .slice(0,20)
+        .forEach(item => {
 
-                        item.title
-                            .toLowerCase()
-                            .includes(query)
-
-                        ||
-
-                        item.text
-                            .toLowerCase()
-                            .includes(query)
+            const result =
+                document.createElement(
+                    "div"
                 );
 
 
-            if(!results.length){
-
-                searchResults.innerHTML = `
-
-                    <div class="search-result">
-                        لم نجد نتائج مطابقة لبحثك.
-                    </div>
-
-                `;
-
-                return;
-            }
+            result.className =
+                "search-result";
 
 
-            results.forEach(
-                item => {
+            result.innerHTML = `
 
-                    const result =
-                        document.createElement(
-                            "div"
-                        );
+                <div class="search-result-title">
 
-                    result.className =
-                        "search-result";
+                    ${escapeHTML(
+                        getNewsTitle(item)
+                    )}
 
-                    result.innerHTML = `
+                </div>
 
-                        <strong>
-                            ${item.title}
-                        </strong>
+                <div class="search-result-meta">
 
-                        <br>
+                    ${escapeHTML(
+                        translateCategory(
+                            item.category
+                        )
+                    )}
 
-                        <small>
-                            ${item.text}
-                        </small>
+                    ·
+
+                    ${escapeHTML(
+                        item.source ||
+                        "NOWNEX FOOTBALL"
+                    )}
+
+                </div>
+
+            `;
+
+
+            result.onclick = () => {
+
+                closeSearch();
+
+                openArticle(item);
+
+            };
+
+
+            results.appendChild(result);
+
+        });
+
+}
+
+
+/* =========================================================
+   CATEGORY FILTER
+========================================================= */
+
+function filterByCategory(
+    category,
+    clickedElement
+){
+
+    currentCategory = category;
+
+
+    document
+        .querySelectorAll(".category-card")
+        .forEach(card => {
+
+            card.style.borderColor = "";
+
+        });
+
+
+    if(clickedElement){
+
+        clickedElement.style.borderColor =
+            "rgba(217,180,91,.75)";
+
+    }
+
+
+    const filtered =
+        getFilteredNews(category);
+
+
+    renderNews(filtered);
+
+
+    setTimeout(()=>{
+
+        document
+            .getElementById("trending")
+            .scrollIntoView({
+
+                behavior:"smooth",
+
+                block:"start"
+
+            });
+
+    },80);
+
+}
+
+
+/* =========================================================
+   GET FILTERED NEWS
+========================================================= */
+
+function getFilteredNews(category){
+
+    if(!category){
+
+        return allNews.slice();
+
+    }
+
+
+    if(category === "Results"){
+
+        return [];
+
+    }
+
+
+    if(category === "Matches"){
+
+        return allNews.filter(item => {
+
+            const value =
+                String(
+                    item.category || ""
+                ).toLowerCase();
+
+
+            return [
+
+                "matches",
+                "match",
+                "fixtures",
+                "games",
+                "sports"
+
+            ].includes(value);
+
+        });
+
+    }
+
+
+    if(category === "Transfers"){
+
+        return allNews.filter(item => {
+
+            const value =
+                String(
+                    item.category || ""
+                ).toLowerCase();
+
+
+            return [
+
+                "transfers",
+                "transfer",
+                "mercato"
+
+            ].includes(value);
+
+        });
+
+    }
+
+
+    if(category === "Stars"){
+
+        return allNews.filter(item => {
+
+            const value =
+                String(
+                    item.category || ""
+                ).toLowerCase();
+
+
+            return [
+
+                "stars",
+                "players",
+                "player"
+
+            ].includes(value);
+
+        });
+
+    }
+
+
+    if(category === "NationalTeams"){
+
+        return allNews.filter(item => {
+
+            const value =
+                String(
+                    item.category || ""
+                ).toLowerCase();
+
+
+            return [
+
+                "nationalteams",
+                "national",
+                "worldcup",
+                "africa",
+                "asia"
+
+            ].includes(value);
+
+        });
+
+    }
+
+
+    if(category === "History"){
+
+        return allNews.filter(item => {
+
+            const value =
+                String(
+                    item.category || ""
+                ).toLowerCase();
+
+
+            return [
+
+                "history",
+                "legends",
+                "legend"
+
+            ].includes(value);
+
+        });
+
+    }
+
+
+    return allNews.filter(item =>
+
+        String(
+            item.category || ""
+        ).toLowerCase()
+
+        ===
+
+        String(category)
+            .toLowerCase()
+
+    );
+
+}
+
+
+/* =========================================================
+   SHOW ALL
+========================================================= */
+
+function showAllNews(){
+
+    currentCategory = null;
+
+
+    document
+        .querySelectorAll(".category-card")
+        .forEach(card => {
+
+            card.style.borderColor = "";
+
+        });
+
+
+    renderNews(
+        allNews.slice()
+    );
+
+
+    scrollToTrending();
+
+}
+
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+function updateNewsCount(){
+
+    const count =
+        document.getElementById(
+            "newsCount"
+        );
+
+
+    if(!count) return;
+
+
+    let number =
+        allNews.length;
+
+
+    if(currentCategory){
+
+        number =
+            getFilteredNews(
+                currentCategory
+            ).length;
+
+    }
+
+
+    count.textContent =
+        number +
+        " خبر";
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function formatNewsDate(value){
+
+    const raw =
+        cleanNewsText(value);
+
+
+    if(!raw) return "";
+
+
+    const date =
+        new Date(raw);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return raw;
+
+    }
+
+
+    return new Intl.DateTimeFormat(
+
+        "ar-DZ",
+
+        {
+
+            year:"numeric",
+
+            month:"short",
+
+            day:"numeric",
+
+            hour:"2-digit",
+
+            minute:"2-digit"
+
+        }
+
+    ).format(date);
+
+}
+
+
+/* =========================================================
+   RENDER NEWS
+========================================================= */
+
+function renderNews(news){
+
+    const newsGrid =
+        document.getElementById(
+            "newsGrid"
+        );
+
+
+    if(!newsGrid) return;
+
+
+    newsGrid.innerHTML = "";
+
+
+    if(!news || !news.length){
+
+        newsGrid.innerHTML = `
+
+            <div class="empty-news">
+
+                <strong>
+                    لا توجد أخبار في هذا القسم حالياً
+                </strong>
+
+                سيتم تحديث الأخبار تلقائياً عند
+                وصول محتوى جديد.
+
+            </div>
+
+        `;
+
+
+        updateNewsCount();
+
+        return;
+
+    }
+
+
+    news.forEach(
+        (item,index) => {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            card.className =
+                "trend-card";
+
+
+            const title =
+                escapeHTML(
+                    getNewsTitle(item)
+                );
+
+
+            const category =
+                escapeHTML(
+                    translateCategory(
+                        item.category
+                    )
+                );
+
+
+            const source =
+                escapeHTML(
+                    item.source ||
+                    "NOWNEX FOOTBALL"
+                );
+
+
+            const icon =
+                getNewsIcon(
+                    item.category
+                );
+
+
+            let imageHTML = "";
+
+
+            if(item.image){
+
+                const imageURL =
+                    safeURL(
+                        item.image
+                    );
+
+
+                if(imageURL !== "#"){
+
+                    imageHTML = `
+
+                        <div
+                            class="trend-image-wrapper"
+                        >
+
+                            <img
+                                class="trend-image"
+                                src="${imageURL}"
+                                alt="${escapeHTML(
+                                    getNewsTitle(item)
+                                )}"
+                                loading="lazy"
+                                decoding="async"
+                                referrerpolicy="no-referrer"
+                                onerror="
+                                    this.parentElement.style.display='none';
+                                "
+                            >
+
+                        </div>
 
                     `;
 
+                }
 
-                    result.addEventListener(
-                        "click",
-                        () => {
+            }
 
-                            closeSearchBox();
 
-                            const target =
-                                document.querySelector(
-                                    item.target
-                                );
+            const date =
+                item.published
+                    ? formatNewsDate(
+                        item.published
+                    )
+                    : "";
 
-                            if(target){
 
-                                target.scrollIntoView({
-                                    behavior:"smooth",
-                                    block:"start"
-                                });
+            card.innerHTML = `
 
-                            }
+                ${imageHTML}
 
+
+                <div class="trend-card-content">
+
+                    <div class="trend-number">
+
+                        ${String(
+                            index + 1
+                        ).padStart(2,"0")}
+
+                        —
+
+                        NOWNEX FOOTBALL
+
+                    </div>
+
+
+                    <div class="trend-icon">
+
+                        ${icon}
+
+                    </div>
+
+
+                    <h3>
+
+                        ${title}
+
+                    </h3>
+
+
+                    <div class="trend-meta">
+
+                        ${category}
+
+                        ·
+
+                        ${source}
+
+                        ${
+                            date
+                                ? ` · ${escapeHTML(date)}`
+                                : ""
                         }
-                    );
-
-
-                    searchResults.appendChild(
-                        result
-                    );
-
-                }
-            );
-
-        }
-
-
-        searchSubmit.addEventListener(
-            "click",
-            performSearch
-        );
-
-
-        searchInput.addEventListener(
-            "keydown",
-            event => {
-
-                if(
-                    event.key ===
-                    "Enter"
-                ){
-
-                    performSearch();
-
-                }
-
-            }
-        );
-
-
-        /* =====================================================
-           MOBILE MENU
-        ===================================================== */
-
-        function openMenu(){
-
-            mobileMenu.classList.add(
-                "show"
-            );
-
-            lockScroll();
-
-        }
-
-
-        function closeMobileMenu(){
-
-            mobileMenu.classList.remove(
-                "show"
-            );
-
-            unlockScroll();
-
-        }
-
-
-        menuButton.addEventListener(
-            "click",
-            openMenu
-        );
-
-
-        closeMenu.addEventListener(
-            "click",
-            closeMobileMenu
-        );
-
-
-        mobileMenu.addEventListener(
-            "click",
-            event => {
-
-                if(
-                    event.target ===
-                    mobileMenu
-                ){
-
-                    closeMobileMenu();
-
-                }
-
-            }
-        );
-
-
-        document
-            .querySelectorAll(
-                ".mobile-nav a"
-            )
-            .forEach(
-                link => {
-
-                    link.addEventListener(
-                        "click",
-                        closeMobileMenu
-                    );
-
-                }
-            );
-
-
-        /* =====================================================
-           MODALS
-        ===================================================== */
-
-        const modalData = {
-
-            news:{
-                title:"📰 أخبار كرة القدم",
-                content:`
-
-                    <p>
-                        هنا سيكون قسم أخبار كرة القدم
-                        في NOWNEX FOOTBALL.
-                    </p>
-
-                    <div class="modal-list">
-
-                        <div>
-                            📰 آخر أخبار الأندية
-                        </div>
-
-                        <div>
-                            ⚽ أخبار المباريات والبطولات
-                        </div>
-
-                        <div>
-                            🔥 أهم الأحداث اليومية
-                        </div>
 
                     </div>
 
-                `
-            },
+
+                    <a
+                        class="news-link"
+                        href="#"
+                    >
+
+                        اقرأ الخبر ←
+
+                    </a>
+
+                </div>
+
+            `;
 
 
-            stars:{
-                title:"⭐ أخبار النجوم",
-                content:`
-
-                    <p>
-                        قسم خاص بأخبار أبرز اللاعبين
-                        والنجوم في عالم كرة القدم.
-                    </p>
-
-                    <div class="modal-list">
-
-                        <div>
-                            ⭐ أخبار اللاعبين
-                        </div>
-
-                        <div>
-                            🎙️ التصريحات
-                        </div>
-
-                        <div>
-                            🏅 الجوائز والإنجازات
-                        </div>
-
-                    </div>
-
-                `
-            },
-
-
-            world:{
-                title:"🌍 الكرة العالمية",
-                content:`
-
-                    <p>
-                        متابعة أهم أحداث كرة القدم
-                        من مختلف أنحاء العالم.
-                    </p>
-
-                    <div class="modal-list">
-
-                        <div>
-                            🇪🇺 أوروبا
-                        </div>
-
-                        <div>
-                            🌎 أمريكا الجنوبية
-                        </div>
-
-                        <div>
-                            🌍 أفريقيا وآسيا
-                        </div>
-
-                    </div>
-
-                `
-            },
-
-
-            big:{
-                title:"🔥 قمم كروية",
-                content:`
-
-                    <p>
-                        أقوى المواجهات والمباريات
-                        التي تستحق المتابعة.
-                    </p>
-
-                    <div class="modal-list">
-
-                        <div>
-                            🔥 مباريات القمة
-                        </div>
-
-                        <div>
-                            🏆 مباريات البطولات الكبرى
-                        </div>
-
-                        <div>
-                            ⭐ مواجهات النجوم
-                        </div>
-
-                    </div>
-
-                `
-            },
-
-
-            competitions:{
-                title:"🏆 البطولات الكبرى",
-                content:`
-
-                    <p>
-                        أهم البطولات التي يتابعها
-                        عشاق كرة القدم.
-                    </p>
-
-                    <div class="modal-list">
-
-                        <div>
-                            🏆 دوري أبطال أوروبا
-                        </div>
-
-                        <div>
-                            🏆 الدوري الأوروبي
-                        </div>
-
-                        <div>
-                            🏆 دوري المؤتمر الأوروبي
-                        </div>
-
-                        <div>
-                            🌍 كأس العالم
-                        </div>
-
-                    </div>
-
-                `
-            },
-
-
-            "stars-matches":{
-                title:"⭐ مباريات النجوم",
-                content:`
-
-                    <p>
-                        أهم المباريات التي تجمع
-                        كبار الأندية والنجوم.
-                    </p>
-
-                    <div class="modal-list">
-
-                        <div>
-                            ⚽ المباريات الكبرى
-                        </div>
-
-                        <div>
-                            🔥 مباريات القمة
-                        </div>
-
-                        <div>
-                            ⭐ مواجهات النجوم
-                        </div>
-
-                    </div>
-
-                `
-            },
-
-
-            videos:{
-                title:"▶️ الأهداف والملخصات",
-                content:`
-
-                    <p>
-                        قسم الفيديوهات في NOWNEX
-                        مخصص للأهداف والملخصات وأبرز
-                        اللحظات.
-                    </p>
-
-                    <div class="modal-list">
-
-                        <div>
-                            ⚽ أهداف اليوم
-                        </div>
-
-                        <div>
-                            🎥 ملخصات المباريات
-                        </div>
-
-                        <div>
-                            🔥 أجمل اللقطات
-                        </div>
-
-                    </div>
-
-                `
-            }
-
-        };
-
-
-        function openModal(type){
-
-            const data =
-                modalData[type];
-
-            if(!data){
-
-                showToast(
-                    "هذا القسم قيد التطوير."
+            const link =
+                card.querySelector(
+                    ".news-link"
                 );
 
-                return;
-            }
 
+            link.addEventListener(
+                "click",
+                event => {
 
-            modalTitle.textContent =
-                data.title;
+                    event.preventDefault();
 
-            modalContent.innerHTML =
-                data.content;
+                    event.stopPropagation();
 
-            modal.classList.add(
-                "show"
+                    openArticle(item);
+
+                }
             );
 
-            lockScroll();
+
+            card.addEventListener(
+                "click",
+                event => {
+
+                    if(
+                        event.target.closest(
+                            ".news-link"
+                        )
+                    ){
+
+                        return;
+
+                    }
+
+
+                    openArticle(item);
+
+                }
+            );
+
+
+            newsGrid.appendChild(card);
 
         }
+    );
 
 
-        function closeMainModal(){
+    updateNewsCount();
 
-            modal.classList.remove(
-                "show"
-            );
-
-            unlockScroll();
-
-        }
+}
 
 
-        document
-            .querySelectorAll(
-                "[data-modal]"
-            )
-            .forEach(
-                card => {
+/* =========================================================
+   ARTICLE
+========================================================= */
 
-                    card.addEventListener(
-                        "click",
-                        () => {
+function openArticle(item){
 
-                            openModal(
-                                card.dataset.modal
-                            );
-
-                        }
-                    );
-
-                }
-            );
+    if(!item) return;
 
 
-        document
-            .querySelectorAll(
-                "[data-modal-link]"
-            )
-            .forEach(
-                link => {
-
-                    link.addEventListener(
-                        "click",
-                        event => {
-
-                            event.preventDefault();
-
-                            openModal(
-                                link.dataset.modalLink
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-
-        closeModal.addEventListener(
-            "click",
-            closeMainModal
+    const overlay =
+        document.getElementById(
+            "articleOverlay"
         );
 
 
-        modal.addEventListener(
-            "click",
-            event => {
-
-                if(
-                    event.target ===
-                    modal
-                ){
-
-                    closeMainModal();
-
-                }
-
-            }
+    const content =
+        document.getElementById(
+            "articleContent"
         );
 
 
-        /* =====================================================
-           ESC KEY
-        ===================================================== */
-
-        document.addEventListener(
-            "keydown",
-            event => {
-
-                if(
-                    event.key ===
-                    "Escape"
-                ){
-
-                    closeSearchBox();
-
-                    closeMobileMenu();
-
-                    closeMainModal();
-
-                }
-
-            }
+    const title =
+        escapeHTML(
+            getNewsTitle(item)
         );
 
 
-        /* =====================================================
-           NATIONAL COMPETITIONS UI
-           مستقل عن football.js
-        ===================================================== */
-
-        const nationalStrip =
-            document.getElementById(
-                "nationalStrip"
-            );
+    const summary =
+        escapeHTML(
+            getNewsSummary(item)
+        );
 
 
-        nationalStrip
-            .querySelectorAll(
-                ".competition-btn"
+    const category =
+        escapeHTML(
+            translateCategory(
+                item.category
             )
-            .forEach(
-                button => {
-
-                    button.addEventListener(
-                        "click",
-                        () => {
-
-                            nationalStrip
-                                .querySelectorAll(
-                                    ".competition-btn"
-                                )
-                                .forEach(
-                                    item =>
-                                        item.classList.remove(
-                                            "active"
-                                        )
-                                );
-
-                            button.classList.add(
-                                "active"
-                            );
+        );
 
 
-                            showToast(
-                                "سيتم ربط هذه البطولة ببيانات المنتخبات."
-                            );
+    const source =
+        escapeHTML(
+            item.source ||
+            "NOWNEX FOOTBALL"
+        );
 
-                        }
-                    );
 
-                }
+    const originalLink =
+        safeURL(
+            item.link
+        );
+
+
+    const icon =
+        getNewsIcon(
+            item.category
+        );
+
+
+    let dateText = "";
+
+
+    if(item.published){
+
+        dateText =
+            escapeHTML(
+                formatNewsDate(
+                    item.published
+                )
             );
-
-
-        /* =====================================================
-           SMOOTH INTERNAL LINKS
-        ===================================================== */
-
-        document
-            .querySelectorAll(
-                'a[href^="#"]'
-            )
-            .forEach(
-                link => {
-
-                    link.addEventListener(
-                        "click",
-                        event => {
-
-                            const id =
-                                link.getAttribute(
-                                    "href"
-                                );
-
-                            if(
-                                id ===
-                                "#" ||
-                                id ===
-                                "#top"
-                            ){
-
-                                return;
-
-                            }
-
-
-                            const target =
-                                document.querySelector(
-                                    id
-                                );
-
-                            if(target){
-
-                                event.preventDefault();
-
-                                target.scrollIntoView({
-                                    behavior:"smooth",
-                                    block:"start"
-                                });
-
-                            }
-
-                        }
-                    );
-
-                }
-            );
-
 
     }
+
+
+    let imageHTML = "";
+
+
+    if(item.image){
+
+        const imageURL =
+            safeURL(
+                item.image
+            );
+
+
+        if(imageURL !== "#"){
+
+            imageHTML = `
+
+                <div class="article-image-wrapper">
+
+                    <img
+                        class="article-image"
+                        src="${imageURL}"
+                        alt="${title}"
+                        loading="eager"
+                        decoding="async"
+                        referrerpolicy="no-referrer"
+                    >
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    content.innerHTML = `
+
+        ${imageHTML}
+
+
+        <div class="article-category">
+
+            ${icon}
+
+            ${category}
+
+        </div>
+
+
+        <h1 class="article-title">
+
+            ${title}
+
+        </h1>
+
+
+        <div class="article-info">
+
+            <span>
+
+                📰 ${source}
+
+            </span>
+
+
+            ${
+                dateText
+                    ? `
+                        <span>
+                            ${dateText}
+                        </span>
+                    `
+                    : ""
+            }
+
+        </div>
+
+
+        <div class="article-summary-box">
+
+            <div class="article-summary-label">
+
+                📰 ملخص NOWNEX FOOTBALL
+
+            </div>
+
+
+            <div class="article-summary">
+
+                ${summary}
+
+            </div>
+
+
+            <div class="article-points">
+
+                <h3>
+
+                    💡 ماذا يعني الخبر؟
+
+                </h3>
+
+
+                <p>
+
+                    يقدم NOWNEX FOOTBALL هذا الخبر
+                    في صورة مختصرة باللغة العربية
+                    لتسهيل فهم الحدث وأهميته،
+                    مع الإشارة إلى المصدر الأصلي.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="article-source">
+
+            <div class="article-source-title">
+
+                المصدر الأصلي
+
+            </div>
+
+
+            <div class="article-source-name">
+
+                ${source}
+
+            </div>
+
+
+            ${
+                originalLink !== "#"
+
+                    ?
+
+                `
+
+                    <a
+                        class="original-btn"
+                        href="${originalLink}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        قراءة الخبر الأصلي ↗
+
+                    </a>
+
+                `
+
+                    :
+
+                `
+
+                    <div class="article-note">
+
+                        رابط المصدر الأصلي غير متاح حالياً.
+
+                    </div>
+
+                `
+            }
+
+
+            <div class="article-note">
+
+                NOWNEX FOOTBALL يعرض ملخصاً
+                للخبر مع الإشارة إلى مصدره الأصلي.
+                للاطلاع على النص الكامل،
+                يرجى زيارة المصدر.
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    overlay.classList.add(
+        "active"
+    );
+
+
+    document.body.classList.add(
+        "article-open"
+    );
+
+
+    overlay.scrollTop = 0;
+
+}
+
+
+function closeArticle(){
+
+    const overlay =
+        document.getElementById(
+            "articleOverlay"
+        );
+
+
+    if(overlay){
+
+        overlay.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    document.body.classList.remove(
+        "article-open"
+    );
+
+}
+
+
+/* =========================================================
+   LOAD NEWS
+========================================================= */
+
+async function loadNews(){
+
+    const newsGrid =
+        document.getElementById(
+            "newsGrid"
+        );
+
+
+    try{
+
+        const response =
+            await fetch(
+                "news.json?v=" +
+                Date.now(),
+                {
+                    cache:"no-store"
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "news.json could not be loaded"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        allNews =
+            Array.isArray(
+                data.news
+            )
+
+                ?
+
+            data.news
+
+                :
+
+            [];
+
+
+        trendingNews =
+            Array.isArray(
+                data.trending
+            )
+
+                ?
+
+            data.trending
+
+                :
+
+            [];
+
+
+        if(!allNews.length){
+
+            throw new Error(
+                "No news available"
+            );
+
+        }
+
+
+        if(!trendingNews.length){
+
+            trendingNews =
+                allNews.slice();
+
+        }
+
+
+        renderNews(
+
+            getFilteredNews(
+                currentCategory
+            )
+
+        );
+
+
+        console.log(
+
+            "NOWNEX FOOTBALL:",
+
+            allNews.length,
+
+            "articles loaded."
+
+        );
+
+    }
+
+    catch(error){
+
+        console.error(
+            "NOWNEX FOOTBALL News Error:",
+            error
+        );
+
+
+        if(newsGrid){
+
+            newsGrid.innerHTML = `
+
+                <div class="empty-news">
+
+                    <strong>
+
+                        تعذر تحميل الأخبار حالياً
+
+                    </strong>
+
+                    سيتم المحاولة مرة أخرى
+                    عند التحديث القادم.
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Escape"){
+
+            closeSearch();
+
+            closeArticle();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadNews();
+
+
+/* =========================================================
+   AUTO NEWS REFRESH
+   كل 10 دقائق
+========================================================= */
+
+setInterval(
+
+    loadNews,
+
+    10 * 60 * 1000
 
 );
 
 </script>
 
+
+<!-- =======================================================
+     EXISTING FOOTBALL RESULTS SYSTEM
+======================================================= -->
+
+<script src="football.js"></script>
+
+
 </body>
+
 </html>
