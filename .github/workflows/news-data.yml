@@ -16,20 +16,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          pip install requests beautifulsoup4 lxml
+      - name: Install parser
+        run: pip install requests beautifulsoup4 lxml
 
       - name: Build NOWNEX FOOTBALL News
         shell: python
         env:
           PYTHONIOENCODING: utf-8
         run: |
-          import os
           import json
           import re
           import time
           import hashlib
+          import os
           from datetime import datetime, timezone
           from urllib.parse import quote, urljoin, urlparse
 
@@ -37,163 +36,146 @@ jobs:
           from bs4 import BeautifulSoup
 
 
-          # ============================================================
-          # NOWNEX FOOTBALL ENGINE
-          # ============================================================
-
           NEWS_FILE = "data/news.json"
 
-          PER_CATEGORY = 10
+          MAX_PER_CATEGORY = 10
           MAX_TOTAL = 50
+
 
           HEADERS = {
               "User-Agent": (
                   "Mozilla/5.0 (X11; Linux x86_64) "
-                  "AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/136.0.0.0 Safari/537.36 "
-                  "NOWNEX-NewsBot/4.0"
+                  "AppleWebKit/537.36 "
+                  "(KHTML, like Gecko) "
+                  "Chrome/136.0 Safari/537.36 "
+                  "NOWNEXBot/3.0"
               ),
+              "Accept-Language": "ar,en;q=0.8",
               "Accept": (
-                  "text/html,application/xhtml+xml,application/xml;"
-                  "q=0.9,image/avif,image/webp,*/*;q=0.8"
+                  "text/html,application/xhtml+xml,"
+                  "application/xml;q=0.9,image/avif,"
+                  "image/webp,*/*;q=0.8"
               ),
-              "Accept-Language": "ar,en-US;q=0.8,en;q=0.6",
-              "Cache-Control": "no-cache",
           }
+
+
+          # ============================================================
+          # CATEGORIES
+          # ============================================================
+
+          CATEGORY_RULES = {
+
+              "matches": [
+                  "مباراة", "مباريات", "مواجهة", "تشكيلة",
+                  "تشكيل", "نتيجة", "هدف", "أهداف",
+                  "دوري", "كأس", "قرعة", "الجولة", "لقاء",
+                  "match", "fixture", "lineup", "result"
+              ],
+
+              "transfers": [
+                  "انتقال", "انتقالات", "صفقة", "صفقات",
+                  "ينضم", "يضم", "تعاقد", "عرض",
+                  "مفاوضات", "ميركاتو", "رحيل", "إعارة",
+                  "عقد", "transfer", "sign", "deal", "loan"
+              ],
+
+              "stars": [
+                  "رونالدو", "ميسي", "مبابي", "صلاح",
+                  "بنزيما", "هالاند", "يامال",
+                  "فينيسيوس", "بيلينغهام", "نيمار",
+                  "محرز", "بلايلي", "لاعب", "نجم",
+                  "إصابة", "إصابات", "تصريح",
+                  "مدرب", "coach", "player", "injury"
+              ],
+
+              "national": [
+                  "منتخب", "المنتخبات", "كأس العالم",
+                  "تصفيات", "فيفا", "كاف",
+                  "أمم إفريقيا", "أمم اسيا",
+                  "أوروبا", "وطني", "national", "fifa"
+              ],
+
+              "history": [
+                  "تاريخ", "أسطورة", "أساطير", "ذكرى",
+                  "في مثل هذا اليوم", "نهائي تاريخي",
+                  "لحظة تاريخية", "مسيرة", "معتزل",
+                  "legend", "history", "on this day"
+              ]
+          }
+
+
+          # ============================================================
+          # SEARCH POOL
+          # ============================================================
+
+          QUERIES = [
+
+              "كرة القدم أخبار مباريات انتقالات لاعبين منتخبات",
+
+              "كرة القدم اليوم مباريات نتائج أهداف",
+
+              "سوق انتقالات كرة القدم صفقات أندية لاعبين",
+
+              "أخبار نجوم كرة القدم إصابات تصريحات",
+
+              "المنتخبات كأس العالم تصفيات كرة القدم",
+
+              "تاريخ كرة القدم أساطير في مثل هذا اليوم",
+
+              "محمد صلاح مبابي رونالدو هالاند يامال كرة القدم",
+
+              "الدوري الإنجليزي الإسباني الإيطالي السعودي كرة القدم",
+
+              "دوري أبطال أوروبا كرة القدم",
+
+              "كرة القدم الجزائر المنتخب الجزائري محرز بلايلي",
+          ]
+
+
+          SECTION_QUERIES = {
+
+              "matches": [
+                  "مباريات كرة القدم اليوم نتائج أهداف تشكيلة",
+                  "مواجهات كرة القدم اليوم الدوري أبطال أوروبا",
+                  "مواعيد مباريات كرة القدم نتائج"
+              ],
+
+              "transfers": [
+                  "انتقالات كرة القدم صفقات ميركاتو",
+                  "سوق انتقالات اللاعبين أندية كرة القدم",
+                  "مفاوضات انتقال تعاقد لاعب كرة القدم"
+              ],
+
+              "stars": [
+                  "أخبار نجوم كرة القدم صلاح مبابي رونالدو هالاند يامال",
+                  "إصابات وتصريحات لاعبي كرة القدم",
+                  "أخبار لاعبي كرة القدم"
+              ],
+
+              "national": [
+                  "أخبار المنتخبات كرة القدم كأس العالم تصفيات",
+                  "المنتخب الجزائري كرة القدم",
+                  "كأس أمم إفريقيا منتخبات كرة القدم"
+              ],
+
+              "history": [
+                  "أساطير كرة القدم تاريخ كرة القدم",
+                  "في مثل هذا اليوم كرة القدم",
+                  "لحظات تاريخية نهائيات كرة القدم"
+              ]
+          }
+
 
           SESSION = requests.Session()
           SESSION.headers.update(HEADERS)
 
 
           # ============================================================
-          # CATEGORY DEFINITIONS
-          #
-          # IMPORTANT:
-          # Each category now has its OWN search pool.
-          # We no longer classify the whole world of football into
-          # categories using one weak classifier.
-          # ============================================================
-
-          CATEGORIES = {
-
-              "matches": {
-                  "queries": [
-                      "كرة القدم مباريات اليوم نتائج أهداف",
-                      "مباريات كرة القدم اليوم تشكيلة نتيجة",
-                      "مواجهات كرة القدم اليوم",
-                      "دوري أبطال أوروبا مباريات نتائج",
-                      "الدوري الإنجليزي مباريات نتائج",
-                      "الدوري الإسباني مباريات نتائج",
-                      "الدوري الإيطالي مباريات نتائج",
-                      "الدوري السعودي مباريات نتائج",
-                      "football matches today results goals",
-                      "Champions League matches results",
-                  ],
-                  "keywords": [
-                      "مباراة", "مباريات", "مواجهة", "نتيجة",
-                      "هدف", "أهداف", "تشكيلة", "تشكيل",
-                      "الجولة", "لقاء", "دوري", "كأس",
-                      "match", "matches", "result", "goal",
-                      "lineup", "fixture"
-                  ]
-              },
-
-              "transfers": {
-                  "queries": [
-                      "انتقالات كرة القدم اليوم صفقات",
-                      "ميركاتو كرة القدم انتقالات لاعبين",
-                      "سوق انتقالات اللاعبين صفقات الأندية",
-                      "مفاوضات انتقال لاعب كرة القدم",
-                      "تعاقدات أندية كرة القدم",
-                      "football transfers today",
-                      "football transfer news deals",
-                      "transfer market football",
-                  ],
-                  "keywords": [
-                      "انتقال", "انتقالات", "صفقة", "صفقات",
-                      "ميركاتو", "تعاقد", "ينضم", "ضم",
-                      "مفاوضات", "عرض", "رحيل", "إعارة",
-                      "عقد", "transfer", "transfers", "deal",
-                      "signing", "loan", "contract"
-                  ]
-              },
-
-              "stars": {
-                  "queries": [
-                      "أخبار نجوم كرة القدم اليوم",
-                      "محمد صلاح أخبار اليوم",
-                      "مبابي أخبار اليوم",
-                      "رونالدو أخبار اليوم",
-                      "هالاند أخبار اليوم",
-                      "لامين يامال أخبار اليوم",
-                      "فينيسيوس أخبار اليوم",
-                      "بيلينغهام أخبار اليوم",
-                      "محرز أخبار اليوم",
-                      "بلايلي أخبار اليوم",
-                      "football stars latest news",
-                      "Messi Ronaldo Mbappe Salah Haaland latest",
-                  ],
-                  "keywords": [
-                      "رونالدو", "ميسي", "مبابي", "صلاح",
-                      "هالاند", "يامال", "لامين", "فينيسيوس",
-                      "بيلينغهام", "نيمار", "محرز", "بلايلي",
-                      "نجم", "نجوم", "لاعب", "إصابة",
-                      "تصريح", "مدرب", "Ronaldo", "Messi",
-                      "Mbappe", "Salah", "Haaland", "Yamal"
-                  ]
-              },
-
-              "national": {
-                  "queries": [
-                      "المنتخب الجزائري أخبار كرة القدم",
-                      "المنتخب الجزائري اليوم",
-                      "منتخبات كرة القدم أخبار اليوم",
-                      "تصفيات كأس العالم كرة القدم",
-                      "كأس أمم إفريقيا أخبار المنتخبات",
-                      "كأس العالم أخبار المنتخبات",
-                      "FIFA national teams latest",
-                      "Algeria national football team",
-                      "World Cup qualifiers football",
-                      "Africa Cup of Nations teams",
-                  ],
-                  "keywords": [
-                      "منتخب", "منتخبات", "الجزائر",
-                      "المنتخب الجزائري", "فيفا", "كأس العالم",
-                      "تصفيات", "أمم إفريقيا", "أمم اسيا",
-                      "وطني", "national", "fifa",
-                      "world cup", "qualifier"
-                  ]
-              },
-
-              "history": {
-                  "queries": [
-                      "تاريخ كرة القدم أساطير",
-                      "أساطير كرة القدم قصص",
-                      "في مثل هذا اليوم كرة القدم",
-                      "ذكريات كرة القدم التاريخية",
-                      "نهائيات تاريخية كرة القدم",
-                      "لحظات لا تنسى في كرة القدم",
-                      "football history legends",
-                      "on this day football history",
-                      "historic football moments",
-                  ],
-                  "keywords": [
-                      "تاريخ", "أسطورة", "أساطير",
-                      "ذكرى", "تاريخي", "تاريخية",
-                      "في مثل هذا اليوم", "نهائي تاريخي",
-                      "لحظة تاريخية", "مسيرة", "معتزل",
-                      "legend", "history", "historic",
-                      "on this day"
-                  ]
-              }
-          }
-
-
-          # ============================================================
-          # BASIC HELPERS
+          # CLEAN
           # ============================================================
 
           def clean(value):
+
               if not value:
                   return ""
 
@@ -206,27 +188,20 @@ jobs:
               return text.strip()
 
 
-          def normalize_title(title):
-              title = clean(title)
+          # ============================================================
+          # CANONICAL TITLE
+          # ============================================================
 
-              title = re.sub(
-                  r"\s*[-|–—]\s*Google News.*$",
+          def canonical_key(title):
+
+              text = clean(title).lower()
+
+              text = re.sub(
+                  r"[-|–—].*(google news)$",
                   "",
-                  title,
+                  text,
                   flags=re.I
               )
-
-              title = re.sub(
-                  r"\s*[-|–—]\s*[^|–—]{1,60}$",
-                  "",
-                  title
-              )
-
-              return re.sub(r"\s+", " ", title).strip()
-
-
-          def article_key(title):
-              text = normalize_title(title).lower()
 
               text = re.sub(
                   r"[^\w\u0600-\u06ff ]+",
@@ -234,44 +209,44 @@ jobs:
                   text
               )
 
-              text = re.sub(r"\s+", " ", text).strip()
-
-              return hashlib.sha1(
-                  text.encode("utf-8")
-              ).hexdigest()
-
-
-          def valid_url(url):
-              if not url:
-                  return False
-
-              return url.startswith("http://") or url.startswith("https://")
+              return re.sub(
+                  r"\s+",
+                  " ",
+                  text
+              ).strip()
 
 
           # ============================================================
-          # HTTP
+          # FETCH
           # ============================================================
 
           def fetch(url, timeout=20):
+
               try:
-                  response = SESSION.get(
+
+                  r = SESSION.get(
                       url,
                       timeout=timeout,
                       allow_redirects=True
                   )
 
-                  if response.ok:
+                  if r.ok:
+
                       return (
-                          response.text,
-                          response.url or url,
-                          response.headers.get("content-type", "")
+                          r.text,
+                          r.url,
+                          r.headers.get(
+                              "content-type",
+                              ""
+                          )
                       )
 
-              except Exception as exc:
+              except Exception as e:
+
                   print(
                       "FETCH ERROR:",
-                      str(url)[:120],
-                      str(exc)[:180]
+                      url[:120],
+                      str(e)[:180]
                   )
 
               return "", url, ""
@@ -282,132 +257,180 @@ jobs:
           # ============================================================
 
           def google_news(query):
-              rss_url = (
-                  "https://news.google.com/rss/search?"
-                  "q=" + quote(query) +
-                  "&hl=ar&gl=DZ&ceid=DZ:ar"
+
+              url = (
+                  "https://news.google.com/rss/search?q="
+                  + quote(query)
+                  + "&hl=ar&gl=DZ&ceid=DZ:ar"
               )
 
-              xml, final_url, content_type = fetch(
-                  rss_url,
-                  timeout=30
+              xml, _, _ = fetch(
+                  url,
+                  25
               )
 
               if not xml:
                   return []
 
-              try:
-                  soup = BeautifulSoup(xml, "xml")
-              except Exception:
-                  soup = BeautifulSoup(xml, "html.parser")
+              soup = BeautifulSoup(
+                  xml,
+                  "xml"
+              )
 
-              results = []
+              out = []
 
               for item in soup.find_all("item"):
 
-                  title_tag = item.find("title")
-                  link_tag = item.find("link")
-                  desc_tag = item.find("description")
-                  date_tag = item.find("pubDate")
-                  source_tag = item.find("source")
-
-                  title = normalize_title(
-                      title_tag.get_text(" ", strip=True)
-                      if title_tag else ""
+                  title = (
+                      clean(item.title.get_text())
+                      if item.title
+                      else ""
                   )
 
                   link = (
-                      link_tag.get_text(strip=True)
-                      if link_tag else ""
+                      item.link.get_text(strip=True)
+                      if item.link
+                      else ""
                   )
 
-                  description = clean(
-                      desc_tag.get_text(" ", strip=True)
-                      if desc_tag else ""
+                  desc = (
+                      clean(item.description.get_text())
+                      if item.description
+                      else ""
                   )
 
-                  published = (
-                      date_tag.get_text(" ", strip=True)
-                      if date_tag else ""
+                  pub = (
+                      item.pubDate.get_text(strip=True)
+                      if item.pubDate
+                      else ""
                   )
 
-                  source = clean(
-                      source_tag.get_text(" ", strip=True)
-                      if source_tag else ""
+                  source = (
+                      item.source.get_text(strip=True)
+                      if item.source
+                      else ""
                   )
 
-                  # Try to obtain an image directly from RSS.
-                  rss_image = ""
+                  if title and link:
 
-                  for tag_name in [
-                      "media:content",
-                      "media:thumbnail",
-                      "enclosure"
-                  ]:
-                      tag = item.find(tag_name)
+                      out.append({
 
-                      if tag:
-                          rss_image = (
-                              tag.get("url")
-                              or tag.get("href")
-                              or ""
-                          )
-
-                          if rss_image:
-                              break
-
-                  if title and valid_url(link):
-
-                      results.append({
                           "title": title,
+
                           "link": link,
-                          "description": description,
-                          "published": published,
-                          "source": source,
-                          "rss_image": rss_image
+
+                          "desc": desc,
+
+                          "published": pub,
+
+                          "source": source
+
                       })
 
-              return results
+              return out
+
+
+          # ============================================================
+          # RESOLVE URL
+          # ============================================================
+
+          def resolve(url):
+
+              try:
+
+                  r = SESSION.get(
+                      url,
+                      timeout=20,
+                      allow_redirects=True,
+                      stream=True
+                  )
+
+                  return r.url or url
+
+              except Exception:
+
+                  return url
+
+
+          # ============================================================
+          # META
+          # ============================================================
+
+          def meta(
+              soup,
+              key,
+              value
+          ):
+
+              tag = soup.find(
+                  "meta",
+                  attrs={
+                      key: value
+                  }
+              )
+
+              if tag:
+
+                  return clean(
+                      tag.get(
+                          "content",
+                          ""
+                      )
+                  )
+
+              return ""
 
 
           # ============================================================
           # IMAGE EXTRACTION
           # ============================================================
 
-          def meta_content(soup, attr, value):
-              tag = soup.find(
-                  "meta",
-                  attrs={attr: value}
-              )
+          def extract_image(
+              soup,
+              final_url
+          ):
 
-              if not tag:
-                  return ""
-
-              return clean(tag.get("content", ""))
-
-
-          def extract_image(soup, base_url):
               candidates = []
+
 
               # --------------------------------------------------------
               # OpenGraph
               # --------------------------------------------------------
 
-              for attr, value in [
-                  ("property", "og:image"),
-                  ("property", "og:image:url"),
-                  ("property", "og:image:secure_url"),
-                  ("name", "twitter:image"),
-                  ("name", "twitter:image:src")
+              for prop in [
+                  "og:image",
+                  "og:image:url",
+                  "og:image:secure_url"
               ]:
-                  image = meta_content(
+
+                  value = meta(
                       soup,
-                      attr,
-                      value
+                      "property",
+                      prop
                   )
 
-                  if image:
-                      candidates.append(image)
+                  if value:
+                      candidates.append(value)
+
+
+              # --------------------------------------------------------
+              # Twitter
+              # --------------------------------------------------------
+
+              for name in [
+                  "twitter:image",
+                  "twitter:image:src"
+              ]:
+
+                  value = meta(
+                      soup,
+                      "name",
+                      name
+                  )
+
+                  if value:
+                      candidates.append(value)
+
 
               # --------------------------------------------------------
               # JSON-LD
@@ -421,118 +444,186 @@ jobs:
                   raw = (
                       script.string
                       or script.get_text()
-                      or ""
                   )
 
                   try:
+
                       data = json.loads(raw)
+
                   except Exception:
+
                       continue
 
-                  objects = []
 
-                  if isinstance(data, list):
-                      objects = data
+                  objects = (
+                      data
+                      if isinstance(data, list)
+                      else [data]
+                  )
 
-                  elif isinstance(data, dict):
-                      objects = [data]
+
+                  def inspect_object(obj):
+
+                      if not isinstance(
+                          obj,
+                          dict
+                      ):
+
+                          return
+
+
+                      image = obj.get(
+                          "image"
+                      )
+
+                      if isinstance(
+                          image,
+                          str
+                      ):
+
+                          candidates.append(
+                              image
+                          )
+
+                      elif isinstance(
+                          image,
+                          list
+                      ):
+
+                          for item in image:
+
+                              if isinstance(
+                                  item,
+                                  str
+                              ):
+
+                                  candidates.append(
+                                      item
+                                  )
+
+                              elif isinstance(
+                                  item,
+                                  dict
+                              ):
+
+                                  value = (
+                                      item.get(
+                                          "url"
+                                      )
+                                      or
+                                      item.get(
+                                          "contentUrl"
+                                      )
+                                  )
+
+                                  if value:
+                                      candidates.append(
+                                          value
+                                      )
+
+                      elif isinstance(
+                          image,
+                          dict
+                      ):
+
+                          value = (
+                              image.get("url")
+                              or
+                              image.get("contentUrl")
+                          )
+
+                          if value:
+                              candidates.append(
+                                  value
+                              )
+
+
+                      # Sometimes the article itself
+                      # contains nested objects.
+
+                      for value in obj.values():
+
+                          if isinstance(
+                              value,
+                              dict
+                          ):
+
+                              inspect_object(
+                                  value
+                              )
+
+                          elif isinstance(
+                              value,
+                              list
+                          ):
+
+                              for item in value:
+
+                                  if isinstance(
+                                      item,
+                                      dict
+                                  ):
+
+                                      inspect_object(
+                                          item
+                                      )
+
 
                   for obj in objects:
 
-                      if not isinstance(obj, dict):
-                          continue
+                      inspect_object(
+                          obj
+                      )
 
-                      image = obj.get("image")
-
-                      if isinstance(image, str):
-                          candidates.append(image)
-
-                      elif isinstance(image, dict):
-                          value = image.get("url")
-
-                          if value:
-                              candidates.append(value)
-
-                      elif isinstance(image, list):
-
-                          for value in image:
-
-                              if isinstance(value, str):
-                                  candidates.append(value)
-
-                              elif isinstance(value, dict):
-                                  value = value.get("url")
-
-                                  if value:
-                                      candidates.append(value)
 
               # --------------------------------------------------------
-              # link rel=image_src
+              # <img> tags
               # --------------------------------------------------------
 
-              tag = soup.find(
-                  "link",
-                  attrs={"rel": lambda x:
-                         x and "image_src" in x}
-              )
+              for img in soup.find_all(
+                  "img"
+              )[:80]:
 
-              if tag and tag.get("href"):
-                  candidates.append(
-                      tag.get("href")
+                  for attr in [
+                      "src",
+                      "data-src",
+                      "data-original",
+                      "data-lazy-src"
+                  ]:
+
+                      value = img.get(
+                          attr
+                      )
+
+                      if value:
+
+                          candidates.append(
+                              value
+                          )
+
+
+                  srcset = img.get(
+                      "srcset"
                   )
 
-              # --------------------------------------------------------
-              # First meaningful article image
-              # --------------------------------------------------------
+                  if srcset:
 
-              for img in soup.find_all("img"):
-
-                  src = (
-                      img.get("src")
-                      or img.get("data-src")
-                      or img.get("data-lazy-src")
-                      or img.get("data-original")
-                      or ""
-                  )
-
-                  if not src:
-                      continue
-
-                  low = src.lower()
-
-                  if any(
-                      bad in low
-                      for bad in [
-                          "logo",
-                          "icon",
-                          "avatar",
-                          "sprite",
-                          "favicon",
-                          "placeholder",
-                          "advert",
-                          "ads",
-                          "pixel"
+                      parts = [
+                          x.strip().split(" ")[0]
+                          for x in srcset.split(",")
+                          if x.strip()
                       ]
-                  ):
-                      continue
 
-                  width = img.get("width")
+                      candidates.extend(
+                          parts
+                      )
 
-                  try:
-                      if width and int(re.sub(
-                          r"[^\d]",
-                          "",
-                          str(width)
-                      ) or 0) < 250:
-                          continue
-                  except Exception:
-                      pass
-
-                  candidates.append(src)
 
               # --------------------------------------------------------
-              # Normalize and validate
+              # Clean and validate
               # --------------------------------------------------------
+
+              final_candidates = []
 
               for image in candidates:
 
@@ -540,76 +631,134 @@ jobs:
                       continue
 
                   image = urljoin(
-                      base_url,
+                      final_url,
                       image
                   )
 
-                  if not valid_url(image):
-                      continue
-
-                  low = image.lower()
-
-                  if low.endswith(
-                      (
-                          ".svg",
-                          ".ico"
-                      )
+                  if image.startswith(
+                      "data:"
                   ):
                       continue
 
-                  return image
+                  if image not in final_candidates:
 
-              return ""
+                      final_candidates.append(
+                          image
+                      )
+
+
+              # Prefer large/obvious article images.
+
+              for image in final_candidates:
+
+                  low = image.lower()
+
+                  bad_words = [
+                      "logo",
+                      "avatar",
+                      "icon",
+                      "favicon",
+                      "sprite",
+                      "placeholder",
+                      "advert",
+                      "banner"
+                  ]
+
+                  if not any(
+                      word in low
+                      for word in bad_words
+                  ):
+
+                      return image
+
+
+              return (
+                  final_candidates[0]
+                  if final_candidates
+                  else ""
+              )
 
 
           # ============================================================
-          # ARTICLE PAGE EXTRACTION
+          # ARTICLE PAGE DATA
           # ============================================================
 
           def page_data(url):
 
-              html, final_url, content_type = fetch(
+              html, final_url, ctype = fetch(
                   url,
-                  timeout=22
+                  25
               )
 
               if not html:
+
                   return {
                       "url": final_url or url,
                       "image": "",
-                      "description": "",
-                      "body": ""
+                      "text": "",
+                      "description": ""
                   }
+
+
+              if (
+                  "html" not in ctype.lower()
+                  and
+                  "text" not in ctype.lower()
+              ):
+
+                  return {
+                      "url": final_url or url,
+                      "image": "",
+                      "text": "",
+                      "description": ""
+                  }
+
 
               soup = BeautifulSoup(
                   html,
                   "lxml"
               )
 
+
+              # --------------------------------------------------------
+              # IMAGE
+              # --------------------------------------------------------
+
               image = extract_image(
                   soup,
                   final_url or url
               )
 
+
+              # --------------------------------------------------------
+              # DESCRIPTION
+              # --------------------------------------------------------
+
               description = (
-                  meta_content(
+
+                  meta(
                       soup,
                       "name",
                       "description"
                   )
+
                   or
-                  meta_content(
+
+                  meta(
                       soup,
                       "property",
                       "og:description"
                   )
+
               )
 
+
               # --------------------------------------------------------
-              # JSON-LD articleBody
+              # JSON-LD ARTICLE BODY
               # --------------------------------------------------------
 
               bodies = []
+
 
               for script in soup.find_all(
                   "script",
@@ -619,73 +768,152 @@ jobs:
                   raw = (
                       script.string
                       or script.get_text()
-                      or ""
                   )
 
                   try:
-                      data = json.loads(raw)
+
+                      data = json.loads(
+                          raw
+                      )
+
                   except Exception:
+
                       continue
+
 
                   objects = (
                       data
-                      if isinstance(data, list)
+                      if isinstance(
+                          data,
+                          list
+                      )
                       else [data]
                   )
 
+
                   for obj in objects:
 
-                      if not isinstance(obj, dict):
+                      if not isinstance(
+                          obj,
+                          dict
+                      ):
+
                           continue
 
+
                       body = obj.get(
-                          "articleBody",
-                          ""
+                          "articleBody"
                       )
 
-                      if isinstance(body, str):
+                      if isinstance(
+                          body,
+                          str
+                      ):
 
-                          body = clean(body)
+                          body = clean(
+                              body
+                          )
 
-                          if len(body) >= 150:
-                              bodies.append(body)
+                          if len(body) > 200:
+
+                              bodies.append(
+                                  body
+                              )
+
 
               # --------------------------------------------------------
-              # Article paragraphs
+              # REMOVE NOISE
+              # --------------------------------------------------------
+
+              for tag in soup([
+                  "script",
+                  "style",
+                  "noscript",
+                  "svg",
+                  "iframe",
+                  "nav",
+                  "footer",
+                  "header",
+                  "aside"
+              ]):
+
+                  tag.decompose()
+
+
+              # --------------------------------------------------------
+              # ARTICLE SELECTORS
               # --------------------------------------------------------
 
               selectors = [
+
                   "article p",
+
                   "[itemprop='articleBody'] p",
+
+                  "[itemprop='articleBody']",
+
                   ".article-body p",
+
                   ".article-content p",
-                  ".article__body p",
+
                   ".story-body p",
-                  ".story__body p",
+
                   ".post-content p",
+
                   ".entry-content p",
-                  ".content-body p",
+
+                  ".article__body p",
+
+                  ".article-text p",
+
+                  ".story-content p",
+
                   ".news-content p",
-                  "main p"
+
+                  ".content-body p",
+
+                  ".article-body",
+
+                  ".article-content"
+
               ]
+
 
               paragraphs = []
 
+
               blocked = [
+
                   "cookie",
+
                   "privacy policy",
-                  "terms of service",
+
+                  "terms of use",
+
                   "اشترك",
+
                   "تسجيل الدخول",
+
                   "تابعنا",
+
                   "إعلان",
+
                   "advertisement",
-                  "newsletter"
+
+                  "newsletter",
+
+                  "subscribe"
+
               ]
+
 
               for selector in selectors:
 
-                  for p in soup.select(selector):
+                  found = soup.select(
+                      selector
+                  )
+
+                  for p in found:
 
                       text = clean(
                           p.get_text(
@@ -694,48 +922,81 @@ jobs:
                           )
                       )
 
-                      if len(text) < 45:
+                      if len(text) < 40:
                           continue
+
 
                       low = text.lower()
 
+
                       if any(
-                          bad in low
-                          for bad in blocked
+                          x in low
+                          for x in blocked
                       ):
+
                           continue
 
-                      paragraphs.append(text)
+
+                      if text not in paragraphs:
+
+                          paragraphs.append(
+                              text
+                          )
+
 
                   if len(paragraphs) >= 10:
+
                       break
+
+
+              # --------------------------------------------------------
+              # CHOOSE BODY
+              # --------------------------------------------------------
 
               body = ""
 
+
               if bodies:
+
                   body = max(
                       bodies,
                       key=len
                   )
 
-              elif paragraphs:
-                  body = " ".join(
+
+              if len(body) < 500:
+
+                  extracted = " ".join(
                       paragraphs
                   )
 
+                  if len(extracted) > len(body):
+
+                      body = extracted
+
+
               return {
-                  "url": final_url or url,
-                  "image": image,
-                  "description": description,
-                  "body": body
+
+                  "url":
+                      final_url or url,
+
+                  "image":
+                      image,
+
+                  "text":
+                      clean(body),
+
+                  "description":
+                      clean(description)
+
               }
 
 
           # ============================================================
-          # JINA READER FALLBACK
+          # JINA FALLBACK
           # ============================================================
 
-          def jina_reader(url):
+          def jina_data(url):
 
               try:
 
@@ -744,447 +1005,586 @@ jobs:
                       + url
                   )
 
-                  text, final_url, _ = fetch(
+                  text, _, _ = fetch(
                       reader_url,
-                      timeout=30
+                      30
                   )
 
-                  text = clean(text)
+                  text = clean(
+                      text
+                  )
 
                   if len(text) < 300:
+
                       return ""
 
                   text = re.sub(
-                      r"^Title:.*?Markdown Content:",
-                      "",
+                      r"Title:.*?Markdown Content:",
+                      " ",
                       text,
                       flags=re.I | re.S
                   )
 
-                  return clean(text)
+                  return clean(
+                      text
+                  )
 
-              except Exception:
+              except Exception as e:
+
+                  print(
+                      "JINA ERROR:",
+                      str(e)[:160]
+                  )
+
                   return ""
 
 
           # ============================================================
-          # SUMMARY BUILDER
-          #
-          # Target: 60-100 words.
-          # Never invents facts.
+          # EXPANDED ARABIC SUMMARY
           # ============================================================
 
-          def make_summary(
+          def expanded_summary(
               title,
-              rss_description,
-              page_description,
+              rss_desc,
+              page_desc,
               body
           ):
 
-              title_clean = clean(title)
+              candidates = [
 
-              sources = [
-                  body,
-                  page_description,
-                  rss_description
+                  clean(body),
+
+                  clean(page_desc),
+
+                  clean(rss_desc)
+
               ]
 
-              text = ""
 
-              for source in sources:
+              best = max(
+                  candidates,
+                  key=len,
+                  default=""
+              )
 
-                  source = clean(source)
 
-                  if len(source) > len(text):
-                      text = source
+              title_clean = clean(
+                  title
+              )
 
-              if not text:
-                  return (
-                      "تستعرض NOWNEX أحدث التفاصيل المرتبطة بهذا "
-                      "الخبر في عالم كرة القدم، مع أهم المعطيات "
-                      "المتاحة من المصدر الأصلي."
-                  )
 
-              # Remove title repetition.
               if title_clean:
-                  text = re.sub(
+
+                  best = re.sub(
                       re.escape(title_clean),
                       " ",
-                      text,
+                      best,
                       flags=re.I
                   )
 
-              text = re.sub(
+
+              best = re.sub(
                   r"\s+",
                   " ",
-                  text
+                  best
               ).strip()
 
-              # Split into sentences.
+
+              # --------------------------------------------------------
+              # Split into sentences
+              # --------------------------------------------------------
+
               sentences = re.split(
                   r"(?<=[.!؟])\s+",
-                  text
+                  best
               )
 
+
               selected = []
+
               words = 0
+
 
               for sentence in sentences:
 
                   sentence = sentence.strip()
 
                   if len(sentence) < 35:
+
                       continue
 
                   n = len(
                       sentence.split()
                   )
 
-                  if selected and words + n > 100:
+
+                  if (
+                      selected
+                      and
+                      words + n > 220
+                  ):
+
                       break
 
-                  selected.append(sentence)
+
+                  selected.append(
+                      sentence
+                  )
+
                   words += n
 
-                  if words >= 70:
+
+                  if words >= 150:
+
                       break
+
 
               result = " ".join(
                   selected
               ).strip()
 
-              # If sentence splitting failed, use a clean excerpt.
-              if len(result.split()) < 45:
 
-                  words_list = text.split()
+              if len(
+                  result.split()
+              ) < 80:
 
                   result = " ".join(
-                      words_list[:100]
+                      best.split()[:220]
                   )
 
-              return result[:1200]
+
+              if len(
+                  result.split()
+              ) < 50:
+
+                  result = clean(
+                      rss_desc
+                  )
+
+
+              return result[:2200]
 
 
           # ============================================================
-          # RELEVANCE
+          # CLASSIFICATION
           # ============================================================
 
-          def relevance(article, category):
-
-              cfg = CATEGORIES[category]
-
-              title = article["title"].lower()
-
-              description = article[
-                  "description"
-              ].lower()
+          def classify(article):
 
               text = (
-                  title
+                  article["title"]
                   + " "
-                  + description
+                  + article["desc"]
+              ).lower()
+
+
+              scores = {
+                  k: 0
+                  for k in CATEGORY_RULES
+              }
+
+
+              for cat, words in CATEGORY_RULES.items():
+
+                  for word in words:
+
+                      if word.lower() in text:
+
+                          scores[cat] += 1
+
+
+              title = article[
+                  "title"
+              ].lower()
+
+
+              for cat, words in CATEGORY_RULES.items():
+
+                  for word in words:
+
+                      if word.lower() in title:
+
+                          scores[cat] += 2
+
+
+              best = max(
+                  scores,
+                  key=scores.get
               )
 
-              score = 0
 
-              for keyword in cfg["keywords"]:
-
-                  keyword = keyword.lower()
-
-                  if keyword in title:
-                      score += 5
-
-                  elif keyword in text:
-                      score += 2
-
-              # A category-specific Google News result
-              # already has baseline relevance.
-              score += 3
-
-              return score
+              return (
+                  best,
+                  scores[best]
+              )
 
 
           # ============================================================
-          # FETCH CATEGORY POOL
+          # BUILD LARGE POOL
           # ============================================================
 
-          def collect_category(category):
+          pool = {}
 
-              cfg = CATEGORIES[category]
 
-              pool = {}
+          for q in QUERIES:
 
-              for query in cfg["queries"]:
+              print(
+                  "POOL QUERY:",
+                  q
+              )
 
-                  print(
-                      f"[{category}] QUERY:",
-                      query
+              for article in google_news(
+                  q
+              ):
+
+                  key = canonical_key(
+                      article["title"]
                   )
 
-                  try:
-                      articles = google_news(
-                          query
-                      )
-                  except Exception as exc:
-                      print(
-                          "QUERY ERROR:",
-                          exc
-                      )
-                      continue
+                  if key:
 
-                  for article in articles:
+                      pool.setdefault(
+                          key,
+                          article
+                      )
 
-                      key = article_key(
+
+          # ============================================================
+          # TARGETED POOL
+          # ============================================================
+
+          for category, queries in SECTION_QUERIES.items():
+
+              for q in queries:
+
+                  print(
+                      "SECTION QUERY:",
+                      category,
+                      q
+                  )
+
+                  for article in google_news(
+                      q
+                  ):
+
+                      key = canonical_key(
                           article["title"]
                       )
 
-                      if key not in pool:
-                          pool[key] = article
+                      if key:
 
-                  # Small pause between requests.
-                  time.sleep(0.25)
+                          pool.setdefault(
+                              key,
+                              article
+                          )
 
-              articles = list(
-                  pool.values()
-              )
 
-              articles.sort(
-                  key=lambda x:
-                  relevance(
-                      x,
-                      category
-                  ),
-                  reverse=True
-              )
-
-              print(
-                  f"[{category}] UNIQUE:",
-                  len(articles)
-              )
-
-              return articles
+          print(
+              "CANDIDATE POOL:",
+              len(pool)
+          )
 
 
           # ============================================================
-          # LOAD OLD DATA
+          # BUCKETS
           # ============================================================
 
-          old_news = []
-
-          if os.path.exists(NEWS_FILE):
-
-              try:
-
-                  with open(
-                      NEWS_FILE,
-                      "r",
-                      encoding="utf-8"
-                  ) as f:
-
-                      old_data = json.load(f)
-
-                  old_news = old_data.get(
-                      "news",
-                      []
-                  )
-
-                  print(
-                      "OLD NEWS:",
-                      len(old_news)
-                  )
-
-              except Exception as exc:
-
-                  print(
-                      "OLD DATA ERROR:",
-                      exc
-                  )
-
-
-          old_by_category = {
-              category: []
-              for category in CATEGORIES
+          buckets = {
+              k: []
+              for k in CATEGORY_RULES
           }
 
-          for item in old_news:
 
-              category = item.get(
-                  "category"
+          for article in pool.values():
+
+              category, score = classify(
+                  article
               )
 
-              if category in old_by_category:
-                  old_by_category[
+              if score > 0:
+
+                  buckets[
                       category
-                  ].append(item)
+                  ].append(
+                      article
+                  )
 
 
           # ============================================================
-          # BUILD FINAL DATA
-          #
-          # IMPORTANT:
-          # No global cross-category deduplication.
-          # Every category receives its own quota.
+          # TARGETED FALLBACK
+          # ============================================================
+
+          for category, queries in SECTION_QUERIES.items():
+
+              if len(
+                  buckets[category]
+              ) >= MAX_PER_CATEGORY:
+
+                  continue
+
+
+              seen = {
+                  canonical_key(
+                      x["title"]
+                  )
+                  for x in buckets[
+                      category
+                  ]
+              }
+
+
+              for q in queries:
+
+                  for article in google_news(
+                      q
+                  ):
+
+                      key = canonical_key(
+                          article["title"]
+                      )
+
+
+                      if key not in seen:
+
+                          buckets[
+                              category
+                          ].append(
+                              article
+                          )
+
+                          seen.add(
+                              key
+                          )
+
+
+                      if len(
+                          buckets[category]
+                      ) >= MAX_PER_CATEGORY * 2:
+
+                          break
+
+
+                  if len(
+                      buckets[category]
+                  ) >= MAX_PER_CATEGORY * 2:
+
+                      break
+
+
+          # ============================================================
+          # BUILD FINAL
           # ============================================================
 
           final = []
 
-          for category in CATEGORIES:
+          seen_global = set()
 
-              print("")
+
+          for category in [
+              "matches",
+              "transfers",
+              "stars",
+              "national",
+              "history"
+          ]:
+
               print(
-                  "===================================="
-              )
-              print(
-                  "BUILDING:",
+                  "\nPROCESSING CATEGORY:",
                   category
               )
-              print(
-                  "===================================="
-              )
 
-              candidates = collect_category(
+
+              chosen = 0
+
+
+              for article in buckets[
                   category
-              )
+              ]:
 
-              selected = []
-              selected_keys = set()
+                  if chosen >= MAX_PER_CATEGORY:
 
-              for article in candidates:
-
-                  if len(selected) >= PER_CATEGORY:
                       break
 
-                  key = article_key(
+
+                  key = canonical_key(
                       article["title"]
                   )
 
-                  if key in selected_keys:
+
+                  if key in seen_global:
+
                       continue
+
+
+                  original = resolve(
+                      article["link"]
+                  )
+
 
                   print(
                       "ARTICLE:",
                       article["title"]
                   )
 
-                  original_url = article[
-                      "link"
-                  ]
+
+                  print(
+                      "URL:",
+                      original
+                  )
+
+
+                  # ----------------------------------------------------
+                  # PAGE EXTRACTION
+                  # ----------------------------------------------------
 
                   data = page_data(
-                      original_url
+                      original
                   )
 
-                  final_url = (
-                      data["url"]
-                      or original_url
-                  )
 
-                  body = data["body"]
+                  body = data[
+                      "text"
+                  ]
 
-                  # Try Jina only when the publisher
-                  # did not expose enough article text.
-                  if len(body) < 300:
 
-                      reader = jina_reader(
-                          final_url
+                  # ----------------------------------------------------
+                  # JINA FALLBACK
+                  # ----------------------------------------------------
+
+                  if len(body) < 500:
+
+                      reader = jina_data(
+                          data["url"]
+                          or original
                       )
+
 
                       if len(reader) > len(body):
+
                           body = reader
 
+
                   # ----------------------------------------------------
-                  # IMAGE STRATEGY
-                  #
-                  # 1. Publisher page
-                  # 2. RSS image
-                  # 3. Google News redirect page
+                  # EXPANDED ARABIC SUMMARY
                   # ----------------------------------------------------
 
-                  image = data["image"]
+                  summary = expanded_summary(
 
-                  if not image:
+                      article["title"],
 
-                      rss_image = article.get(
-                          "rss_image",
-                          ""
-                      )
+                      article["desc"],
 
-                      if rss_image:
-                          image = urljoin(
-                              final_url,
-                              rss_image
-                          )
+                      data["description"],
+
+                      body
+
+                  )
+
+
+                  # ----------------------------------------------------
+                  # IMAGE
+                  # ----------------------------------------------------
+
+                  image = data[
+                      "image"
+                  ]
+
+
+                  # ----------------------------------------------------
+                  # IMAGE FALLBACK FROM GOOGLE RSS PAGE
+                  # Only if source page did not provide one.
+                  # ----------------------------------------------------
 
                   if not image:
 
                       try:
 
-                          google_html, google_url, _ = fetch(
-                              original_url,
-                              timeout=18
+                          ghtml, gurl, _ = fetch(
+                              article["link"],
+                              20
                           )
 
-                          if google_html:
 
-                              google_soup = BeautifulSoup(
-                                  google_html,
+                          if ghtml:
+
+                              gsoup = BeautifulSoup(
+                                  ghtml,
                                   "lxml"
                               )
 
+
                               image = extract_image(
-                                  google_soup,
-                                  google_url
+                                  gsoup,
+                                  gurl
                               )
 
-                      except Exception as exc:
+                      except Exception as e:
 
                           print(
                               "GOOGLE IMAGE ERROR:",
-                              exc
+                              str(e)[:150]
                           )
 
-                  # ----------------------------------------------------
-                  # Summary
-                  # ----------------------------------------------------
-
-                  summary = make_summary(
-                      article["title"],
-                      article["description"],
-                      data["description"],
-                      body
-                  )
 
                   # ----------------------------------------------------
-                  # Source
+                  # FINAL ITEM
                   # ----------------------------------------------------
-
-                  source = (
-                      article["source"]
-                      or urlparse(
-                          final_url
-                      ).netloc
-                      or "NOWNEX"
-                  )
 
                   item = {
-                      "category": category,
-                      "title_ar": normalize_title(
-                          article["title"]
-                      ),
-                      "summary_ar": summary,
-                      "image": image or "",
-                      "source": source,
-                      "link": final_url,
-                      "published": article[
-                          "published"
-                      ],
-                      "date": article[
-                          "published"
-                      ]
+
+                      "category":
+                          category,
+
+                      "title_ar":
+                          clean(
+                              article["title"]
+                          ).replace(
+                              " - Google News",
+                              ""
+                          ).strip(),
+
+                      "summary_ar":
+                          summary,
+
+                      "content_ar":
+                          summary,
+
+                      "image":
+                          image or "",
+
+                      "source":
+                          article["source"]
+                          or
+                          urlparse(
+                              data["url"]
+                              or original
+                          ).netloc,
+
+                      "link":
+                          data["url"]
+                          or original,
+
+                      "published":
+                          article["published"],
+
+                      "date":
+                          article["published"]
+
                   }
 
-                  selected.append(item)
-                  selected_keys.add(key)
+
+                  final.append(
+                      item
+                  )
+
+
+                  seen_global.add(
+                      key
+                  )
+
+
+                  chosen += 1
+
 
                   print(
                       "SUMMARY WORDS:",
@@ -1193,6 +1593,7 @@ jobs:
                       )
                   )
 
+
                   print(
                       "IMAGE:",
                       "YES"
@@ -1200,148 +1601,138 @@ jobs:
                       else "NO"
                   )
 
-                  time.sleep(0.2)
 
-              # --------------------------------------------------------
-              # Category fallback.
-              #
-              # If Google News temporarily returns too few articles,
-              # preserve old articles ONLY for this category.
-              # --------------------------------------------------------
+                  time.sleep(
+                      0.15
+                  )
 
-              if len(selected) < PER_CATEGORY:
+
+              print(
+                  "CATEGORY FINAL:",
+                  category,
+                  chosen
+              )
+
+
+          # ============================================================
+          # OLD DATA FALLBACK
+          # ============================================================
+
+          if len(final) < 5 and os.path.exists(
+              NEWS_FILE
+          ):
+
+              try:
+
+                  with open(
+                      NEWS_FILE,
+                      encoding="utf-8"
+                  ) as f:
+
+                      old = json.load(
+                          f
+                      ).get(
+                          "news",
+                          []
+                      )
+
+
+                  old_by_cat = {
+                      c: []
+                      for c in CATEGORY_RULES
+                  }
+
+
+                  for item in old:
+
+                      category = item.get(
+                          "category"
+                      )
+
+
+                      if category in old_by_cat:
+
+                          old_by_cat[
+                              category
+                          ].append(
+                              item
+                          )
+
+
+                  current_cats = {
+                      x["category"]
+                      for x in final
+                  }
+
+
+                  for category, old_items in old_by_cat.items():
+
+                      if category not in current_cats:
+
+                          for item in old_items[
+                              :MAX_PER_CATEGORY
+                          ]:
+
+                              key = canonical_key(
+                                  item.get(
+                                      "title_ar",
+                                      ""
+                                  )
+                              )
+
+
+                              if key not in seen_global:
+
+                                  final.append(
+                                      item
+                                  )
+
+              except Exception as e:
 
                   print(
-                      f"[{category}] "
-                      f"Only {len(selected)} fresh articles."
+                      "OLD DATA FALLBACK ERROR:",
+                      e
                   )
-
-                  for old in old_by_category[
-                      category
-                  ]:
-
-                      if len(selected) >= PER_CATEGORY:
-                          break
-
-                      key = article_key(
-                          old.get(
-                              "title_ar",
-                              ""
-                          )
-                      )
-
-                      if key in selected_keys:
-                          continue
-
-                      selected.append(old)
-                      selected_keys.add(key)
-
-                      print(
-                          f"[{category}] "
-                          "RESTORED OLD ARTICLE"
-                      )
-
-              # --------------------------------------------------------
-              # Final category result
-              # --------------------------------------------------------
-
-              selected = selected[
-                  :PER_CATEGORY
-              ]
-
-              final.extend(
-                  selected
-              )
-
-              print(
-                  f"[{category}] FINAL:",
-                  len(selected)
-              )
 
 
           # ============================================================
-          # FINAL VALIDATION
+          # LIMIT
           # ============================================================
 
-          counts = {
-              category:
-              sum(
-                  1
-                  for item in final
-                  if item.get("category")
-                  == category
-              )
-              for category in CATEGORIES
-          }
-
-          print("")
-          print(
-              "=========================================="
-          )
-          print(
-              "NOWNEX FOOTBALL FINAL REPORT"
-          )
-          print(
-              "=========================================="
-          )
-
-          for category, count in counts.items():
-
-              print(
-                  category,
-                  ":",
-                  count
-              )
-
-          print(
-              "TOTAL:",
-              len(final)
-          )
+          final = final[
+              :MAX_TOTAL
+          ]
 
 
-          # Every category should have at least
-          # a meaningful amount of content.
-          for category, count in counts.items():
+          # ============================================================
+          # SAFETY
+          # ============================================================
 
-              if count < 5:
-
-                  raise RuntimeError(
-                      "Safety stop: category "
-                      + category
-                      + " has only "
-                      + str(count)
-                      + " articles."
-                  )
-
-          if len(final) < 25:
+          if len(final) < 10:
 
               raise RuntimeError(
-                  "Safety stop: fewer than "
-                  "25 football stories."
+                  "Safety stop: fewer than 10 usable football stories collected"
               )
 
 
           # ============================================================
-          # SAVE
+          # OUTPUT
           # ============================================================
 
           output = {
-              "updatedAt": datetime.now(
-                  timezone.utc
-              ).isoformat(),
 
-              "count": len(final),
+              "updatedAt":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
 
-              "categories": counts,
+              "count":
+                  len(final),
 
-              "news": final
+              "news":
+                  final
+
           }
-
-
-          os.makedirs(
-              os.path.dirname(NEWS_FILE),
-              exist_ok=True
-          )
 
 
           with open(
@@ -1358,16 +1749,30 @@ jobs:
               )
 
 
-          print("")
           print(
-              "=========================================="
+              "\n======================================"
           )
+
           print(
               "NOWNEX FOOTBALL SAVED:",
               len(final)
           )
+
+
+          for category in CATEGORY_RULES:
+
+              print(
+                  category,
+                  sum(
+                      1
+                      for x in final
+                      if x["category"] == category
+                  )
+              )
+
+
           print(
-              "=========================================="
+              "======================================"
           )
 
 
@@ -1375,9 +1780,6 @@ jobs:
         run: |
           git config user.name "NOWNEX Football News Bot"
           git config user.email "actions@users.noreply.github.com"
-
           git add data/news.json
-
-          git diff --cached --quiet || git commit -m "Rebuild NOWNEX Football news"
-
+          git diff --cached --quiet || git commit -m "Improve NOWNEX football articles and images"
           git push
