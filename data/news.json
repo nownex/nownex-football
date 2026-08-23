@@ -1,1785 +1,556 @@
-name: Update NOWNEX FOOTBALL News
-
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "7 */3 * * *"
-
-permissions:
-  contents: write
-
-jobs:
-  update-news:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install parser
-        run: pip install requests beautifulsoup4 lxml
-
-      - name: Build NOWNEX FOOTBALL News
-        shell: python
-        env:
-          PYTHONIOENCODING: utf-8
-        run: |
-          import json
-          import re
-          import time
-          import hashlib
-          import os
-          from datetime import datetime, timezone
-          from urllib.parse import quote, urljoin, urlparse
-
-          import requests
-          from bs4 import BeautifulSoup
-
-
-          NEWS_FILE = "data/news.json"
-
-          MAX_PER_CATEGORY = 10
-          MAX_TOTAL = 50
-
-
-          HEADERS = {
-              "User-Agent": (
-                  "Mozilla/5.0 (X11; Linux x86_64) "
-                  "AppleWebKit/537.36 "
-                  "(KHTML, like Gecko) "
-                  "Chrome/136.0 Safari/537.36 "
-                  "NOWNEXBot/3.0"
-              ),
-              "Accept-Language": "ar,en;q=0.8",
-              "Accept": (
-                  "text/html,application/xhtml+xml,"
-                  "application/xml;q=0.9,image/avif,"
-                  "image/webp,*/*;q=0.8"
-              ),
-          }
-
-
-          # ============================================================
-          # CATEGORIES
-          # ============================================================
-
-          CATEGORY_RULES = {
-
-              "matches": [
-                  "مباراة", "مباريات", "مواجهة", "تشكيلة",
-                  "تشكيل", "نتيجة", "هدف", "أهداف",
-                  "دوري", "كأس", "قرعة", "الجولة", "لقاء",
-                  "match", "fixture", "lineup", "result"
-              ],
-
-              "transfers": [
-                  "انتقال", "انتقالات", "صفقة", "صفقات",
-                  "ينضم", "يضم", "تعاقد", "عرض",
-                  "مفاوضات", "ميركاتو", "رحيل", "إعارة",
-                  "عقد", "transfer", "sign", "deal", "loan"
-              ],
-
-              "stars": [
-                  "رونالدو", "ميسي", "مبابي", "صلاح",
-                  "بنزيما", "هالاند", "يامال",
-                  "فينيسيوس", "بيلينغهام", "نيمار",
-                  "محرز", "بلايلي", "لاعب", "نجم",
-                  "إصابة", "إصابات", "تصريح",
-                  "مدرب", "coach", "player", "injury"
-              ],
-
-              "national": [
-                  "منتخب", "المنتخبات", "كأس العالم",
-                  "تصفيات", "فيفا", "كاف",
-                  "أمم إفريقيا", "أمم اسيا",
-                  "أوروبا", "وطني", "national", "fifa"
-              ],
-
-              "history": [
-                  "تاريخ", "أسطورة", "أساطير", "ذكرى",
-                  "في مثل هذا اليوم", "نهائي تاريخي",
-                  "لحظة تاريخية", "مسيرة", "معتزل",
-                  "legend", "history", "on this day"
-              ]
-          }
-
-
-          # ============================================================
-          # SEARCH POOL
-          # ============================================================
-
-          QUERIES = [
-
-              "كرة القدم أخبار مباريات انتقالات لاعبين منتخبات",
-
-              "كرة القدم اليوم مباريات نتائج أهداف",
-
-              "سوق انتقالات كرة القدم صفقات أندية لاعبين",
-
-              "أخبار نجوم كرة القدم إصابات تصريحات",
-
-              "المنتخبات كأس العالم تصفيات كرة القدم",
-
-              "تاريخ كرة القدم أساطير في مثل هذا اليوم",
-
-              "محمد صلاح مبابي رونالدو هالاند يامال كرة القدم",
-
-              "الدوري الإنجليزي الإسباني الإيطالي السعودي كرة القدم",
-
-              "دوري أبطال أوروبا كرة القدم",
-
-              "كرة القدم الجزائر المنتخب الجزائري محرز بلايلي",
-          ]
-
-
-          SECTION_QUERIES = {
-
-              "matches": [
-                  "مباريات كرة القدم اليوم نتائج أهداف تشكيلة",
-                  "مواجهات كرة القدم اليوم الدوري أبطال أوروبا",
-                  "مواعيد مباريات كرة القدم نتائج"
-              ],
-
-              "transfers": [
-                  "انتقالات كرة القدم صفقات ميركاتو",
-                  "سوق انتقالات اللاعبين أندية كرة القدم",
-                  "مفاوضات انتقال تعاقد لاعب كرة القدم"
-              ],
-
-              "stars": [
-                  "أخبار نجوم كرة القدم صلاح مبابي رونالدو هالاند يامال",
-                  "إصابات وتصريحات لاعبي كرة القدم",
-                  "أخبار لاعبي كرة القدم"
-              ],
-
-              "national": [
-                  "أخبار المنتخبات كرة القدم كأس العالم تصفيات",
-                  "المنتخب الجزائري كرة القدم",
-                  "كأس أمم إفريقيا منتخبات كرة القدم"
-              ],
-
-              "history": [
-                  "أساطير كرة القدم تاريخ كرة القدم",
-                  "في مثل هذا اليوم كرة القدم",
-                  "لحظات تاريخية نهائيات كرة القدم"
-              ]
-          }
-
-
-          SESSION = requests.Session()
-          SESSION.headers.update(HEADERS)
-
-
-          # ============================================================
-          # CLEAN
-          # ============================================================
-
-          def clean(value):
-
-              if not value:
-                  return ""
-
-              soup = BeautifulSoup(str(value), "html.parser")
-
-              text = soup.get_text(" ", strip=True)
-
-              text = re.sub(r"\s+", " ", text)
-
-              return text.strip()
-
-
-          # ============================================================
-          # CANONICAL TITLE
-          # ============================================================
-
-          def canonical_key(title):
-
-              text = clean(title).lower()
-
-              text = re.sub(
-                  r"[-|–—].*(google news)$",
-                  "",
-                  text,
-                  flags=re.I
-              )
-
-              text = re.sub(
-                  r"[^\w\u0600-\u06ff ]+",
-                  " ",
-                  text
-              )
-
-              return re.sub(
-                  r"\s+",
-                  " ",
-                  text
-              ).strip()
-
-
-          # ============================================================
-          # FETCH
-          # ============================================================
-
-          def fetch(url, timeout=20):
-
-              try:
-
-                  r = SESSION.get(
-                      url,
-                      timeout=timeout,
-                      allow_redirects=True
-                  )
-
-                  if r.ok:
-
-                      return (
-                          r.text,
-                          r.url,
-                          r.headers.get(
-                              "content-type",
-                              ""
-                          )
-                      )
-
-              except Exception as e:
-
-                  print(
-                      "FETCH ERROR:",
-                      url[:120],
-                      str(e)[:180]
-                  )
-
-              return "", url, ""
-
-
-          # ============================================================
-          # GOOGLE NEWS RSS
-          # ============================================================
-
-          def google_news(query):
-
-              url = (
-                  "https://news.google.com/rss/search?q="
-                  + quote(query)
-                  + "&hl=ar&gl=DZ&ceid=DZ:ar"
-              )
-
-              xml, _, _ = fetch(
-                  url,
-                  25
-              )
-
-              if not xml:
-                  return []
-
-              soup = BeautifulSoup(
-                  xml,
-                  "xml"
-              )
-
-              out = []
-
-              for item in soup.find_all("item"):
-
-                  title = (
-                      clean(item.title.get_text())
-                      if item.title
-                      else ""
-                  )
-
-                  link = (
-                      item.link.get_text(strip=True)
-                      if item.link
-                      else ""
-                  )
-
-                  desc = (
-                      clean(item.description.get_text())
-                      if item.description
-                      else ""
-                  )
-
-                  pub = (
-                      item.pubDate.get_text(strip=True)
-                      if item.pubDate
-                      else ""
-                  )
-
-                  source = (
-                      item.source.get_text(strip=True)
-                      if item.source
-                      else ""
-                  )
-
-                  if title and link:
-
-                      out.append({
-
-                          "title": title,
-
-                          "link": link,
-
-                          "desc": desc,
-
-                          "published": pub,
-
-                          "source": source
-
-                      })
-
-              return out
-
-
-          # ============================================================
-          # RESOLVE URL
-          # ============================================================
-
-          def resolve(url):
-
-              try:
-
-                  r = SESSION.get(
-                      url,
-                      timeout=20,
-                      allow_redirects=True,
-                      stream=True
-                  )
-
-                  return r.url or url
-
-              except Exception:
-
-                  return url
-
-
-          # ============================================================
-          # META
-          # ============================================================
-
-          def meta(
-              soup,
-              key,
-              value
-          ):
-
-              tag = soup.find(
-                  "meta",
-                  attrs={
-                      key: value
-                  }
-              )
-
-              if tag:
-
-                  return clean(
-                      tag.get(
-                          "content",
-                          ""
-                      )
-                  )
-
-              return ""
-
-
-          # ============================================================
-          # IMAGE EXTRACTION
-          # ============================================================
-
-          def extract_image(
-              soup,
-              final_url
-          ):
-
-              candidates = []
-
-
-              # --------------------------------------------------------
-              # OpenGraph
-              # --------------------------------------------------------
-
-              for prop in [
-                  "og:image",
-                  "og:image:url",
-                  "og:image:secure_url"
-              ]:
-
-                  value = meta(
-                      soup,
-                      "property",
-                      prop
-                  )
-
-                  if value:
-                      candidates.append(value)
-
-
-              # --------------------------------------------------------
-              # Twitter
-              # --------------------------------------------------------
-
-              for name in [
-                  "twitter:image",
-                  "twitter:image:src"
-              ]:
-
-                  value = meta(
-                      soup,
-                      "name",
-                      name
-                  )
-
-                  if value:
-                      candidates.append(value)
-
-
-              # --------------------------------------------------------
-              # JSON-LD
-              # --------------------------------------------------------
-
-              for script in soup.find_all(
-                  "script",
-                  type="application/ld+json"
-              ):
-
-                  raw = (
-                      script.string
-                      or script.get_text()
-                  )
-
-                  try:
-
-                      data = json.loads(raw)
-
-                  except Exception:
-
-                      continue
-
-
-                  objects = (
-                      data
-                      if isinstance(data, list)
-                      else [data]
-                  )
-
-
-                  def inspect_object(obj):
-
-                      if not isinstance(
-                          obj,
-                          dict
-                      ):
-
-                          return
-
-
-                      image = obj.get(
-                          "image"
-                      )
-
-                      if isinstance(
-                          image,
-                          str
-                      ):
-
-                          candidates.append(
-                              image
-                          )
-
-                      elif isinstance(
-                          image,
-                          list
-                      ):
-
-                          for item in image:
-
-                              if isinstance(
-                                  item,
-                                  str
-                              ):
-
-                                  candidates.append(
-                                      item
-                                  )
-
-                              elif isinstance(
-                                  item,
-                                  dict
-                              ):
-
-                                  value = (
-                                      item.get(
-                                          "url"
-                                      )
-                                      or
-                                      item.get(
-                                          "contentUrl"
-                                      )
-                                  )
-
-                                  if value:
-                                      candidates.append(
-                                          value
-                                      )
-
-                      elif isinstance(
-                          image,
-                          dict
-                      ):
-
-                          value = (
-                              image.get("url")
-                              or
-                              image.get("contentUrl")
-                          )
-
-                          if value:
-                              candidates.append(
-                                  value
-                              )
-
-
-                      # Sometimes the article itself
-                      # contains nested objects.
-
-                      for value in obj.values():
-
-                          if isinstance(
-                              value,
-                              dict
-                          ):
-
-                              inspect_object(
-                                  value
-                              )
-
-                          elif isinstance(
-                              value,
-                              list
-                          ):
-
-                              for item in value:
-
-                                  if isinstance(
-                                      item,
-                                      dict
-                                  ):
-
-                                      inspect_object(
-                                          item
-                                      )
-
-
-                  for obj in objects:
-
-                      inspect_object(
-                          obj
-                      )
-
-
-              # --------------------------------------------------------
-              # <img> tags
-              # --------------------------------------------------------
-
-              for img in soup.find_all(
-                  "img"
-              )[:80]:
-
-                  for attr in [
-                      "src",
-                      "data-src",
-                      "data-original",
-                      "data-lazy-src"
-                  ]:
-
-                      value = img.get(
-                          attr
-                      )
-
-                      if value:
-
-                          candidates.append(
-                              value
-                          )
-
-
-                  srcset = img.get(
-                      "srcset"
-                  )
-
-                  if srcset:
-
-                      parts = [
-                          x.strip().split(" ")[0]
-                          for x in srcset.split(",")
-                          if x.strip()
-                      ]
-
-                      candidates.extend(
-                          parts
-                      )
-
-
-              # --------------------------------------------------------
-              # Clean and validate
-              # --------------------------------------------------------
-
-              final_candidates = []
-
-              for image in candidates:
-
-                  if not image:
-                      continue
-
-                  image = urljoin(
-                      final_url,
-                      image
-                  )
-
-                  if image.startswith(
-                      "data:"
-                  ):
-                      continue
-
-                  if image not in final_candidates:
-
-                      final_candidates.append(
-                          image
-                      )
-
-
-              # Prefer large/obvious article images.
-
-              for image in final_candidates:
-
-                  low = image.lower()
-
-                  bad_words = [
-                      "logo",
-                      "avatar",
-                      "icon",
-                      "favicon",
-                      "sprite",
-                      "placeholder",
-                      "advert",
-                      "banner"
-                  ]
-
-                  if not any(
-                      word in low
-                      for word in bad_words
-                  ):
-
-                      return image
-
-
-              return (
-                  final_candidates[0]
-                  if final_candidates
-                  else ""
-              )
-
-
-          # ============================================================
-          # ARTICLE PAGE DATA
-          # ============================================================
-
-          def page_data(url):
-
-              html, final_url, ctype = fetch(
-                  url,
-                  25
-              )
-
-              if not html:
-
-                  return {
-                      "url": final_url or url,
-                      "image": "",
-                      "text": "",
-                      "description": ""
-                  }
-
-
-              if (
-                  "html" not in ctype.lower()
-                  and
-                  "text" not in ctype.lower()
-              ):
-
-                  return {
-                      "url": final_url or url,
-                      "image": "",
-                      "text": "",
-                      "description": ""
-                  }
-
-
-              soup = BeautifulSoup(
-                  html,
-                  "lxml"
-              )
-
-
-              # --------------------------------------------------------
-              # IMAGE
-              # --------------------------------------------------------
-
-              image = extract_image(
-                  soup,
-                  final_url or url
-              )
-
-
-              # --------------------------------------------------------
-              # DESCRIPTION
-              # --------------------------------------------------------
-
-              description = (
-
-                  meta(
-                      soup,
-                      "name",
-                      "description"
-                  )
-
-                  or
-
-                  meta(
-                      soup,
-                      "property",
-                      "og:description"
-                  )
-
-              )
-
-
-              # --------------------------------------------------------
-              # JSON-LD ARTICLE BODY
-              # --------------------------------------------------------
-
-              bodies = []
-
-
-              for script in soup.find_all(
-                  "script",
-                  type="application/ld+json"
-              ):
-
-                  raw = (
-                      script.string
-                      or script.get_text()
-                  )
-
-                  try:
-
-                      data = json.loads(
-                          raw
-                      )
-
-                  except Exception:
-
-                      continue
-
-
-                  objects = (
-                      data
-                      if isinstance(
-                          data,
-                          list
-                      )
-                      else [data]
-                  )
-
-
-                  for obj in objects:
-
-                      if not isinstance(
-                          obj,
-                          dict
-                      ):
-
-                          continue
-
-
-                      body = obj.get(
-                          "articleBody"
-                      )
-
-                      if isinstance(
-                          body,
-                          str
-                      ):
-
-                          body = clean(
-                              body
-                          )
-
-                          if len(body) > 200:
-
-                              bodies.append(
-                                  body
-                              )
-
-
-              # --------------------------------------------------------
-              # REMOVE NOISE
-              # --------------------------------------------------------
-
-              for tag in soup([
-                  "script",
-                  "style",
-                  "noscript",
-                  "svg",
-                  "iframe",
-                  "nav",
-                  "footer",
-                  "header",
-                  "aside"
-              ]):
-
-                  tag.decompose()
-
-
-              # --------------------------------------------------------
-              # ARTICLE SELECTORS
-              # --------------------------------------------------------
-
-              selectors = [
-
-                  "article p",
-
-                  "[itemprop='articleBody'] p",
-
-                  "[itemprop='articleBody']",
-
-                  ".article-body p",
-
-                  ".article-content p",
-
-                  ".story-body p",
-
-                  ".post-content p",
-
-                  ".entry-content p",
-
-                  ".article__body p",
-
-                  ".article-text p",
-
-                  ".story-content p",
-
-                  ".news-content p",
-
-                  ".content-body p",
-
-                  ".article-body",
-
-                  ".article-content"
-
-              ]
-
-
-              paragraphs = []
-
-
-              blocked = [
-
-                  "cookie",
-
-                  "privacy policy",
-
-                  "terms of use",
-
-                  "اشترك",
-
-                  "تسجيل الدخول",
-
-                  "تابعنا",
-
-                  "إعلان",
-
-                  "advertisement",
-
-                  "newsletter",
-
-                  "subscribe"
-
-              ]
-
-
-              for selector in selectors:
-
-                  found = soup.select(
-                      selector
-                  )
-
-                  for p in found:
-
-                      text = clean(
-                          p.get_text(
-                              " ",
-                              strip=True
-                          )
-                      )
-
-                      if len(text) < 40:
-                          continue
-
-
-                      low = text.lower()
-
-
-                      if any(
-                          x in low
-                          for x in blocked
-                      ):
-
-                          continue
-
-
-                      if text not in paragraphs:
-
-                          paragraphs.append(
-                              text
-                          )
-
-
-                  if len(paragraphs) >= 10:
-
-                      break
-
-
-              # --------------------------------------------------------
-              # CHOOSE BODY
-              # --------------------------------------------------------
-
-              body = ""
-
-
-              if bodies:
-
-                  body = max(
-                      bodies,
-                      key=len
-                  )
-
-
-              if len(body) < 500:
-
-                  extracted = " ".join(
-                      paragraphs
-                  )
-
-                  if len(extracted) > len(body):
-
-                      body = extracted
-
-
-              return {
-
-                  "url":
-                      final_url or url,
-
-                  "image":
-                      image,
-
-                  "text":
-                      clean(body),
-
-                  "description":
-                      clean(description)
-
-              }
-
-
-          # ============================================================
-          # JINA FALLBACK
-          # ============================================================
-
-          def jina_data(url):
-
-              try:
-
-                  reader_url = (
-                      "https://r.jina.ai/"
-                      + url
-                  )
-
-                  text, _, _ = fetch(
-                      reader_url,
-                      30
-                  )
-
-                  text = clean(
-                      text
-                  )
-
-                  if len(text) < 300:
-
-                      return ""
-
-                  text = re.sub(
-                      r"Title:.*?Markdown Content:",
-                      " ",
-                      text,
-                      flags=re.I | re.S
-                  )
-
-                  return clean(
-                      text
-                  )
-
-              except Exception as e:
-
-                  print(
-                      "JINA ERROR:",
-                      str(e)[:160]
-                  )
-
-                  return ""
-
-
-          # ============================================================
-          # EXPANDED ARABIC SUMMARY
-          # ============================================================
-
-          def expanded_summary(
-              title,
-              rss_desc,
-              page_desc,
-              body
-          ):
-
-              candidates = [
-
-                  clean(body),
-
-                  clean(page_desc),
-
-                  clean(rss_desc)
-
-              ]
-
-
-              best = max(
-                  candidates,
-                  key=len,
-                  default=""
-              )
-
-
-              title_clean = clean(
-                  title
-              )
-
-
-              if title_clean:
-
-                  best = re.sub(
-                      re.escape(title_clean),
-                      " ",
-                      best,
-                      flags=re.I
-                  )
-
-
-              best = re.sub(
-                  r"\s+",
-                  " ",
-                  best
-              ).strip()
-
-
-              # --------------------------------------------------------
-              # Split into sentences
-              # --------------------------------------------------------
-
-              sentences = re.split(
-                  r"(?<=[.!؟])\s+",
-                  best
-              )
-
-
-              selected = []
-
-              words = 0
-
-
-              for sentence in sentences:
-
-                  sentence = sentence.strip()
-
-                  if len(sentence) < 35:
-
-                      continue
-
-                  n = len(
-                      sentence.split()
-                  )
-
-
-                  if (
-                      selected
-                      and
-                      words + n > 220
-                  ):
-
-                      break
-
-
-                  selected.append(
-                      sentence
-                  )
-
-                  words += n
-
-
-                  if words >= 150:
-
-                      break
-
-
-              result = " ".join(
-                  selected
-              ).strip()
-
-
-              if len(
-                  result.split()
-              ) < 80:
-
-                  result = " ".join(
-                      best.split()[:220]
-                  )
-
-
-              if len(
-                  result.split()
-              ) < 50:
-
-                  result = clean(
-                      rss_desc
-                  )
-
-
-              return result[:2200]
-
-
-          # ============================================================
-          # CLASSIFICATION
-          # ============================================================
-
-          def classify(article):
-
-              text = (
-                  article["title"]
-                  + " "
-                  + article["desc"]
-              ).lower()
-
-
-              scores = {
-                  k: 0
-                  for k in CATEGORY_RULES
-              }
-
-
-              for cat, words in CATEGORY_RULES.items():
-
-                  for word in words:
-
-                      if word.lower() in text:
-
-                          scores[cat] += 1
-
-
-              title = article[
-                  "title"
-              ].lower()
-
-
-              for cat, words in CATEGORY_RULES.items():
-
-                  for word in words:
-
-                      if word.lower() in title:
-
-                          scores[cat] += 2
-
-
-              best = max(
-                  scores,
-                  key=scores.get
-              )
-
-
-              return (
-                  best,
-                  scores[best]
-              )
-
-
-          # ============================================================
-          # BUILD LARGE POOL
-          # ============================================================
-
-          pool = {}
-
-
-          for q in QUERIES:
-
-              print(
-                  "POOL QUERY:",
-                  q
-              )
-
-              for article in google_news(
-                  q
-              ):
-
-                  key = canonical_key(
-                      article["title"]
-                  )
-
-                  if key:
-
-                      pool.setdefault(
-                          key,
-                          article
-                      )
-
-
-          # ============================================================
-          # TARGETED POOL
-          # ============================================================
-
-          for category, queries in SECTION_QUERIES.items():
-
-              for q in queries:
-
-                  print(
-                      "SECTION QUERY:",
-                      category,
-                      q
-                  )
-
-                  for article in google_news(
-                      q
-                  ):
-
-                      key = canonical_key(
-                          article["title"]
-                      )
-
-                      if key:
-
-                          pool.setdefault(
-                              key,
-                              article
-                          )
-
-
-          print(
-              "CANDIDATE POOL:",
-              len(pool)
-          )
-
-
-          # ============================================================
-          # BUCKETS
-          # ============================================================
-
-          buckets = {
-              k: []
-              for k in CATEGORY_RULES
-          }
-
-
-          for article in pool.values():
-
-              category, score = classify(
-                  article
-              )
-
-              if score > 0:
-
-                  buckets[
-                      category
-                  ].append(
-                      article
-                  )
-
-
-          # ============================================================
-          # TARGETED FALLBACK
-          # ============================================================
-
-          for category, queries in SECTION_QUERIES.items():
-
-              if len(
-                  buckets[category]
-              ) >= MAX_PER_CATEGORY:
-
-                  continue
-
-
-              seen = {
-                  canonical_key(
-                      x["title"]
-                  )
-                  for x in buckets[
-                      category
-                  ]
-              }
-
-
-              for q in queries:
-
-                  for article in google_news(
-                      q
-                  ):
-
-                      key = canonical_key(
-                          article["title"]
-                      )
-
-
-                      if key not in seen:
-
-                          buckets[
-                              category
-                          ].append(
-                              article
-                          )
-
-                          seen.add(
-                              key
-                          )
-
-
-                      if len(
-                          buckets[category]
-                      ) >= MAX_PER_CATEGORY * 2:
-
-                          break
-
-
-                  if len(
-                      buckets[category]
-                  ) >= MAX_PER_CATEGORY * 2:
-
-                      break
-
-
-          # ============================================================
-          # BUILD FINAL
-          # ============================================================
-
-          final = []
-
-          seen_global = set()
-
-
-          for category in [
-              "matches",
-              "transfers",
-              "stars",
-              "national",
-              "history"
-          ]:
-
-              print(
-                  "\nPROCESSING CATEGORY:",
-                  category
-              )
-
-
-              chosen = 0
-
-
-              for article in buckets[
-                  category
-              ]:
-
-                  if chosen >= MAX_PER_CATEGORY:
-
-                      break
-
-
-                  key = canonical_key(
-                      article["title"]
-                  )
-
-
-                  if key in seen_global:
-
-                      continue
-
-
-                  original = resolve(
-                      article["link"]
-                  )
-
-
-                  print(
-                      "ARTICLE:",
-                      article["title"]
-                  )
-
-
-                  print(
-                      "URL:",
-                      original
-                  )
-
-
-                  # ----------------------------------------------------
-                  # PAGE EXTRACTION
-                  # ----------------------------------------------------
-
-                  data = page_data(
-                      original
-                  )
-
-
-                  body = data[
-                      "text"
-                  ]
-
-
-                  # ----------------------------------------------------
-                  # JINA FALLBACK
-                  # ----------------------------------------------------
-
-                  if len(body) < 500:
-
-                      reader = jina_data(
-                          data["url"]
-                          or original
-                      )
-
-
-                      if len(reader) > len(body):
-
-                          body = reader
-
-
-                  # ----------------------------------------------------
-                  # EXPANDED ARABIC SUMMARY
-                  # ----------------------------------------------------
-
-                  summary = expanded_summary(
-
-                      article["title"],
-
-                      article["desc"],
-
-                      data["description"],
-
-                      body
-
-                  )
-
-
-                  # ----------------------------------------------------
-                  # IMAGE
-                  # ----------------------------------------------------
-
-                  image = data[
-                      "image"
-                  ]
-
-
-                  # ----------------------------------------------------
-                  # IMAGE FALLBACK FROM GOOGLE RSS PAGE
-                  # Only if source page did not provide one.
-                  # ----------------------------------------------------
-
-                  if not image:
-
-                      try:
-
-                          ghtml, gurl, _ = fetch(
-                              article["link"],
-                              20
-                          )
-
-
-                          if ghtml:
-
-                              gsoup = BeautifulSoup(
-                                  ghtml,
-                                  "lxml"
-                              )
-
-
-                              image = extract_image(
-                                  gsoup,
-                                  gurl
-                              )
-
-                      except Exception as e:
-
-                          print(
-                              "GOOGLE IMAGE ERROR:",
-                              str(e)[:150]
-                          )
-
-
-                  # ----------------------------------------------------
-                  # FINAL ITEM
-                  # ----------------------------------------------------
-
-                  item = {
-
-                      "category":
-                          category,
-
-                      "title_ar":
-                          clean(
-                              article["title"]
-                          ).replace(
-                              " - Google News",
-                              ""
-                          ).strip(),
-
-                      "summary_ar":
-                          summary,
-
-                      "content_ar":
-                          summary,
-
-                      "image":
-                          image or "",
-
-                      "source":
-                          article["source"]
-                          or
-                          urlparse(
-                              data["url"]
-                              or original
-                          ).netloc,
-
-                      "link":
-                          data["url"]
-                          or original,
-
-                      "published":
-                          article["published"],
-
-                      "date":
-                          article["published"]
-
-                  }
-
-
-                  final.append(
-                      item
-                  )
-
-
-                  seen_global.add(
-                      key
-                  )
-
-
-                  chosen += 1
-
-
-                  print(
-                      "SUMMARY WORDS:",
-                      len(
-                          summary.split()
-                      )
-                  )
-
-
-                  print(
-                      "IMAGE:",
-                      "YES"
-                      if image
-                      else "NO"
-                  )
-
-
-                  time.sleep(
-                      0.15
-                  )
-
-
-              print(
-                  "CATEGORY FINAL:",
-                  category,
-                  chosen
-              )
-
-
-          # ============================================================
-          # OLD DATA FALLBACK
-          # ============================================================
-
-          if len(final) < 5 and os.path.exists(
-              NEWS_FILE
-          ):
-
-              try:
-
-                  with open(
-                      NEWS_FILE,
-                      encoding="utf-8"
-                  ) as f:
-
-                      old = json.load(
-                          f
-                      ).get(
-                          "news",
-                          []
-                      )
-
-
-                  old_by_cat = {
-                      c: []
-                      for c in CATEGORY_RULES
-                  }
-
-
-                  for item in old:
-
-                      category = item.get(
-                          "category"
-                      )
-
-
-                      if category in old_by_cat:
-
-                          old_by_cat[
-                              category
-                          ].append(
-                              item
-                          )
-
-
-                  current_cats = {
-                      x["category"]
-                      for x in final
-                  }
-
-
-                  for category, old_items in old_by_cat.items():
-
-                      if category not in current_cats:
-
-                          for item in old_items[
-                              :MAX_PER_CATEGORY
-                          ]:
-
-                              key = canonical_key(
-                                  item.get(
-                                      "title_ar",
-                                      ""
-                                  )
-                              )
-
-
-                              if key not in seen_global:
-
-                                  final.append(
-                                      item
-                                  )
-
-              except Exception as e:
-
-                  print(
-                      "OLD DATA FALLBACK ERROR:",
-                      e
-                  )
-
-
-          # ============================================================
-          # LIMIT
-          # ============================================================
-
-          final = final[
-              :MAX_TOTAL
-          ]
-
-
-          # ============================================================
-          # SAFETY
-          # ============================================================
-
-          if len(final) < 10:
-
-              raise RuntimeError(
-                  "Safety stop: fewer than 10 usable football stories collected"
-              )
-
-
-          # ============================================================
-          # OUTPUT
-          # ============================================================
-
-          output = {
-
-              "updatedAt":
-                  datetime.now(
-                      timezone.utc
-                  ).isoformat(),
-
-              "count":
-                  len(final),
-
-              "news":
-                  final
-
-          }
-
-
-          with open(
-              NEWS_FILE,
-              "w",
-              encoding="utf-8"
-          ) as f:
-
-              json.dump(
-                  output,
-                  f,
-                  ensure_ascii=False,
-                  indent=2
-              )
-
-
-          print(
-              "\n======================================"
-          )
-
-          print(
-              "NOWNEX FOOTBALL SAVED:",
-              len(final)
-          )
-
-
-          for category in CATEGORY_RULES:
-
-              print(
-                  category,
-                  sum(
-                      1
-                      for x in final
-                      if x["category"] == category
-                  )
-              )
-
-
-          print(
-              "======================================"
-          )
-
-
-      - name: Commit updated news
-        run: |
-          git config user.name "NOWNEX Football News Bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/news.json
-          git diff --cached --quiet || git commit -m "Improve NOWNEX football articles and images"
-          git push
+{
+  "updatedAt": "2026-08-23T17:38:56.157029+00:00",
+  "count": 50,
+  "news": [
+    {
+      "category": "matches",
+      "title_ar": "محمد صلاح.. مكاسب تاريخية تنتظر الدوري التركي من صفقة الملك المصري - اليوم السابع",
+      "summary_ar": "محمد صلاح.. مكاسب تاريخية تنتظر الدوري التركي من صفقة الملك المصري اليوم السابع",
+      "content_ar": "محمد صلاح.. مكاسب تاريخية تنتظر الدوري التركي من صفقة الملك المصري اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMi5ANBVV95cUxQZy1mTFFKRHlhUEo3cjlYVGtrOGV3bk1pM21Mc19wcHRwUzNxU3RfOHI1MElFak16SUw4dVBCVjNWWXRNVzFVeEdYN25nNUw4VHdlOGNJR21waDdpMVM4cnVJMl9aY3pPM3pnaUM2d0Z4bDN5VnE3cDJJWnpyemNFd0tKQVVHMWNUaFhTc05ydFdJNUw3VE5MelhpeEtDbFBXd29yd3Q5NmdnOUZ2YzhHb2dTX21lQlRfcFJGdU8yc1l5MDlRWTJPLTlGUldncmFWSEgzdHpqN3NCUk9YN05rMmxvZEtjLUo4ZE45MG1yLXQyMThmSE9KdUI5bi16NGRDUmtJUjV0MTYtRzdzaGNYYVF4ak5mbFJEcGJCeGQ1LTg0RG5YQWl5T2hvaEw2Y3Z2TmExRWNVNXg2SEoxWXRKaHg4bVVtSFNBMDZQYWZ1enB5MGhiODlBTUFqOWFOMWQ4Sk95NjJFMmFRTDVpU0VocEdwcWJjRi1oXzRXQnl0VmozYTNNODBqaXgwSG5lQjJMYTRvOUxOQmNZUHpseTA5cE41UGo5Qy1xSjR3S0xEOGdOYWU1a1Vlc2wya0dBclc3YXhfQkZhTVJKc1pUbkFjQjRHdXNhZEE3LW1FNWhSNEQxUW1n0gHfA0FVX3lxTFB5Tk5JU0xRUVZyV1RKRzRFRVR6aFliaDFvOGFoZjBxdUNwd2xkc25EQ1RaSG5JVG95WktEcF9EZ29JZzc5UkxxbUJVSnFLeHpVaWlydXVTajZqcU11WlpFREszLWVVUTJMOXVndDJtTDZTekdfdzFqSE41ODBOLWh5Y2pURmZLVmM2LWUwemNfeDYxMUIxUXhFUjFCWWVmV0lWanRUb0ppQ2lUa1VLVE5lZnVBbGhGWFFZdk1oMGVXaHlpdDVCR1JHMzV6SmdSR05WbVRRMkFkZkdSRC10TnpOU0hrWm5BanZ0LV9vTE52YUFUQTctRmlQOG9ybU5PdmVBMTZJU2lQN1BjdXJYem5sWlVPS3ExMjM5VjNRZm8zeUxaRkE3TnNCb2xkSUdqWEJHbWxLQUdaT3Ayejh2LXVZMy1LRmNheEtoaVZEQ2tmRnQ3cnJzSjNYb0MzZS0zN3NTZXVCUjlqTFpXcmFJOWUtRHpNQ0h6QThRTUREWnZnVldiY3dzc1prVjhDNTJ6Tk5mbThiMnROS1F0ZWhXeFJsYUVjRGRBbkppSEdRS3BKbzZVUm1MZ09iQkN1NTlZLUVFM1ptclZhYUpRU3MwSlhYcDk3a05kOEFPYTdHcVlZ?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 04 Aug 2026 07:00:00 GMT",
+      "date": "Tue, 04 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "توسعة كأس العالم للأندية: سحر كروي أم عبء إضافي على اللاعبين؟ - BBC",
+      "summary_ar": "توسعة كأس العالم للأندية: سحر كروي أم عبء إضافي على اللاعبين؟ BBC",
+      "content_ar": "توسعة كأس العالم للأندية: سحر كروي أم عبء إضافي على اللاعبين؟ BBC",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "BBC",
+      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE12MUdTX2VmRzZGSWRrZUxDODF6TXlBZHpTS21pNVVaR3ktX1huV1VmZzlXaVNyV3MyLW5oS3hiOWVtSjR1TEpSRTZlcWMwdUdoZVpiMEs2WnhGeHVf0gFiQVVfeXFMTXFMOXpuSC1XUnMzZzFpdmN2SjBtTjNDNUJmRTdReS1VMU9ZZVZvQTJ3Znl1YVJ5MXN3RHdPWHRJUVNtaldUTjY2STY4MU9mV2w1c3BwRWNtZ3Qxd0hIUjExZEE?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 08 Jun 2025 07:00:00 GMT",
+      "date": "Sun, 08 Jun 2025 07:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "8 مواهب شابة مرشحة للانفجار في الدوري الجزائري 2026-2027 - 365Scores",
+      "summary_ar": "8 مواهب شابة مرشحة للانفجار في الدوري الجزائري 2026-2027 365Scores",
+      "content_ar": "8 مواهب شابة مرشحة للانفجار في الدوري الجزائري 2026-2027 365Scores",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi4gJBVV95cUxPWUhfaFBPdVgxNGw0U0FZYmhLcWZ3dmlYbko5Z1lQZVpUbnd6NWVsMXVrT0JDN2tTbjVTTVZMVzBCdk81bURRVGtPeWxqQ1NRZFJhYVhKb0M5a2pnNUJQY1lEdm9haTV2cG03OUhqemNOOVJMeE4xRVJkWmRCWUZVX0l2NG9GWVVneXNsbzFlTURqUmxIUVRFTVVnak8yRjk0Sk9hNmtnZFhadGEzaGJiZ2hJQUVIUWRFLWxWT01RWjc3c3FHQ3RoRV9FVHdKR25tUHpwREJfUFBWM2ZRUTdHZWhjaXVfaVFPWmp0ZVZoRDZGYklqMkp6MDN2YTJtMjk5ZGhSUU1pc0FMTGRvQnAzTUxSdzJUNWFrRzZZVUNScU5lai12SURYWWRQOGQwSnNpNFN3bkRoME9VazdlOUVRWXVPb21NRW43cGlrYjB6aFF6NGVHNnozaGstcU02d1RXMVE?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 23 Aug 2026 14:32:41 GMT",
+      "date": "Sun, 23 Aug 2026 14:32:41 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "الشباب يستهدف الإيطالي سبينازولا - صحيفة مكة",
+      "summary_ar": "الشباب يستهدف الإيطالي سبينازولا صحيفة مكة",
+      "content_ar": "الشباب يستهدف الإيطالي سبينازولا صحيفة مكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صحيفة مكة",
+      "link": "https://news.google.com/rss/articles/CBMi9AJBVV95cUxOUXJzM1EwRjBuLV80ZTZENDRuV0NDRUdsMUlsNmgxSmRxZER0V1p1N19oQ0dRbEJOUWVJX2tiZjN4NVJQSEw3NDhPVjY1VTVXZHBxaU1jOHY5Q0pnRGF3UHkzVFpTMC1FVjBRM3BRYzJhX2RJWWo0dEtLUy01OGxTN1NNRnFFM2E4TkVoWWEzajFOMUJ5dHc4a2Ntb05sY3BRdTZ5M3gtRUpoT2x2R3g4ZExzWXVUcUphTE84Y2pjM3N1eHA1Q0pFeV9tTUZPOWZTdEFGYmNwcDRqY08xdDFicHdxYXFxVGNXTTlOX1pDYjRHOUNWOFZQOHB5bUlfY3U0TFlBSmQ0ZnVTWHBBcld3LVV5bG16dC1aV21SZjc0b3NwWkhXTFROMmpicDNLa2RHVHlJa0Y1WGlEaG1CejNUOVdyWlBrZ1J2Q1FMaExKMG9wZWxZQ2xuRHo5dGgxNFdaYlJxWGR6MG9mcGF3bG1za0dqNGzSAVpBVV95cUxQVll5NEd1bV80U1o5NHduUzhlMzlYY0FWMzZPQklGdXNlaDc4YTBhU3lYLXV6VjRjUlZxS1FrckVpdU5yX2RKV3lNOUNrSmxubm1sVHl6dFRaa1E?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Mon, 08 Jan 2024 08:00:00 GMT",
+      "date": "Mon, 08 Jan 2024 08:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "ساديو ماني يقتحم قائمة الأعلى أجرا في الدوري السعودي - صحيفة مكة",
+      "summary_ar": "ساديو ماني يقتحم قائمة الأعلى أجرا في الدوري السعودي صحيفة مكة",
+      "content_ar": "ساديو ماني يقتحم قائمة الأعلى أجرا في الدوري السعودي صحيفة مكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صحيفة مكة",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5tdmc5QzZQQnZ0ZW50MzYyS3JkblFDNEctclRJWVRqZUNCOU1VczR5NXhnQkxXcW1PMDkxUDc1UnJ3eFZobWFNTlhpWmlfMGpaS3VrRmt30gFaQVVfeXFMUC1xRW1xTU9UckRFZ2JFNDJnMzFnR0ZoTjN1S2dzZlRsLXp2WDZ3aGlqNTZQZXRBMjYtZG5nR3JiQnFIcHV5alZDLUZkNS0yczd3Rktta1UxbEJB?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 06 Aug 2023 07:00:00 GMT",
+      "date": "Sun, 06 Aug 2023 07:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "لوكاكو يوافق على الانتقال للدوري السعودي - صحيفة مكة",
+      "summary_ar": "لوكاكو يوافق على الانتقال للدوري السعودي صحيفة مكة",
+      "content_ar": "لوكاكو يوافق على الانتقال للدوري السعودي صحيفة مكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صحيفة مكة",
+      "link": "https://news.google.com/rss/articles/CBMipwNBVV95cUxPWnhsLW1hckxUMHhiWmFkNjQwWDFVRk84ZFZTVXBRR0hobHJpV3BMTVJUUEdWYWwtQkstTHJoRXFBNTBuT2hwSmtDY3hwb19JS05UTEphRWRYZGZtcUV0SkU0YXNkSnVabGM3Z3lTaXgydWpfRU9fTmFxSDBJQWl0VFFDcGl5R3R0MVpfRlEwSHNzM29uelBjSlhYUkJ5UUNJZWp4N1pKd1dZMUxTRlQ1RlZXYnd0NGQ5cU52WkVuM0Y1bzQtMVdKdUJkVzVLRk1DRHZCU201OFpmWm9SZ25nc2FiNC1rTTZDb3cta1Fkal80V0JSYVZUUDVCWVpFTWl0ODhyOTBTbk1peXdYSldxbTdkQ0M3UVRjd042QnM0NjdoU0Zqb1lXazlnVHF3QU40NlZCNzBQUWFHZlFsay1JTUlleDhUVkM3b0F0S3c2ZDJMcXk3RWd6ZHUzejl2ZlZKLUVIdGNtblVKQlJLOWlSaHVreHQ5ZDFoS1N4dGxFWTJBa25TaUhGYVNPRTFxLW51ZmJWdnR2VTFTbmxqc1dieUYxcnBVZzTSAVpBVV95cUxOY1pVaFJfWTJfWE5ZSi1ES0ppWUVyV21tbjlDZ0ZfN3BsV1haNzllSTV0aEk1WWsyZ0RuaHJQY0l6NnpNQS1WM0JZWFIwZUQzLVNsczZPN1RjQUE?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sat, 16 Dec 2023 08:00:00 GMT",
+      "date": "Sat, 16 Dec 2023 08:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "جدول مواعيد مباريات اليوم الخميس 5 – 12 R - arabic.sport360.com",
+      "summary_ar": "جدول مواعيد مباريات اليوم الخميس 5 – 12 R arabic.sport360.com",
+      "content_ar": "جدول مواعيد مباريات اليوم الخميس 5 – 12 R arabic.sport360.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "arabic.sport360.com",
+      "link": "https://news.google.com/rss/articles/CBMi4ARBVV95cUxPRzduMlIxcW9LQW1wTFl0UjFJMXZRdXNnUFlQUExHMDN6WDFfRHRyWkdfdTBBRmRwYXJUc0l5ZnYzV3V0aDRoVXdNTGhrQU5MTlZnVzFnNmY3Sm9hTXFSWjlLR0w3RGVGdUZaZVpGcXdXZkQ5dFNFMy05WkxqYWlIV3I2bGdzNXMxQ3k3UHVReUNuVjhORlh2czIyVEtKc2J4NWlPVEtTMEpkVGc1RUp2ZEt3eTJ5LUQ3VWtETTJ5bG9EMDRzUlVyX1ZtSVNMdmRsT3hXQW5xcl9IUldUS2ZISE1wdl9LeXEybHptR0IxQnBqUnlzcmVRMkZ3aUQ1bHJSWDZjLVJMX0xJNHk4ME9QSE1IV3NUZmNUcF9nZWY0MFR3VDgzcGRaZERyZzgycTBIX3JwaEU1U0xwaS1sSmh4YTZVTjFTS1Nhb2VLMTdkRmpvSDhYVVhEemJWZi15WFROMG1JUjBQUHpSZjI2VkVPRUN6Um9TbWxoYXMxQk92RzVlX0Q0c09ndFNSdWppeDV5M2ZUSWFSTlJKa2FRbGxZQ3Y1eHg4UTFuMWI1R0laM3BnLXh3Ym12M0EtV3JqS0FYWFNJUDh1eWZxUzF6SGJYWFREQXVQTkZfLTRXa2ZyOFpMT2ZFZEUxRU5MbTBqSm5ZaTJfZUNfNDgwRTNCbmpQVDJyQkRoSFdkOU1jajd5eFV5WkcyWGlTM3pVeEItQlVIWWtGLWVoU29nTW03M2Y3SW9pZWpJOUlmSkd1dFJoM3oyZWwwaE1vcUJod1phNXlvZTFucUdOV3hRdU45a0NPdA?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 04 Dec 2019 08:00:00 GMT",
+      "date": "Wed, 04 Dec 2019 08:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "جدول مواعيد مباريات اليوم والقنوات الناقلة .. الثل - arabic.sport360.com",
+      "summary_ar": "جدول مواعيد مباريات اليوم والقنوات الناقلة .. الثل arabic.sport360.com",
+      "content_ar": "جدول مواعيد مباريات اليوم والقنوات الناقلة .. الثل arabic.sport360.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "arabic.sport360.com",
+      "link": "https://news.google.com/rss/articles/CBMi8ARBVV95cUxNSjByZUFnU3F4Wkx2VXhydDhzUTQzMldqU1dDVTMtU1BvNDI3NEVIa01QdF9kdFlROV9lbUZpZXZvc29KMzIteGNUM3FVNnUzNGNPNzZZbXA3R1BOSlhibVlicnNtSFJVaHpnRlZPLWlzUHZRV0E0em9TUkFpV3RPSGVVUUR4ZUU3Q084QlNNREhsWnN2UDh3aGljT2F4VXQ1UUdiVnprTXk4WVhsUFFrdTRMUkdUUncxejFpdmk5V1ljMHl4eHFWWTUzRmszMzdpR0x6ZmlGSUFkamFLTFhXc19nMk9vR2UzZFd0SlJ6VTFqSlZ0el9pZTZSSWJZcjVzMFZINlhkWVozbUd1Z0Qxb2dpYU9yblpkR3FfVFBNVlBJN2UzaUU2V3hiWTU0Yi1JRl9GNGhLWC14cmxNbE91b1ptdmZSa0VKZVJfal9GMTVUSHFZakJBYmFXZ0RvcHdaVThrQ2phR1U0V2F4Y0lwNTNMbEFXSnB0UEhQOGRIbFVQN1YxWHBINVdkak9fbTVWNFB6eVZfR09DbC1Ud2czRUVxbkV5OWNUY19DNGNwS3FsZXVaSDk5a3pTWDNldGI3NVlHUXFUOFhkRWRCemJESFkwYWFRTmdQdnpsV0FVZVZURzRuTGRRS2NFeml4YUgwcFNGRDNHWjItdGNQUWdlNTFkeGdCVENld3l4RmFUeUxQeWozMTNBWnVNSEJDaXVLaTBpMktWdWtGTmNHbFJwUHZLYlRwd3BfTHJtTENxWUg1NmJPSHVsZW5XbGtQMlQ2bFdRTWpKUEVGZzVEdnk0LTNKOXJLbjVPc01PcURoWXA?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 11 Jun 2019 07:00:00 GMT",
+      "date": "Tue, 11 Jun 2019 07:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "بعد انتقاله إلى الشباب.. حقيقة مواجهة توماس بارتي لـ8 قضايا اغتصاب! - 365Scores",
+      "summary_ar": "بعد انتقاله إلى الشباب.. حقيقة مواجهة توماس بارتي لـ8 قضايا اغتصاب! 365Scores",
+      "content_ar": "بعد انتقاله إلى الشباب.. حقيقة مواجهة توماس بارتي لـ8 قضايا اغتصاب! 365Scores",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi3wJBVV95cUxPUjJRajJFOWpvd01JTDlOQVdWMmJXa0gtcE50SlJPbXFaMmRtWVBjZXFXUnRRbTlXTWtKeEsycG5uSGQwczl1Y0tFQTM5VG9BVHdHWU1BYXFoVk9ZUG92Y0pqUXZBZ3dTMEVGN0txcEQ3R1ZHMFpSUGV1MDAyWUZfN1JJZVlUWG5lOWl0WmJNNmxsLWxNaGN3T3lHX0NMYmo1cUx6RFlmNkpuZURJWjYtODFFeHE5REszOVZRZS1FTFp6ZWVzRkNKYS10RE5RZWZCdFRvZ2ZkTGEyNER0YjhOcklPa2RDTFoxdVVCdUdnTEI0NnUwZkd0ZVBNMWJ0RThPMWN0SkNfZHg4cVhSODJYd1NudmlqcXR6dTJ1ZGxGZXV4bTJBVDQyRHhaVkVGZ3g4TnZJYW94X0tyZ0VmY2xycnEtMURGUG5LNjRabUhmelJKMWZkNGpPV0w0NGg5VlE?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 23 Aug 2026 14:10:55 GMT",
+      "date": "Sun, 23 Aug 2026 14:10:55 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "جدول مواعيد مباريات اليوم والقنوات الناقلة .. الخم - arabic.sport360.com",
+      "summary_ar": "جدول مواعيد مباريات اليوم والقنوات الناقلة .. الخم arabic.sport360.com",
+      "content_ar": "جدول مواعيد مباريات اليوم والقنوات الناقلة .. الخم arabic.sport360.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "arabic.sport360.com",
+      "link": "https://news.google.com/rss/articles/CBMi4ARBVV95cUxOdGlqcGtGcVlubHlMX184eXVqQmQ0VFJBNmhVTDd2R1NMVjNpNHhrSVdSdmxVMzV6bXh6aV9YV1h2MnNNcEVYYTVPQWVqekFxVWxYRDFtZVF0UkRlS0RDSS00SWFvYmJWa0RjWmp2NGlJZnR1ZHNXTlk2X0oxTG9remdSV3ZzbDFnV2Y2T09RaGY5QXpFMmhaREM5SzdSNjZ1WDRTTkxvczZYWENYZHpwNHF0anpFSkh4VTBmME9pQ1hYVUJHV1Fnb0ZQTEQzam82VE44TjktWkFtcWs5RDNVSnIwSHRkZF9OUk96aDlzV3lJQXFRdXc4RmN2cDQ3V1VZdlJCVHAxSVNWbHB4Y2lKMlFveTVpdm9OUDdEdVI0cGFENGVZOUVsR1huQlFGR0w5WG4wLXdtNmIzWUY4VDZBUEViRy1uZzlTaXdSalNULVFOVE9SdzAxUUFPV0IwdFM2Mmhqb2hoZTJRTzNTTWlHbE9EYjBKYTIwc3hnd3p0UG91bjNWN256QldLcUdsaFllbnpVTm9VdlVpaVB3QjA3emsxQWhjUzl1OTVzZmlUYlQzUVBPNzAxWFNoc3JqYW1kcmdjaThOUDIyUDh0TlBXQXVVbkFJRk9Kb0pFcGk2akg3NVc2TnZJcG92SnFSYVMzMFQybWJBdGYwWlZqbEsxdk4wNFBJNHU2MEhpY2hVazdWckZoNTZuOG5MQzgwdXpLVUJjamJ4S08yNzNVY2xzNE5McUVuSHFUNHU2ZGV1Z1F3aER5SmEwQ2V3amk5VFhJd29ZVENKRmJBN0ZvelpBaw?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Thu, 13 Jun 2019 07:00:00 GMT",
+      "date": "Thu, 13 Jun 2019 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "صفقة قياسية؟.. مانشستر سيتي يعلن رسميا ضم نجم منتخب إنجلترا - Kooora",
+      "summary_ar": "صفقة قياسية؟.. مانشستر سيتي يعلن رسميا ضم نجم منتخب إنجلترا Kooora",
+      "content_ar": "صفقة قياسية؟.. مانشستر سيتي يعلن رسميا ضم نجم منتخب إنجلترا Kooora",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMivwRBVV95cUxOUTBNTVZNMFV0cWNBZW5DSndKSGJCMG5aQndVSHB6RURLeHZ1bmplQUxfNmFrRlQxU3JNOTFacFhaRzV1M2REQ1ZpVENndVRPNXllZnBmNzdEQzF0VkFWcV9wa01ROTRCTkk1VFp0QTMySk1HN3BXWHNmd2JBa0NneHRtTnJ1aFNMd0h1SnV3a3g4QjhPWHd5Q2RQUjZQVTYxVUdhTjVRQ3hDVkNZTVhLR0hON1ktazlYSVZUV0FVbjRyRlg0d2hzbUxPSFRyMVg0RDk3V0FRczQ3S1IyMDZfQ3VxOHgwdjFMUmZGRlFfd2VNbTZLX1dwa1NPY0NFZjF2S0xNOV9UNExKUnRRbUpDMTRoWmQzdE1US1YwQkQtc19IREVmeGdDNG92M2hrNGJHcHd6N0FUbnlxMVZiVVFFdmhXLWJJem13LVprdzNzZkJSUHZHZEdmRUg4ZE0xTllCVEhhOW9fd0JFdUppeW5VNWFFblVtejVtbHRHU2diUG5sbW43UjgxSno2ZWJiWHNiRWNhRzJTa29idDB5VE5XSFBRR3o4cEVaY3JVMVR4amRqTHFFdmNQTUhBQVBaTWFWWUVSc2REOGlzNTQyVVZ4eV9IQm1FYXRZd2RReHZXNTVoYUY2ZDVodmNwT1FHaGdGNDdSZ01MaVNwaGlBTTcwUzVVQnNDRGpWMkZiRktoT1V4cmZFWERqUE0wNC1mbXRPX0xjci04OXFnRFhVV2tEZjAxZ2NOWWdLdG5pSldVZw?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Thu, 02 Jul 2026 07:00:00 GMT",
+      "date": "Thu, 02 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "تطور جديد.. باريس سان جيرمان يحسم موقفه من التعاقد مع أيوب بوعدي - 365Scores",
+      "summary_ar": "تطور جديد.. باريس سان جيرمان يحسم موقفه من التعاقد مع أيوب بوعدي 365Scores",
+      "content_ar": "تطور جديد.. باريس سان جيرمان يحسم موقفه من التعاقد مع أيوب بوعدي 365Scores",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi1wJBVV95cUxQZHhhOXdxcTlRUEN6SmxtRHcwMXdjbmZDZW5vbmppSEk4SWF0bm9SWXdUMGNQZDVITDdNWlM5cGhaaW1Sbm9NeE85VjdBOUhXRFk5S1FwOWlmYm9KZnQyVkI4MFo4Wk05SHhyRlpzaFI4ei1XS2EtbGNPazkxai1XMVczRC1Jd2plS1VwUURhblBEbEFqY2drYXBwbGMwcGJvX3Fpa01PVllfUjlxNVF1VGZsVFFXZFd2TjdnTnRZM2dSczhOX3J4ZmZycnMtTHdpSmdFWmhtYXMyanU3WWZjaE0xZUpVdl9kRTVJUEdwQ1o3bXhmMmU1U19rVHZyX1gtTllBVTFEUGtiUnNHTFZiY1AwOWk4Sjc1SHZmWkMyVk51SkZUUVZzR3NleGw3d3B2Vk9lS1lELW5BcHdvZEVzek9JMmMtTjhhU3V6eUpxcVNHYlR2X0RR?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Thu, 16 Jul 2026 07:00:00 GMT",
+      "date": "Thu, 16 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "أخبار الهلال اليوم | رغبة كانسيلو الأولى .. صفقة عثمان ديمبيلي و\"سامي الجابر ليس أسطورة\"! - Goal.com",
+      "summary_ar": "أخبار الهلال اليوم | رغبة كانسيلو الأولى .. صفقة عثمان ديمبيلي و\"سامي الجابر ليس أسطورة\"! Goal.com",
+      "content_ar": "أخبار الهلال اليوم | رغبة كانسيلو الأولى .. صفقة عثمان ديمبيلي و\"سامي الجابر ليس أسطورة\"! Goal.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Goal.com",
+      "link": "https://news.google.com/rss/articles/CBMimgZBVV95cUxOZ1hhaWJHQ3c3WGVtRGlXUWNVenBuSWxtNUpNd3FBOXF3bUYzUlBFVHhMSFB2YlJUelV1ME5ETEg5X0ZTcHFMNjdKYkhOd3c2UXZMcXQxMllKYTR0RTRjc28zZlVNSFhhaHNWaXA1SFZ1enI4WUFaNkFVUTlPX0dSdHdfR1NiVjZFUHdjLXZlMXYtYWNxQUx2M2gtb0JQTWNMNFZWN2psWGphSFFSNUdXX1dOaGdzYjEwU2xVRklOdHExTlZlVkE0Vm9xVVoyS3Jtcm1FT3NHX2JYYUlRY3prV09hYURScjBXQ1lDTlc5NWJaTjJVT1NQX0tROHI3Z0MwZXA4NEd4ellrQ0M3dnhmSWo3NEJBdU5CV3dXTDY2SmtNZ3g0N2VVZ0pPTDEwUjdISE1JWldxcEhtQ3Ezckg1QW9XSm8tNmhTYzdFS1MxbGVEeFdFS3B4RjdfS1o5bjBiZ2hOOFhGdUxManNSS0RrNk5DbllqczdTdXpvR0cxVWNXYl90NEZTaDd3OEUzS3poZGxIOGUzY3JpbnN4clBTaWVCX0Fmb0FJbEpLRHdBRXFBeHI4b1BSUk44eGpLSjIzVkItckV4a3hrams0M2U2WW5UVHM5MFNRUGo4T3Z6NTF6WVFUQmd0X19oQUJsYkNBR0pxNi1GUkowLTZLMElOazBDREJIZlA4WHRwakJaaE53ZDd3bnloT2tDaThsSWJoVDZJRExfcy1zSVNRSS03UW5icThwWmpEblpLR2NHWUlYbnVNdWt0VEQ0X1RndGtJTHg5Z1hkcEpuY3NaQ0VZcWJ3WHB3ZlpsTHdVcGZpU1FCelVVN3RtLTIzNmJVaENfVUV4NUlHSkxfMW1hZXBPaTdDdzNmZnI5Sy16ZDE1WmVGTExkR0djc3VLc3M2enBPVUFUR3VtM09XWWE0dUxXWmVqYTRDSEt6WXBJRE1qZ0VsZU5NdkxKd1o0MVM1QUEzS0owNWZ6OUY1bFZKSGRMM2xHYzBzSlAzNlZidjRXUjVfRGp6aUJoTElGQlhNSF9nS2VES2xvOXloQQ?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Mon, 08 Jun 2026 07:00:00 GMT",
+      "date": "Mon, 08 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "أبرز صفقات اليوم الأخير في سوق الانتقالات - سكاي نيوز عربية",
+      "summary_ar": "أبرز صفقات اليوم الأخير في سوق الانتقالات سكاي نيوز عربية",
+      "content_ar": "أبرز صفقات اليوم الأخير في سوق الانتقالات سكاي نيوز عربية",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "سكاي نيوز عربية",
+      "link": "https://news.google.com/rss/articles/CBMi9gJBVV95cUxOLU1tUWpSd21INUpELWVpRmttU2ZFMFoyb1JPWjVWQjdzNl8yMTNTcFVJR3dsdC1PTEx6cTJtVnNtZEhlb0pTX0Z1QldTalVzWkVWbGdOLXNqVkJNTGxOZGE2X0VkT01tQ3RFb083a21tdzZ2Vi1iaVluNjVudlcxOTZWcExURzl6bjZpVGhHOV9SaHFMVjRLS1c4TnpselBpVVVZa2MtLTRWN2tsRzBfQm1xTXV5UFNvSWkwaDN2a29qN3ZBWEZKWklCeTNxSGt6ZWNYWFk1YTNxd1RFRW16cW1NRGxvWXJ6Vk5KTndLVnU2aWVGVjFxeF94OHlZOUxFeVpGWGxjZjJSZ19CVE0tR2tqY3BWOGdJdEhNNHlWVktPcC1zVk1mdzFhcUFiMktNaDRBYjVGWDM5RVNCVFgxRkp2WENvSTdRdXJzZWpNX2R3Y3NMOGxUWU42VnZCUDU5Z1ZjVHZIVVlCb0FuMjFJeHVOUVQxQdIB-wJBVV95cUxQN3F2VnA5VkVLdnBFZGU0bng0aXhON1FpV2p2NXBUdzU0WHdXYmxVRWx6dGtqSlZNSjdjdjBrYWg3RG9zTHZmNFRjWjBSdXYxMG9OcFZ4dTh1SEdfcUYzNlFJd3hha25CQU9LRnlDMS1nT3ZPNWhtWWllZEtCX0hsTjR6MTVCRE9SVV91V0hCMTJvcmY2eWJjandYQldYXzVYeU81bGotd2t0OWhZRzFGNEhzY3JyMkJ5WThBSU1oYmdOdDdTZ1NGdGxVcW1ZNzFILVM0ekxTRTZuS0JBanBqTUZJdml4Q3VzSXNINGU4b3VpVVlleTNRNm90eFNrN3p2bHRNZ1VFVHZPSndNZVZzSlVDQWViSnJCRkVDbmE4Q0pZbEFYV0FiaF9xaklHZkFXMlYtTzFfYnBvLXh4Z3ltR2hsS0lpeHFSRmRobndkZmpPdFVZM2tJWjZ2VnRJY0l3LXQ4UHJjRFZkLTk1bHpuM3I5ZndaUXZfeFI0?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Mon, 01 Sep 2025 07:00:00 GMT",
+      "date": "Mon, 01 Sep 2025 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "بالفيديو.. ظهور غير مألوف لأوليسي وسط أنباء انتقاله لريال مدريد - Kooora",
+      "summary_ar": "بالفيديو.. ظهور غير مألوف لأوليسي وسط أنباء انتقاله لريال مدريد Kooora",
+      "content_ar": "بالفيديو.. ظهور غير مألوف لأوليسي وسط أنباء انتقاله لريال مدريد Kooora",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMi9wRBVV95cUxQdThsNG5wOHNDb1ptUDNaWjN5eUpGY3pJN2c5Z0RVaDR0MEVnZUxsV1RQb21MdXFSUDBPcjZqMXZNYVV5T3ZuMktGbkZLa2VRVklhcmtRamcwa2JxMm1yVUpMVE85eFI0c0Y3T3BTLUFkSkNyNFA0d0NQdllaT1BFeHJLZ3lXQ2VPYTlRRVpQV1VhRGlSb20tTlV5MjB2ZU93R3NGN2NDekREMFNCcThSNU5HbjNTVXFCWk1wVjZkU29lSWd4ZW91UmtjZldZMm0wSW5RS0UxWVhjZE5yY2JmbTJXWDJxQlJEOVpkZlZyVWl0cGhhalBXNFE2Sy1va3FfaHNucUFxM0NhYWwyOEU5MFhjblJjMnJQMTNSNThrazFmMTFCNVd5ZWs4SVpnX09BYjE0U0tENGcxaVlSWWdOVFhGYkRrQVVkOEoxODFuNGU5bnhqMFZOajFXMjBSV0tsT09zQjBOcEJXZ3d6MFM1US1iZFZCZkp1MjM1UUt2Q040blpUMXlsYk9JQ1RTbjUwdE4yUHVGSGVzUmYyc1d1enF5TU1CVnpyc05yQkpzMXhiV0x2WlI3alpUSGxKT0lGRVdJRnZVRVA5ZGtjU09sY2RtZGJVb2hONmdwVHp6VEVPRkdMY19FRFRMQ2RoaUhncTdNcHhLR2ZZUjgyZGpTUWV0OG5wcU83UG1icVk1WUs2RjMzcGRQMHNoX1FZTkZOdGZiUy0wcFVpWkcwUzhKSHd5dHZDWkFMakxaYm10dHVMcTJIVUR0Nl96THZpWHZmZHJyOHp5OFgyZjdYWlJLVEpKZGlhM212N1lnSFFJUXlkbWJqZlZZ?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Fri, 24 Jul 2026 07:00:00 GMT",
+      "date": "Fri, 24 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "عقود لم تُبرم بعد.. هكذا يتحكم مونديال 2026 في سوق الانتقالات - الجزيرة نت",
+      "summary_ar": "عقود لم تُبرم بعد.. هكذا يتحكم مونديال 2026 في سوق الانتقالات الجزيرة نت",
+      "content_ar": "عقود لم تُبرم بعد.. هكذا يتحكم مونديال 2026 في سوق الانتقالات الجزيرة نت",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الجزيرة نت",
+      "link": "https://news.google.com/rss/articles/CBMiywJBVV95cUxQTURBWUl3S0F3c0txbHg1OGpIQlRvaTVoNFVqOGVJZ0tKUWMteEVmdnpyLTdtd3o1RWpXbG55NkYtblJZSnFfbVJYZ2hVSVRpdkt4UEt0VU90VVNTSzZIdTZsOGdJdURzRTRieDJZaXRjeXBjN1VvdjdGMmFqaUdhaG52b1JnQmNFY1Npb1dEMllaYjNuV20zMGFIbTR3MlBmOENfU3I4bVQ5LXVMbEo2RFFkQXVZWmNIVWxSVjY3dnozY3FUbHZpaUVEbWlHRTdsUGZ4Rzc0X29xZnZKbzFGckNZNVlDQThXMnJUTlk2VTNhM283eGtwWVp5bTB1Sk9jZm41cGhyNEMyYlI3bTBJTlBnWnU2Q2dKQWI2Y1lPM0d5dXJTR2dCM29uRUpIYWItcG9EVGFBa2lzYVpEOHBBXzl6bVBESTF4aGww0gHQAkFVX3lxTFBSX1M2MkZpS24wSjlTdXdUV2wtR0xVeHNwaW5mMGcya3p5c3NiNVAycXhmT2wwalp4QWE2UmtWOUNQa2FNLWg0RjNyT3ZFYVRoQUZyR1BRUkFFNEtmbEtWcGhpUmhNRnFPMktNWTRtYTI0THJDRjZUWlRYdl9TdUw4VGFGLTlDR2NLd1ZqbG1xOXF4djZ1bHJZY1ViU2hNZ2pYdnA4dFI1dmk4eGZyVXo5YVIwVV9rY0RGX2YybzdTQmI3akx4U1owUmt3cUYwbV8tRXlzeVJTQzBSY3R2c1ROSzlUbWhITkFYVHlGcVpLSHZVUXgzNE9LQnZYRFFGS1hidTRFZXJ0YjVrOVROaU95WHgwT0Y1NzZlalFwT29MdDhmVC1kWFlFZG44VTNlYzliT2ZWN25SUDJtUXlod2JRUU80b2lqVzVwWDFaYk1lQg?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 14 Jun 2026 07:00:00 GMT",
+      "date": "Sun, 14 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "أولمبياد كرة القدم تعيد محمد الننى إلى الأضواء وسوق الانتقالات - اليوم السابع",
+      "summary_ar": "أولمبياد كرة القدم تعيد محمد الننى إلى الأضواء وسوق الانتقالات اليوم السابع",
+      "content_ar": "أولمبياد كرة القدم تعيد محمد الننى إلى الأضواء وسوق الانتقالات اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMijgRBVV95cUxNLUhoa1hENnZBUl9iRzE1blljUnJZRmxSb0p3TUxTMFVKeWdGaUtybmk2b3lPSkRmR1RZR2dxWVVaVnBuTlFNcDh6LUlOSHZZcXV5d3BFaDlqbXAxLTNLTktveDEtVjVVYjVWYWt4SnBqdkEzTGUtLTJYTXV4SThGT0VoaVRSVWQ5VnYxRnZucG41Y0tmQlRDZDJMLVd1N2xiLTJLLW5sRVR2c2ZfdVlTazZBdUMydmFWWnl6RHpab0RHQ05Ba2NteFdqMTVZRklOaEV5ZDhOa3Uxd0FFYW1jMEFNemN4cEk2OWR0U2pIZFR4SEZtWlZ0aDd5UkJ4RUFBR3BQVVFsSG1Gb2pLb1FkNkdsdWJ1RmpKZjA4UE1oQ1VnNFZZZUVleVY4WVc5ZHJweWYya0pTSmhqeE9EX0NNckpuUGJCSG42WDVyY1hBakVEWEpCdTdMdXRYUnl0WGxiTmRjLXdVQ3NfeVdhTEVxOFlhaXNtQmNFckRrclJDYWIxSHQyOTlnRUlUOGxzcDRqcEVzQmoxdWJVU2V4bnVYeVU0YlozMzF1LVptbmc2bUI5TjVxNDlMd0RoRmVfeUE2Vk1RQllMNTh6RkNGQ3R2T3ZoM3pjbTBVTWxxRF9NQ2E2ejVEREp2czlmSGF3SjRqemI1N0NkbVlnN040c0lCZjZTc1JSWEhlVzZmVWpn0gGIBEFVX3lxTE9TMjNZeThMMXVJX3AwZ053WUxYY1hRak1MdXg1SzR5MGI5MG1Jc21oaFppLUd1LUZNbHZ5VlVuUUZ4YnNPdWYzaWR2V1NBT1M0ZUVjdUNjclFWS29saU5hcGNnY0psbGtXdmFiMnh2aFZybDFMaDIyRGxBOVNJZkcxQ3d6Q0s4aHdJVkwzMC15MXVJdEpUdlZhNHlibGpWQzFNd18yTUx5UWxuS1VTeHh4YTVMLUh6b2JTb3VEWVlrd2xLcDJHYTV1cUowdWhRa2ViYUdVXzF6SVJBZTFGWkxVSmlVNzc2cGlfc3Ezc3R5SjhsSWRQU1ppQmZudXA5YWNEZnFrLU5ReHUwNDI5TjlPaGRNaE1IQUl2amxRWHRpb3ZIc2tzNzctUTkyVjZXVnZNSEI0Z2pydWtlcUVkYnJ4TXlhdzM1TG5neUdkV2g3ZnFPSlBPYzZEQ0I5NWFXeXlia3NZRndnOV9Bd2NzeVc0SlIxQV94QThIcVJSNW50YlgwZFVNdVdmeTJITjc2ZGk5bHVJMHNYYllZYkFJcktkdDl4eUsyQmo3alZPSEdPOV8zTy1zR3ZRLVZGeWRJMC1ndmcyY09oNWducTF0VnRNQ3JpLWRtQ1ZOSm9uc21qMklOT2ZlR09hWXJ4TW5DU1YwTUliM0RQUklZQzRiVm5INW5Wb0xzeWs?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 28 Jul 2024 07:00:00 GMT",
+      "date": "Sun, 28 Jul 2024 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "بعقد طويل الأمد.. برشلونة يتوصل إلى اتفاق مع ألفاريز - 365Scores",
+      "summary_ar": "بعقد طويل الأمد.. برشلونة يتوصل إلى اتفاق مع ألفاريز 365Scores",
+      "content_ar": "بعقد طويل الأمد.. برشلونة يتوصل إلى اتفاق مع ألفاريز 365Scores",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi3wJBVV95cUxNTUxqbXc0d2ZmVHNqSTRSS2lXSjM3SXVJemlwNFdUZnFReTcwRkZ6RU53dkxPWWNYME0xMkVtTVpfODNUQi1aek5tcHVtNlZqcm05UGdzS3d1bFkxRGI4TnVPUktidTk1bFNTQ190WU9WNWFPYjh4RjVfOU5VUUEwbmRlQlM3T21oeklYcU1oV1ZZZFpGNGFvSnVuZHZkbXFPRlJseUY3WDNVU3hnMU9NNFJXejZBTWphcS13eXdEaHNhSHRYZkxUSTZuSVYxTW42N1FRWnZuV2pUemxDbk1ZTXNYVVBFN3VudUZ4WWRjUEZVRDFOYWd3U3NPbkpRYnRyb3NJS2d5M29Nd3JEcnR5NHU2cHRSX2lZNzd0MjBKck5YQ2NzUjlKRGNWMlRpajB2dzI4bmhBWi1Jb3dGbTk3VVJ1XzM5LTlvUW5GZ0xjUEloOGJrZXZkNjFEWWdQRG8?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 02 Jun 2026 07:00:00 GMT",
+      "date": "Tue, 02 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "الأمور تحدث.. رودري يوافق على الانتقال إلى ريال مدريد - 365Scores",
+      "summary_ar": "الأمور تحدث.. رودري يوافق على الانتقال إلى ريال مدريد 365Scores",
+      "content_ar": "الأمور تحدث.. رودري يوافق على الانتقال إلى ريال مدريد 365Scores",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi3wJBVV95cUxPZ0tMYkNIVklIbmVBdkdaRUU3U3FZaEw2WXFsSGFzSEJELVZ4QUFqeUUtUVdOcjk1aFF1RkViOFBxWFZmOE5mS0FEcUh6SkQzTVNaY1F6OXhJSzN4b3NtVTFJVVk3U2lxNXFVYkVGVnJjTFB4SmZ4UkZQNlpreGltUnNaM0NESnoyeEVfVGtZUHp5S1VKdXlpbEFtc2RoTUFRSlVpT0lqaTk5c2FUTGdtVEcyWnpISXVhTnhvYzN4SF8yMGs3dUpPVEw0LVdpN0hiSHZNQjM0Y2R2TExVX0FhZVM1M2hPcjdDTTk2Nk5IS2RzOHh1Q3NUbUw5WWhsSzVrTmxNTmwxbUY4M2lCNS1RaGpBSVpHakk4R2EyRFdaSWZnUHdwd3RWcFNoaDRXQWlfS2kwc0pieXU3R25GZXgtWV92QVh6MjM2TDdNR3RPSU1rcjZLSEVyMTVKaTNkbWs?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 22 Jul 2026 07:00:00 GMT",
+      "date": "Wed, 22 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "الشرطة العراقي يعلن أولى صفقاته الشتوية.. ويفاوض نجم منتخب الكويت - Kooora",
+      "summary_ar": "الشرطة العراقي يعلن أولى صفقاته الشتوية.. ويفاوض نجم منتخب الكويت Kooora",
+      "content_ar": "الشرطة العراقي يعلن أولى صفقاته الشتوية.. ويفاوض نجم منتخب الكويت Kooora",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMi9wRBVV95cUxQcUNCbzBZeW8zeHZvX2JnTEZMa0ZIMFBnczB2c1dXSU10U3JHTGdHOUtYYUxNY013UDQ5Y0ZDRlNRSnFQOG43dTl0dXFlZXZXUjEwaWxUTUoyUTI5NGNWN1QtSndTSVJqTzVYNVNIWm1ubWV0dGhWVXByVDBoUTlTOTFvUk1DZWlxZ3dveXNSY3dHQm9RRTlBLUVtWnhYZ0xHRzNEOXpZbXdzXzhZa2M1SE5WbXloTE9UOE1ySm9EZVA0bXVySGpiZHRwWFhfN0FMS1plekkwZndDcFF6VTRBZDIzUlFfQW8xV0FyZ0p3ZWJkVHBjY2NIU2lJZThDMzl4MzhFaWVpYkc1aUVJY0RFQURTYlFVc3RxTFhjWnlxdWFYSlhJZzVGQkg2ZV9SLUtvREFqUzEzQk5VcXJ3X192c1NjQTZfcHF5amlyNERTWEdRaG43YUwxZ3lTUkQ0WFV2Z0JHeUVmNnc2U2lKTVhxSlN4UmZYdkNqNkk1YUZUaF9Da09oNDdkeF80V2hOazRfQ0hTb2FueHJHZUtiNEhncmdyUG5QVU1LSmxmbTF1bnlTclExTDJYRXlHZ1gyVkpYUWdDcThoU01sMlQ5UTJVOWphdUtfRFluTm5Ua1BQd0pvMDl1SFV2bUZTMkN3dkRzeVB3bUxhbENwNFRwYzhJMzhBX1dCVjM4QWV2WHlWbl9GaUplWmtlRWRDZDVkVl9NQ1BwMk1tRlFEdjJPTkh5cEhsM1VuUWNPTmY2UlBIRW5xSUlpV0ZHUllwVmhVSmNqUjJnYU5MVnc4RXV1NWktQnIxWS1zbmNvajVUcmJMTjl4a3BTZnhv?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Thu, 01 Jan 2026 08:00:00 GMT",
+      "date": "Thu, 01 Jan 2026 08:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "أزمة تلوح في الأفق بين ريال مدريد وفرنسا بسبب مبابي - Kooora",
+      "summary_ar": "أزمة تلوح في الأفق بين ريال مدريد وفرنسا بسبب مبابي Kooora",
+      "content_ar": "أزمة تلوح في الأفق بين ريال مدريد وفرنسا بسبب مبابي Kooora",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMizwRBVV95cUxNcEp6ODNteU9DOV9xZ1RaSVFlUkd0X3RFVzJrcnVPWUxUbHM5bGpnYjFhS08zLWgtOWZuZEJYOE9EcEhZd0kwNUF1QTJ0RHBtMkRvTHhpWk92RG1WSXcxY1ZxX2tBZGhfNy1uMXctWUptY04zU1EtZ2hyWko3Ni1rbVNvUlUwck9JUjB2WmxEZHNGRXBrSUNtTlF2Z1VSbHg0OVRiNklmOEtGUjQ0bVdrWEhOYTlEOUx0N1dtN2ZUV1BLTW5oUUNDcHFjWHZRbV9vSkZlN0RtZ01VMzNQcHRUQkJZN1huaTdvQ0hZZVAzaEgxSmgzWkRhS1BIU0hkZ0p4UHVOZ2xIdjV3SE53MjgyT01ncFpyc2hEcXBBdklHM2FKSGZwM2hPOS1Kb2JOUFVhVXhoam5tcWRRUV9jZTc0VTBSc0dRTlhqekRQdWpoZ1MydEJQTC10YUdUSzZlSWFYZWVjM0c5SmhQLUhWd3YzZmktYVFoenczVmVOV2kwZTd5cnRzSFE1cDBVMlVlemJDOGN1c0J3QWZ1NXA2eFBUMGpGTXhNOTV6cmFYc3NjMjlUWkRxemVfOXhOR1RXNlZnU3dVb1dEOHN2a0wzYjJneDRXTkh5SnhUUnQyWUpRYjlMM3U2YmJBa0JmTXdMUlBLUE0tLUotMG1TMkp1QVVwN3hsRjE0ZzRYY3BUclBCRzZ6cFgtc2RwcXdoYmNYM2dsWlpoTEMxeVdTS1pSYnZ3WU1VdVpzbVh6bXpBSTBJcWZPNXpZNS1DZHk5TFgtOVk?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sat, 14 Mar 2026 07:00:00 GMT",
+      "date": "Sat, 14 Mar 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "ريال مدريد يرمي الكرة في ملعب كيليان مبابي - صحيفة مكة",
+      "summary_ar": "ريال مدريد يرمي الكرة في ملعب كيليان مبابي صحيفة مكة",
+      "content_ar": "ريال مدريد يرمي الكرة في ملعب كيليان مبابي صحيفة مكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صحيفة مكة",
+      "link": "https://news.google.com/rss/articles/CBMiqgNBVV95cUxQcTZpRWdlLUNlQ1dhN0Jpb2ZZal85ejdwOG9PRGNhVHV4QThlQ3kzLU1nNFRwcEJ5Y29lX1Nsb0FVM1NwenJ4OFZPWWRUMHNTNXZ5NVFUNFh4SDlXaU9jQkNkVVNhaGtTWmFZYndwY0RUYlBvQ1VUakxReF94eXpoaFJzVUhfMXJYU2RhZ29KRWtkRXF2V2h5UTczaEtPQzFnMmNBMERBdTY0YnVES0RTTEFYRk0wM0NTd2NaNnJNakZENjR6QkZfZVVaanhxcTlHV1JlRHNEQzlIYWxDT1BpbHVuWWViT0M1amV3ek0zSGpUNnczN1g4V1B0dXB6cjl3YlV5djVoQ1hvZ0dTeHl4ekN6bkFMcHU5VXFPcG41U3BGSENPWW94SFgtMzBQMmNTTHpWUjMwV05XLUI5ZklnSW9LdXNXZlgtZHo2UFAwdmQ2MWt1UXNFWFdTSWxDaUlDcGVNR2tvbGJTOGVIQy1NbVdwd2RVM0FWcWY4UFVVa0t0OE1oM1VtcDZqWE01VVhvRlpQOUsycW9uYmdiOURyY2toSVFmV0IwOGfSAVpBVV95cUxPMWN4bDA1YmZCTzgwVjZ6VGxXcjRiY3JUQTZWVWRUTGRtQ3pMQWxNOThMeVY3RzFPYy10OWNNUndLUmVtVmQ1T2FCSXRYUktXVTVkTEU5OFcxVGc?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 14 Nov 2023 08:00:00 GMT",
+      "date": "Tue, 14 Nov 2023 08:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "10 لاعبين لم يحققوا النجاح خارج الملاعب الإنجليزية - صحيفة مكة",
+      "summary_ar": "10 لاعبين لم يحققوا النجاح خارج الملاعب الإنجليزية صحيفة مكة",
+      "content_ar": "10 لاعبين لم يحققوا النجاح خارج الملاعب الإنجليزية صحيفة مكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صحيفة مكة",
+      "link": "https://news.google.com/rss/articles/CBMi3ANBVV95cUxPbWZTS3FCYUptakdaTUxRcHNNY1ZMNERNR3IzNTFEblp2anNfS2FxdjN0X2M4VHpHMEMyRmw0NTVYcHotc3ppRXIyemE1dXJraFdDZkMwNjZmaHk2dy13dG5PM3ZyNEVNM05tb3NPYlltQ3N4X0hPemE5MDNOakhFX0dRMFRna3d4eWFhTlgzTEQyYjdGTmZFM1g3eHJ0aW1ncGprcl9UOWdXWGZVWUVDTmVVSWJyR0stQUJXTlc0OERkYWdibnB6ZGg2Y1ZHcFJqTTJMbW5YbUFCSW1IZHZzUFExOHJNMlA1clQ4RTdPTHc0enZKenk1RUkxRXNQYmZYZXhKWUoyZ0dLOHozWmNaTDY0azFvN09LWUtLRV9zTmZ2N3RYT3F0ZnJsSXM1LVpvSEFlY2RkMGdMV3Fra2xOTXZpTlhqeDlUUFhVUnJvRVdsaFZlQ0ZiR1lIWE9SLUlINk52ZzQ1M19BdjdRZjFJNUlFbVRNS2tEbUNCZEtXUy1aSXhfRGFHYkRtOFRBMjVfZGlldWM5UVlmZ1Exc0hTekt3bHRPT0VteE9sVmZONkJSR3lDb1E3cTZFTEZKT251RDhpTGtiTjBhX2VoY2xyMFZmZ0pwaXRYUnBEZNIBWkFVX3lxTFB4SExseVcwWG11alVGeU9JYXViLWh2UnJ6dExtNzQ3MTRjOGM3ejI4RkM3X0tEaHdkU0RXYksxUUpWQWdwaW5aODlGUUZuZldyNjk3TDJGcHRWZw?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 20 Sep 2023 07:00:00 GMT",
+      "date": "Wed, 20 Sep 2023 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "أفضل 10 لاعبين عرب في التاريخ...تعرف عليهم! - الوقائع الإخبارية",
+      "summary_ar": "أفضل 10 لاعبين عرب في التاريخ...تعرف عليهم! الوقائع الإخبارية",
+      "content_ar": "أفضل 10 لاعبين عرب في التاريخ...تعرف عليهم! الوقائع الإخبارية",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الوقائع الإخبارية",
+      "link": "https://news.google.com/rss/articles/CBMiS0FVX3lxTFAzWkVjQWNfc0dTNEVwem1KQWdUZ0pScGRGSXNhNllJS2djNWtsa00yakVHUFpUZkJ0MzMxX1JTY2Y1UlA2a0JhM1o1WQ?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Fri, 02 May 2025 07:00:00 GMT",
+      "date": "Fri, 02 May 2025 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "أكثر 10 لاعبين تمثيلاً للمنتخب السعودي - arabic.sport360.com",
+      "summary_ar": "أكثر 10 لاعبين تمثيلاً للمنتخب السعودي arabic.sport360.com",
+      "content_ar": "أكثر 10 لاعبين تمثيلاً للمنتخب السعودي arabic.sport360.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "arabic.sport360.com",
+      "link": "https://news.google.com/rss/articles/CBMirgNBVV95cUxQZWtfdHV5bm9sTUFnZ3hMUHdLZW9FNzZmWE5qS1RXQlY2NTZGS1h4MzdQM1pGUkZRZm9CRHdCa1dBVkY4TlQwZFNGcXRJdEFHakEtLVlnaWlReXc3UzBMcXAxVHRtdFg3VGdvQWJBVmFxc1dXRy1lQzRnQTRCSDQ2ZUVZVURMTVFfdHQwUWZINHRUR19MeTNJSFpubWtlNDA1clpQVkZ2Rmg5Y2dZTm5mc0drTTFiMnJVb3hQSFR4UjRBSFZMeXNkT2hCLXFTQ2w0YXpya2piTURwem1feTdrdEtzTkZWRGJXRFUxMVhTNmxyT1E1UGgyZlZ1aWFtQ3R3c3EtZzFlNnIwZk9LbVVGVXZPVi15ZkFXY0VTaW5QZmxfemZ0RmcxZkJDX1JxcGhtb0p2c0Q3anpsbmpFQW9fX3VSaHlfUmNaR2pTSVBwT2hqVC1XZG1IQjFjN2xSUWJidGM3VnV0N3dCTVlmWUlxbmFoOTZxdHVSTEFfbmw2SjJYZmZLSU44TVdtc2NOVmhLcHhTNUxLdmZCU3E4MFFoaHg5UTNxYjR1RFpnVUxR?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 23 Aug 2016 07:00:00 GMT",
+      "date": "Tue, 23 Aug 2016 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "مونديال 2026: ميسي يعادل كلوزه ومبابي يتجاوز بيليه.. ونتائج مخيبة للمنتخبات العربية - Euronews.com",
+      "summary_ar": "مونديال 2026: ميسي يعادل كلوزه ومبابي يتجاوز بيليه.. ونتائج مخيبة للمنتخبات العربية Euronews.com",
+      "content_ar": "مونديال 2026: ميسي يعادل كلوزه ومبابي يتجاوز بيليه.. ونتائج مخيبة للمنتخبات العربية Euronews.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Euronews.com",
+      "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPVUpkcHFIdDZSV2doUWFWdTNGa3pqTkRvVFBKcXMwUXdqaFRfTGFNYXpZcjcyMTlWTm16QWtPcE41VXJBSUl2OXpBd0pzN1pMbEstOVRXRjFzLWtNYncyZ3lxVGoySEpncEZKQVdUT0JqSXhJSGZyaHJpeE12MkxNMWI4ZldIbnBpYW5lQy1FeGl1UGRoV24tMUlDS1VNUzR1SDd0VlZJMlc2bGNTd1NR?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 17 Jun 2026 07:00:00 GMT",
+      "date": "Wed, 17 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "نتائج مباريات المجموعة الأولى من كأس العالم 2026: النرويج 3-2 السنغال - هالاند \"يطارد\" ميسي ومبابي في سباق الحذاء الذهبي لكأس العالم. - Vietnam.vn",
+      "summary_ar": "نتائج مباريات المجموعة الأولى من كأس العالم 2026: النرويج 3-2 السنغال - هالاند \"يطارد\" ميسي ومبابي في سباق الحذاء الذهبي لكأس العالم. Vietnam.vn",
+      "content_ar": "نتائج مباريات المجموعة الأولى من كأس العالم 2026: النرويج 3-2 السنغال - هالاند \"يطارد\" ميسي ومبابي في سباق الحذاء الذهبي لكأس العالم. Vietnam.vn",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Vietnam.vn",
+      "link": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxQb0F4MUYzX180b1ZQU0tzV0lsQ2hOZG9GSjd1NFVrTjBBZTFTaGpwWE53dFJaRDNiZEU1VVpGa1RHZ3RwQzVRRWZZTkY5NFFlbkdqUDh2bHYzejcyLTQwQkN5NlJLbURtT1phY0Q3eDNILUpUV0xydFd5RnVyU1dJYVI3SE8xNnhtOFFaZ0wxU3FHZDVDT2JXZ3ctMkJJdWRmeWJ5bVhPS0gzZUlXXzR0dWxUSVdrQVA1R2hCS2NCSEx0UFhWdjZjckNRNGhYWHU3UUNFalpPOWlzWE5DWU1CVldVaURuNG5rSVhR?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 23 Jun 2026 07:00:00 GMT",
+      "date": "Tue, 23 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "مزاد أوروبي على هيثم حسن.. ليفربول وسيلتك يتنافسان لضم نجم منتخب مصر - اليوم السابع",
+      "summary_ar": "مزاد أوروبي على هيثم حسن.. ليفربول وسيلتك يتنافسان لضم نجم منتخب مصر اليوم السابع",
+      "content_ar": "مزاد أوروبي على هيثم حسن.. ليفربول وسيلتك يتنافسان لضم نجم منتخب مصر اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMi3gNBVV95cUxPS0wzbVhOZTRENWRqQTREaHRJSEZoU2ZSN2dKRmtWRmZlRWtTV3duZU0xODZaNGF2eXpRSVFWVll2N1Z6aFZyZHE2ek4ycE9yZkQ2dTFhOUZYY2NwbWJubmVEMVlzWDNtclo5NUI2bmY1Vml4M19ib0V3QWRjcDd2Y0szMDhJT2Ryc29rY1Nwa1RQcG8xMTVUbzkzemxMMkpsXzY2SGxoVEZfT2VsT3BucDVnVFRFOEpyZkJPWlRDbnNZSjNFRUt4YmtKeVFoS1NSRXJ6T291VkxSaTlrMU1kcUtiSEk4OGJ6cldqeE5FZ21RNzZ3a0dPVEdtLW5wUVJBVFpNTUo3cDNLb2p3R2l3aE5uekQ3Y0xsanROSnk5dFRCbnJJYjlvU2JVZU5XMlJSREUxUENUakhxNEk1MlZpZDZfR204U1VkMzBPUVVLWDJnWlVua3V1RHJlWWxvU3hEYkZvMGo3ZmtsQ2o1b3VFR1M0QndRUTVsWkQtVHdqVmNjR2NHSFBwcUh5QXB6UWt6T21qODAyVGI2N0lWeDJQWV9XWnZaaVd4YnBHU3RJaUp2THRkdTR2bGVkdWY4NHdBY0JWcmJYaTlLcV9IY3djalUzVEJKRlppclZPT2RR0gHYA0FVX3lxTE45RElLaEtSUEgzRmJIWjRQWDQzZUVOdjN3T0ZFelQyb1ByWUJoSVg5T3M3UkpuVlc2WEZzTUFXSG9Qcm9ramhvQmlneUJVbHZ6aHVKbDlCZWU1SUhuQTdBR1BHWTZPVE5ySjFPU09PMWNveWh0WFVNSDBaQWZZLTk0SEtKMUx0TlM4c3NLQVZ6MGV5TkRpREVpbWRKNllHQmJoSXZmMFhVYWpvb2hQRDV3NVJTck9XV29YdE55TVNLdmlPT3paQ2RUbDRzcEQwb3MxbkR3MkhfX2lPZEcxblkzbm5aei1JMzByQVVOVDlJeUI2eWhzNFNwUjExTEstS0tCcW0wNy1BcTdTa29hbC16UXpaclNhYTREVU4tQU9jd1VsWWZSanV4QUZoOUk2ZUtuOG1lZmFOcHdxOTF3Vy1LZHFlR1JXTEJONTJ0VFdvUW8wal83b1VLWHh5dS1ENmRQMEtWOXdrTmNZVXAtOFRVVmwzX0NnVlRENDVLSjh4dXd1TUwtZW9iYWdQdVN2c3dhMlZkblRsTXRlODVYemxpTnZ6aExfR1JSRnpOZDk1S183ajVpUFhjeFktWVhOTlZlV1FRZ3VOZWRYRGgzdDZtWUtGNFhzcE0?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 14 Jul 2026 07:00:00 GMT",
+      "date": "Tue, 14 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "انتهاء مشوار لاعب منتخب مصر في كأس العالم 2026 بسبب الإصابة - 365Scores",
+      "summary_ar": "انتهاء مشوار لاعب منتخب مصر في كأس العالم 2026 بسبب الإصابة 365Scores",
+      "content_ar": "انتهاء مشوار لاعب منتخب مصر في كأس العالم 2026 بسبب الإصابة 365Scores",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi4AJBVV95cUxONGlpZWRwcVQ3c0FwT09jb19LZW1hMGZvZzBPNVJQNVVNOGQ4VDFaYWxEdGRISmdTWEx5YUpLUnByQmt0WlhGOHJuaDQxN0VyaUI0Zk1OdU41UWwybXdlY1JkM043R1hwZUhoUmU5eVA4SnN3Q3dlV0xsOWtLbmNQYzlWcGptQ1BQOFpEWlVPRVhaWk1GM193QlRZM1BVQzZHUElOU25qR3VQUGE2b2RFaGF3U1VTRlhfWjRVbXpzZ1ZSWEhYd1ljQ0RDT3ZRMG0xaVJIWWdvUmJoSFJvTE5hdWRVamlFZVVwZnBfWExiZmV1QXVsMmFWS2prOVFmaFQ2LWRsZFMtMjU0UFlRcU9HWXNpZ1lzSnVSU19vbEdhWmxhVnJ5TjB6RHA3aUJuNEhHT2lScGNNaEpVUmR2a0hWQ3lFM3E4UVIxUEYxazhYTUhKZ3Y3Nk9lRWJsYlhtRUtG?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 28 Jun 2026 07:00:00 GMT",
+      "date": "Sun, 28 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "\"إصابة خطيرة للغاية\".. نقل نجم إنجلترا للمستشفى عقب نهاية مباراة المكسيك - Kooora",
+      "summary_ar": "\"إصابة خطيرة للغاية\".. نقل نجم إنجلترا للمستشفى عقب نهاية مباراة المكسيك Kooora",
+      "content_ar": "\"إصابة خطيرة للغاية\".. نقل نجم إنجلترا للمستشفى عقب نهاية مباراة المكسيك Kooora",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMioAVBVV95cUxPZTZVZkswVm93YXY2bzk2NzQyN1lFZGlzczhZUkRnVkdHVmU4S2tGOXIxeEdvTUFmLThrdVpscWVqNEVtMVZTX2djeDZNMjVmd0N5RjVLUDJfYUhiQWRrZDlaVmdieTlhdVRyVHp0eGxpWl9VbWZHWDBYUXpQRENEREg4WWRydGNKVFdqYmNfRy0zc3BTOUZDY0dSUmRpRHVpU1lGRnk0QlNMTWxlcHhoenk1UTBfcko0bGFmanJlcEoxZk1EYlRQaGRERklfYjh3LXlTVFpHTW1KMS1Xb1JFLUNNUVFPd196UWd6QWpxTzZYSWo2NGpuYTR6SzRlODZwQ0VsOXl2Zm82czAyekN6cU4yWEp0ZXQ5dHJZUHlTQUd6cHhkS0k3TlZxc01CWGcyczdxa1JyZ2JMZVNzU0tiOXFNQ1o1eEZpckl4SDBpRHN3cmtwakRIaHQ1U2NQVDFrZDhMQTBkeXZTakI1amtHWkJZdW9oM3hrWWVCZHlFNGFCeGlja3V6aDdZS05DRDB4RFJWb2J3NER4ajJ4QnNubXBtQjhBakRPaXpacUFTeklFYWpNc3d2NDBQbERQR1E1NVdDNXU3U1k3M2dmbVJrVEg1WVN1aGQ3OHhXeXpkNVFqNWpDcFNDQi05VVlCNFYyVGV4aUVlbGVJYVEzUk1VMTNrbmpsMDF0aDczMkZlMUo5N2hCTTVDNHBNbmE1Z05RdHMyMUx2NW5iYm40VjF2S0hkNC1hUlNGUHJjcDBSYUxMcU81UFVvME9xcFpnSEsybm9fSzNGaC1sdGFaVVc4dW0wakJVWXNCeXFyWjhiQW1uNWxWeG5DSUF2MTVfckxuRFpuc0ZURnR0RDJRREtydmFYb3ZEQy1pNW91Q1hjUkM?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Mon, 06 Jul 2026 07:00:00 GMT",
+      "date": "Mon, 06 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "لماذا تلعب إسرائيل في أوروبا رغم وقوعها في قارة آسيا؟ - BBC",
+      "summary_ar": "لماذا تلعب إسرائيل في أوروبا رغم وقوعها في قارة آسيا؟ BBC",
+      "content_ar": "لماذا تلعب إسرائيل في أوروبا رغم وقوعها في قارة آسيا؟ BBC",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "BBC",
+      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBZLTc5RUZhdGFKXzhtLUR4Q1ZVak9VcGh6MUE4QXBjUTVHOW5pZFRSNk9ibmpEQ1lVRy1GanpSeHNPWEhfV0RuLUhpdHphbDZGbVlxQWpReUo0SlZf0gFiQVVfeXFMUHhUT3BwTVRyYnljNHJyQ2M0WXpZNTRMTFlqX1QxYkNBeHduSG1pYWlwTmJnMUItakNsSW1uVDhPWC15djlORHZHaGdRZm9iNmJxbUdyYllTbjdvcldoZXh2TkE?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sat, 23 Nov 2024 08:00:00 GMT",
+      "date": "Sat, 23 Nov 2024 08:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "جامعة الكرة تصادق على تأجيل مباريات الأندية التي تستدعي أكثر من ثلاثة لاعبين للمنتخب الوطني - radiomars.ma",
+      "summary_ar": "جامعة الكرة تصادق على تأجيل مباريات الأندية التي تستدعي أكثر من ثلاثة لاعبين للمنتخب الوطني radiomars.ma",
+      "content_ar": "جامعة الكرة تصادق على تأجيل مباريات الأندية التي تستدعي أكثر من ثلاثة لاعبين للمنتخب الوطني radiomars.ma",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "radiomars.ma",
+      "link": "https://news.google.com/rss/articles/CBMiwgJBVV95cUxNV1RZU09SZ3JfeXQ4c3dfemFYcUYyV0JiR3VPQUFJUktRWElwRXVNNTRMdzd1TWM0Z3JWdDJjeUpGa28tbnEtN29fdHBNekdfYlF3eTBWb3ZGaGd1a2x3OFNEOGF6Y2JXamMyOFVuODhicGx4NVZRSjBwb1ktVVVyakRacjZSZGNlYVR4Q0h2UmYyS1dwa0lfQmFlUGtwUEF2UlRaclFTN2NqMlZERHRIYzBySER6cHB2RXNaLWU5WDgxMFdtVDFJeFJpTWNjeHdad0tIeDJpY3JFNVp1WU42ME04bTN6ZWZId0N5eElhU1U0NV9hbHhuY0dudjUxeVBUV3FHaEZET0YzWDFJZnJnWVpES1d5MnRkRVVJam5YclpTa1FaRllwQlZta2JVUnFxVklqYWJKSTExTC1aVGlJbDhR?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sat, 18 Jul 2026 07:00:00 GMT",
+      "date": "Sat, 18 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "باقتراب لوكاكو من الهلال.. المشروع السعودي يهدد أوروبا - صحيفة مكة",
+      "summary_ar": "باقتراب لوكاكو من الهلال.. المشروع السعودي يهدد أوروبا صحيفة مكة",
+      "content_ar": "باقتراب لوكاكو من الهلال.. المشروع السعودي يهدد أوروبا صحيفة مكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صحيفة مكة",
+      "link": "https://news.google.com/rss/articles/CBMi-gNBVV95cUxQN2hRcTFmQ0VVYzdEMUd4VUVKMEVtYkNuRjhFZ2IxeDF5YUNhbkpCRXg2ekhsSGhnU1BnOGMwSGtzUnVTYmdLUFBpdDJBYjdGbEpENk5fWEI0WkZzLWFlaVowbXdFeF92Ui1OU2JVTmlTRzdKcnRRcUdfODZrX0M5YXZaR0xRX2xMUkZpbk9JaGRhMk5GbDVnTmp0MmVaM1ViLWM1WXhFY2trNlRBT2dBYzJCUENyWUFVRnZXak5tcWF2cVU5eVIzbGNwWG9NdnJCbmxsdlF1U05FU1dpVDRGb2NCWHNMU3JGdWpiZkNuUl9NQXY0WUp1M1QzX1p6N3ZKY2hvSjZXY0JMY09zVE8wODlYbmZmSGc2TnB3MU1rNElyTG5XejM0ZWJmZ0FBQTdXbEowRjUyN3JneVJ4aUhaV3NEZVZURHg5S2dzZXlrYnlfU2hEdG51ZmxuVkI1NEdNbWt4VHZRMWtmaUhWcXkzX0RUX1ZvazBSaHNNLTBWX0RvZlR5Qm14akNQSTkxRGhJT2R3SzdxV01HTHdjY3UzOGM5WXhha0pqT3lzbl8yRjN0VlVIS2RtMG9nWU41aEdISzNjVDNlVFFYLUhCU05XN3pMeW5iYlZMVld5SlhqMnZNUmtTQ2xRcXVnbjgtXzdYeGxqSEZIQUxPUdIBWkFVX3lxTFB0ZGl5U2QtOHdVSUxPcFNYODVXX0JMVHlDRlJtSTN5Q2JUeTFZRUVJNjNBbDVGYnlDWTRXQmVvY3VoclVDRFVCOUhEVWhtMnA5Q2NkbDFhWjBtdw?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sat, 08 Jul 2023 07:00:00 GMT",
+      "date": "Sat, 08 Jul 2023 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "كيف انهار منتخب الجزائر في كأس العالم 2026؟ أخطاء تكتيكية وفوضى إدارية وراء الإقصاء - transfermercato.com",
+      "summary_ar": "كيف انهار منتخب الجزائر في كأس العالم 2026؟ أخطاء تكتيكية وفوضى إدارية وراء الإقصاء transfermercato.com",
+      "content_ar": "كيف انهار منتخب الجزائر في كأس العالم 2026؟ أخطاء تكتيكية وفوضى إدارية وراء الإقصاء transfermercato.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "transfermercato.com",
+      "link": "https://news.google.com/rss/articles/CBMiyAJBVV95cUxPRW9mYTlOdWpRSkNxd0tiSEpfdWh0Y2NfTWZJNDN3Q2xkd3JfZ1Y1dDB3LUJYdlRZVkpqUnVCQU9QMXZvOTJTbEU0OGZsVFVaTGNNOVFrTVBmRWxBUTlpdUp0WXp1VVdKcTllV1liYi1VeFFybUt1ZHVFSm92NDlsX0s2cWRZeEtndDdlY3pJbW5JQ2FMSE80RmdGNkk4Nkk5Y1dEUzhtcXc3eGUzVnRVMGRNdFVjLXYweHFnUmJmTVZNcDcxakpoeUgzRXNWNkgwcUxwU2hNVFdwdTQ1OVRsQUxicXJSeVV1d3kwel9velZKWlIyN2ZyM1loRWJ4RTl6Y2tINUpXaVFoTGVxbFZhTEQyTVlFeXNtSzFOdFFrektHR0xGVHdqeVBJZy1FNGpQSlJ4dTQ5UGdrUFd0alZGUEhtcmxjY0Zv?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Fri, 03 Jul 2026 07:00:00 GMT",
+      "date": "Fri, 03 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "كأس العالم 2026: كيف ترون أداء المنتخبات العربية حتى الآن؟ - BBC",
+      "summary_ar": "كأس العالم 2026: كيف ترون أداء المنتخبات العربية حتى الآن؟ BBC",
+      "content_ar": "كأس العالم 2026: كيف ترون أداء المنتخبات العربية حتى الآن؟ BBC",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "BBC",
+      "link": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBPZlJ2d2RGTjFGdkphNDI5LUhHQmRBU0tDNU1iRHFvRDZ5VHh5VEZ4cUVXOWdnUEVNdkFDS08wSlJ5UUxHZlZfWTVDNy0wZ2pLVWQyUmh4bWw0R1o10gFiQVVfeXFMTUZMdURidFdwem1CM3B4WW13SS1VNmM1LW9zcGVRQjFwSUdLV2gyZk5waktjVUxqOXBMcVQyNkpiSHF4aGZJV3JMWElyaWxVdU15NXhBUERuWWFuV1ZmcHBJQUE?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sun, 21 Jun 2026 07:00:00 GMT",
+      "date": "Sun, 21 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "بعد مونديال 2026.. 4 نجوم من منتخب مصر على أبواب الاحتراف الأوروبى - اليوم السابع",
+      "summary_ar": "بعد مونديال 2026.. 4 نجوم من منتخب مصر على أبواب الاحتراف الأوروبى اليوم السابع",
+      "content_ar": "بعد مونديال 2026.. 4 نجوم من منتخب مصر على أبواب الاحتراف الأوروبى اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMi7AJBVV95cUxPWDVmb0RDcGNCRVJ6TXdSUG04dnhLUmlpbUUzRGY4b0h3S2J0VjAzZng1aHltOVZJVW5HU2VSSTFROFdRQXlkSnNSMHcwR2RkWFRUclpqSkphQ1ZXcmQ3cU13U1lIZnFJcGg1blZvMzJ5Sndrb2RDcmJIZ2ZWY0RxNEh1X0lac2NKUS1LU1RDOENWVzVTTHVZTm5KZzZKbnJMQ2Yzb2hXYjRBLXJrVjNwemhwLVloaFhGZUlzaWs5bm9ZbTJsVmhqNnMtM2VOQlVXUzhGdkJ2R1d0RmFYSHR6MzR5MDhEeFBLVkc1ak9nNXA1QmgwMkdJdDlXdkwtQW5pUEw5UHBqYUNUVTBDZDFxS3UtTF8zeXNtNXJFQU9oTDNLb2VJNjdXNFFXRkNxaXhLUzk0REROVlZTSUdaN01SRHNNdHEyVFRJTU1ScDlMR09KOHB5YWFCYTgyTEhsWF9MRE9SaEFUb0p6MTF40gHnAkFVX3lxTFBSSU55aXFyQTVtaEZDM1gyQ3hYN2R4VENqS1RHYUNZVmV5c3VpclBnc1RUTms1bEgyMFRtUHNaa0dPN1UtZU9JR0ttT29JS0lQZGgtTFpTMGVMSUV1LWZHMVEyRDBXYk96SFF2V1RZMlFiTERTUEV5c2NnbEVrc3hMVlVwNGVxcGM0WUpaNlE2TFZpcTBKUFJ5NGNpVno5VC0xWHZFa29qNktFWUc5RlFGRmxLYlZ5Um1aYlV6cExCZlVjT0tvRlhIV2FnZ2ZXV2JYUVpUSzZXME5qY2tsTXVGUlRJMVZyQWF6UDBCOEt0M1dXNW5IZ3NTc09FZWxFemhtcVR6WGxfVFpFZkF4SXFmaGdnaDE4aFZ5WXBzMWJTVVk4Y0RZUjY4Q2VQdGNrT0NvVFdNY0VSbGpscXhfek04RkJaVV9nY3RZSUlxS09vT09WYmpCcDJqYXI0QnFEUUVHSTRER2Vr?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Mon, 13 Jul 2026 07:00:00 GMT",
+      "date": "Mon, 13 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "المنتخبات المتأهلة إلى كأس العالم للسيدات 2027: القائمة الكاملة للمنتخبات التي ستشارك في البطولة بالبرازيل - Goal.com",
+      "summary_ar": "المنتخبات المتأهلة إلى كأس العالم للسيدات 2027: القائمة الكاملة للمنتخبات التي ستشارك في البطولة بالبرازيل Goal.com",
+      "content_ar": "المنتخبات المتأهلة إلى كأس العالم للسيدات 2027: القائمة الكاملة للمنتخبات التي ستشارك في البطولة بالبرازيل Goal.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Goal.com",
+      "link": "https://news.google.com/rss/articles/CBMi8AZBVV95cUxPaEVJNVMxNTVqSWlycm5qaUEzUVVUX1IzWjlwUXhvZUNzU0UxclVxTkFMRUJXUVRzZlkwVzE2eDQxcUEtUWkyWUE3M18zT1JSZ0FZVnFjMkRBQXlZZWVONmJJcjhxOHYweUpWZElXeWdKSTdkQUFlazRLLUhxZE5aYWd4RG9NZkNyeXZkNnJFOVh1TkgzWGl5Vm1fRUJ3ZWRqUWtIZzU0cmxhR09BLUVhdFd1QnBXLTJLSmJYM0hveFZoYnk0S0NIMTduZnpsTDBHSmRwWS1uQXNBSi1aVnBaOHJhT25NSmo0dkxPRDQ4WGFiWlVlSHY5bmt3OWFDamp1LURpUTJDcS1qMEFtTFFDcVN3Qk9YbzVpTV8wRTZ5eENXVjJ6cHFtdEpYVkJ6ZC1tLXcxM1MtejNoWGtnV2txaXJsZllRTUE3OUc3WFRjNUYzeU1qZ0FGQUpaOUNLTHBYdHl2MEpMXzlEUjBDNFhlMTB5aGN2T0pDS19WV0d1a1BENHl4OWtMRzI3ay1uVV85QTRqWDBQRDFLcmp4anlhOHRhaUdGeUtkbFZBVmhVNE1rcFoxQ1RlZkRhS3F1cEdsb1pncWswdWs0aDY2OXVZMi1iVmNNYW91Y3E5T1MxaTBuVFJRZFMzMk5URGt4VGR5c2hzdE9RdWVuOGVwSVlJS012Rl96M0FFRHJENmlBUFB6YjJvOHVhX1lBb0hPVzhwMXExLVJQY0RjbGNBZkF3RDVYRXVvZEVyYTZNTFJqa2laOU9JSTZubjBSaHlYUktzVGJzMEdMTW9mVWV1RWlhUHppczlYLVRxRE55Szg2WkdQMzRaZjR3eThPS1dSUWN3QUdJM1NIUHgxS2lEa2VZZHc3MWdtVEt3SmtFbHJ0ejJwWXdCUlVMbTRJaWdrSFgyRnA0S0xmbk5pR055UGFTRTJkLWpoSXNJNE5maGF0cVpfQ2R6bXhJMTZtMTUyR1FYeDZhWTNYc2hBcDlCWHJwTzh0UHZRV290bzgwOTlxVG95YkZGc1JXNGZZaHVBSlRXQS0xbVhTeE12QU14WnZaZ25yTE5fOVVMYi1zSUFxU3REelA0Tmp2ZFJIZ0lDQzE2Sk02bzdSTjhSS09IUlhfVkJTTkl5N0lPVDBfeTFFZnJ6YlVWNmw5aktUeVdVanRY?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Mon, 17 Aug 2026 06:00:00 GMT",
+      "date": "Mon, 17 Aug 2026 06:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "منتخب كرة القدم الإلكترونية يبدأ المرحلة 2 من التصفيات المؤهلة لكأس العالم 2026 - قناة المملكة",
+      "summary_ar": "منتخب كرة القدم الإلكترونية يبدأ المرحلة 2 من التصفيات المؤهلة لكأس العالم 2026 قناة المملكة",
+      "content_ar": "منتخب كرة القدم الإلكترونية يبدأ المرحلة 2 من التصفيات المؤهلة لكأس العالم 2026 قناة المملكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "قناة المملكة",
+      "link": "https://news.google.com/rss/articles/CBMi2ARBVV95cUxNcENVTkJwWEg5am5DOV81NEoxNnFwamFLSjJid09ReDFmczJSdVBGTUVtV0JsRFg4QTdtVTRyYjJ5VWlPVER6bGQ1cGduU0N1cTNLempOSmY5c2tkMmc1ZEV0QnF1V1JLNzFfdzRBdzU0WlI4b0xtTHR5Z29mMjZ3U09Jc1VSbldzbjJwdE0wSnBiQ0gzMThCbXgyMU1WVlgxaHBwdkdTdlh2aXozZ3JRcndRaUR6V3FKY3Nrd2ctSnNUVENaNmlaUVMwc1hoM0dUdXgxU1E1LTRGTHBZQ09IbDJrN2NpRDBRTmdzd0hpTnk3ZGFCeFptVHpBdUwwVldqSUVXcU1wbl9CWldSdlktSk5iMTJYX1dVNGhUSEM4ZzQtcnZyQmhQb25SS3piSEdpUmpXOTNfTERFeE1fVktrV3VfSWliZFhkM0lCQ2xrdzBlRDR2MHE1ZWxBbWZxMnpsVnRPTUtUTHMzU0tXYzE4VDhod3JaQVRQbm54NFByeFpTS2txcUFkZUVzOGVMRHp3RE5nYWNYcnI4OTFDeUh3RmN5QjZybHpfOUNac1lsMHlhUklzbGtFRGF2b2g0SEoyczRkYjUtTm9hSlQ1WTU3RGM0aGVmLVl0SEsxYlA0bWRiNDB5cnplUU12MDNxS3plX2lVVVd0Y1F0YXo4bkNuUWE4TTRzVXdVaThiNFpCaHBjazJ0VEJ6Z05Ycy1ZU1RqMmtidWFqQnBrTWhXdURueHNzOEI4MXRHWkhXV3NHSnQ0V1hHWTd4U3I0SGNQaTVJZDRJU3FKZ1A?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 19 Aug 2026 09:21:29 GMT",
+      "date": "Wed, 19 Aug 2026 09:21:29 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "ستة منتخبات ضمنت مكانها في مونديال 2030 قبل انطلاق التصفيات - الجزيرة نت",
+      "summary_ar": "ستة منتخبات ضمنت مكانها في مونديال 2030 قبل انطلاق التصفيات الجزيرة نت",
+      "content_ar": "ستة منتخبات ضمنت مكانها في مونديال 2030 قبل انطلاق التصفيات الجزيرة نت",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الجزيرة نت",
+      "link": "https://news.google.com/rss/articles/CBMiygJBVV95cUxOODE4eEhCbXFvSV9LRWg0NU5hbEZ2WnRLdkROOWI0TGxrOVFweEZfVE9uSnp2VVdSTjBPWkxTNlJXeWJWQUkwYUFjUk1rTmRKQnJiZnlDOElGdGFmWGppQTc0YThLLUdwSVBnR0wwVDJYc1oxaDJtV01BV2xvOUNzNEwzX0U0SVVxbzh2ZG5mS0FtX1lzRWZTWi03bTAycEVheEdjamNtNUktd29SeUQ4aXZhS1Q0bXN4NGR0YUZneE9jeUN3MWpYV1hwX2piTXd0LUZja0hWcWFIdHR2M2RoS3VpdXE4RHVlVHV2NlREUDZFeXp0SjNIVzNwMmRyd3lOdXdGMDg3OXdzcTZxSVFycGJRUnhaSzFDQ3JUZjh0Wl9iREY4d2EzMTMtWDhDVGU3bTJ0NWxNQ1dKeTQxTE1ZX1lRZUZfcU43Y0HSAc8CQVVfeXFMTjNNcGg5eVFXcmpiNWpoM2VLbFZGQXc2OVNBMjk3S0RYcEdJSjZrLVFkQjZzQmVFd2lQSXJHLTNUcjZabzE4d1pTeWVvaVJvcEhUcHVkQmxsUWtrTUN6akptQkdzN1k1UUNVb1FZbW42Sjk1c1VYQlEydWtHU2JCN0NqbTdBRXdjQndCYlMyMGNXVjM4VkpZanlDdmZzSV9QZkN1cTUyc1ZZZG9YckV0UVdrRTNsV2NmN2I2SERuQ2hwMndzNTF5ajVpcndXcFdmT3FtdzRnVzN5Zzhtem5zU0kweXQwM1k1YlRFdUZKMWtOeEdIWjZldEtpalhfRGFVOU9BN0hCQkFKVFpDQ0lRZnVaYVV4c2JiTktUWUdaeDd4VWFoSUJTbEVnTVMtRmU1SjY1Ul9SV0p4RkFILThPbHU1cU1RZ3VBU3BKQlU4OEE?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 21 Jul 2026 07:00:00 GMT",
+      "date": "Tue, 21 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "مواعيد مباريات منتخب مصر فى تصفيات أمم أفريقيا 2027 - اليوم السابع",
+      "summary_ar": "مواعيد مباريات منتخب مصر فى تصفيات أمم أفريقيا 2027 اليوم السابع",
+      "content_ar": "مواعيد مباريات منتخب مصر فى تصفيات أمم أفريقيا 2027 اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMiogNBVV95cUxNSUJCeGZjWFJjOVh4LW5hZWRzV1YzR1lERXVNZDNPcFJ5MFFNUFd5V2FoQS1QaDRQUEtSSXA4UHhVdTlEaERfbklfdmJQVTQwVzlBMzEyRTc3YzJFaU1BeUhxeDhvY0hPTElGZXVPeFE3VkVGQy1PWko5ajJBV3JJbC1MWXhBV1NMblZPSFZ6b0pQU2JsUHV4R1RIWXhLQi1uMGFROVhiOTdjX1RxVVRqdllBMkxRS1dRTE1lQVVtZDdQd0tBVUhzaUIwN1V1em5QMWlUMFQtMkwwRGVfWURFdDdRSGtIQTdKRVdLejVLeDhGVEVyM084M3lnaWx6QzFvcmtnREpvT0F3bGdsYU8wUktUdzRaUHBMMXpuTi00YkxSYjFqSWo1QXhWOVBTbDNWNzd5bVFMaHNnV3R5SGV2Tk54X1o4MHhhNUYtb0hCMDVyLW92Z3FWakJNUE1OdHdaWFd4RmEyOWxTNjFlREVrOXZKVjdTTW5raFd2b0NYa0RGQnB5YVNrcXdNNEFNNzVRdDBVaC1KNnBZNENsdzVRbXNn0gGcA0FVX3lxTE01WVZmdjllOGZRXzBINmtpVWNmREpQd2VEX2xUdTVHSjhIUWt0QmRDMG9lUWRqMDQ4UGtjb052ekhMaEd5MEtuYmhTcEd2NlFVTmhqM3A4djVZVVFkT29zMTFHUkZMTU1wd1RVYUhxVlVUbXljbjJqRFFIZ25NVFBfdEtrWVF4TG9CRlcwbU02b0lxbVRJTjhnUU9sSnlRRlhkdFRzejlTeTA5ZlFfaVFRZU9EeFdVLVU3Tktua25YTTZhT2tJZDZ0TTNWZkNfRGxPMllzd1NfY0tPYUxNZllsNVl6NXVocjhsU013c0VQZEg4ZGpBQU5EUHZpVUh0T3l6ZjdVNVNUNTFFZjIzbWlvQXl1dHpXdDNGYTBvZjZVdHhGQzI2QWQzcHFSanZyVXk0UHhWRzhCQXBwSHp0cF9WeVJkeGRfaHRidnNxb1RBNTdVRnltbFNHUTVNVjJITExfZ3I0NmtMZ3owZUtKSGJLNXpnOGVhZVZpT3VVTWFHNDgxci04RGd6bEJTVDZsWDRieWtjaGxfOEFiYms?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Sat, 22 Aug 2026 04:00:00 GMT",
+      "date": "Sat, 22 Aug 2026 04:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "هاري ماغواير يتصدر أغلى 10 مدافعين في تاريخ كرة القدم - صحيفة مكة",
+      "summary_ar": "هاري ماغواير يتصدر أغلى 10 مدافعين في تاريخ كرة القدم صحيفة مكة",
+      "content_ar": "هاري ماغواير يتصدر أغلى 10 مدافعين في تاريخ كرة القدم صحيفة مكة",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صحيفة مكة",
+      "link": "https://news.google.com/rss/articles/CBMi5wNBVV95cUxOeUJBMGUzWUVVUnFzajlvcXU0WlBxTTBoRUI3aFVBT3lmRzZyTzlyU19TQlc3eVZvOWpaRXQzcnhlZ0ZVNkVNLTFuckJyNC1ESjdJVjNtUllrR2tqVnRaYmxFbkY1dXJDa1V0bnJNeVgzSlVDd01hVWE1a3AzYjdnX0FSSzVDNnVZNmRTQzBOQUFtSHFMck0tSmpkMGpUazdLR0RjNUFlMlBUc3Y5alZ6Mk5ycUQwSXM4dHhmdmdydVU5Y3FqWk5ncHp6RTZIcnd4R2hfQ2FrUVJ6N0ZaZ3hnaGdWN1B3bU40anNrTUZNN1lERHhwZS1rVXFtQWY2c3piSEFhTDBVNVJENjZZbWNtVHVyUGNLajVzSzR1dmVaNzI3UTRrbE0xbDBzc2hxQmlZUTBSZUg1QjIxelE2TDdYdFUwdUdVWlRaVEhhZ0VQUmk0cWpKN3pGa1lSUDFNRU5GZnJzbGJTcWNMUEpIWXQ3eHRaUEc4RHdvNVhBeFBrRHV4bWpqUUFVOGIxLWZwMVNZYU5ZQU8yRUVDYXdUdWpwVnYwczJlalBsMk9uM1AtRWk3M2I5ODhWbGREdEV6Y0NNRFVTNjJZMGk4ajdGZ3RlQkxfTGJ4cFAxdExXTjZoR25BbjJDWFA00gFaQVVfeXFMUFZxVVJiSGkybkRTclhlbEZIZVhfcVBuWElCM1Q5eDBRS0ZFWVRKSzZTdWdvanY0ZXFoM1NuOW5LY0tpMEZfSEVJWHJWSGlmeURIOHdZODFrbGxB?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 08 Aug 2023 07:00:00 GMT",
+      "date": "Tue, 08 Aug 2023 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "مجموعات مونديال 2026.. الفراعنة فى اختبار تاريخى والبداية أمام بلجيكا - اليوم السابع",
+      "summary_ar": "مجموعات مونديال 2026.. الفراعنة فى اختبار تاريخى والبداية أمام بلجيكا اليوم السابع",
+      "content_ar": "مجموعات مونديال 2026.. الفراعنة فى اختبار تاريخى والبداية أمام بلجيكا اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMimgRBVV95cUxOWkwyUW5rTkNaWWZ3YUVUcXk4M0R4YUFjb3oxRVItVi1tMHBQMTZJdDRZYzlwRUFmbkhzTUZtcUhmVVVlbGRvdVdaaWhSbmNiS2ZYVWlmRVVfMW53WktmYzExemFab1AxUzJTNERxT2dwcXNWSkstQUR1RVV6Sl9IME9FOVJLRUR1N0JoU29RQ1NvZUVUUzhhOTRNQmV2dzhNQVFGQ1BEeDdQSEFqSnB4b0NuUUhBNnQxeFhXNWFwelRrUzZVVlhqQThhTjZnb1BTV1pzZFV2T0hrUHNmMElxcEZTa0lwbGkySThPX2FSYmwxeFNjaHZjekFvZXZFNURzLThLaXdnd3BUN3FjUHVMZ2lHaGdfc2UxUmdVdWlnS3RhT0ZQeXFzLU96X3Brb2t1M3hmRU5MekZ4MW5Hc0YtRm1jZzFGcVdPY25qakFNT2N6emdsSmFlc2R0b1RVdXlPNzJDOXdobE1fYlVnX3FyM0ZKMXFJam9nM2hTOC16eFdSeWFUTkE2Y2c0d29uenlMelJQVThCV01fQlBfVE9KWFNiRV8zOWJCdXhtOFd2UEpaSmhTTDNJSDZua21fbzA2YUpkM1JyTFQxMDFGYnZIN1Q5ZnhCWVZQeHpEZk40NVlxd1NBRFcxbFF3S3puN0dGc254bTAtTy1xVjdpdGRlRGtJdFhGZnIzTEdpRDQxVWljbHM1NFliOV9B0gGUBEFVX3lxTFBFTDhsVjZTMXdad3dEYk5ZWlNrWXByelh5RVl5a0RxTnd3REVJQk8wakxTcUFPODZtU1FpbkpxZHRnYnZkRnROV2F1b1FESTVWamNSbTQ2SWdFcFJrc2RjdEZRa01zM3BJOVlDZmVmMjNINWpDS1IxRXNwTU5Bd19udV9aUXkyU2FrVlBkbmg0aGlwd2VTXzg0VGRLdEI2OTlkWU5BVnVnbzg3MUhpV2xON3RINGM1SXgzSU5XNDdTdzlERmZ1Nm1zbTZOSHN6eGM3dXJJR1EwUGVTVWp1WXEwYTNEQVhPTHVvbXg0YUtJVGNTRHJzZWhXMUZWX0Z1OWNTUVJnRjM1ZTRiRUZYTy1KMXA5V3BFdlZjNFBJbHhLZkhXREZSSGxUSUItYW5kN2VvSHFWM1VsTEhXMnBwS1E3V1ZrSVl5bHJkN2pxaTc0ZUVIVkRXcXo3N2h4ODRMZUFScGR5VldmZlcxekh6NzR5dUZ1MlMyYlJPUmZzX1V2UG1jcEI2bXRibXpKV2l1QjZFTFM4MUhIQ0lZOTduUXc3TUprRktpQU9MZ2FLTmkxWWNUWDFia3dBYWlwUHNFd0hlUWJ4LWtKaHI0aTlvcVpydlF5enVmUnZFTmExTUxhWG92QkhzM0tHZnQzVDVhNDNRUEJreXY5X05GdU1Pbmt1ekZrR0EyckZxM1ZQYU9vMTJQaVc?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 03 Jun 2026 07:00:00 GMT",
+      "date": "Wed, 03 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "مونديال 2026 بنظام 48 فريقا.. ماذا ننتظر من النسخة الأكبر في التاريخ؟ - الجزيرة نت",
+      "summary_ar": "مونديال 2026 بنظام 48 فريقا.. ماذا ننتظر من النسخة الأكبر في التاريخ؟ الجزيرة نت",
+      "content_ar": "مونديال 2026 بنظام 48 فريقا.. ماذا ننتظر من النسخة الأكبر في التاريخ؟ الجزيرة نت",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الجزيرة نت",
+      "link": "https://news.google.com/rss/articles/CBMixgJBVV95cUxQTldtby1TVkRhc0d4S3o0eF9oZGkxYWJBd1UzU0tNYkV4Z2oyVDFJNVlqNHoxclozbG1sdHhiV09sUTA3OEY5MmQ3Qk51VzYxSnczX1ZBVDhKZWF4Q2pXZ29Nb3UtakJfdXppNHZaVjNxeTF2QUctSzhxWlBGak9iMDZUQ2FzNXM0RlNSMHlFb202ZHZ1YTlDUC1ZZ3REWm8tS0NLRE1JaDhDYXl1T25MNERkMWVOYnJNcDVVU3YyLXdUblh0VDk0UU9wdDBBSXQxX1AxTjZIc2VMYkt1ajR6cF9vS2h6NzBDcTlSM3pudUY2cnJYdzZKT0E1bGZnRUxFajVKcjJsYUdad1hvQkNLeElkQnpfT2ZXcl9fa29aM2l5VkU5WkdGQ3hPUloteTA5ZGRFMXllVXRMVVZjVHJ5MFkwc3hId9IBywJBVV95cUxObEFVaV9Ba3BOM1dHcmlWdE5PUTZvdTQ3d2hySHNoX05qUV9fcHRCWGRtdGl2MlBPSndtanJISnRTdG5kcUdTbk9fRlZCOXRPSHZEVVdFYlQwMjNOcXhWM3l4U0lGN2RpekJQSHZYbkJ5NHVOSDJON25DV3JWemZOUTFmem0zS1NaVXZSZ0RLVXhzcjhHUnVoRmJjejNvbnQ2X003NzNKN2xUZ2dqemxXcWJaNHM3NFN5cmtsN1RyemdUeGp1RDFNNS1nZHhLSjl6TFMzUjBLYXdSazBlVS1VN0U1NGNrZW43bTZXYzB6MktkcmJnbmg1YWQ2czVwdXc0bjhHSFM5VDJSUG9SMS1LcDRQcWhteXlGVTF4TXl6TVRoQV9ha1Y1UGdJRnhzdnhHU1E3LWZ4UHhOMXpTWG1kUXVoT2g5eXdleUR3?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Fri, 15 May 2026 07:00:00 GMT",
+      "date": "Fri, 15 May 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "الموجة الزرقاء.. كوراساو أصغر دولة في تاريخ المونديال - سكاي نيوز عربية",
+      "summary_ar": "الموجة الزرقاء.. كوراساو أصغر دولة في تاريخ المونديال سكاي نيوز عربية",
+      "content_ar": "الموجة الزرقاء.. كوراساو أصغر دولة في تاريخ المونديال سكاي نيوز عربية",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "سكاي نيوز عربية",
+      "link": "https://news.google.com/rss/articles/CBMirwNBVV95cUxQb25QRWtoS2MtNkRRTTdpcnB4eWxtbUVmUUJtMVFERll2clc3WkVlZ2VjZ0RZaFRTTnE0Q29xRXUtd1RQSk5Vc3ZjWXVvbDBTYlBSakNhRjYteEVhLWxYek8zaXlQbE9rUG93UnFhdklBblktcFY4UURadnJNSFVMUldFdmg5UjhWUElKZXQzNVVza21oWG5zLW0wNkQ4UUZmUHJsbEFocGxmbVdUaE4zY0NZV0V5TWxkbWNMUjZmOGNBNEQ4NklmdUhtbU5TaXN6Z1F4NGpTd1BDQVFPT1N5LXdCYzR1WjB0a3JXY2FKV01oTXd0YzMwZ2hNU19NZjUxLURmNE5YemRsRHprZm42bW4zZVBGWW44aE03WVdsTWVtZGw3eUFyeDBmVWVFa3JGRW5QeFhWT0RaQVVtcndMT0ROb2RtcS1zQ0l2WXdZZERGUGJQZVU0SXZLSFpycjNGLXd6ZFFuc1hhSGV1LVVad3hhMGplZHVtNkdDdkhmTlFKc3lEY1JrYnB4S0MzMDNOTHdlc2FHUHREeDFNU2lseTAwal93Qk9mRGktMXZoWdIBtANBVV95cUxQTzNVU1l6cmdDdVBWRXVFQ3hmLWdZOEJIVzBNM2dwOHRnV1FvOGhYNDBVS25RMGN0QnZJQUg2R2xES1doMVJ5bGlyaWFaVE0yeHU3dVdUcTZMcFlFT216VlQ1T0dFWDBKUVl6VENGME4yM25lM01rUnlRajE0bFlUSVJhNTRxSk5zdnhOMlh1a0ZCSlV4VEZ2Z3lIN1lBMmdYWVlTQ3RoNUFhUGpxSHVNWklWeHA0b3daTFJ6REJVVzU3VnZ0SEZTdE5jV1pSTzdXcThRTVpVTjdEal9TNlBMOG4weWhLS0w4cXk4ZkRUMUZYc3BDbGhRaTJjQ0t2eDMzSUYycWotWHlyWjFoYkMxTjQ3YjA2b0lNVXphT29pVXRVOExQcDRWT2xTZUhRcGMwTVRka3J0eEplbzRSanhQWmxKVTc5bWhDbXV0M1NMaUx2dFFUUVVvZko1Mm1JUkhCMkI5cUtjSm5OelNCY25ubFRzSFdOX1Vfd1p5RGhBMDJCYktDYl9NMmcyZlRZM2w1Rzl0bFRZcks1OU5DZXZsRmIydTRGcWk2ZUE0ZTFiWjNfZ2px?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 02 Jun 2026 07:00:00 GMT",
+      "date": "Tue, 02 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "من الخطيب لمارادونا.. 30 أكتوبر يوم ميلاد أساطير كرة القدم - العين الإخبارية",
+      "summary_ar": "من الخطيب لمارادونا.. 30 أكتوبر يوم ميلاد أساطير كرة القدم العين الإخبارية",
+      "content_ar": "من الخطيب لمارادونا.. 30 أكتوبر يوم ميلاد أساطير كرة القدم العين الإخبارية",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "العين الإخبارية",
+      "link": "https://news.google.com/rss/articles/CBMie0FVX3lxTE1VSzhkVm5ITnJwNXJXT19kdTU0QlZtSjlYUFFaYTVURGFVUGhJYWxsTHg4bUJzT2g2Z3Z4Mi0xc194YjhUVFpiV0Zkb3h5U2NSMUd6OGpGbFA2WmxpQzRxQk9sbkJxRGVGcmU1T2xoNV9wRk1kbGxJY0c2OA?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 30 Oct 2024 07:00:00 GMT",
+      "date": "Wed, 30 Oct 2024 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "أساطير كأس العالم عبر التاريخ .. بيليه الملك ومارادونا الوصيف - اليوم السابع",
+      "summary_ar": "أساطير كأس العالم عبر التاريخ .. بيليه الملك ومارادونا الوصيف اليوم السابع",
+      "content_ar": "أساطير كأس العالم عبر التاريخ .. بيليه الملك ومارادونا الوصيف اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMi9ANBVV95cUxPdEd6S0dRMWFrb1gxTWJtN01YRk5KZDJUVWhsUXFyTGRpdTU5SnpwN1FJMkZpX3hCX2NoaEM4ZHdNWEEyZzFVNm92WkxXVl9pLVl3Z3lFX29YamxXb3Y4YnVfNEF2cDRkMWtMc2phVVExZTBNeUsyUzNFQ1MxaXdmWmJwUDREcXVVeHIwT0w1MnAwZE4yUXRQd3d2SUROTkZoRHNxRGhmVnBsWFJLZ3pUMUZPTDJFaV9NNnp6YjYybnpSMDdueTV5TThaRHVVQ05GWG1BVHZPTVVoV2hsOGVvdmJLNHpydmUwUXdkS3FJSmRmVklWTmN6c1k2MVl6YTBseEtndUoxcFBnTVYyMHFyX1p3Z3NObnFwYVg1Q2V0eWo2TnQ2R2pPMGRianVERFJHLWR1LWIyalRlS0dnRjl3a1VlYy1WQ3c3Sk5pcWhMMmVmeGh4MWgzMkZ2Y0dtalBzdFBBNnU1YUNCbFBWaFNyTkN2MThSbl9uNFJKOVlMVGEwS3czdVZVNXhaS2NsQXdiOG91c2VpVEg1WXFubWJZTXJYZlp0RVc2UkFnVk43N2xEUnJ5ZWJEMTRTS3Zyc28tMjRBeUxZdjVrY0NGVUFyYzJBWGVGTmZvWEdiaWFtTlBkeDBSUVZwcVZjREotLUdNNWd2OQ?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Wed, 28 Jan 2026 08:00:00 GMT",
+      "date": "Wed, 28 Jan 2026 08:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "نجوم بلا هزيمة.. أساطير كتبوا التاريخ فى كأس العالم قبل نسخة 2026 - اليوم السابع",
+      "summary_ar": "نجوم بلا هزيمة.. أساطير كتبوا التاريخ فى كأس العالم قبل نسخة 2026 اليوم السابع",
+      "content_ar": "نجوم بلا هزيمة.. أساطير كتبوا التاريخ فى كأس العالم قبل نسخة 2026 اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMixANBVV95cUxPbmh2bFdtTzFGUU4tYVZYa09NVC1yV1BUZGdsRGVjWkkyWWZWMkw2WXpCVHJ2cHNEMVJRVDhzMEcxeFRHZEtRX1NOWUVoY05GMDZtdUxMSzBlajhJdlpCM0NCX3ZIQVNpVTZPMmxuRHVyZ0lHTWozalFqdUx0Yjk1dUNYeHJoYnB4S0w4eUU4X0Y0bzRXY2hyd3B1TXQyZGtKUm44ZEpVRlQzakw3bjZTNFFnRE5rX0VTM0I3ZlRKT2FVbjB5c1lmNU14NGpkT2tFM0ZHMUp4V3lJamNZUTg5WmJrSXlOUHdsMF93UkdPRDVfLUhlem9sbEx3VXFJRmw1TG1yY2N0Sk9ESmdSbFU0MmF2TzVDdHRLNmRoZHAzZS1VMTQtWXJaT1AzMHVDbUY2UW4wSU1pek5BWVBJVU1GQkNjLVZ6MGQyQ0ViZExHOHN0eHJFZFZYSGtTd0pUQi1rWkc2eDZsajhELWlwYVYzaFBuTDNrSWswWUt6OEdSWUZJM3pOeVBoQUtXZ3pWZkNvSXBxMUd2Tk1qUkVMLXpGUmpQckZ5UC1uQ2xJMTE0MVRsM2w4QmRaVy1sTC1uQVNQMFFxQdIBvwNBVV95cUxQYmJDLWo5WHFhQmdPRkdSSXEtbjkyT0t6TUQwd0llN2JKcWVMRTZpajJibVdyTWVjdzk1NWpuUFhPdno5dm5FWkpPQ1B0MWFZSjN4ank3S1MxcTY1ekRvU3pFUDBldDFleVBQbkJaMWxJUllvcjJfYnlydHg5Z3h5LVdsMnlPQ0NPREFua3Jld0RrYkVWNVhLVFJLVTBtYVlJOGtrVnBJU2lTSUFteXBFczRnOTBCc0RqbWZoZjhQRlJDZWNGY1RoaTBhbXk5NFJBNDhNZzdXXzVwZHd3UEdSSC1Wak5Ga2VodmEySllQOEtoZTJLSzItcXBVV1Y4dkw1RWxNLUhNcER6UEZQVUNVcFN6M3hKNlp2SDM1WnhlRnFDQmI4SnRTX29aU0tvV2NmNTQ2SGwwZ1gtMlVERWNPQlg5RXJkUW81TjJzZTZBdU5WUmxBUnhvMFhYd3IzakpJX210OFdmUGJEUmpSU3Q5NjRjQS1kaFZPdUV5VjJLQ3V0X2RnSDd6WVVEdE5pLWFFb1lUQ3JPYmhRNTZkVkM1c0NvR28taUZWczVXcV80RUxJT1o4R3BRRldQN2pjUXc?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 02 Jun 2026 07:00:00 GMT",
+      "date": "Tue, 02 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "2025- 2026 موسم وداع الأساطير فى كرة القدم واليد - اليوم السابع",
+      "summary_ar": "2025- 2026 موسم وداع الأساطير فى كرة القدم واليد اليوم السابع",
+      "content_ar": "2025- 2026 موسم وداع الأساطير فى كرة القدم واليد اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMi5gJBVV95cUxNbjlVTDlReFB0Vm4xWWZlVmpkUHY0ZWxmZzh4ZGdCSlJLUFlWc0VrLTEwekhCNWJxYTgzTGlMUFh1VUw2dm9ueTFHVU12X3p1eFZ0blZFNGlVZklRU3NSa1RQaVZlSV9Fc3paQkJYVEhiMUUyWDN2YTFQNjhqbU1ZbWNZRGVuWGxrUGJGYVZ4SmszdVY0QzZaY2Q3ZTIxbjdrVzY3eERXc1o4dl9VQ2Yxb3BWWjdKdl8yOFJvQk5naUFpV2FvV2UyLUE2YmlZOE80UHptMVNaclk3VHY1alJRdExTRkR3X1QwMWNFZkxFaUN1dW1ydGxTS2lweDgxXzJSeFZHa2hidHM0MmY2amtCREFaUzhIZmE2RkE2QjVvM094UU8yRGkwU180QlFVbndIYWM3WGQxcEVGNDNUM0l4SVBjM3B4bl9rTnV4TWdFYVFLYXlhMjlNcTJFeXp0X1c0MlZxZ1dn0gHgAkFVX3lxTFBUOVNsWFZLZnR2ZlpEaVhmSksxWEFfTFdHcWFuS3BveTZfcXFQSnM5c0dNdk1CbWJ2V2dDVUcyMmZzaktOVGNvUDM0MlZoM3F0dlVzUUR3aXRrSV9RN05hRVpwNmRpVkNlRm5hdGNBS29YV1Fpc2FyaVhYV2VZLWE2b0pkSUJDdG5zazlMbTMyQWg5eko1Mzd1aU9rb3NDN2JpV3Y4SWxtdzlXWktwTFpVbUtoMy1qemdRMHdHUFhjTVljc252TVI2ZUUxaXpuS213WEcteDVCTHNfTUUxLWVXNUstX3RpZVM2UHZnMWZWQ09Na0xWeGxrUXhjOGgwQmhxXzhuZmpldE1oRnRkemZwcWx6NWdVUERhc0FXUm1tR01zcWN6dVJnSUdlanVoRG0tRFUxb05GVDg1aUhmQ2VrYkdMN0c5ZDVfcTFFZ0FkSGJ1Z21adVNMNGVLZ0RydlY?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Tue, 02 Jun 2026 07:00:00 GMT",
+      "date": "Tue, 02 Jun 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "أساطير من ذهب.. مايكل أوين هداف لا ينسى فى تاريخ الكرة الإنجليزية - اليوم السابع",
+      "summary_ar": "أساطير من ذهب.. مايكل أوين هداف لا ينسى فى تاريخ الكرة الإنجليزية اليوم السابع",
+      "content_ar": "أساطير من ذهب.. مايكل أوين هداف لا ينسى فى تاريخ الكرة الإنجليزية اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMijANBVV95cUxQZHBBaHA0RXFvTDY3QkV6azUzb2FpY05KRW1WdDNuVFV1ZnJpdTA0X0FiWlcwNXFMSVNfZXpLUi14VkFKU0hRYm0tNWpvQXYtbnJobUJuNUt5UFhBWFllTDM4LWNrODF0alNuQi1YY0hpYzV0UXpmR1p3aEg4QTYwQ1FtMExSSlpSU21NZWlmMldONTNPaFJOR2h1b0ZOVWhaSERlZUtMOEgtQ2pnX243SDUyeUdWeGlwbGFGTG5oMFpzNWlWWVBJOXZReFMzMVZaZ3l2ckZoVGpPcGM0bVBMV1pkN0R0dHlZS3U2aVR0VXNYYVEwY29wVlEzWjhoWElkSy1pcEZ5SzJYV1N2MlVUNmFURm40YTd1OHB1eTFVc0x5aWxZejVqWjJiRmlBV1VNZzZMX3pDS0FnWmZnc3pKdGllUWUtNHA4QVFVT2xDeE1WMjNRUGZqUzU0V2lsZHlJWUJDZUREcERST1JSR1hVdjhWRVM5UXh2WEZGeVNaNlRmdjl6aFdlMGt2UETSAYcDQVVfeXFMTkViZURjeC15YmVZQU4zcEdXSGhVWV9ZT05ZellrUlBkWDFUd3Z5bVdqNGpjT3E0MUZ6d3NWT2tyQkZnSGczTkl4bHNlQnJyNkhqWlp3SFY3cHRWUmRERXR1MmVnN3BIdlAtdFQ5MjQtUF9UVnZrZWtPamtHWDZyYlFZR2k5cXNLM1R5SzROUFhYYndqWE5KZ21BN3o3T1gzVXZ3Vk12SkVqZmk2akg4blpaSUcybkRwU2hIMEljc1FZeVpZZHpHNGNtN1lkVngwenFKOWdEcTdUZ1dhQnhMT2NlQ1JRWnpyLVlyVEt1QnBIa2xmei1zZ3g5X2E0WUFqVXltMUUzMkdaSmUybGdIVnZDOWdLSGVkUHoza1VRM1J4b2xHNjVObGIyOUZ5dFZ0LS16SlZaS2NoTWNhSjFGWjBYWVNXVmZZd3BxeDJ0Zm9GVTg5Q2haVE1rWUQtdDNrVTh3MW1MbWFORWxnMVVxRGFPWl95UWwzd0VCYm1MRU9CRW5CSEotZw?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Thu, 06 Apr 2023 07:00:00 GMT",
+      "date": "Thu, 06 Apr 2023 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "أسطورة رياضية .. كانو عملاق نيجيري كاد أن ينهي مسيرته مبكرا - اليوم السابع",
+      "summary_ar": "أسطورة رياضية .. كانو عملاق نيجيري كاد أن ينهي مسيرته مبكرا اليوم السابع",
+      "content_ar": "أسطورة رياضية .. كانو عملاق نيجيري كاد أن ينهي مسيرته مبكرا اليوم السابع",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMi3gNBVV95cUxOTW5VVlBBLUFJeFRNeDlxMDZlNlRrNTc4SHZGX2VqVWlqWVo3aUhuQ2pJV2hrd200YVpRR3FDM25UWUlPZDd1TWpBeFlUUDU4Zy1tYWViZUhJVUNOZjlhMFM0Ukxlb2xQWDJnNUdzVVpSTkw1OHVfLUd2RElNdGpENHZ5ZDNaMERZeEdtMnh1eFR0VUlrOXQtRWp0SzlUZ1QtNUFXRDh5c3VYUnQ4aWJRS3ozM3Z4ekNYNDdxU3NQbUJZVmNhTG42N1pFa0w2SlQxWXVQdHRiMld4YnNZdjRyQWZjTmNTZGNkMEpMLWxKbEtjVk1FMTBUYXpkcHc5OHd3Rnd2Si1VX0Z5SmFmVW5vVkx2b3dFRXdJMmZfUmJ6elRJeDFJUTN5bUx1WFZKTWJwZGc0RDJaYWJzY1VGUlItVXJCUXljeTBuTzBPZ0Y3YlpTLS1hdGR6WjE0YVloZmQ3TGNCUVpZcldMZWRRVDlkeS1TMV9iTXFndDZ2RVd5SnFEQWhXVV9Gb19pbldRRUFIT3NWT1JlNVRUcS1teTVEeXNaelhXSTUzU2p6cFdkMXBWeFVCWTV3eTMtV2w4bXRHZXJtUHppUUlmSkhORi1JVXdmSHN4SWd6ZXRUdkln0gHYA0FVX3lxTE9FeTl4UjZQa2tWUGREQnRYb0Y3NWtoRXFQaDFvbGVhWGVmN1RVbjVNSGpIN2FFblh6anpUWmpPQ1R1VVY2emdpOVZDemJNbXB5Z2FCbWFvN0RndDgyOWlvM0VBTjFTREcydXQwSzk4ekhQcnhMUkZkSHVNa3prOEx0TngxdDQwbDZQN3VEcE80NHBqVHM5dTRYT3daY2VOVTBOUmJtcjN4TE1GeWZOckxfbkJ5bDA4OGpnM1pkWnpac3U5bnZoOV96R2k5RDFMejFoZW9OcTRVWjUtNk9DRm56dkxfeGZIV3pJb2dnOGo1WHhXWTJ0ZFVsb21aYVg4TF9nWjVmUEFoRlBZdno4QmJwTGpuWU1PdHVrd3B2N1B5blAzWDF1czByeWhaQzJJMGkwcE9vZ0VwcmtKTmRLTUUzYjY3QUtNOHhJdnBfX0d1bTVHbHI4VVctRWlsMUxqRUZvR2gzRjVUbmM1clBmY1p3VmZKT0NEeWllRkR3cHYxWUJrSnF5dHpUaXFGWGZvSkVWaXlLU01NaTNGY1N1WUZ0WjNpM3BSbkJLeF85eXJkVFdEN3RybGJKcHJpMl9zUGhPYWFCY2RsRXR6eG9RU2N4V0J4YjNQUks?oc=5&hl=ar&gl=EG&ceid=EG:ar",
+      "published": "Thu, 27 Mar 2025 07:00:00 GMT",
+      "date": "Thu, 27 Mar 2025 07:00:00 GMT"
+    }
+  ]
+}
