@@ -574,6 +574,274 @@ jobs:
           # استخراج نص المقال والصورة الأصلية
           # =================================================
 
+          # =================================================
+          # قراءة المصدر عبر Jina Reader
+          # =================================================
+          # Jina Reader يحول صفحات الأخبار إلى نص منظم،
+          # وهو أكثر موثوقية من محاولة استخراج <p> من كل موقع
+          # على حدة. الاستخدام الأساسي مجاني وبحدود معدل طلبات.
+          # =================================================
+
+          def fetch_jina_reader(url):
+
+              if not url or is_google_url(url):
+                  return {
+                      "url": url or "",
+                      "title": "",
+                      "image": "",
+                      "text": ""
+                  }
+
+              try:
+
+                  reader_url = (
+                      "https://r.jina.ai/"
+                      + url
+                  )
+
+                  request = urllib.request.Request(
+                      reader_url,
+                      headers={
+                          "User-Agent": USER_AGENT,
+                          "Accept": "text/plain, text/markdown",
+                          "X-Return-Format": "markdown"
+                      }
+                  )
+
+                  with urllib.request.urlopen(
+                      request,
+                      timeout=30
+                  ) as response:
+
+                      markdown = response.read(
+                          1800000
+                      ).decode(
+                          "utf-8",
+                          errors="ignore"
+                      )
+
+                  if not markdown:
+                      return {
+                          "url": url,
+                          "title": "",
+                          "image": "",
+                          "text": ""
+                      }
+
+                  # -----------------------------------------
+                  # العنوان والرابط النهائي
+                  # -----------------------------------------
+
+                  title = ""
+
+                  match = re.search(
+                      r"(?im)^Title:\s*(.+)$",
+                      markdown
+                  )
+
+                  if match:
+                      title = clean_text(
+                          match.group(1)
+                      )
+
+                  final_url = url
+
+                  match = re.search(
+                      r"(?im)^URL Source:\s*(https?://\S+)",
+                      markdown
+                  )
+
+                  if match:
+                      final_url = (
+                          match.group(1)
+                          .strip()
+                          .rstrip(")")
+                      )
+
+                  # -----------------------------------------
+                  # الصور الموجودة في المقال
+                  # -----------------------------------------
+
+                  image_candidates = re.findall(
+                      r'!\[[^\]]*\]\((https?://[^)\s]+)',
+                      markdown,
+                      flags=re.I
+                  )
+
+                  image = ""
+
+                  # استبعاد الشعارات والصور الصغيرة قدر الإمكان.
+                  bad_image_words = (
+                      "logo",
+                      "icon",
+                      "favicon",
+                      "avatar",
+                      "author",
+                      "profile",
+                      "sprite",
+                      "placeholder"
+                  )
+
+                  for candidate in image_candidates:
+
+                      candidate = unescape(
+                          candidate
+                      ).strip()
+
+                      lower = candidate.lower()
+
+                      if any(
+                          word in lower
+                          for word in bad_image_words
+                      ):
+                          continue
+
+                      if (
+                          ".jpg" in lower
+                          or ".jpeg" in lower
+                          or ".png" in lower
+                          or ".webp" in lower
+                          or "image" in lower
+                          or "photo" in lower
+                      ):
+                          image = candidate
+                          break
+
+                  if not image and image_candidates:
+                      image = image_candidates[0]
+
+                  # -----------------------------------------
+                  # محتوى المقال
+                  # -----------------------------------------
+
+                  content = markdown
+
+                  marker = re.search(
+                      r"(?is)Markdown Content:\s*(.*)$",
+                      markdown
+                  )
+
+                  if marker:
+                      content = marker.group(1)
+
+                  # حذف الصور والروابط والعناوين الزائدة.
+                  content = re.sub(
+                      r'!\[[^\]]*\]\([^)]*\)',
+                      " ",
+                      content
+                  )
+
+                  content = re.sub(
+                      r'\[([^\]]+)\]\([^)]*\)',
+                      r'\1',
+                      content
+                  )
+
+                  content = re.sub(
+                      r'(?m)^\s*#{1,6}\s*',
+                      "",
+                      content
+                  )
+
+                  content = re.sub(
+                      r'(?m)^\s*[-*]\s+',
+                      "",
+                      content
+                  )
+
+                  content = re.sub(
+                      r'(?im)^(Title|URL Source|Published Time|Markdown Content):.*$',
+                      " ",
+                      content
+                  )
+
+                  content = clean_text(
+                      content
+                  )
+
+                  # إزالة عبارات Reader/الموقع غير المفيدة.
+                  bad_lines = [
+                      "اشترك",
+                      "تسجيل الدخول",
+                      "تابعنا",
+                      "حقوق النشر",
+                      "جميع الحقوق محفوظة",
+                      "سياسة الخصوصية",
+                      "شروط الاستخدام",
+                      "newsletter",
+                      "subscribe",
+                      "sign in",
+                      "privacy policy",
+                      "terms of use"
+                  ]
+
+                  parts = re.split(
+                      r"(?<=[.!؟])\s+",
+                      content
+                  )
+
+                  useful = []
+
+                  for part in parts:
+
+                      part = part.strip()
+
+                      if len(part) < 35:
+                          continue
+
+                      if any(
+                          bad.lower()
+                          in part.lower()
+                          for bad in bad_lines
+                      ):
+                          continue
+
+                      useful.append(
+                          part
+                      )
+
+                  text = " ".join(
+                      useful
+                  )
+
+                  # إذا لم تنجح علامات الجمل، استخدم المحتوى
+                  # المنظف مباشرة.
+                  if len(text) < 220:
+                      text = content
+
+                  return {
+                      "url":
+                          final_url or url,
+
+                      "title":
+                          title,
+
+                      "image":
+                          image,
+
+                      "text":
+                          clean_text(text)
+                  }
+
+              except Exception as error:
+
+                  print(
+                      "Jina Reader error:",
+                      error
+                  )
+
+              return {
+                  "url": url,
+                  "title": "",
+                  "image": "",
+                  "text": ""
+              }
+
+
+          # =================================================
+          # استخراج بيانات المصدر الأصلي
+          # =================================================
+
           def extract_page_data(url):
 
               if not url:
@@ -585,14 +853,50 @@ jobs:
                       "text": ""
                   }
 
+              # ---------------------------------------------
+              # أولاً: Jina Reader للحصول على المقال الحقيقي
+              # ---------------------------------------------
+
+              jina = fetch_jina_reader(
+                  url
+              )
+
+              if (
+                  jina.get("text")
+                  and len(jina.get("text", "")) >= 220
+              ):
+
+                  return {
+                      "url":
+                          jina.get("url")
+                          or url,
+
+                      "title":
+                          jina.get("title")
+                          or "",
+
+                      "description":
+                          "",
+
+                      "image":
+                          jina.get("image")
+                          or "",
+
+                      "text":
+                          jina.get("text")
+                          or ""
+                  }
+
+              # ---------------------------------------------
+              # ثانياً: المحاولة المباشرة كخطة احتياطية
+              # ---------------------------------------------
+
               html, final_url = fetch_html(
                   url,
                   timeout=18,
                   max_bytes=1600000
               )
 
-              # If Google News was not resolved yet,
-              # inspect the page for the real source URL.
               if html and is_google_url(final_url):
 
                   external = find_external_url(
@@ -611,7 +915,10 @@ jobs:
                       if source_html:
 
                           html = source_html
-                          final_url = source_final or external
+                          final_url = (
+                              source_final
+                              or external
+                          )
 
               if not html:
                   return {
@@ -622,13 +929,9 @@ jobs:
                       "text": ""
                   }
 
-              # ---------------------------------------------
-              # title
-              # ---------------------------------------------
-
               page_title = ""
 
-              patterns = [
+              title_patterns = [
 
                   r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)',
 
@@ -637,7 +940,7 @@ jobs:
                   r"<title[^>]*>(.*?)</title>"
               ]
 
-              for pattern in patterns:
+              for pattern in title_patterns:
 
                   match = re.search(
                       pattern,
@@ -654,13 +957,9 @@ jobs:
                       if page_title:
                           break
 
-              # ---------------------------------------------
-              # meta description
-              # ---------------------------------------------
-
               page_description = ""
 
-              patterns = [
+              description_patterns = [
 
                   r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)',
 
@@ -671,7 +970,7 @@ jobs:
                   r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:description'
               ]
 
-              for pattern in patterns:
+              for pattern in description_patterns:
 
                   match = re.search(
                       pattern,
@@ -687,10 +986,6 @@ jobs:
 
                       if page_description:
                           break
-
-              # ---------------------------------------------
-              # image: og:image / twitter:image
-              # ---------------------------------------------
 
               page_image = ""
 
@@ -724,112 +1019,15 @@ jobs:
                           page_image = candidate
                           break
 
-              # ---------------------------------------------
-              # JSON-LD image fallback
-              # ---------------------------------------------
-
-              if not page_image:
-
-                  jsonld_blocks = re.findall(
-                      r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',
-                      html,
-                      flags=re.I | re.S
-                  )
-
-                  for block in jsonld_blocks:
-
-                      try:
-
-                          data = json.loads(
-                              unescape(block)
-                          )
-
-                          objects = (
-                              data
-                              if isinstance(data, list)
-                              else [data]
-                          )
-
-                          for obj in objects:
-
-                              if not isinstance(obj, dict):
-                                  continue
-
-                              image = obj.get(
-                                  "image"
-                              )
-
-                              if isinstance(image, str):
-
-                                  candidate = absolutize_url(
-                                      image,
-                                      final_url or url
-                                  )
-
-                                  if candidate.startswith("http"):
-                                      page_image = candidate
-                                      break
-
-                              elif isinstance(image, dict):
-
-                                  candidate = absolutize_url(
-                                      image.get("url", ""),
-                                      final_url or url
-                                  )
-
-                                  if candidate.startswith("http"):
-                                      page_image = candidate
-                                      break
-
-                              elif isinstance(image, list):
-
-                                  for image_item in image:
-
-                                      if isinstance(
-                                          image_item,
-                                          str
-                                      ):
-
-                                          candidate = absolutize_url(
-                                              image_item,
-                                              final_url or url
-                                          )
-
-                                          if candidate.startswith("http"):
-                                              page_image = candidate
-                                              break
-
-                                  if page_image:
-                                      break
-
-                          if page_image:
-                              break
-
-                      except Exception:
-                          continue
-
-              # ---------------------------------------------
-              # article text
-              # ---------------------------------------------
-
-              article_html = html
-
               article_html = re.sub(
                   r"<script.*?</script>",
                   " ",
-                  article_html,
+                  html,
                   flags=re.I | re.S
               )
 
               article_html = re.sub(
                   r"<style.*?</style>",
-                  " ",
-                  article_html,
-                  flags=re.I | re.S
-              )
-
-              article_html = re.sub(
-                  r"<noscript.*?</noscript>",
                   " ",
                   article_html,
                   flags=re.I | re.S
@@ -857,21 +1055,6 @@ jobs:
 
               cleaned = []
 
-              bad_words = [
-                  "اشترك",
-                  "تسجيل الدخول",
-                  "تابعنا",
-                  "إعلان",
-                  "حقوق النشر",
-                  "جميع الحقوق محفوظة",
-                  "cookie",
-                  "privacy policy",
-                  "terms of use",
-                  "newsletter",
-                  "sign in",
-                  "subscribe"
-              ]
-
               for paragraph in paragraphs:
 
                   text_value = clean_text(
@@ -884,7 +1067,16 @@ jobs:
                   if any(
                       word.lower()
                       in text_value.lower()
-                      for word in bad_words
+                      for word in (
+                          "اشترك",
+                          "تسجيل الدخول",
+                          "تابعنا",
+                          "إعلان",
+                          "حقوق النشر",
+                          "privacy policy",
+                          "terms of use",
+                          "subscribe"
+                      )
                   ):
                       continue
 
@@ -892,31 +1084,8 @@ jobs:
                       text_value
                   )
 
-              # Remove duplicate paragraphs.
-              unique_paragraphs = []
-              seen = set()
-
-              for paragraph in cleaned:
-
-                  key = re.sub(
-                      r"\s+",
-                      " ",
-                      paragraph
-                  ).strip()
-
-                  if key in seen:
-                      continue
-
-                  seen.add(key)
-
-                  unique_paragraphs.append(
-                      key
-                  )
-
-              # Keep enough source material for the summary,
-              # but do not store the full article.
-              article_text = " ".join(
-                  unique_paragraphs[:18]
+              text = " ".join(
+                  cleaned[:20]
               )
 
               return {
@@ -933,7 +1102,7 @@ jobs:
                       page_image,
 
                   "text":
-                      article_text
+                      clean_text(text)
               }
 
 
@@ -951,105 +1120,101 @@ jobs:
               description = clean_text(description)
               article_text = clean_text(article_text)
 
-              # Prefer article text.
-              text = article_text
-
-              if len(text) < 180:
-                  text = (
-                      description
-                      or article_text
-                  )
-
-              if not text:
-                  return ""
-
-              text = re.sub(
-                  r"\s+",
-                  " ",
-                  text
-              ).strip()
-
-              # Split Arabic/Latin sentences.
-              sentences = re.split(
-                  r"(?<=[.!؟])\s+",
-                  text
-              )
-
-              selected = []
-              seen = set()
-              total = 0
-
-              for sentence in sentences:
-
-                  sentence = sentence.strip()
-
-                  if len(sentence) < 45:
-                      continue
-
-                  key = sentence.lower()
-
-                  if key in seen:
-                      continue
-
-                  seen.add(key)
-
-                  # Avoid repeating the title.
-                  if (
-                      title
-                      and key == title.lower()
-                  ):
-                      continue
-
-                  # Target approximately 80-150 words.
-                  # Arabic word boundaries are handled by split().
-                  words = sentence.split()
-
-                  if (
-                      selected
-                      and total >= 80
-                      and total + len(words) > 170
-                  ):
-                      break
-
-                  selected.append(
-                      sentence
-                  )
-
-                  total += len(words)
-
-                  if total >= 100 and len(selected) >= 3:
-                      break
-
-                  if len(selected) >= 5:
-                      break
-
-              if selected:
-
-                  summary = " ".join(
-                      selected
-                  ).strip()
-
-                  if len(summary.split()) >= 70:
-                      return summary
-
-              # If the source only gives a short description,
-              # use it rather than inventing facts.
-              if description:
-                  return description
+              # لا نستخدم العنوان كأنه ملخص.
+              candidates = []
 
               if article_text:
-                  # Conservative fallback: first few complete sentences.
-                  fallback_sentences = re.split(
-                      r"(?<=[.!؟])\s+",
+                  candidates.append(
                       article_text
                   )
 
-                  fallback = " ".join(
-                      fallback_sentences[:3]
+              if (
+                  description
+                  and description.lower()
+                  != title.lower()
+              ):
+                  candidates.append(
+                      description
+                  )
+
+              for text in candidates:
+
+                  text = re.sub(
+                      r"\s+",
+                      " ",
+                      text
                   ).strip()
 
-                  return fallback
+                  if not text:
+                      continue
 
+                  # فصل الجمل العربية واللاتينية.
+                  sentences = re.split(
+                      r"(?<=[.!؟])\s+",
+                      text
+                  )
+
+                  selected = []
+                  words_count = 0
+
+                  for sentence in sentences:
+
+                      sentence = sentence.strip()
+
+                      if len(sentence) < 35:
+                          continue
+
+                      if (
+                          title
+                          and sentence.lower()
+                          == title.lower()
+                      ):
+                          continue
+
+                      words = sentence.split()
+
+                      if (
+                          selected
+                          and words_count >= 90
+                          and words_count + len(words) > 170
+                      ):
+                          break
+
+                      selected.append(
+                          sentence
+                      )
+
+                      words_count += len(words)
+
+                      if (
+                          words_count >= 100
+                          and len(selected) >= 3
+                      ):
+                          break
+
+                      if len(selected) >= 7:
+                          break
+
+                  if selected:
+
+                      summary = " ".join(
+                          selected
+                      ).strip()
+
+                      if len(summary.split()) >= 60:
+                          return summary
+
+                  # إذا كانت الصفحة لا تحتوي جملًا واضحة،
+                  # خذ مقطعًا أطول دون اختلاق معلومات.
+                  words = text.split()
+
+                  if len(words) >= 60:
+
+                      return " ".join(
+                          words[:160]
+                      ).strip()
+
+              # إذا لم يتوفر محتوى حقيقي، لا نكرر العنوان.
               return ""
 
 
@@ -1292,8 +1457,9 @@ jobs:
                           )
 
                           # ---------------------------------
-                          # الصورة: المصدر الأصلي أولًا
-                          # ثم RSS فقط كخطة احتياطية
+                          # الصورة: المصدر الأصلي أولًا.
+                          # RSS فقط إذا كانت صورة حقيقية.
+                          # لا توجد صور عامة للأقسام.
                           # ---------------------------------
 
                           image = (
@@ -1307,9 +1473,6 @@ jobs:
                                   item
                               )
 
-                          # لا نستخدم صورة عامة للقسم
-                          # حتى لا تظهر صورة لا علاقة لها بالخبر.
-
                           print(
                               "Image:",
                               "FOUND" if image else "NOT FOUND"
@@ -1319,6 +1482,18 @@ jobs:
                               "Summary words:",
                               len(summary.split())
                           )
+
+                          # لا نحفظ الخبر إذا لم نحصل على
+                          # محتوى فعلي؛ حتى لا يظهر العنوان
+                          # مرة ثانية داخل خانة الملخص.
+
+                          if len(summary.split()) < 40:
+
+                              print(
+                                  "SKIPPED: insufficient article content"
+                              )
+
+                              continue
 
 
                           # ---------------------------------
