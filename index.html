@@ -2,13 +2,14 @@
 <html lang="ar" dir="rtl">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>NOWNEX FOOTBALL — كل ما يحدث في عالم كرة القدم الآن</title>
 
 <meta name="description"
-content="NOWNEX FOOTBALL — أخبار كرة القدم، أقوى المواجهات، الانتقالات، النجوم، المنتخبات، تاريخ الكرة ونتائج المباريات.">
+content="NOWNEX FOOTBALL — أخبار كرة القدم، الانتقالات، النجوم، المنتخبات، المواجهات ونتائج المباريات.">
 
 <meta name="theme-color" content="#030817">
 
@@ -39,10 +40,8 @@ rel="stylesheet">
     --gold:#d9b45b;
     --gold-light:#ffd978;
     --blue:#168cff;
-    --blue2:#006cff;
     --cyan:#19bfff;
     --green:#22d47b;
-    --red:#ff5268;
     --line:rgba(255,255,255,.09);
     --max:1500px;
 }
@@ -65,8 +64,7 @@ body{
     overflow-x:hidden;
 }
 
-body.article-open,
-body.search-open{
+body.locked{
     overflow:hidden;
 }
 
@@ -78,6 +76,7 @@ a{
 button{
     font-family:inherit;
 }
+
 
 /* =========================================================
    HEADER
@@ -98,6 +97,7 @@ header{
     height:100%;
     margin:auto;
     padding:0 24px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -111,8 +111,30 @@ header{
     font-size:24px;
     font-weight:900;
     white-space:nowrap;
-    order:3;
     cursor:pointer;
+}
+
+.logo-mark{
+    width:44px;
+    height:44px;
+    border-radius:13px;
+
+    display:grid;
+    place-items:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--gold-light),
+            var(--gold)
+        );
+
+    color:#080b13;
+    font-size:21px;
+
+    box-shadow:
+        0 0 30px
+        rgba(217,180,91,.18);
 }
 
 .logo-text{
@@ -122,35 +144,13 @@ header{
 .logo-sub{
     color:#fff;
     font-size:13px;
-    margin-right:5px;
     opacity:.7;
-}
-
-.logo-mark{
-    width:44px;
-    height:44px;
-    border-radius:13px;
-    display:grid;
-    place-items:center;
-    background:
-        linear-gradient(
-            135deg,
-            var(--gold-light),
-            var(--gold)
-        );
-    color:#080b13;
-    font-size:21px;
-    font-weight:900;
-    box-shadow:
-        0 0 30px
-        rgba(217,180,91,.18);
 }
 
 nav{
     display:flex;
     align-items:center;
     gap:28px;
-    order:2;
 }
 
 nav a{
@@ -170,19 +170,20 @@ nav a.active{
     display:flex;
     align-items:center;
     gap:9px;
-    order:1;
 }
 
 .search-btn,
 .mobile-menu{
     width:44px;
     height:44px;
+
     border:1px solid var(--line);
     background:rgba(255,255,255,.035);
+
     color:#fff;
     border-radius:13px;
+
     cursor:pointer;
-    transition:.2s;
     font-size:19px;
 }
 
@@ -190,11 +191,6 @@ nav a.active{
     display:none;
 }
 
-.search-btn:hover,
-.mobile-menu:hover{
-    border-color:rgba(79,140,255,.45);
-    background:rgba(79,140,255,.08);
-}
 
 /* =========================================================
    HERO
@@ -203,28 +199,31 @@ nav a.active{
 .hero{
     width:100%;
     max-width:1536px;
+
     height:520px;
     min-height:520px;
-    margin:0 auto;
+
+    margin:auto;
+
     position:relative;
     overflow:hidden;
-    background-image:url("football-hero.png");
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:cover;
+
+    background:
+        url("football-hero.png")
+        center/cover
+        no-repeat;
 }
 
 .hero::before{
     content:"";
     position:absolute;
     inset:0;
-    z-index:1;
+
     background:
         linear-gradient(
             90deg,
-            rgba(2,7,20,.25) 0%,
-            rgba(2,7,20,.06) 55%,
-            rgba(2,7,20,.08) 100%
+            rgba(2,7,20,.25),
+            rgba(2,7,20,.05)
         );
 }
 
@@ -232,72 +231,81 @@ nav a.active{
     content:"";
     position:absolute;
     inset:0;
-    z-index:2;
-    pointer-events:none;
+
     background:
         linear-gradient(
             0deg,
-            rgba(3,8,23,.75),
-            transparent 35%
+            rgba(3,8,23,.78),
+            transparent 40%
         );
 }
 
 .hero-content{
     position:absolute;
     z-index:5;
+
     left:3%;
-    right:auto;
     width:46%;
+
     top:50%;
     transform:translateY(-50%);
+
     display:flex;
     flex-direction:column;
     align-items:center;
-    justify-content:center;
+
     text-align:center;
-    direction:rtl;
+
     padding:20px;
 }
 
 .hero-badge{
     display:inline-flex;
     align-items:center;
-    justify-content:center;
     gap:9px;
+
     padding:8px 17px;
     margin-bottom:18px;
+
     border:1px solid rgba(36,143,255,.42);
     background:rgba(0,30,80,.28);
+
     color:#5caeff;
     border-radius:50px;
+
     font-size:13px;
     font-weight:800;
-    white-space:nowrap;
-    backdrop-filter:blur(5px);
 }
 
 .live-dot{
     width:8px;
     height:8px;
     border-radius:50%;
+
     background:#168cff;
-    box-shadow:0 0 13px #168cff;
+
+    box-shadow:
+        0 0 13px
+        #168cff;
 }
 
 .hero h1{
     width:100%;
-    margin:0 0 18px;
+
+    margin-bottom:18px;
+
     font-size:clamp(40px,4.5vw,70px);
     line-height:1.08;
-    letter-spacing:-2px;
+
     font-weight:900;
-    text-align:center;
-    text-shadow:0 4px 25px rgba(0,0,0,.75);
+
+    text-shadow:
+        0 4px 25px
+        rgba(0,0,0,.75);
 }
 
 .hero-title-line{
     display:block;
-    white-space:nowrap;
 }
 
 .hero h1 .gradient{
@@ -308,42 +316,43 @@ nav a.active{
             #347fff,
             #7566ff
         );
+
     -webkit-background-clip:text;
     background-clip:text;
+
     color:transparent;
 }
 
 .hero p{
-    width:100%;
     max-width:620px;
+
     color:#d0d7e5;
+
     font-size:15px;
     line-height:1.9;
-    margin:0 auto 23px;
-    font-weight:500;
-    text-align:center;
-    text-shadow:0 3px 15px rgba(0,0,0,.85);
+
+    margin-bottom:23px;
 }
 
 .hero-buttons{
     display:flex;
-    align-items:center;
-    justify-content:center;
     gap:12px;
     flex-wrap:wrap;
-    width:100%;
+    justify-content:center;
 }
 
 .primary-btn,
 .secondary-btn{
     padding:13px 22px;
+
     border-radius:12px;
+
     cursor:pointer;
+
     font-weight:800;
-    border:1px solid var(--line);
-    transition:.22s;
     font-size:14px;
-    white-space:nowrap;
+
+    transition:.22s;
 }
 
 .primary-btn{
@@ -353,22 +362,25 @@ nav a.active{
             #159dff,
             #075fe8
         );
+
     color:#fff;
-    border:none;
-    box-shadow:0 8px 30px rgba(0,110,255,.25);
+    border:0;
 }
 
 .secondary-btn{
-    background:rgba(2,8,20,.42);
+    background:rgba(2,8,20,.55);
     color:#fff;
-    border:1px solid rgba(255,255,255,.16);
-    backdrop-filter:blur(5px);
+
+    border:
+        1px solid
+        rgba(255,255,255,.16);
 }
 
 .primary-btn:hover,
 .secondary-btn:hover{
     transform:translateY(-3px);
 }
+
 
 /* =========================================================
    CATEGORIES
@@ -377,22 +389,24 @@ nav a.active{
 .category-section{
     width:100%;
     max-width:1500px;
+
     margin:-1px auto 0;
+
     padding:0 30px 30px;
+
     position:relative;
     z-index:20;
 }
 
 .category-slider{
-    width:100%;
     display:flex;
     gap:14px;
+
     overflow-x:auto;
-    overflow-y:hidden;
+
     padding:4px 2px 12px;
-    scroll-snap-type:x mandatory;
+
     scrollbar-width:none;
-    -webkit-overflow-scrolling:touch;
 }
 
 .category-slider::-webkit-scrollbar{
@@ -402,129 +416,109 @@ nav a.active{
 .category-card{
     flex:0 0 300px;
     min-height:140px;
-    scroll-snap-align:start;
-    border:1px solid rgba(20,140,255,.35);
+
+    position:relative;
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+
+    padding:20px;
+
+    border-radius:18px;
+
+    border:
+        1px solid
+        rgba(20,140,255,.35);
+
     background:
         linear-gradient(
             145deg,
             rgba(11,29,60,.96),
             rgba(4,13,30,.98)
         );
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    padding:20px;
+
     cursor:pointer;
-    transition:
-        transform .28s ease,
-        border-color .28s ease,
-        box-shadow .28s ease;
-    position:relative;
-    overflow:hidden;
-    border-radius:18px;
+
+    transition:.28s;
+}
+
+.category-card:hover{
+    transform:translateY(-4px);
+
+    border-color:
+        rgba(40,170,255,.75);
+
     box-shadow:
-        inset 0 0 30px rgba(0,110,255,.08),
-        0 0 12px rgba(0,100,255,.08);
+        0 0 28px
+        rgba(0,120,255,.25);
 }
 
-.category-card::before{
-    content:"";
-    position:absolute;
-    width:150px;
-    height:150px;
-    border-radius:50%;
-    right:-50px;
-    top:-55px;
-    background:
-        radial-gradient(
-            circle,
-            rgba(20,145,255,.25),
-            transparent 70%
-        );
-}
+.category-card.active{
+    border-color:var(--gold-light);
 
-.category-card::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(2,7,20,.12),
-            transparent
-        );
-    pointer-events:none;
+    box-shadow:
+        0 0 25px
+        rgba(217,180,91,.18);
 }
 
 .category-icon{
     position:absolute;
+
     right:18px;
     top:17px;
+
     font-size:30px;
-    z-index:3;
 }
 
 .category-text{
-    position:relative;
-    z-index:3;
     width:68%;
-    min-width:0;
     text-align:center;
-    direction:rtl;
 }
 
 .category-text h3{
     color:#20a8ff;
+
     font-size:17px;
     font-weight:900;
+
     margin-bottom:6px;
-    line-height:1.4;
-    text-shadow:0 2px 10px rgba(0,0,0,.9);
 }
 
 .category-text p{
     color:#b5c0d2;
+
     font-size:11px;
     line-height:1.65;
-    font-weight:500;
 }
 
-.category-card:hover{
-    transform:translateY(-3px) scale(1.015);
-    border-color:rgba(40,170,255,.75);
-    box-shadow:
-        0 0 0 1px rgba(0,150,255,.15),
-        0 0 28px rgba(0,120,255,.25);
-}
-
-.category-card.active{
-    border-color:rgba(217,180,91,.8);
-    box-shadow:
-        0 0 0 1px rgba(217,180,91,.18),
-        0 0 25px rgba(217,180,91,.15);
-}
 
 /* =========================================================
-   GENERAL SECTION
+   SECTION
 ========================================================= */
 
 .section{
     width:min(1500px,100%);
     margin:auto;
-    padding:20px 30px 60px;
+
+    padding:
+        20px
+        30px
+        60px;
 }
 
 .section-header{
     display:flex;
     align-items:end;
     justify-content:space-between;
+
     gap:20px;
+
     margin-bottom:22px;
 }
 
 .section-title{
     font-size:clamp(28px,3vw,42px);
-    line-height:1.2;
     font-weight:900;
 }
 
@@ -536,13 +530,6 @@ nav a.active{
     color:#8591a8;
     font-size:13px;
     margin-top:8px;
-    line-height:1.7;
-}
-
-.view-all{
-    color:var(--gold-light);
-    font-size:13px;
-    font-weight:900;
 }
 
 .news-count{
@@ -551,120 +538,203 @@ nav a.active{
     margin-top:6px;
 }
 
+.view-all{
+    color:var(--gold-light);
+    font-size:13px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+
 /* =========================================================
    NEWS GRID
 ========================================================= */
 
 .trend-grid{
     display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
+
     gap:18px;
 }
 
+
+/* =========================================================
+   NEWS CARD
+========================================================= */
+
 .trend-card{
     position:relative;
+
     background:
         linear-gradient(
             145deg,
             rgba(255,255,255,.055),
             rgba(255,255,255,.012)
         ),
-        #09162c;
-    border:1px solid rgba(255,255,255,.09);
+        var(--card);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
     border-radius:22px;
+
     overflow:hidden;
+
     cursor:pointer;
+
     transition:.25s;
+
+    user-select:none;
 }
 
 .trend-card:hover{
     transform:translateY(-5px);
-    border-color:rgba(20,145,255,.32);
-    box-shadow:0 15px 35px rgba(0,70,150,.16);
+
+    border-color:
+        rgba(20,145,255,.5);
+
+    box-shadow:
+        0 15px 35px
+        rgba(0,70,150,.20);
 }
 
 .trend-image-wrapper{
     width:100%;
     height:235px;
-    overflow:hidden;
-    background:#071126;
+
     position:relative;
+    overflow:hidden;
+
+    background:#071126;
 }
 
 .trend-image{
     width:100%;
     height:100%;
-    display:block;
+
     object-fit:cover;
-    object-position:center;
-    background:#071126;
-    transition:transform .35s ease;
+
+    display:block;
+
+    transition:.35s;
 }
 
 .trend-card:hover .trend-image{
-    transform:scale(1.025);
+    transform:scale(1.04);
+}
+
+.image-placeholder{
+    width:100%;
+    height:100%;
+
+    display:grid;
+    place-items:center;
+
+    font-size:55px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(20,145,255,.15),
+            #071126 70%
+        );
+}
+
+.trend-badge{
+    position:absolute;
+
+    top:13px;
+    right:13px;
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    background:
+        rgba(2,8,20,.75);
+
+    backdrop-filter:blur(8px);
+
+    color:var(--gold-light);
+
+    font-size:10px;
+    font-weight:800;
 }
 
 .trend-card-content{
     padding:17px 20px 20px;
-    min-height:185px;
 }
 
 .trend-number{
     color:var(--gold-light);
+
     font-size:12px;
     font-weight:900;
-    margin-bottom:10px;
-}
 
-.trend-icon{
-    position:absolute;
-    left:17px;
-    top:15px;
-    font-size:28px;
+    margin-bottom:8px;
 }
 
 .trend-card h3{
     font-size:18px;
     line-height:1.7;
+
     font-weight:900;
+
     margin-bottom:9px;
 }
 
 .trend-meta{
     color:#7f8ba2;
+
     font-size:11px;
     line-height:1.7;
 }
 
 .news-link{
     display:inline-block;
+
     margin-top:12px;
+
     color:var(--gold-light);
+
     font-size:12px;
     font-weight:900;
 }
 
-/* =========================================================
-   EMPTY NEWS
-========================================================= */
-
-.empty-news{
+.news-empty{
     grid-column:1/-1;
+
     text-align:center;
+
     padding:50px 20px;
-    border:1px solid var(--line);
+
+    border:
+        1px solid
+        var(--line);
+
     border-radius:18px;
+
     background:var(--card);
+
     color:var(--muted);
 }
 
-.empty-news strong{
+.news-empty strong{
     display:block;
+
     color:#fff;
+
     font-size:18px;
+
     margin-bottom:8px;
 }
+
 
 /* =========================================================
    RESULTS
@@ -678,16 +748,22 @@ nav a.active{
             rgba(255,255,255,.01)
         ),
         #071329;
-    border:1px solid var(--line);
+
+    border:
+        1px solid
+        var(--line);
+
     border-radius:24px;
+
     padding:22px;
 }
 
 .results-top{
     display:flex;
     justify-content:space-between;
+
     align-items:center;
-    gap:15px;
+
     margin-bottom:20px;
 }
 
@@ -695,11 +771,20 @@ nav a.active{
     display:inline-flex;
     align-items:center;
     gap:7px;
+
     padding:7px 12px;
+
     border-radius:30px;
-    background:rgba(34,212,123,.08);
-    border:1px solid rgba(34,212,123,.2);
+
+    background:
+        rgba(34,212,123,.08);
+
+    border:
+        1px solid
+        rgba(34,212,123,.2);
+
     color:var(--green);
+
     font-size:11px;
     font-weight:800;
 }
@@ -707,24 +792,28 @@ nav a.active{
 .results-live-dot{
     width:7px;
     height:7px;
+
     border-radius:50%;
+
     background:var(--green);
-    box-shadow:0 0 10px rgba(34,212,123,.8);
 }
 
 .results-label{
     color:#8f9bb2;
+
     font-size:12px;
     font-weight:800;
+
     margin:18px 0 9px;
 }
 
 .competition-strip{
     display:flex;
     gap:8px;
+
     overflow-x:auto;
+
     scrollbar-width:none;
-    padding:2px 1px 8px;
 }
 
 .competition-strip::-webkit-scrollbar{
@@ -733,64 +822,81 @@ nav a.active{
 
 .competition-btn{
     flex:0 0 auto;
+
     padding:9px 14px;
-    border:1px solid rgba(255,255,255,.09);
-    background:rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    background:
+        rgba(255,255,255,.035);
+
     color:#aeb9cf;
+
     border-radius:11px;
+
     cursor:pointer;
+
     font-size:11px;
     font-weight:800;
-    transition:.2s;
-    white-space:nowrap;
-}
-
-.competition-btn:hover{
-    border-color:rgba(20,145,255,.45);
-    color:#fff;
 }
 
 .competition-btn.active{
     color:#071126;
+
     background:
         linear-gradient(
             135deg,
             var(--gold-light),
             var(--gold)
         );
-    border-color:var(--gold-light);
+
+    border-color:
+        var(--gold-light);
 }
 
 .matches-grid{
     display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
+
     gap:14px;
+
     margin-top:22px;
 }
 
+.matches-empty{
+    grid-column:1/-1;
+
+    text-align:center;
+
+    padding:45px 20px;
+
+    color:var(--muted);
+}
+
 .match-card{
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
     border-radius:18px;
+
     padding:15px;
-    transition:.2s;
-}
-
-.match-card:hover{
-    transform:translateY(-3px);
-    border-color:rgba(20,145,255,.35);
-}
-
-.match-card.live-card{
-    border-color:rgba(34,212,123,.28);
-    box-shadow:0 0 25px rgba(34,212,123,.05);
 }
 
 .match-header{
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    gap:8px;
+
     margin-bottom:15px;
 }
 
@@ -798,15 +904,11 @@ nav a.active{
     color:#9ba8bd;
     font-size:10px;
     font-weight:800;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
 }
 
 .match-status{
     color:#8f9bb2;
     font-size:10px;
-    white-space:nowrap;
 }
 
 .match-status.live{
@@ -816,65 +918,44 @@ nav a.active{
 
 .match-teams{
     display:grid;
-    grid-template-columns:1fr auto 1fr;
-    align-items:center;
-    gap:10px;
-    text-align:center;
-}
 
-.match-teams > div{
-    min-width:0;
+    grid-template-columns:
+        1fr
+        auto
+        1fr;
+
+    align-items:center;
+
+    gap:10px;
+
+    text-align:center;
 }
 
 .club-logo{
     width:42px;
     height:42px;
+
     object-fit:contain;
+
     margin:auto;
-    display:block;
 }
 
 .club-name{
     color:#e7ebf4;
+
     font-size:11px;
     font-weight:800;
-    line-height:1.5;
+
     margin-top:7px;
 }
 
 .match-score{
     color:#fff;
+
     font-size:21px;
     font-weight:900;
-    white-space:nowrap;
 }
 
-.match-minute{
-    color:#78869d;
-    font-size:9px;
-    margin-top:2px;
-}
-
-.match-footer{
-    border-top:1px solid rgba(255,255,255,.06);
-    margin-top:14px;
-    padding-top:10px;
-    color:#68758b;
-    font-size:9px;
-    text-align:center;
-}
-
-.matches-empty{
-    grid-column:1/-1;
-    text-align:center;
-    padding:45px 20px;
-    color:var(--muted);
-}
-
-.matches-empty small{
-    display:block;
-    margin-top:8px;
-}
 
 /* =========================================================
    ARTICLE
@@ -883,12 +964,22 @@ nav a.active{
 .article-overlay{
     position:fixed;
     inset:0;
+
     z-index:500;
+
     display:none;
-    background:rgba(2,6,15,.97);
+
+    background:
+        rgba(2,6,15,.97);
+
     backdrop-filter:blur(18px);
+
     overflow-y:auto;
-    padding:15px 20px 60px;
+
+    padding:
+        15px
+        20px
+        60px;
 }
 
 .article-overlay.active{
@@ -902,16 +993,22 @@ nav a.active{
 
 .article-top{
     display:flex;
+
     justify-content:space-between;
     align-items:center;
+
     margin-bottom:20px;
 }
 
 .article-brand{
     display:flex;
+
     align-items:center;
+
     gap:10px;
+
     color:var(--gold-light);
+
     font-weight:900;
     font-size:18px;
 }
@@ -919,56 +1016,88 @@ nav a.active{
 .article-close{
     width:46px;
     height:46px;
-    border:1px solid var(--line);
-    background:rgba(255,255,255,.05);
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.05);
+
     color:#fff;
+
     border-radius:13px;
+
     cursor:pointer;
+
     font-size:25px;
 }
 
 .article-image-wrapper{
     width:100%;
+
     margin-bottom:20px;
+
     border-radius:22px;
+
     overflow:hidden;
-    border:1px solid var(--line);
+
+    border:
+        1px solid
+        var(--line);
 }
 
 .article-image{
     width:100%;
     max-height:560px;
+
     display:block;
+
     object-fit:cover;
 }
 
 .article-category{
     color:var(--gold-light);
+
     font-size:13px;
     font-weight:800;
+
     margin-bottom:12px;
 }
 
 .article-title{
     font-size:clamp(30px,5vw,54px);
+
     line-height:1.35;
+
     font-weight:900;
+
     margin-bottom:15px;
 }
 
 .article-info{
     display:flex;
     flex-wrap:wrap;
+
     gap:10px;
+
     color:var(--muted);
+
     font-size:13px;
+
     margin-bottom:20px;
 }
 
 .article-info span{
     padding:7px 12px;
-    border:1px solid var(--line);
-    background:rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        rgba(255,255,255,.035);
+
     border-radius:9px;
 }
 
@@ -980,88 +1109,133 @@ nav a.active{
             rgba(255,255,255,.018)
         ),
         var(--card);
-    border:1px solid var(--line);
-    border-right:3px solid var(--gold);
+
+    border:
+        1px solid
+        var(--line);
+
+    border-right:
+        3px solid
+        var(--gold);
+
     border-radius:20px;
+
     padding:24px 30px;
+
     margin-bottom:20px;
 }
 
 .article-summary-label{
     color:var(--gold-light);
+
     font-size:13px;
     font-weight:900;
+
     margin-bottom:9px;
 }
 
 .article-summary{
     color:#e9edf8;
+
     font-size:18px;
+
     line-height:1.9;
 }
 
 .article-points{
     margin-top:15px;
+
     padding:19px 21px;
+
     border-radius:18px;
-    background:rgba(79,140,255,.05);
-    border:1px solid rgba(79,140,255,.12);
+
+    background:
+        rgba(79,140,255,.05);
+
+    border:
+        1px solid
+        rgba(79,140,255,.12);
 }
 
 .article-points h3{
     color:var(--gold-light);
+
     font-size:17px;
+
     margin-bottom:9px;
 }
 
 .article-points p{
     color:var(--muted);
+
     line-height:1.8;
+
     font-size:14px;
 }
 
 .article-source{
     margin-top:20px;
+
     padding:22px 0;
-    border-top:1px solid var(--line);
+
+    border-top:
+        1px solid
+        var(--line);
 }
 
 .article-source-title{
     color:var(--muted);
+
     font-size:12px;
+
     margin-bottom:7px;
 }
 
 .article-source-name{
     color:#fff;
+
     font-size:18px;
+
     font-weight:800;
+
     margin-bottom:16px;
 }
 
 .original-btn{
     display:inline-flex;
+
     align-items:center;
+
     gap:8px;
+
     padding:13px 19px;
+
     background:
         linear-gradient(
             135deg,
             var(--gold-light),
             var(--gold)
         );
+
     color:#080b13;
+
     border-radius:11px;
+
     font-size:13px;
+
     font-weight:900;
 }
 
 .article-note{
     color:var(--muted);
+
     font-size:11px;
+
     line-height:1.8;
+
     margin-top:13px;
 }
+
 
 /* =========================================================
    SEARCH
@@ -1069,11 +1243,17 @@ nav a.active{
 
 .search-panel{
     display:none;
+
     position:fixed;
     inset:0;
-    z-index:300;
-    background:rgba(4,7,15,.94);
+
+    z-index:400;
+
+    background:
+        rgba(4,7,15,.96);
+
     backdrop-filter:blur(15px);
+
     padding:100px 22px;
 }
 
@@ -1084,31 +1264,51 @@ nav a.active{
 .search-box{
     max-width:750px;
     margin:auto;
+
     position:relative;
 }
 
 .search-box input{
     width:100%;
-    padding:20px 65px 20px 25px;
+
+    padding:
+        20px
+        65px
+        20px
+        25px;
+
     border-radius:15px;
-    border:1px solid var(--line);
+
+    border:
+        1px solid
+        var(--line);
+
     background:var(--card);
+
     color:#fff;
+
     outline:none;
+
     font-size:18px;
-    font-family:inherit;
 }
 
 .close-search{
     position:absolute;
+
     right:10px;
     top:10px;
+
     width:45px;
     height:45px;
-    border:none;
+
+    border:0;
+
     background:transparent;
+
     color:#fff;
+
     font-size:25px;
+
     cursor:pointer;
 }
 
@@ -1119,15 +1319,23 @@ nav a.active{
 
 .search-result{
     padding:18px;
+
     margin-bottom:10px;
-    border:1px solid var(--line);
+
+    border:
+        1px solid
+        var(--line);
+
     border-radius:14px;
+
     background:var(--card);
+
     cursor:pointer;
 }
 
 .search-result:hover{
-    border-color:rgba(20,145,255,.35);
+    border-color:
+        rgba(20,145,255,.5);
 }
 
 .search-result-title{
@@ -1142,23 +1350,34 @@ nav a.active{
     margin-top:7px;
 }
 
+
 /* =========================================================
    FOOTER
 ========================================================= */
 
 footer{
-    border-top:1px solid var(--line);
+    border-top:
+        1px solid
+        var(--line);
+
     background:#020611;
+
     margin-top:20px;
 }
 
 .footer-inner{
     width:min(1500px,100%);
+
     margin:auto;
+
     padding:35px 30px;
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     gap:20px;
 }
 
@@ -1175,6 +1394,7 @@ footer{
 .footer-logo span{
     color:var(--gold-light);
 }
+
 
 /* =========================================================
    TABLET
@@ -1200,22 +1420,15 @@ footer{
         width:48%;
     }
 
-    .hero h1{
-        font-size:clamp(34px,5vw,58px);
-    }
-
-    .hero p{
-        font-size:13px;
-    }
-
-    .category-card{
-        flex-basis:270px;
-    }
-
     .matches-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
     }
 }
+
 
 /* =========================================================
    MOBILE
@@ -1229,18 +1442,15 @@ footer{
 
     .header-inner{
         padding:0 13px;
-        gap:7px;
     }
 
     .logo{
         font-size:16px;
-        gap:7px;
     }
 
     .logo-mark{
         width:38px;
         height:38px;
-        border-radius:11px;
         font-size:18px;
     }
 
@@ -1257,80 +1467,40 @@ footer{
     .hero{
         height:400px;
         min-height:400px;
-        background-position:center;
     }
 
     .hero-content{
         left:2%;
         width:50%;
-        top:50%;
-        padding:10px;
     }
 
     .hero-badge{
         font-size:8px;
         padding:6px 9px;
-        margin-bottom:11px;
-        gap:5px;
-    }
-
-    .live-dot{
-        width:6px;
-        height:6px;
     }
 
     .hero h1{
         font-size:clamp(22px,6.3vw,35px);
-        line-height:1.15;
-        letter-spacing:-1px;
-        margin-bottom:10px;
-    }
-
-    .hero-title-line{
-        white-space:normal;
     }
 
     .hero p{
         font-size:8px;
-        line-height:1.75;
-        margin-bottom:12px;
-    }
-
-    .hero-buttons{
-        gap:6px;
-        flex-direction:column;
     }
 
     .primary-btn,
     .secondary-btn{
         padding:8px 11px;
         font-size:8px;
-        border-radius:8px;
     }
 
     .category-section{
         padding:0 13px 22px;
     }
 
-    .category-slider{
-        gap:10px;
-    }
-
     .category-card{
         flex:0 0 220px;
         min-height:105px;
         padding:14px;
-        border-radius:16px;
-    }
-
-    .category-icon{
-        font-size:23px;
-        right:13px;
-        top:12px;
-    }
-
-    .category-text{
-        width:66%;
     }
 
     .category-text h3{
@@ -1339,46 +1509,29 @@ footer{
 
     .category-text p{
         font-size:9px;
-        line-height:1.55;
     }
 
     .section{
-        padding:18px 13px 45px;
-    }
-
-    .section-header{
-        align-items:flex-start;
-        margin-bottom:17px;
+        padding:
+            18px
+            13px
+            45px;
     }
 
     .section-title{
         font-size:27px;
     }
 
-    .section-description{
-        font-size:11px;
-    }
-
     .trend-grid{
         grid-template-columns:1fr;
-        gap:15px;
     }
 
     .trend-image-wrapper{
         height:205px;
     }
 
-    .trend-image{
-        height:205px;
-    }
-
-    .trend-card-content{
-        padding:16px 18px 19px;
-    }
-
     .results-box{
         padding:14px;
-        border-radius:18px;
     }
 
     .results-top{
@@ -1394,8 +1547,8 @@ footer{
         padding:12px 13px 40px;
     }
 
-    .article-image{
-        max-height:330px;
+    .article-title{
+        font-size:30px;
     }
 
     .article-summary-box{
@@ -1404,11 +1557,6 @@ footer{
 
     .article-summary{
         font-size:16px;
-        line-height:1.85;
-    }
-
-    .article-title{
-        font-size:30px;
     }
 
     .footer-inner{
@@ -1418,84 +1566,86 @@ footer{
     }
 }
 
-/* =========================================================
-   VERY SMALL
-========================================================= */
-
-@media(max-width:380px){
-
-    .hero{
-        height:370px;
-        min-height:370px;
-    }
-
-    .hero h1{
-        font-size:21px;
-    }
-
-    .hero p{
-        font-size:7.5px;
-    }
-
-    .category-card{
-        flex-basis:205px;
-    }
-}
-
 </style>
+
 </head>
+
 
 <body>
 
-<!-- =======================================================
+
+<!-- =========================================================
      HEADER
-======================================================= -->
+========================================================= -->
 
 <header>
 
 <div class="header-inner">
 
-    <a href="#"
-       class="logo"
-       onclick="goHome();return false;">
+    <div
+        class="logo"
+        onclick="goHome()">
 
-        <div class="logo-mark">⚽</div>
+        <div class="logo-mark">
+            ⚽
+        </div>
 
-        <span class="logo-text">NOWNEX</span>
+        <span class="logo-text">
+            NOWNEX
+        </span>
 
-        <span class="logo-sub">FOOTBALL</span>
+        <span class="logo-sub">
+            FOOTBALL
+        </span>
 
-    </a>
+    </div>
+
 
     <nav>
 
-        <a href="#"
-           class="active"
-           onclick="goHome();return false;">
+        <a
+            href="#"
+            class="active"
+            onclick="goHome();return false;">
+
             الرئيسية
+
         </a>
 
-        <a href="#trending"
-           onclick="scrollToTrending();return false;">
+        <a
+            href="#trending"
+            onclick="scrollToTrending();return false;">
+
             الأخبار
+
         </a>
 
-        <a href="#categories"
-           onclick="scrollToCategories();return false;">
+        <a
+            href="#categories"
+            onclick="scrollToCategories();return false;">
+
             الأقسام
+
         </a>
 
-        <a href="#matches"
-           onclick="scrollToMatches();return false;">
+        <a
+            href="#matches"
+            onclick="scrollToMatches();return false;">
+
             النتائج
+
         </a>
 
-        <a href="#about"
-           onclick="scrollToAbout();return false;">
+        <a
+            href="#about"
+            onclick="scrollToAbout();return false;">
+
             حول NOWNEX
+
         </a>
 
     </nav>
+
 
     <div class="header-actions">
 
@@ -1503,14 +1653,19 @@ footer{
             class="search-btn"
             onclick="openSearch()"
             aria-label="بحث">
+
             🔍
+
         </button>
+
 
         <button
             class="mobile-menu"
             onclick="scrollToCategories()"
             aria-label="القائمة">
+
             ☰
+
         </button>
 
     </div>
@@ -1519,86 +1674,100 @@ footer{
 
 </header>
 
+
 <main>
 
-<!-- =======================================================
+
+<!-- =========================================================
      HERO
-======================================================= -->
+========================================================= -->
 
 <section class="hero">
 
-    <div class="hero-content">
+<div class="hero-content">
 
-        <div class="hero-badge">
+    <div class="hero-badge">
 
-            <span class="live-dot"></span>
+        <span class="live-dot"></span>
 
-            <span>
-                NOWNEX FOOTBALL · عالم كرة القدم الآن
-            </span>
-
-        </div>
-
-        <h1>
-
-            <span class="hero-title-line">
-                كل ما يحدث في عالم
-            </span>
-
-            <span class="hero-title-line gradient">
-                كرة القدم… الآن
-            </span>
-
-        </h1>
-
-        <p>
-            أحدث الأخبار والمواجهات والانتقالات
-            وأخبار النجوم والمنتخبات والتاريخ الكروي،
-            بالإضافة إلى نتائج المباريات لحظة بلحظة.
-        </p>
-
-        <div class="hero-buttons">
-
-            <button
-                class="primary-btn"
-                onclick="scrollToTrending()">
-                ⚡ استكشف آخر الأخبار
-            </button>
-
-            <button
-                class="secondary-btn"
-                onclick="scrollToCategories()">
-                ⚽ استكشف الأقسام
-            </button>
-
-        </div>
+        NOWNEX FOOTBALL · عالم كرة القدم الآن
 
     </div>
 
+
+    <h1>
+
+        <span class="hero-title-line">
+            كل ما يحدث في عالم
+        </span>
+
+        <span class="hero-title-line gradient">
+            كرة القدم… الآن
+        </span>
+
+    </h1>
+
+
+    <p>
+
+        أحدث الأخبار والمواجهات والانتقالات
+        وأخبار النجوم والمنتخبات والتاريخ الكروي،
+        بالإضافة إلى نتائج المباريات لحظة بلحظة.
+
+    </p>
+
+
+    <div class="hero-buttons">
+
+        <button
+            class="primary-btn"
+            onclick="scrollToTrending()">
+
+            ⚡ استكشف آخر الأخبار
+
+        </button>
+
+
+        <button
+            class="secondary-btn"
+            onclick="scrollToCategories()">
+
+            ⚽ استكشف الأقسام
+
+        </button>
+
+    </div>
+
+</div>
+
 </section>
 
-<!-- =======================================================
+
+<!-- =========================================================
      CATEGORIES
-======================================================= -->
+========================================================= -->
 
 <section
     class="category-section"
     id="categories">
 
-<div
-    class="category-slider"
-    id="categorySlider">
+<div class="category-slider">
+
 
     <div
         class="category-card"
-        data-category="Matches"
-        onclick="filterByCategory('Matches',this)">
+        data-category="bigMatches"
+        onclick="filterByCategory('bigMatches',this)">
 
-        <div class="category-icon">⚔️</div>
+        <div class="category-icon">
+            ⚔️
+        </div>
 
         <div class="category-text">
 
-            <h3>أقوى المواجهات</h3>
+            <h3>
+                أقوى المواجهات
+            </h3>
 
             <p>
                 أخبار المباريات الكبيرة
@@ -1609,16 +1778,21 @@ footer{
 
     </div>
 
+
     <div
         class="category-card"
-        data-category="Transfers"
-        onclick="filterByCategory('Transfers',this)">
+        data-category="transfers"
+        onclick="filterByCategory('transfers',this)">
 
-        <div class="category-icon">💰</div>
+        <div class="category-icon">
+            💰
+        </div>
 
         <div class="category-text">
 
-            <h3>أخبار الانتقالات</h3>
+            <h3>
+                أخبار الانتقالات
+            </h3>
 
             <p>
                 الشائعات والصفقات المرتقبة
@@ -1629,16 +1803,21 @@ footer{
 
     </div>
 
+
     <div
         class="category-card"
-        data-category="Stars"
-        onclick="filterByCategory('Stars',this)">
+        data-category="stars"
+        onclick="filterByCategory('stars',this)">
 
-        <div class="category-icon">⭐</div>
+        <div class="category-icon">
+            ⭐
+        </div>
 
         <div class="category-text">
 
-            <h3>أخبار النجوم</h3>
+            <h3>
+                أخبار النجوم
+            </h3>
 
             <p>
                 اللاعبون والنجوم والأرقام
@@ -1649,56 +1828,95 @@ footer{
 
     </div>
 
+
     <div
         class="category-card"
-        data-category="NationalTeams"
-        onclick="filterByCategory('NationalTeams',this)">
+        data-category="world"
+        onclick="filterByCategory('world',this)">
 
-        <div class="category-icon">🌍</div>
+        <div class="category-icon">
+            🌍
+        </div>
 
         <div class="category-text">
 
-            <h3>المنتخبات</h3>
+            <h3>
+                الكرة العالمية
+            </h3>
 
             <p>
-                كأس العالم والبطولات القارية
-                وتصفيات المنتخبات.
+                أهم أخبار كرة القدم
+                حول العالم.
             </p>
 
         </div>
 
     </div>
 
+
     <div
         class="category-card"
-        data-category="History"
-        onclick="filterByCategory('History',this)">
+        data-category="competitions"
+        onclick="filterByCategory('competitions',this)">
 
-        <div class="category-icon">🏆</div>
+        <div class="category-icon">
+            🏆
+        </div>
 
         <div class="category-text">
 
-            <h3>تاريخ في الكرة</h3>
+            <h3>
+                البطولات الكبرى
+            </h3>
 
             <p>
-                أساطير الكرة واللاعبون المعتزلون
-                واللحظات التاريخية.
+                أخبار البطولات والدوريات
+                والمسابقات المهمة.
             </p>
 
         </div>
 
     </div>
 
+
     <div
         class="category-card"
-        data-category="Results"
+        data-category="starMatches"
+        onclick="filterByCategory('starMatches',this)">
+
+        <div class="category-icon">
+            🌟
+        </div>
+
+        <div class="category-text">
+
+            <h3>
+                مباريات النجوم
+            </h3>
+
+            <p>
+                أبرز مباريات اللاعبين
+                والنجوم العالميين.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="category-card"
         onclick="scrollToMatches()">
 
-        <div class="category-icon">📊</div>
+        <div class="category-icon">
+            📊
+        </div>
 
         <div class="category-text">
 
-            <h3>نتائج المباريات</h3>
+            <h3>
+                نتائج المباريات
+            </h3>
 
             <p>
                 مباريات اليوم والمباشرة
@@ -1713,9 +1931,10 @@ footer{
 
 </section>
 
-<!-- =======================================================
+
+<!-- =========================================================
      NEWS
-======================================================= -->
+========================================================= -->
 
 <section
     class="section"
@@ -1726,66 +1945,68 @@ footer{
     <div>
 
         <h2 class="section-title">
+
             🔥
-            <span>آخر أخبار كرة القدم</span>
+
+            <span>
+                آخر أخبار كرة القدم
+            </span>
+
         </h2>
 
+
         <p class="section-description">
+
             أحدث الأخبار والقصص من عالم كرة القدم،
             يتم تحديثها تلقائياً.
+
         </p>
+
 
         <div
             class="news-count"
             id="newsCount">
+
+            جاري تحميل الأخبار...
+
         </div>
 
     </div>
 
-    <a
-        href="#trending"
+
+    <div
         class="view-all"
-        onclick="showAllNews();return false;">
+        onclick="showAllNews()">
+
         عرض الكل ←
-    </a>
+
+    </div>
 
 </div>
+
 
 <div
     class="trend-grid"
     id="newsGrid">
 
-    <article class="trend-card">
+    <div class="news-empty">
 
-        <div class="trend-card-content">
+        <strong>
+            ⚽ جارٍ تحميل الأخبار...
+        </strong>
 
-            <div class="trend-number">
-                01
-            </div>
+        يرجى الانتظار لحظات.
 
-            <div class="trend-icon">
-                ⚽
-            </div>
-
-            <h3>
-                جارٍ تحميل آخر أخبار كرة القدم...
-            </h3>
-
-            <div class="trend-meta">
-                NOWNEX FOOTBALL · تحديث مباشر
-            </div>
-
-        </div>
-
-    </article>
+    </div>
 
 </div>
 
 </section>
 
-<!-- =======================================================
-     MATCH RESULTS
-======================================================= -->
+
+<!-- =========================================================
+     MATCHES
+========================================================= -->
 
 <section
     class="section"
@@ -1796,16 +2017,25 @@ footer{
     <div>
 
         <h2 class="section-title">
+
             📊
-            <span>نتائج المباريات</span>
+
+            <span>
+                نتائج المباريات
+            </span>
+
         </h2>
 
+
         <p class="section-description">
+
             مباريات اليوم والمباريات الجارية
-            والنتائج النهائية والمباريات القادمة.
+            والنتائج النهائية والقادمة.
+
         </p>
 
     </div>
+
 
     <div class="results-live">
 
@@ -1816,6 +2046,7 @@ footer{
     </div>
 
 </div>
+
 
 <div class="results-box">
 
@@ -1831,6 +2062,7 @@ footer{
 
     </div>
 
+
     <div class="results-label">
         🏟️ الدوريات
     </div>
@@ -1839,6 +2071,7 @@ footer{
         class="competition-strip"
         id="leaguesStrip">
     </div>
+
 
     <div class="results-label">
         🏆 كؤوس وبطولات الأندية
@@ -1849,6 +2082,7 @@ footer{
         id="cupsStrip">
     </div>
 
+
     <div class="results-label">
         🌍 بطولات المنتخبات
     </div>
@@ -1858,15 +2092,16 @@ footer{
         id="nationalStrip">
     </div>
 
+
     <div
         class="matches-grid"
         id="matchesGrid">
 
         <div class="matches-empty">
 
-            <div style="font-size:30px">
-                ⚽
-            </div>
+            ⚽
+
+            <br>
 
             جارٍ تحميل نتائج المباريات...
 
@@ -1880,9 +2115,10 @@ footer{
 
 </main>
 
-<!-- =======================================================
+
+<!-- =========================================================
      FOOTER
-======================================================= -->
+========================================================= -->
 
 <footer id="about">
 
@@ -1891,14 +2127,19 @@ footer{
     <div>
 
         <div class="footer-logo">
+
             N<span>OWNEX FOOTBALL</span>
+
         </div>
 
         <div class="footer-copy">
+
             كل ما يحدث في عالم كرة القدم… الآن.
+
         </div>
 
     </div>
+
 
     <div class="footer-copy">
 
@@ -1911,9 +2152,10 @@ footer{
 
 </footer>
 
-<!-- =======================================================
+
+<!-- =========================================================
      ARTICLE OVERLAY
-======================================================= -->
+========================================================= -->
 
 <div
     class="article-overlay"
@@ -1932,7 +2174,9 @@ footer{
                     height:34px;
                     font-size:17px;
                 ">
+
                 ⚽
+
             </div>
 
             <span>
@@ -1941,13 +2185,17 @@ footer{
 
         </div>
 
+
         <button
             class="article-close"
             onclick="closeArticle()">
+
             ×
+
         </button>
 
     </div>
+
 
     <div id="articleContent"></div>
 
@@ -1955,9 +2203,10 @@ footer{
 
 </div>
 
-<!-- =======================================================
+
+<!-- =========================================================
      SEARCH
-======================================================= -->
+========================================================= -->
 
 <div
     class="search-panel"
@@ -1967,17 +2216,21 @@ footer{
 
     <input
         type="text"
-        placeholder="ابحث في أخبار كرة القدم..."
         id="searchInput"
-        oninput="performSearch">
+        placeholder="ابحث في أخبار كرة القدم..."
+        oninput="performSearch()">
+
 
     <button
         class="close-search"
         onclick="closeSearch()">
+
         ×
+
     </button>
 
 </div>
+
 
 <div
     class="search-results"
@@ -1986,543 +2239,29 @@ footer{
 
 </div>
 
-<!-- =======================================================
-     PAGE FUNCTIONS
-======================================================= -->
+
+<!-- =========================================================
+     MAIN JAVASCRIPT
+========================================================= -->
 
 <script>
 
 /* =========================================================
-   NAVIGATION
+   GLOBAL DATA
 ========================================================= */
 
-function goHome(){
+window.nownexNews = [];
 
-    closeArticle();
-    closeSearch();
+let currentCategory = null;
 
-    if(typeof showAllNews === "function"){
-        showAllNews();
-    }
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-}
-
-function scrollToTrending(){
-
-    closeArticle();
-
-    const section =
-        document.getElementById("trending");
-
-    if(section){
-
-        section.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-
-}
-
-function scrollToCategories(){
-
-    const section =
-        document.getElementById("categories");
-
-    if(section){
-
-        section.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-
-}
-
-function scrollToMatches(){
-
-    const section =
-        document.getElementById("matches");
-
-    if(section){
-
-        section.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-
-}
-
-function scrollToAbout(){
-
-    const section =
-        document.getElementById("about");
-
-    if(section){
-
-        section.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-
-}
 
 /* =========================================================
-   SEARCH
+   HELPERS
 ========================================================= */
 
-function openSearch(){
+function escapeHTML(value){
 
-    const panel =
-        document.getElementById("searchPanel");
-
-    const input =
-        document.getElementById("searchInput");
-
-    if(panel){
-        panel.classList.add("active");
-    }
-
-    document.body.classList.add("search-open");
-
-    if(input){
-
-        setTimeout(function(){
-            input.focus();
-        },50);
-
-    }
-
-}
-
-function closeSearch(){
-
-    const panel =
-        document.getElementById("searchPanel");
-
-    if(panel){
-        panel.classList.remove("active");
-    }
-
-    document.body.classList.remove("search-open");
-
-}
-
-/* =========================================================
-   SEARCH ENGINE
-========================================================= */
-
-function performSearch(){
-
-    const input =
-        document.getElementById("searchInput");
-
-    const results =
-        document.getElementById("searchResults");
-
-    if(!input || !results){
-        return;
-    }
-
-    const query =
-        input.value
-            .trim()
-            .toLowerCase();
-
-    if(!query){
-
-        results.innerHTML = "";
-
-        return;
-
-    }
-
-    const articles =
-        Array.isArray(window.nownexNews)
-            ? window.nownexNews
-            : [];
-
-    const filtered =
-        articles.filter(function(article){
-
-            const text = [
-
-                article.title,
-                article.title_ar,
-                article.summary,
-                article.summary_ar,
-                article.description,
-                article.category,
-                article.source
-
-            ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
-
-            return text.includes(query);
-
-        });
-
-    if(!filtered.length){
-
-        results.innerHTML = `
-
-            <div class="search-result">
-
-                <div class="search-result-title">
-                    لم نجد أخباراً مطابقة لبحثك.
-                </div>
-
-                <div class="search-result-meta">
-                    جرّب كلمة أخرى.
-                </div>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-    results.innerHTML = "";
-
-    filtered
-        .slice(0,20)
-        .forEach(function(article){
-
-            const result =
-                document.createElement("div");
-
-            result.className =
-                "search-result";
-
-            result.innerHTML = `
-
-                <div class="search-result-title">
-
-                    ${escapeArticleHTML(
-                        article.title_ar ||
-                        article.title ||
-                        ""
-                    )}
-
-                </div>
-
-                <div class="search-result-meta">
-
-                    ${escapeArticleHTML(
-                        article.source ||
-                        "NOWNEX FOOTBALL"
-                    )}
-
-                </div>
-
-            `;
-
-            result.onclick = function(){
-
-                closeSearch();
-
-                openArticle(article);
-
-            };
-
-            results.appendChild(result);
-
-        });
-
-}
-
-/* =========================================================
-   ARTICLE
-========================================================= */
-
-function openArticle(article){
-
-    if(!article){
-        return;
-    }
-
-    const overlay =
-        document.getElementById("articleOverlay");
-
-    const content =
-        document.getElementById("articleContent");
-
-    if(!overlay || !content){
-        return;
-    }
-
-    const title =
-        article.title_ar ||
-        article.title ||
-        "خبر كرة القدم";
-
-    const summary =
-        article.summary_ar ||
-        article.summary ||
-        article.description ||
-        "لا يوجد ملخص متاح حالياً.";
-
-    const source =
-        article.source ||
-        "NOWNEX FOOTBALL";
-
-    const image =
-        article.image ||
-        article.image_url ||
-        article.imageUrl ||
-        "";
-
-    const link =
-        article.link ||
-        article.url ||
-        article.source_url ||
-        "#";
-
-    const category =
-        article.category ||
-        "football";
-
-    const categoryMap = {
-
-        Matches:"أقوى المواجهات",
-        bigMatches:"أقوى المواجهات",
-
-        Transfers:"أخبار الانتقالات",
-        transfers:"أخبار الانتقالات",
-
-        Stars:"أخبار النجوم",
-        stars:"أخبار النجوم",
-
-        NationalTeams:"المنتخبات",
-        national:"المنتخبات",
-
-        History:"تاريخ في الكرة",
-        history:"تاريخ في الكرة",
-
-        football:"أخبار كرة القدم"
-
-    };
-
-    const iconMap = {
-
-        Matches:"⚔️",
-        bigMatches:"⚔️",
-
-        Transfers:"💰",
-        transfers:"💰",
-
-        Stars:"⭐",
-        stars:"⭐",
-
-        NationalTeams:"🌍",
-        national:"🌍",
-
-        History:"🏆",
-        history:"🏆",
-
-        football:"⚽"
-
-    };
-
-    const date =
-        article.published ||
-        article.date ||
-        article.publishedAt ||
-        article.updatedAt ||
-        "";
-
-    let imageHTML = "";
-
-    if(image){
-
-        imageHTML = `
-
-            <div class="article-image-wrapper">
-
-                <img
-                    class="article-image"
-                    src="${escapeArticleHTML(image)}"
-                    alt="${escapeArticleHTML(title)}"
-                    loading="eager"
-                    referrerpolicy="no-referrer">
-
-            </div>
-
-        `;
-
-    }
-
-    content.innerHTML = `
-
-        ${imageHTML}
-
-        <div class="article-category">
-
-            ${iconMap[category] || "⚽"}
-
-            ${categoryMap[category] || "أخبار كرة القدم"}
-
-        </div>
-
-        <h1 class="article-title">
-
-            ${escapeArticleHTML(title)}
-
-        </h1>
-
-        <div class="article-info">
-
-            <span>
-
-                📰
-
-                ${escapeArticleHTML(source)}
-
-            </span>
-
-            ${
-                date
-                ?
-                `
-                    <span>
-                        ${escapeArticleHTML(
-                            formatArticleDate(date)
-                        )}
-                    </span>
-                `
-                :
-                ""
-            }
-
-        </div>
-
-        <div class="article-summary-box">
-
-            <div class="article-summary-label">
-
-                📰 ملخص NOWNEX FOOTBALL
-
-            </div>
-
-            <div class="article-summary">
-
-                ${escapeArticleHTML(summary)}
-
-            </div>
-
-            <div class="article-points">
-
-                <h3>
-                    💡 ماذا يعني الخبر؟
-                </h3>
-
-                <p>
-
-                    يقدم NOWNEX FOOTBALL
-                    هذا الخبر في صورة مختصرة
-                    باللغة العربية لتسهيل فهم
-                    الحدث وأهميته، مع الإشارة
-                    إلى المصدر الأصلي.
-
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="article-source">
-
-            <div class="article-source-title">
-                المصدر الأصلي
-            </div>
-
-            <div class="article-source-name">
-
-                ${escapeArticleHTML(source)}
-
-            </div>
-
-            ${
-                link && link !== "#"
-                ?
-                `
-                    <a
-                        class="original-btn"
-                        href="${escapeArticleHTML(link)}"
-                        target="_blank"
-                        rel="noopener noreferrer">
-
-                        قراءة الخبر الأصلي ↗
-
-                    </a>
-                `
-                :
-                `
-                    <div class="article-note">
-
-                        رابط المصدر الأصلي
-                        غير متاح حالياً.
-
-                    </div>
-                `
-            }
-
-            <div class="article-note">
-
-                NOWNEX FOOTBALL يعرض
-                ملخصاً للخبر مع الإشارة
-                إلى مصدره الأصلي.
-
-            </div>
-
-        </div>
-
-    `;
-
-    overlay.classList.add("active");
-
-    document.body.classList.add("article-open");
-
-    overlay.scrollTop = 0;
-
-}
-
-function closeArticle(){
-
-    const overlay =
-        document.getElementById("articleOverlay");
-
-    if(overlay){
-
-        overlay.classList.remove("active");
-
-    }
-
-    document.body.classList.remove("article-open");
-
-}
-
-/* =========================================================
-   ARTICLE HELPERS
-========================================================= */
-
-function escapeArticleHTML(value){
-
-    return String(value || "")
+    return String(value ?? "")
         .replace(/&/g,"&amp;")
         .replace(/</g,"&lt;")
         .replace(/>/g,"&gt;")
@@ -2531,13 +2270,148 @@ function escapeArticleHTML(value){
 
 }
 
-function formatArticleDate(value){
 
-    const date =
-        new Date(value);
+function getTitle(article){
+
+    return (
+        article.title_ar ||
+        article.title ||
+        "خبر كرة القدم"
+    );
+
+}
+
+
+function getSummary(article){
+
+    return (
+        article.summary_ar ||
+        article.summary ||
+        article.description ||
+        "لا يوجد ملخص متاح حالياً."
+    );
+
+}
+
+
+function getImage(article){
+
+    return (
+        article.image ||
+        article.image_url ||
+        article.imageUrl ||
+        ""
+    );
+
+}
+
+
+function getLink(article){
+
+    return (
+        article.link ||
+        article.url ||
+        article.source_url ||
+        article.sourceUrl ||
+        ""
+    );
+
+}
+
+
+function getDate(article){
+
+    return (
+        article.publishedAt ||
+        article.published ||
+        article.date ||
+        article.updatedAt ||
+        ""
+    );
+
+}
+
+
+function getCategoryName(category){
+
+    const names = {
+
+        football:"أخبار كرة القدم",
+
+        stars:"أخبار النجوم",
+
+        world:"الكرة العالمية",
+
+        bigMatches:"قمم كروية",
+
+        competitions:"البطولات الكبرى",
+
+        starMatches:"مباريات النجوم",
+
+        transfers:"أخبار الانتقالات",
+
+        Matches:"أقوى المواجهات",
+
+        Transfers:"أخبار الانتقالات",
+
+        Stars:"أخبار النجوم",
+
+        NationalTeams:"المنتخبات",
+
+        History:"تاريخ في الكرة"
+
+    };
+
+    return names[category] || "أخبار كرة القدم";
+
+}
+
+
+function getCategoryIcon(category){
+
+    const icons = {
+
+        football:"⚽",
+
+        stars:"⭐",
+
+        world:"🌍",
+
+        bigMatches:"🔥",
+
+        competitions:"🏆",
+
+        starMatches:"🌟",
+
+        transfers:"💰",
+
+        Matches:"⚔️",
+
+        Transfers:"💰",
+
+        Stars:"⭐",
+
+        NationalTeams:"🌍",
+
+        History:"🏆"
+
+    };
+
+    return icons[category] || "⚽";
+
+}
+
+
+function formatDate(value){
+
+    if(!value){
+        return "";
+    }
+
+    const date = new Date(value);
 
     if(Number.isNaN(date.getTime())){
-        return value;
+        return "";
     }
 
     return new Intl.DateTimeFormat(
@@ -2553,211 +2427,281 @@ function formatArticleDate(value){
 
 }
 
+
 /* =========================================================
-   KEYBOARD
+   CREATE NEWS CARD
 ========================================================= */
 
-document.addEventListener(
-    "keydown",
-    function(event){
+function createNewsCard(article,index){
 
-        if(event.key === "Escape"){
+    const title = getTitle(article);
 
-            closeSearch();
-            closeArticle();
+    const summary = getSummary(article);
 
-        }
+    const image = getImage(article);
+
+    const source =
+        article.source ||
+        "NOWNEX FOOTBALL";
+
+    const category =
+        article.category ||
+        "football";
+
+    const categoryName =
+        getCategoryName(category);
+
+    const icon =
+        getCategoryIcon(category);
+
+    const date =
+        formatDate(getDate(article));
+
+
+    const imageHTML = image
+
+        ?
+
+        `
+        <img
+            class="trend-image"
+            src="${escapeHTML(image)}"
+            alt="${escapeHTML(title)}"
+            loading="lazy"
+            onerror="
+                this.onerror=null;
+                this.style.display='none';
+                this.nextElementSibling.style.display='grid';
+            "
+        >
+
+        <div
+            class="image-placeholder"
+            style="display:none">
+
+            ${icon}
+
+        </div>
+        `
+
+        :
+
+        `
+        <div class="image-placeholder">
+            ${icon}
+        </div>
+        `;
+
+
+    return `
+
+        <article
+            class="trend-card"
+            data-news-index="${index}"
+            role="button"
+            tabindex="0"
+            aria-label="فتح الخبر">
+
+            <div class="trend-image-wrapper">
+
+                ${imageHTML}
+
+                <div class="trend-badge">
+
+                    ${icon}
+
+                    ${escapeHTML(categoryName)}
+
+                </div>
+
+            </div>
+
+
+            <div class="trend-card-content">
+
+                <div class="trend-number">
+
+                    ${String(index + 1).padStart(2,"0")}
+
+                </div>
+
+
+                <h3>
+
+                    ${escapeHTML(title)}
+
+                </h3>
+
+
+                <div class="trend-meta">
+
+                    ${escapeHTML(source)}
+
+                    ${date ? " · " + escapeHTML(date) : ""}
+
+                </div>
+
+
+                <div class="news-link">
+
+                    قراءة الخبر ←
+
+                </div>
+
+            </div>
+
+        </article>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SORT
+========================================================= */
+
+function sortNews(articles){
+
+    return [...articles].sort(function(a,b){
+
+        const da =
+            new Date(
+                getDate(a) || 0
+            ).getTime();
+
+        const db =
+            new Date(
+                getDate(b) || 0
+            ).getTime();
+
+        return db - da;
+
+    });
+
+}
+
+
+/* =========================================================
+   RENDER NEWS
+========================================================= */
+
+function renderNews(articles){
+
+    const grid =
+        document.getElementById("newsGrid");
+
+    const count =
+        document.getElementById("newsCount");
+
+
+    if(!grid){
+        return;
+    }
+
+
+    const sorted =
+        sortNews(articles);
+
+
+    if(count){
+
+        count.textContent =
+            `${sorted.length} خبر`;
 
     }
-);
 
-</script>
 
-<!-- =======================================================
-     NEWS ENGINE
-======================================================= -->
+    if(!sorted.length){
 
-<script src="news.js"></script>
+        grid.innerHTML = `
 
-<!-- =======================================================
-     NEWS CARD CLICK FIX
-======================================================= -->
+            <div class="news-empty">
 
-<script>
+                <strong>
+                    📰 لا توجد أخبار حالياً
+                </strong>
 
-(function(){
+                حاول تحديث الصفحة لاحقاً.
 
-    function connectNewsCards(){
+            </div>
 
-        const grid =
-            document.getElementById("newsGrid");
+        `;
 
-        if(!grid){
-            return;
-        }
+        return;
 
-        const cards =
-            grid.querySelectorAll(".trend-card");
+    }
 
-        cards.forEach(function(card){
 
-            if(
-                card.dataset.clickConnected === "true"
-            ){
-                return;
-            }
+    grid.innerHTML =
+        sorted
+            .slice(0,9)
+            .map(function(article,index){
 
-            card.dataset.clickConnected = "true";
+                return createNewsCard(
+                    article,
+                    index
+                );
 
-            card.style.cursor = "pointer";
+            })
+            .join("");
+
+
+    /*
+     * مهم جداً:
+     * نربط الضغط مباشرة بعد إنشاء البطاقات.
+     */
+
+    grid
+        .querySelectorAll(".trend-card")
+        .forEach(function(card){
 
             card.addEventListener(
                 "click",
-                function(event){
+                function(){
 
-                    /*
-                     * إذا ضغط المستخدم على رابط أو زر
-                     * داخل البطاقة فلا نتدخل.
-                     */
-
-                    if(
-                        event.target.closest("a") ||
-                        event.target.closest("button")
-                    ){
-                        return;
-                    }
-
-                    const articles =
-                        Array.isArray(window.nownexNews)
-                            ? window.nownexNews
-                            : [];
-
-                    if(!articles.length){
-
-                        console.warn(
-                            "NOWNEX: لا توجد أخبار في window.nownexNews"
+                    const index =
+                        Number(
+                            card.dataset.newsIndex
                         );
 
-                        return;
+                    const article =
+                        sorted[index];
+
+                    if(article){
+
+                        openArticle(article);
 
                     }
 
-                    let article = null;
+                }
+            );
 
-                    /* -------------------------------------
-                       البحث بواسطة ID
-                    ------------------------------------- */
 
-                    const id =
-                        card.dataset.newsId ||
-                        card.dataset.id ||
-                        card.dataset.articleId;
-
-                    if(id){
-
-                        article =
-                            articles.find(function(item){
-
-                                return String(
-                                    item.id ??
-                                    item.newsId ??
-                                    item.guid ??
-                                    ""
-                                ) === String(id);
-
-                            });
-
-                    }
-
-                    /* -------------------------------------
-                       البحث بواسطة عنوان الخبر
-                    ------------------------------------- */
-
-                    if(!article){
-
-                        const titleElement =
-                            card.querySelector("h3");
-
-                        const cardTitle =
-                            titleElement
-                                ? titleElement.textContent
-                                    .trim()
-                                    .replace(/\s+/g," ")
-                                : "";
-
-                        if(cardTitle){
-
-                            article =
-                                articles.find(function(item){
-
-                                    const articleTitle =
-                                        String(
-                                            item.title_ar ||
-                                            item.title ||
-                                            ""
-                                        )
-                                        .trim()
-                                        .replace(/\s+/g," ");
-
-                                    return (
-                                        articleTitle === cardTitle ||
-                                        articleTitle.includes(cardTitle) ||
-                                        cardTitle.includes(articleTitle)
-                                    );
-
-                                });
-
-                        }
-
-                    }
-
-                    /* -------------------------------------
-                       البحث بواسطة ترتيب البطاقة
-                    ------------------------------------- */
-
-                    if(!article){
-
-                        const allCards =
-                            Array.from(
-                                grid.querySelectorAll(
-                                    ".trend-card"
-                                )
-                            );
-
-                        const cardIndex =
-                            allCards.indexOf(card);
-
-                        if(
-                            cardIndex >= 0 &&
-                            articles[cardIndex]
-                        ){
-
-                            article =
-                                articles[cardIndex];
-
-                        }
-
-                    }
-
-                    /* -------------------------------------
-                       فتح الخبر
-                    ------------------------------------- */
+            card.addEventListener(
+                "keydown",
+                function(event){
 
                     if(
-                        article &&
-                        typeof window.openArticle ===
-                        "function"
+                        event.key === "Enter" ||
+                        event.key === " "
                     ){
 
                         event.preventDefault();
 
-                        window.openArticle(article);
+                        const index =
+                            Number(
+                                card.dataset.newsIndex
+                            );
 
-                    }else{
+                        const article =
+                            sorted[index];
 
-                        console.warn(
-                            "NOWNEX: تعذر العثور على المقال المرتبط بالبطاقة."
-                        );
+                        if(article){
+
+                            openArticle(article);
+
+                        }
 
                     }
 
@@ -2766,75 +2710,915 @@ document.addEventListener(
 
         });
 
+}
+
+
+/* =========================================================
+   FILTER CATEGORY
+========================================================= */
+
+function filterByCategory(category,element){
+
+    currentCategory = category;
+
+
+    document
+        .querySelectorAll(".category-card")
+        .forEach(function(card){
+
+            card.classList.remove("active");
+
+        });
+
+
+    if(element){
+
+        element.classList.add("active");
+
     }
 
+
+    const filtered =
+        window.nownexNews.filter(
+            function(article){
+
+                return String(
+                    article.category || ""
+                ).toLowerCase() ===
+                String(category).toLowerCase();
+
+            }
+        );
+
+
     /*
-     * تشغيل مباشر
+     * إذا كانت بعض الأخبار تستخدم أسماء مختلفة
      */
 
-    connectNewsCards();
+    let finalResults = filtered;
 
-    /*
-     * مراقبة الأخبار التي ينشئها news.js
-     */
+
+    if(!finalResults.length){
+
+        const aliases = {
+
+            Matches:[
+                "Matches",
+                "bigMatches",
+                "big_matches"
+            ],
+
+            Transfers:[
+                "Transfers",
+                "transfers"
+            ],
+
+            Stars:[
+                "Stars",
+                "stars"
+            ],
+
+            NationalTeams:[
+                "NationalTeams",
+                "national",
+                "nationalTeams"
+            ],
+
+            History:[
+                "History",
+                "history"
+            ]
+
+        };
+
+
+        const possible =
+            aliases[category] || [category];
+
+
+        finalResults =
+            window.nownexNews.filter(
+                function(article){
+
+                    return possible.some(
+                        function(value){
+
+                            return String(
+                                article.category || ""
+                            ).toLowerCase() ===
+                            value.toLowerCase();
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    renderNews(finalResults);
+
+
+    scrollToTrending();
+
+}
+
+
+/* =========================================================
+   SHOW ALL
+========================================================= */
+
+function showAllNews(){
+
+    currentCategory = null;
+
+
+    document
+        .querySelectorAll(".category-card")
+        .forEach(function(card){
+
+            card.classList.remove("active");
+
+        });
+
+
+    renderNews(
+        window.nownexNews
+    );
+
+}
+
+
+/* =========================================================
+   LOAD NEWS JSON
+========================================================= */
+
+async function loadNews(){
 
     const grid =
         document.getElementById("newsGrid");
 
-    if(grid){
 
-        const observer =
-            new MutationObserver(function(){
+    try{
 
-                connectNewsCards();
+        const response =
+            await fetch(
+                "data/news.json?v=" +
+                Date.now(),
+                {
+                    cache:"no-store"
+                }
+            );
 
-            });
 
-        observer.observe(
-            grid,
-            {
-                childList:true,
-                subtree:true
+        if(!response.ok){
+
+            throw new Error(
+                "HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /*
+         * دعم أكثر من شكل للـ JSON
+         */
+
+        let articles = [];
+
+
+        if(Array.isArray(data)){
+
+            articles = data;
+
+        }
+
+        else if(
+            data &&
+            Array.isArray(data.news)
+        ){
+
+            articles = data.news;
+
+        }
+
+        else if(
+            data &&
+            Array.isArray(data.trending)
+        ){
+
+            articles = data.trending;
+
+        }
+
+
+        window.nownexNews =
+            articles.filter(
+                function(article){
+
+                    return (
+                        article &&
+                        typeof article === "object" &&
+                        (
+                            article.title ||
+                            article.title_ar
+                        )
+                    );
+
+                }
+            );
+
+
+        console.log(
+            "NOWNEX FOOTBALL:",
+            window.nownexNews.length,
+            "خبر تم تحميله"
+        );
+
+
+        renderNews(
+            window.nownexNews
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(
+            "NOWNEX NEWS ERROR:",
+            error
+        );
+
+
+        if(grid){
+
+            grid.innerHTML = `
+
+                <div class="news-empty">
+
+                    <strong>
+                        ⚠️ تعذر تحميل الأخبار
+                    </strong>
+
+                    <br>
+
+                    تأكد من وجود الملف:
+
+                    <br>
+
+                    <b>
+                        data/news.json
+                    </b>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   ARTICLE
+========================================================= */
+
+function openArticle(article){
+
+    if(!article){
+        return;
+    }
+
+
+    const overlay =
+        document.getElementById(
+            "articleOverlay"
+        );
+
+    const content =
+        document.getElementById(
+            "articleContent"
+        );
+
+
+    if(!overlay || !content){
+        return;
+    }
+
+
+    const title =
+        getTitle(article);
+
+    const summary =
+        getSummary(article);
+
+    const image =
+        getImage(article);
+
+    const source =
+        article.source ||
+        "NOWNEX FOOTBALL";
+
+    const category =
+        article.category ||
+        "football";
+
+    const link =
+        getLink(article);
+
+    const date =
+        formatDate(
+            getDate(article)
+        );
+
+
+    let imageHTML = "";
+
+
+    if(image){
+
+        imageHTML = `
+
+            <div class="article-image-wrapper">
+
+                <img
+                    class="article-image"
+                    src="${escapeHTML(image)}"
+                    alt="${escapeHTML(title)}"
+                    onerror="
+                        this.parentElement.style.display='none';
+                    "
+                >
+
+            </div>
+
+        `;
+
+    }
+
+
+    content.innerHTML = `
+
+        ${imageHTML}
+
+
+        <div class="article-category">
+
+            ${getCategoryIcon(category)}
+
+            ${escapeHTML(
+                getCategoryName(category)
+            )}
+
+        </div>
+
+
+        <h1 class="article-title">
+
+            ${escapeHTML(title)}
+
+        </h1>
+
+
+        <div class="article-info">
+
+            <span>
+
+                📰
+
+                ${escapeHTML(source)}
+
+            </span>
+
+
+            ${
+                date
+                ?
+
+                `<span>
+                    ${escapeHTML(date)}
+                </span>`
+
+                :
+
+                ""
             }
+
+        </div>
+
+
+        <div class="article-summary-box">
+
+            <div class="article-summary-label">
+
+                📰 ملخص NOWNEX FOOTBALL
+
+            </div>
+
+
+            <div class="article-summary">
+
+                ${escapeHTML(summary)}
+
+            </div>
+
+
+            <div class="article-points">
+
+                <h3>
+                    💡 ماذا يعني الخبر؟
+                </h3>
+
+
+                <p>
+
+                    يقدم NOWNEX FOOTBALL
+                    هذا الخبر في صورة مختصرة
+                    باللغة العربية لتسهيل فهم
+                    الحدث وأهميته، مع الإشارة
+                    إلى المصدر الأصلي.
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="article-source">
+
+            <div class="article-source-title">
+
+                المصدر الأصلي
+
+            </div>
+
+
+            <div class="article-source-name">
+
+                ${escapeHTML(source)}
+
+            </div>
+
+
+            ${
+                link
+                ?
+
+                `
+                <a
+                    class="original-btn"
+                    href="${escapeHTML(link)}"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    قراءة الخبر الأصلي ↗
+
+                </a>
+                `
+
+                :
+
+                `
+                <div class="article-note">
+
+                    رابط المصدر الأصلي
+                    غير متاح حالياً.
+
+                </div>
+                `
+            }
+
+
+            <div class="article-note">
+
+                NOWNEX FOOTBALL يعرض
+                ملخصاً للخبر مع الإشارة
+                إلى مصدره الأصلي.
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    overlay.classList.add("active");
+
+    document.body.classList.add("locked");
+
+    overlay.scrollTop = 0;
+
+}
+
+
+/* =========================================================
+   CLOSE ARTICLE
+========================================================= */
+
+function closeArticle(){
+
+    const overlay =
+        document.getElementById(
+            "articleOverlay"
+        );
+
+
+    if(overlay){
+
+        overlay.classList.remove(
+            "active"
         );
 
     }
 
-    /*
-     * إعادة المحاولة بعد تحميل الصفحة
-     */
 
-    window.addEventListener(
-        "load",
-        function(){
-
-            setTimeout(
-                connectNewsCards,
-                300
-            );
-
-            setTimeout(
-                connectNewsCards,
-                1000
-            );
-
-            setTimeout(
-                connectNewsCards,
-                2000
-            );
-
-        }
+    document.body.classList.remove(
+        "locked"
     );
 
-})();
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function openSearch(){
+
+    const panel =
+        document.getElementById(
+            "searchPanel"
+        );
+
+    const input =
+        document.getElementById(
+            "searchInput"
+        );
+
+
+    panel.classList.add("active");
+
+    document.body.classList.add("locked");
+
+
+    setTimeout(function(){
+
+        if(input){
+            input.focus();
+        }
+
+    },100);
+
+}
+
+
+function closeSearch(){
+
+    const panel =
+        document.getElementById(
+            "searchPanel"
+        );
+
+
+    if(panel){
+
+        panel.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    document.body.classList.remove(
+        "locked"
+    );
+
+}
+
+
+/* =========================================================
+   SEARCH ENGINE
+========================================================= */
+
+function performSearch(){
+
+    const input =
+        document.getElementById(
+            "searchInput"
+        );
+
+    const results =
+        document.getElementById(
+            "searchResults"
+        );
+
+
+    if(!input || !results){
+        return;
+    }
+
+
+    const query =
+        input.value
+            .trim()
+            .toLowerCase();
+
+
+    if(!query){
+
+        results.innerHTML = "";
+
+        return;
+
+    }
+
+
+    const filtered =
+        window.nownexNews.filter(
+            function(article){
+
+                const text = [
+
+                    article.title,
+                    article.title_ar,
+
+                    article.summary,
+                    article.summary_ar,
+
+                    article.description,
+
+                    article.category,
+
+                    article.source
+
+                ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+
+                return text.includes(
+                    query
+                );
+
+            }
+        );
+
+
+    if(!filtered.length){
+
+        results.innerHTML = `
+
+            <div class="search-result">
+
+                <div class="search-result-title">
+
+                    لم نجد أخباراً مطابقة.
+
+                </div>
+
+                <div class="search-result-meta">
+
+                    جرّب كلمة أخرى.
+
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    results.innerHTML = "";
+
+
+    filtered
+        .slice(0,20)
+        .forEach(function(article){
+
+            const result =
+                document.createElement(
+                    "div"
+                );
+
+
+            result.className =
+                "search-result";
+
+
+            result.innerHTML = `
+
+                <div class="search-result-title">
+
+                    ${escapeHTML(
+                        getTitle(article)
+                    )}
+
+                </div>
+
+
+                <div class="search-result-meta">
+
+                    ${escapeHTML(
+                        article.source ||
+                        "NOWNEX FOOTBALL"
+                    )}
+
+                </div>
+
+            `;
+
+
+            result.onclick =
+                function(){
+
+                    closeSearch();
+
+                    openArticle(article);
+
+                };
+
+
+            results.appendChild(
+                result
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function goHome(){
+
+    closeArticle();
+    closeSearch();
+
+    showAllNews();
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+function scrollToTrending(){
+
+    closeArticle();
+
+
+    const section =
+        document.getElementById(
+            "trending"
+        );
+
+
+    if(section){
+
+        section.scrollIntoView({
+
+            behavior:"smooth",
+            block:"start"
+
+        });
+
+    }
+
+}
+
+
+function scrollToCategories(){
+
+    const section =
+        document.getElementById(
+            "categories"
+        );
+
+
+    if(section){
+
+        section.scrollIntoView({
+
+            behavior:"smooth",
+            block:"start"
+
+        });
+
+    }
+
+}
+
+
+function scrollToMatches(){
+
+    const section =
+        document.getElementById(
+            "matches"
+        );
+
+
+    if(section){
+
+        section.scrollIntoView({
+
+            behavior:"smooth",
+            block:"start"
+
+        });
+
+    }
+
+}
+
+
+function scrollToAbout(){
+
+    const section =
+        document.getElementById(
+            "about"
+        );
+
+
+    if(section){
+
+        section.scrollIntoView({
+
+            behavior:"smooth",
+            block:"start"
+
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeArticle();
+            closeSearch();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        loadNews();
+
+    }
+);
 
 </script>
 
-<!-- =======================================================
+
+<!-- =========================================================
      FOOTBALL RESULTS ENGINE
-======================================================= -->
+     
+     مهم:
+     احتفظ بملف football.js الحالي
+========================================================= -->
 
 <script src="football.js"></script>
+
 
 </body>
 </html>
