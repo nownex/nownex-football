@@ -369,6 +369,251 @@ jobs:
 
 
           # =================================================
+          # استخراج نص المقال الأصلي
+          # =================================================
+
+          def get_page_text(url):
+
+              if not url:
+                  return ""
+
+              try:
+
+                  request = urllib.request.Request(
+                      url,
+                      headers={
+                          "User-Agent": USER_AGENT,
+                          "Accept":
+                              "text/html,application/xhtml+xml"
+                      }
+                  )
+
+                  with urllib.request.urlopen(
+                      request,
+                      timeout=15
+                  ) as response:
+
+                      content_type = (
+                          response.headers
+                          .get("content-type", "")
+                          .lower()
+                      )
+
+                      if "text/html" not in content_type:
+                          return ""
+
+                      html = response.read(
+                          800000
+                      ).decode(
+                          "utf-8",
+                          errors="ignore"
+                      )
+
+                  # إزالة العناصر غير المفيدة
+                  html = re.sub(
+                      r"<script.*?</script>",
+                      " ",
+                      html,
+                      flags=re.I | re.S
+                  )
+
+                  html = re.sub(
+                      r"<style.*?</style>",
+                      " ",
+                      html,
+                      flags=re.I | re.S
+                  )
+
+                  html = re.sub(
+                      r"<noscript.*?</noscript>",
+                      " ",
+                      html,
+                      flags=re.I | re.S
+                  )
+
+                  # استخراج الفقرات
+                  paragraphs = re.findall(
+                      r"<p[^>]*>(.*?)</p>",
+                      html,
+                      flags=re.I | re.S
+                  )
+
+                  cleaned = []
+
+                  for paragraph in paragraphs:
+
+                      text = clean_text(
+                          paragraph
+                      )
+
+                      if not text:
+                          continue
+
+                      # تجاهل النصوص القصيرة جدًا
+                      if len(text) < 50:
+                          continue
+
+                      # تجاهل النصوص التي لا تمثل المقال
+                      bad_words = [
+                          "اشترك",
+                          "تسجيل الدخول",
+                          "تابعنا",
+                          "إعلان",
+                          "حقوق النشر",
+                          "جميع الحقوق محفوظة",
+                          "cookie",
+                          "privacy policy"
+                      ]
+
+                      if any(
+                          word.lower() in text.lower()
+                          for word in bad_words
+                      ):
+                          continue
+
+                      cleaned.append(text)
+
+                  # إزالة التكرار
+                  unique_paragraphs = []
+
+                  seen = set()
+
+                  for paragraph in cleaned:
+
+                      key = paragraph.strip()
+
+                      if key in seen:
+                          continue
+
+                      seen.add(key)
+
+                      unique_paragraphs.append(
+                          paragraph
+                      )
+
+                  return " ".join(
+                      unique_paragraphs[:12]
+                  )
+
+              except Exception as error:
+
+                  print(
+                      "Article text error:",
+                      error
+                  )
+
+              return ""
+
+
+          # =================================================
+          # إنشاء ملخص أطول للخبر
+          # =================================================
+
+          def create_summary(title, description, article_text):
+
+              title = clean_text(title)
+              description = clean_text(description)
+              article_text = clean_text(article_text)
+
+              # ---------------------------------------------
+              # اختيار أفضل مصدر للنص
+              # ---------------------------------------------
+
+              text = article_text
+
+              if len(text) < 120:
+                  text = description
+
+              if not text:
+                  return title
+
+              # ---------------------------------------------
+              # تنظيف النص
+              # ---------------------------------------------
+
+              text = re.sub(
+                  r"\s+",
+                  " ",
+                  text
+              ).strip()
+
+              # ---------------------------------------------
+              # تقسيم النص إلى جمل
+              # يدعم العربية وعلامات الترقيم الشائعة
+              # ---------------------------------------------
+
+              sentences = re.split(
+                  r"(?<=[.!؟])\s+",
+                  text
+              )
+
+              clean_sentences = []
+
+              for sentence in sentences:
+
+                  sentence = sentence.strip()
+
+                  if len(sentence) < 35:
+                      continue
+
+                  # لا نريد تكرار العنوان داخل الملخص
+                  if sentence.lower() == title.lower():
+                      continue
+
+                  clean_sentences.append(
+                      sentence
+                  )
+
+              # ---------------------------------------------
+              # اختيار 2 إلى 4 جمل
+              # ---------------------------------------------
+
+              selected = []
+
+              total_length = 0
+
+              for sentence in clean_sentences:
+
+                  if sentence in selected:
+                      continue
+
+                  if total_length + len(sentence) > 650:
+                      break
+
+                  selected.append(sentence)
+
+                  total_length += len(sentence)
+
+                  if len(selected) >= 4:
+                      break
+
+              # ---------------------------------------------
+              # إذا وجدنا ملخصًا جيدًا
+              # ---------------------------------------------
+
+              if selected:
+
+                  summary = " ".join(
+                      selected
+                  ).strip()
+
+                  if len(summary) >= 120:
+                      return summary
+
+              # ---------------------------------------------
+              # خطة احتياطية
+              # ---------------------------------------------
+
+              if len(description) >= 120:
+                  return description
+
+              if description:
+                  return description
+
+              return title
+
+
+          # =================================================
           # صورة احتياطية لكل قسم
           # =================================================
 
@@ -611,6 +856,26 @@ jobs:
 
 
                           # ---------------------------------
+                          # استخراج نص المقال وإنشاء الملخص
+                          # ---------------------------------
+
+                          article_text = get_page_text(
+                              original_link
+                          )
+
+                          summary = create_summary(
+                              title,
+                              description,
+                              article_text
+                          )
+
+                          print(
+                              "Summary length:",
+                              len(summary)
+                          )
+
+
+                          # ---------------------------------
                           # الخبر
                           # ---------------------------------
 
@@ -623,7 +888,7 @@ jobs:
                                   title,
 
                               "summary_ar":
-                                  description,
+                                  summary,
 
                               "image":
                                   image,
