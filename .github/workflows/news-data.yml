@@ -1,7 +1,6 @@
 name: Update NOWNEX FOOTBALL News
 
 on:
-
   workflow_dispatch:
 
   schedule:
@@ -12,74 +11,47 @@ permissions:
   contents: write
 
 jobs:
-
   update-news:
-
     runs-on: ubuntu-latest
 
     steps:
-
-      # =====================================================
-      # تحميل المشروع
-      # =====================================================
-
       - name: Checkout repository
-
         uses: actions/checkout@v4
 
-
-      # =====================================================
-      # جلب أخبار كرة القدم
-      # =====================================================
-
       - name: Fetch NOWNEX FOOTBALL News
-
         shell: python
-
         run: |
-
           import json
           import urllib.request
           import urllib.parse
           import xml.etree.ElementTree as ET
           from datetime import datetime, timezone
           from html import unescape
+          import html as html_lib
           import re
-
-
-          # =================================================
-          # إعدادات
-          # =================================================
+          import time
 
           NEWS_FILE = "data/news.json"
-
           MAX_PER_CATEGORY = 10
+          MAX_TOTAL = 50
 
           USER_AGENT = (
-              "Mozilla/5.0 "
-              "(Windows NT 10.0; Win64; x64) "
-              "AppleWebKit/537.36 "
-              "Chrome/130 Safari/537.36"
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+              "AppleWebKit/537.36 (KHTML, like Gecko) "
+              "Chrome/131.0 Safari/537.36"
           )
 
-
-          # =================================================
-          # الأقسام
-          # =================================================
-
           feeds = [
-
               {
                   "category": "matches",
                   "name": "أقوى المواجهات",
                   "queries": [
-                      "أقوى مباريات كرة القدم",
                       "مباريات كرة القدم اليوم",
+                      "أقوى مباريات كرة القدم",
                       "المواجهات الكبرى كرة القدم",
                       "معاينة مباريات كرة القدم"
                   ]
               },
-
               {
                   "category": "transfers",
                   "name": "أخبار الانتقالات",
@@ -90,7 +62,6 @@ jobs:
                       "أخبار انتقالات اللاعبين"
                   ]
               },
-
               {
                   "category": "stars",
                   "name": "أخبار النجوم",
@@ -101,7 +72,6 @@ jobs:
                       "تصريحات نجوم كرة القدم"
                   ]
               },
-
               {
                   "category": "national",
                   "name": "المنتخبات",
@@ -110,11 +80,9 @@ jobs:
                       "منتخبات كرة القدم",
                       "كأس العالم كرة القدم",
                       "كأس أمم إفريقيا",
-                      "كأس آسيا",
                       "تصفيات كأس العالم"
                   ]
               },
-
               {
                   "category": "history",
                   "name": "تاريخ في الكرة",
@@ -126,1245 +94,472 @@ jobs:
                       "لاعبون معتزلون كرة القدم"
                   ]
               }
-
           ]
 
-
-          # =================================================
-          # أدوات
-          # =================================================
-
-          def clean_text(text):
-
-              if not text:
+          def clean_text(value):
+              if not value:
                   return ""
 
-              text = unescape(text)
+              value = unescape(str(value))
+              value = html_lib.unescape(value)
 
-              text = re.sub(
-                  r"<script.*?</script>",
+              value = re.sub(
+                  r"<script\b[^>]*>.*?</script>",
                   " ",
-                  text,
+                  value,
                   flags=re.I | re.S
               )
-
-              text = re.sub(
-                  r"<style.*?</style>",
+              value = re.sub(
+                  r"<style\b[^>]*>.*?</style>",
                   " ",
-                  text,
+                  value,
                   flags=re.I | re.S
               )
-
-              text = re.sub(
-                  r"<[^>]+>",
-                  " ",
-                  text
-              )
-
-              text = re.sub(
-                  r"\s+",
-                  " ",
-                  text
-              )
-
-              return text.strip()
-
+              value = re.sub(r"<[^>]+>", " ", value)
+              value = re.sub(r"\s+", " ", value)
+              return value.strip()
 
           def get_text(item, tag):
-
               element = item.find(tag)
-
               if element is None:
                   return ""
-
               return element.text or ""
 
+          def normalize_url(url, base=""):
+              if not url:
+                  return ""
+              url = unescape(url).strip()
 
-          # =================================================
-          # استخراج صورة RSS
-          # =================================================
+              if url.startswith("//"):
+                  return "https:" + url
+
+              if base:
+                  return urllib.parse.urljoin(base, url)
+
+              return url
+
+          def http_get(url, timeout=15, max_bytes=1800000):
+              if not url:
+                  return "", url, ""
+
+              try:
+                  req = urllib.request.Request(
+                      url,
+                      headers={
+                          "User-Agent": USER_AGENT,
+                          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                          "Accept-Language": "ar,en-US;q=0.9,en;q=0.8",
+                      }
+                  )
+
+                  with urllib.request.urlopen(req, timeout=timeout) as response:
+                      final_url = response.geturl() or url
+                      content_type = (
+                          response.headers.get("content-type", "")
+                          .lower()
+                      )
+                      data = response.read(max_bytes)
+
+                      text = data.decode("utf-8", errors="ignore")
+
+                      return text, final_url, content_type
+
+              except Exception as error:
+                  print("GET ERROR:", str(error)[:250])
+                  return "", url, ""
+
+          def resolve_url(url):
+              if not url:
+                  return ""
+
+              try:
+                  req = urllib.request.Request(
+                      url,
+                      headers={"User-Agent": USER_AGENT}
+                  )
+
+                  with urllib.request.urlopen(req, timeout=15) as response:
+                      return response.geturl() or url
+
+              except Exception as error:
+                  print("Resolve error:", str(error)[:200])
+                  return url
 
           def get_rss_image(item):
-
-              # media:content
               for element in item.iter():
-
                   tag = element.tag
-
                   if not isinstance(tag, str):
                       continue
 
-                  if tag.endswith("content"):
+                  tag_lower = tag.lower()
 
+                  if tag_lower.endswith("content"):
                       url = element.attrib.get("url")
-
-                      if url:
+                      if url and url.startswith("http"):
                           return url.strip()
 
-              # media:thumbnail
               for element in item.iter():
-
                   tag = element.tag
-
                   if not isinstance(tag, str):
                       continue
 
-                  if tag.endswith("thumbnail"):
-
+                  if tag.lower().endswith("thumbnail"):
                       url = element.attrib.get("url")
-
-                      if url:
+                      if url and url.startswith("http"):
                           return url.strip()
 
-              # enclosure
               enclosure = item.find("enclosure")
-
               if enclosure is not None:
-
                   url = enclosure.attrib.get("url")
-
-                  if url:
+                  if url and url.startswith("http"):
                       return url.strip()
 
               return ""
 
-
-          # =================================================
-          # استخراج OG IMAGE من الموقع الأصلي
-          # =================================================
-
-          def get_page_image(url):
-
-              if not url:
-                  return ""
-
-              try:
-
-                  request = urllib.request.Request(
-                      url,
-                      headers={
-                          "User-Agent": USER_AGENT,
-                          "Accept":
-                              "text/html,application/xhtml+xml"
-                      }
-                  )
-
-                  with urllib.request.urlopen(
-                      request,
-                      timeout=12
-                  ) as response:
-
-                      content_type = (
-                          response.headers
-                          .get("content-type", "")
-                          .lower()
-                      )
-
-                      if "text/html" not in content_type:
-                          return ""
-
-                      html = response.read(
-                          500000
-                      ).decode(
-                          "utf-8",
-                          errors="ignore"
-                      )
-
-                  patterns = [
-
-                      r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)',
-
-                      r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image',
-
-                      r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)',
-
-                      r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image'
-
-                  ]
-
-                  for pattern in patterns:
-
-                      match = re.search(
-                          pattern,
-                          html,
-                          flags=re.I
-                      )
-
-                      if match:
-
-                          image = (
-                              unescape(
-                                  match.group(1)
-                              )
-                              .strip()
-                          )
-
-                          if image.startswith("//"):
-
-                              image = "https:" + image
-
-                          elif image.startswith("/"):
-
-                              parsed = urllib.parse.urlparse(
-                                  url
-                              )
-
-                              image = (
-                                  parsed.scheme
-                                  + "://"
-                                  + parsed.netloc
-                                  + image
-                              )
-
-                          if image.startswith("http"):
-
-                              return image
-
-              except Exception as error:
-
-                  print(
-                      "Image error:",
-                      error
-                  )
-
-              return ""
-
-
-          # =================================================
-          # أدوات الوصول للمصدر الأصلي
-          # =================================================
-
-          GOOGLE_HOSTS = (
-              "news.google.com",
-              "google.com",
-              "www.google.com"
-          )
-
-
-          def is_google_url(url):
-
-              if not url:
-                  return False
-
-              try:
-                  host = (
-                      urllib.parse.urlparse(url)
-                      .netloc
-                      .lower()
-                  )
-
-                  return (
-                      host.endswith("news.google.com")
-                      or host == "google.com"
-                      or host.endswith(".google.com")
-                  )
-
-              except Exception:
-                  return False
-
-
-          def fetch_html(url, timeout=18, max_bytes=1200000):
-
-              if not url:
-                  return "", ""
-
-              try:
-
-                  request = urllib.request.Request(
-                      url,
-                      headers={
-                          "User-Agent": USER_AGENT,
-                          "Accept":
-                              "text/html,application/xhtml+xml",
-                          "Accept-Language":
-                              "ar,en-US;q=0.9,en;q=0.8",
-                          "Referer":
-                              "https://news.google.com/"
-                      }
-                  )
-
-                  with urllib.request.urlopen(
-                      request,
-                      timeout=timeout
-                  ) as response:
-
-                      final_url = response.geturl() or url
-
-                      content_type = (
-                          response.headers
-                          .get("content-type", "")
-                          .lower()
-                      )
-
-                      data = response.read(
-                          max_bytes
-                      )
-
-                      if (
-                          "text/html" not in content_type
-                          and not data.lstrip().startswith(b"<")
-                      ):
-                          return "", final_url
-
-                      html = data.decode(
-                          "utf-8",
-                          errors="ignore"
-                      )
-
-                      return html, final_url
-
-              except Exception as error:
-
-                  print(
-                      "HTML fetch error:",
-                      error
-                  )
-
-              return "", url
-
-
-          def absolutize_url(value, base_url):
-
-              if not value:
-                  return ""
-
-              value = unescape(
-                  value
-              ).strip()
-
-              if value.startswith("//"):
-                  return "https:" + value
-
-              return urllib.parse.urljoin(
-                  base_url,
-                  value
-              )
-
-
-          def find_external_url(html, base_url):
-
-              if not html:
-                  return ""
-
-              # canonical
+          def meta_content(page, attribute, value):
               patterns = [
-
-                  r'<link[^>]+rel=["\'][^"\']*canonical[^"\']*["\'][^>]+href=["\']([^"\']+)',
-
-                  r'<link[^>]+href=["\']([^"\']+)["\'][^>]+rel=["\'][^"\']*canonical[^"\']*["\']',
-
-                  r'<meta[^>]+property=["\']og:url["\'][^>]+content=["\']([^"\']+)',
-
-                  r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:url'
+                  rf'<meta[^>]+{attribute}\s*=\s*["\']{re.escape(value)}["\'][^>]+content\s*=\s*["\']([^"\']+)',
+                  rf'<meta[^>]+content\s*=\s*["\']([^"\']+)["\'][^>]+{attribute}\s*=\s*["\']{re.escape(value)}["\']'
               ]
 
               for pattern in patterns:
-
-                  match = re.search(
-                      pattern,
-                      html,
-                      flags=re.I
-                  )
-
+                  match = re.search(pattern, page, flags=re.I)
                   if match:
+                      return clean_text(match.group(1))
 
-                      candidate = absolutize_url(
-                          match.group(1),
-                          base_url
-                      )
+              return ""
 
-                      if (
-                          candidate.startswith("http")
-                          and not is_google_url(candidate)
-                      ):
-                          return candidate
-
-              # External links inside the Google News article page.
-              links = re.findall(
-                  r'href=["\']([^"\']+)["\']',
-                  html,
-                  flags=re.I
+          def extract_jsonld_article_body(page):
+              matches = re.findall(
+                  r'"articleBody"\s*:\s*"((?:\\.|[^"\\])*)"',
+                  page,
+                  flags=re.I | re.S
               )
 
-              candidates = []
+              bodies = []
 
-              for link in links:
+              for raw in matches:
+                  try:
+                      decoded = json.loads('"' + raw + '"')
+                  except Exception:
+                      decoded = raw
 
-                  candidate = absolutize_url(
-                      link,
-                      base_url
-                  )
+                  decoded = clean_text(decoded)
 
-                  if not candidate.startswith("http"):
-                      continue
+                  if len(decoded) >= 150:
+                      bodies.append(decoded)
 
-                  if is_google_url(candidate):
-                      continue
-
-                  if candidate.startswith(
-                      "https://accounts.google."
-                  ):
-                      continue
-
-                  candidates.append(
-                      candidate
-                  )
-
-              # Prefer URLs that look like article pages.
-              article_words = (
-                  "/article/",
-                  "/news/",
-                  "/sport/",
-                  "/football/",
-                  "/202",
-                  ".html",
-                  ".htm"
-              )
-
-              for candidate in candidates:
-
-                  if any(
-                      word in candidate.lower()
-                      for word in article_words
-                  ):
-                      return candidate
-
-              return (
-                  candidates[0]
-                  if candidates
-                  else ""
-              )
-
-
-          def resolve_url(url):
-
-              if not url:
+              if not bodies:
                   return ""
 
-              # First: normal HTTP redirect.
-              html, final_url = fetch_html(
-                  url,
-                  timeout=18,
-                  max_bytes=250000
+              return max(bodies, key=len)
+
+          def extract_paragraphs(page):
+              paragraphs = re.findall(
+                  r"<p\b[^>]*>(.*?)</p>",
+                  page,
+                  flags=re.I | re.S
               )
 
-              if (
-                  final_url
-                  and not is_google_url(final_url)
-              ):
-                  return final_url
+              result = []
 
-              # Second: inspect the Google News landing page
-              # for canonical / og:url / external article links.
-              external = find_external_url(
-                  html,
-                  final_url or url
-              )
+              for paragraph in paragraphs:
+                  paragraph = clean_text(paragraph)
 
-              if external:
-                  return external
+                  if len(paragraph) < 45:
+                      continue
 
-              return (
-                  final_url
-                  or url
-              )
+                  low = paragraph.lower()
 
-
-          # =================================================
-          # استخراج نص المقال والصورة الأصلية
-          # =================================================
-
-          # =================================================
-          # قراءة المصدر عبر Jina Reader
-          # =================================================
-          # Jina Reader يحول صفحات الأخبار إلى نص منظم،
-          # وهو أكثر موثوقية من محاولة استخراج <p> من كل موقع
-          # على حدة. الاستخدام الأساسي مجاني وبحدود معدل طلبات.
-          # =================================================
-
-          def fetch_jina_reader(url):
-
-              if not url or is_google_url(url):
-                  return {
-                      "url": url or "",
-                      "title": "",
-                      "image": "",
-                      "text": ""
-                  }
-
-              try:
-
-                  reader_url = (
-                      "https://r.jina.ai/"
-                      + url
-                  )
-
-                  request = urllib.request.Request(
-                      reader_url,
-                      headers={
-                          "User-Agent": USER_AGENT,
-                          "Accept": "text/plain, text/markdown",
-                          "X-Return-Format": "markdown"
-                      }
-                  )
-
-                  with urllib.request.urlopen(
-                      request,
-                      timeout=30
-                  ) as response:
-
-                      markdown = response.read(
-                          1800000
-                      ).decode(
-                          "utf-8",
-                          errors="ignore"
-                      )
-
-                  if not markdown:
-                      return {
-                          "url": url,
-                          "title": "",
-                          "image": "",
-                          "text": ""
-                      }
-
-                  # -----------------------------------------
-                  # العنوان والرابط النهائي
-                  # -----------------------------------------
-
-                  title = ""
-
-                  match = re.search(
-                      r"(?im)^Title:\s*(.+)$",
-                      markdown
-                  )
-
-                  if match:
-                      title = clean_text(
-                          match.group(1)
-                      )
-
-                  final_url = url
-
-                  match = re.search(
-                      r"(?im)^URL Source:\s*(https?://\S+)",
-                      markdown
-                  )
-
-                  if match:
-                      final_url = (
-                          match.group(1)
-                          .strip()
-                          .rstrip(")")
-                      )
-
-                  # -----------------------------------------
-                  # الصور الموجودة في المقال
-                  # -----------------------------------------
-
-                  image_candidates = re.findall(
-                      r'!\[[^\]]*\]\((https?://[^)\s]+)',
-                      markdown,
-                      flags=re.I
-                  )
-
-                  image = ""
-
-                  # استبعاد الشعارات والصور الصغيرة قدر الإمكان.
-                  bad_image_words = (
-                      "logo",
-                      "icon",
-                      "favicon",
-                      "avatar",
-                      "author",
-                      "profile",
-                      "sprite",
-                      "placeholder"
-                  )
-
-                  for candidate in image_candidates:
-
-                      candidate = unescape(
-                          candidate
-                      ).strip()
-
-                      lower = candidate.lower()
-
-                      if any(
-                          word in lower
-                          for word in bad_image_words
-                      ):
-                          continue
-
-                      if (
-                          ".jpg" in lower
-                          or ".jpeg" in lower
-                          or ".png" in lower
-                          or ".webp" in lower
-                          or "image" in lower
-                          or "photo" in lower
-                      ):
-                          image = candidate
-                          break
-
-                  if not image and image_candidates:
-                      image = image_candidates[0]
-
-                  # -----------------------------------------
-                  # محتوى المقال
-                  # -----------------------------------------
-
-                  content = markdown
-
-                  marker = re.search(
-                      r"(?is)Markdown Content:\s*(.*)$",
-                      markdown
-                  )
-
-                  if marker:
-                      content = marker.group(1)
-
-                  # حذف الصور والروابط والعناوين الزائدة.
-                  content = re.sub(
-                      r'!\[[^\]]*\]\([^)]*\)',
-                      " ",
-                      content
-                  )
-
-                  content = re.sub(
-                      r'\[([^\]]+)\]\([^)]*\)',
-                      r'\1',
-                      content
-                  )
-
-                  content = re.sub(
-                      r'(?m)^\s*#{1,6}\s*',
-                      "",
-                      content
-                  )
-
-                  content = re.sub(
-                      r'(?m)^\s*[-*]\s+',
-                      "",
-                      content
-                  )
-
-                  content = re.sub(
-                      r'(?im)^(Title|URL Source|Published Time|Markdown Content):.*$',
-                      " ",
-                      content
-                  )
-
-                  content = clean_text(
-                      content
-                  )
-
-                  # إزالة عبارات Reader/الموقع غير المفيدة.
-                  bad_lines = [
+                  bad = [
                       "اشترك",
                       "تسجيل الدخول",
                       "تابعنا",
-                      "حقوق النشر",
-                      "جميع الحقوق محفوظة",
-                      "سياسة الخصوصية",
-                      "شروط الاستخدام",
-                      "newsletter",
-                      "subscribe",
-                      "sign in",
+                      "إعلان",
                       "privacy policy",
-                      "terms of use"
+                      "terms of use",
+                      "cookie",
+                      "حقوق النشر",
+                      "جميع الحقوق"
                   ]
 
-                  parts = re.split(
-                      r"(?<=[.!؟])\s+",
-                      content
-                  )
+                  if any(word.lower() in low for word in bad):
+                      continue
 
-                  useful = []
+                  result.append(paragraph)
 
-                  for part in parts:
+                  if len(result) >= 12:
+                      break
 
-                      part = part.strip()
+              return " ".join(result)
 
-                      if len(part) < 35:
-                          continue
-
-                      if any(
-                          bad.lower()
-                          in part.lower()
-                          for bad in bad_lines
-                      ):
-                          continue
-
-                      useful.append(
-                          part
-                      )
-
-                  text = " ".join(
-                      useful
-                  )
-
-                  # إذا لم تنجح علامات الجمل، استخدم المحتوى
-                  # المنظف مباشرة.
-                  if len(text) < 220:
-                      text = content
-
-                  return {
-                      "url":
-                          final_url or url,
-
-                      "title":
-                          title,
-
-                      "image":
-                          image,
-
-                      "text":
-                          clean_text(text)
-                  }
-
-              except Exception as error:
-
-                  print(
-                      "Jina Reader error:",
-                      error
-                  )
-
-              return {
+          def extract_page(url):
+              """
+              محاولة أولى: الموقع الأصلي.
+              محاولة ثانية: Jina Reader كقارئ صفحات عام.
+              """
+              result = {
                   "url": url,
                   "title": "",
+                  "description": "",
                   "image": "",
                   "text": ""
               }
 
-
-          # =================================================
-          # استخراج بيانات المصدر الأصلي
-          # =================================================
-
-          def extract_page_data(url):
-
               if not url:
-                  return {
-                      "url": "",
-                      "title": "",
-                      "description": "",
-                      "image": "",
-                      "text": ""
-                  }
+                  return result
 
-              # ---------------------------------------------
-              # أولاً: Jina Reader للحصول على المقال الحقيقي
-              # ---------------------------------------------
+              page, final_url, content_type = http_get(url)
 
-              jina = fetch_jina_reader(
-                  url
-              )
+              if page:
+                  result["url"] = final_url or url
 
-              if (
-                  jina.get("text")
-                  and len(jina.get("text", "")) >= 220
-              ):
-
-                  return {
-                      "url":
-                          jina.get("url")
-                          or url,
-
-                      "title":
-                          jina.get("title")
-                          or "",
-
-                      "description":
-                          "",
-
-                      "image":
-                          jina.get("image")
-                          or "",
-
-                      "text":
-                          jina.get("text")
-                          or ""
-                  }
-
-              # ---------------------------------------------
-              # ثانياً: المحاولة المباشرة كخطة احتياطية
-              # ---------------------------------------------
-
-              html, final_url = fetch_html(
-                  url,
-                  timeout=18,
-                  max_bytes=1600000
-              )
-
-              if html and is_google_url(final_url):
-
-                  external = find_external_url(
-                      html,
-                      final_url
+                  result["title"] = (
+                      meta_content(page, "property", "og:title")
+                      or meta_content(page, "name", "twitter:title")
                   )
 
-                  if external:
+                  if not result["title"]:
+                      match = re.search(
+                          r"<title[^>]*>(.*?)</title>",
+                          page,
+                          flags=re.I | re.S
+                      )
+                      if match:
+                          result["title"] = clean_text(match.group(1))
 
-                      source_html, source_final = fetch_html(
-                          external,
-                          timeout=18,
-                          max_bytes=1600000
+                  result["description"] = (
+                      meta_content(page, "name", "description")
+                      or meta_content(page, "property", "og:description")
+                  )
+
+                  result["image"] = (
+                      meta_content(page, "property", "og:image")
+                      or meta_content(page, "name", "twitter:image")
+                  )
+
+                  result["image"] = normalize_url(
+                      result["image"],
+                      result["url"]
+                  )
+
+                  body = extract_jsonld_article_body(page)
+
+                  if len(body) < 150:
+                      body = extract_paragraphs(page)
+
+                  result["text"] = body
+
+                  if len(result["text"]) >= 180:
+                      return result
+
+              # Jina Reader
+              try:
+                  jina_url = (
+                      "https://r.jina.ai/"
+                      + (final_url or url)
+                  )
+
+                  reader, reader_url, _ = http_get(
+                      jina_url,
+                      timeout=25,
+                      max_bytes=2200000
+                  )
+
+                  if reader:
+                      reader = clean_text(reader)
+
+                      # إزالة بعض رؤوس Jina/Markdown الشائعة
+                      reader = re.sub(
+                          r"^Title:.*?(?=URL Source:|Published Time:|Markdown Content:)",
+                          " ",
+                          reader,
+                          flags=re.I | re.S
+                      )
+                      reader = re.sub(
+                          r"^URL Source:.*?(?=Published Time:|Markdown Content:)",
+                          " ",
+                          reader,
+                          flags=re.I | re.S
+                      )
+                      reader = re.sub(
+                          r"^Published Time:.*?(?=Markdown Content:)",
+                          " ",
+                          reader,
+                          flags=re.I | re.S
+                      )
+                      reader = re.sub(
+                          r"^Markdown Content:",
+                          " ",
+                          reader,
+                          flags=re.I
                       )
 
-                      if source_html:
+                      reader = clean_text(reader)
 
-                          html = source_html
-                          final_url = (
-                              source_final
-                              or external
-                          )
+                      if len(reader) > len(result["text"]):
+                          result["text"] = reader
 
-              if not html:
-                  return {
-                      "url": final_url or url,
-                      "title": "",
-                      "description": "",
-                      "image": "",
-                      "text": ""
-                  }
+                      if not result["title"]:
+                          lines = [
+                              x.strip()
+                              for x in reader.split(" ")
+                              if x.strip()
+                          ]
+                          if lines:
+                              result["title"] = " ".join(lines[:20])
 
-              page_title = ""
+              except Exception as error:
+                  print("Jina error:", str(error)[:200])
 
-              title_patterns = [
+              return result
 
-                  r'<meta[^>]+property=["\']og:title["\'][^>]+content=["\']([^"\']+)',
+          def remove_title_from_text(text, title):
+              if not text:
+                  return ""
 
-                  r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:title',
+              text = clean_text(text)
 
-                  r"<title[^>]*>(.*?)</title>"
-              ]
-
-              for pattern in title_patterns:
-
-                  match = re.search(
-                      pattern,
-                      html,
-                      flags=re.I | re.S
-                  )
-
-                  if match:
-
-                      page_title = clean_text(
-                          match.group(1)
-                      )
-
-                      if page_title:
-                          break
-
-              page_description = ""
-
-              description_patterns = [
-
-                  r'<meta[^>]+name=["\']description["\'][^>]+content=["\']([^"\']+)',
-
-                  r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']description',
-
-                  r'<meta[^>]+property=["\']og:description["\'][^>]+content=["\']([^"\']+)',
-
-                  r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:description'
-              ]
-
-              for pattern in description_patterns:
-
-                  match = re.search(
-                      pattern,
-                      html,
-                      flags=re.I
-                  )
-
-                  if match:
-
-                      page_description = clean_text(
-                          match.group(1)
-                      )
-
-                      if page_description:
-                          break
-
-              page_image = ""
-
-              image_patterns = [
-
-                  r'<meta[^>]+property=["\']og:image["\'][^>]+content=["\']([^"\']+)',
-
-                  r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image',
-
-                  r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)',
-
-                  r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image'
-              ]
-
-              for pattern in image_patterns:
-
-                  match = re.search(
-                      pattern,
-                      html,
-                      flags=re.I
-                  )
-
-                  if match:
-
-                      candidate = absolutize_url(
-                          match.group(1),
-                          final_url or url
-                      )
-
-                      if candidate.startswith("http"):
-                          page_image = candidate
-                          break
-
-              article_html = re.sub(
-                  r"<script.*?</script>",
-                  " ",
-                  html,
-                  flags=re.I | re.S
-              )
-
-              article_html = re.sub(
-                  r"<style.*?</style>",
-                  " ",
-                  article_html,
-                  flags=re.I | re.S
-              )
-
-              article_html = re.sub(
-                  r"<nav.*?</nav>",
-                  " ",
-                  article_html,
-                  flags=re.I | re.S
-              )
-
-              article_html = re.sub(
-                  r"<footer.*?</footer>",
-                  " ",
-                  article_html,
-                  flags=re.I | re.S
-              )
-
-              paragraphs = re.findall(
-                  r"<p[^>]*>(.*?)</p>",
-                  article_html,
-                  flags=re.I | re.S
-              )
-
-              cleaned = []
-
-              for paragraph in paragraphs:
-
-                  text_value = clean_text(
-                      paragraph
-                  )
-
-                  if len(text_value) < 45:
-                      continue
-
-                  if any(
-                      word.lower()
-                      in text_value.lower()
-                      for word in (
-                          "اشترك",
-                          "تسجيل الدخول",
-                          "تابعنا",
-                          "إعلان",
-                          "حقوق النشر",
-                          "privacy policy",
-                          "terms of use",
-                          "subscribe"
-                      )
-                  ):
-                      continue
-
-                  cleaned.append(
-                      text_value
-                  )
-
-              text = " ".join(
-                  cleaned[:20]
-              )
-
-              return {
-                  "url":
-                      final_url or url,
-
-                  "title":
-                      page_title,
-
-                  "description":
-                      page_description,
-
-                  "image":
-                      page_image,
-
-                  "text":
-                      clean_text(text)
-              }
-
-
-          # =================================================
-          # إنشاء ملخص الخبر
-          # =================================================
-
-          def create_summary(
-              title,
-              description,
-              article_text
-          ):
-
-              title = clean_text(title)
-              description = clean_text(description)
-              article_text = clean_text(article_text)
-
-              # لا نستخدم العنوان كأنه ملخص.
-              candidates = []
-
-              if article_text:
-                  candidates.append(
-                      article_text
-                  )
-
-              if (
-                  description
-                  and description.lower()
-                  != title.lower()
-              ):
-                  candidates.append(
-                      description
-                  )
-
-              for text in candidates:
-
+              if title:
                   text = re.sub(
-                      r"\s+",
+                      re.escape(title),
                       " ",
-                      text
-                  ).strip()
-
-                  if not text:
-                      continue
-
-                  # فصل الجمل العربية واللاتينية.
-                  sentences = re.split(
-                      r"(?<=[.!؟])\s+",
-                      text
+                      text,
+                      flags=re.I
                   )
 
-                  selected = []
-                  words_count = 0
+              text = re.sub(r"\s+", " ", text)
+              return text.strip()
 
-                  for sentence in sentences:
+          def make_summary(title, rss_description, page_description, article_text):
+              candidates = [
+                  article_text,
+                  page_description,
+                  rss_description
+              ]
 
-                      sentence = sentence.strip()
+              best = ""
 
-                      if len(sentence) < 35:
-                          continue
+              for candidate in candidates:
+                  candidate = remove_title_from_text(
+                      candidate,
+                      title
+                  )
 
-                      if (
-                          title
-                          and sentence.lower()
-                          == title.lower()
-                      ):
-                          continue
+                  if len(candidate) > len(best):
+                      best = candidate
 
-                      words = sentence.split()
+              if not best:
+                  return "يتابع NOWNEX FOOTBALL هذا الخبر ويقدم أهم تفاصيله وتطوراته من المصدر الأصلي."
 
-                      if (
-                          selected
-                          and words_count >= 90
-                          and words_count + len(words) > 170
-                      ):
-                          break
+              # تحويل Markdown البسيط إلى نص
+              best = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", best)
+              best = re.sub(r"#{1,6}\s*", "", best)
+              best = re.sub(r"\s+", " ", best).strip()
 
-                      selected.append(
-                          sentence
-                      )
+              # إذا كانت الصفحة تحتوي نصًا طويلًا، نأخذ ملخصًا
+              # محدودًا بدل نسخ المقال.
+              sentences = re.split(
+                  r"(?<=[.!؟])\s+",
+                  best
+              )
 
-                      words_count += len(words)
+              selected = []
+              words = 0
 
-                      if (
-                          words_count >= 100
-                          and len(selected) >= 3
-                      ):
-                          break
+              for sentence in sentences:
+                  sentence = sentence.strip()
 
-                      if len(selected) >= 7:
-                          break
+                  if len(sentence) < 30:
+                      continue
 
-                  if selected:
+                  count = len(sentence.split())
 
-                      summary = " ".join(
-                          selected
-                      ).strip()
+                  if selected and words + count > 115:
+                      break
 
-                      if len(summary.split()) >= 60:
-                          return summary
+                  selected.append(sentence)
+                  words += count
 
-                  # إذا كانت الصفحة لا تحتوي جملًا واضحة،
-                  # خذ مقطعًا أطول دون اختلاق معلومات.
-                  words = text.split()
+                  if words >= 75:
+                      break
 
-                  if len(words) >= 60:
+              summary = " ".join(selected).strip()
 
-                      return " ".join(
-                          words[:160]
-                      ).strip()
+              if len(summary.split()) < 25:
+                  words_list = best.split()
+                  summary = " ".join(words_list[:90])
 
-              # إذا لم يتوفر محتوى حقيقي، لا نكرر العنوان.
-              return ""
+              # لا نسمح بأن يكون الملخص مجرد العنوان.
+              if title and summary.lower().strip() == title.lower().strip():
+                  summary = ""
 
+              if not summary:
+                  summary = (
+                      "تفاصيل الخبر متوفرة عبر المصدر الأصلي، "
+                      "ويمكن متابعة التطورات من خلال الرابط المباشر."
+                  )
 
-          # =================================================
-          # تخزين الأخبار
-          # =================================================
+              return summary
 
           articles = []
 
-
-          # =================================================
-          # معالجة كل قسم
-          # =================================================
-
           for feed in feeds:
-
               category = feed["category"]
-
-              category_name = feed["name"]
-
               category_articles = []
 
-
               print("")
-              print(
-                  "======================================"
-              )
-
-              print(
-                  "CATEGORY:",
-                  category_name
-              )
-
-              print(
-                  "======================================"
-              )
-
+              print("======================================")
+              print("CATEGORY:", feed["name"])
+              print("======================================")
 
               for query in feed["queries"]:
-
                   if len(category_articles) >= MAX_PER_CATEGORY:
                       break
 
-
-                  encoded_query = (
-                      urllib.parse.quote(query)
-                  )
-
-
                   rss_url = (
                       "https://news.google.com/rss/search?"
-                      "q="
-                      + encoded_query
-                      + "&hl=ar"
-                      + "&gl=DZ"
-                      + "&ceid=DZ:ar"
+                      "q=" + urllib.parse.quote(query)
+                      + "&hl=ar&gl=DZ&ceid=DZ:ar"
                   )
 
-
-                  print(
-                      "Searching:",
-                      query
-                  )
-
+                  print("Searching:", query)
 
                   try:
-
-                      request = urllib.request.Request(
+                      rss_xml, _, _ = http_get(
                           rss_url,
-                          headers={
-                              "User-Agent":
-                                  USER_AGENT
-                          }
+                          timeout=30,
+                          max_bytes=900000
                       )
 
+                      if not rss_xml:
+                          continue
 
-                      with urllib.request.urlopen(
-                          request,
-                          timeout=30
-                      ) as response:
+                      root = ET.fromstring(rss_xml)
 
-                          xml_data = response.read()
-
-
-                      root = ET.fromstring(
-                          xml_data
-                      )
-
-
-                      items = root.findall(
-                          ".//item"
-                      )
-
-
-                      for item in items:
-
-                          if (
-                              len(category_articles)
-                              >= MAX_PER_CATEGORY
-                          ):
+                      for item in root.findall(".//item"):
+                          if len(category_articles) >= MAX_PER_CATEGORY:
                               break
 
-
                           title = clean_text(
-                              get_text(
-                                  item,
-                                  "title"
-                              )
+                              get_text(item, "title")
                           )
-
 
                           description = clean_text(
-                              get_text(
-                                  item,
-                                  "description"
-                              )
+                              get_text(item, "description")
                           )
-
 
                           link = clean_text(
-                              get_text(
-                                  item,
-                                  "link"
-                              )
+                              get_text(item, "link")
                           )
-
 
                           pub_date = clean_text(
-                              get_text(
-                                  item,
-                                  "pubDate"
-                              )
+                              get_text(item, "pubDate")
                           )
-
 
                           source = clean_text(
-                              get_text(
-                                  item,
-                                  "source"
-                              )
+                              get_text(item, "source")
                           )
-
-
-                          if not title:
-                              continue
-
-
-                          # ---------------------------------
-                          # إزالة عبارات Google News
-                          # ---------------------------------
 
                           title = re.sub(
                               r"\s*-\s*Google News\s*$",
@@ -1373,284 +568,137 @@ jobs:
                               flags=re.I
                           ).strip()
 
-
-                          # ---------------------------------
-                          # منع التكرار داخل القسم
-                          # ---------------------------------
-
-                          duplicate = False
-
-                          normalized_title = (
-                              title
-                              .lower()
-                              .strip()
-                          )
-
-
-                          for existing in category_articles:
-
-                              if (
-                                  existing["_key"]
-                                  == normalized_title
-                              ):
-
-                                  duplicate = True
-
-                                  break
-
-
-                          if duplicate:
+                          if not title or not link:
                               continue
 
+                          key = re.sub(
+                              r"\s+",
+                              " ",
+                              title.lower()
+                          ).strip()
 
-                          # ---------------------------------
-                          # الوصول إلى المصدر الأصلي
-                          # ---------------------------------
+                          if any(
+                              x["_key"] == key
+                              for x in category_articles
+                          ):
+                              continue
 
-                          original_link = resolve_url(
-                              link
-                          )
+                          print("")
+                          print("TITLE:", title)
+
+                          original_link = resolve_url(link)
 
                           print(
-                              "Source URL:",
+                              "SOURCE URL:",
                               original_link
                           )
 
+                          page = extract_page(original_link)
 
-                          # ---------------------------------
-                          # استخراج بيانات المصدر
-                          # ---------------------------------
-
-                          page_data = extract_page_data(
-                              original_link
-                          )
-
-                          source_link = (
-                              page_data.get("url")
-                              or original_link
-                          )
-
-                          page_title = (
-                              page_data.get("title")
-                              or ""
-                          )
-
-                          page_description = (
-                              page_data.get("description")
-                              or ""
-                          )
-
-                          article_text = (
-                              page_data.get("text")
-                              or ""
-                          )
-
-                          # ---------------------------------
-                          # إنشاء ملخص حقيقي
-                          # ---------------------------------
-
-                          summary = create_summary(
+                          summary = make_summary(
                               title,
-                              page_description
-                              or description,
-                              article_text
+                              description,
+                              page.get("description", ""),
+                              page.get("text", "")
                           )
-
-                          # ---------------------------------
-                          # الصورة: المصدر الأصلي أولًا.
-                          # RSS فقط إذا كانت صورة حقيقية.
-                          # لا توجد صور عامة للأقسام.
-                          # ---------------------------------
 
                           image = (
-                              page_data.get("image")
+                              page.get("image")
+                              or get_rss_image(item)
                               or ""
                           )
 
-                          if not image:
+                          image = normalize_url(
+                              image,
+                              page.get("url") or original_link
+                          )
 
-                              image = get_rss_image(
-                                  item
-                              )
+                          # لا نحذف الخبر إذا تعذر استخراج المقال.
+                          # نحتفظ بخبر RSS بدل أن تصبح الصفحة فارغة.
+                          article = {
+                              "category": category,
+                              "title_ar": title,
+                              "summary_ar": summary,
+                              "image": image,
+                              "source": (
+                                  source
+                                  or "NOWNEX FOOTBALL"
+                              ),
+                              "link": (
+                                  page.get("url")
+                                  or original_link
+                              ),
+                              "published": pub_date,
+                              "date": pub_date,
+                              "_key": key
+                          }
+
+                          category_articles.append(article)
 
                           print(
-                              "Image:",
+                              "SUMMARY WORDS:",
+                              len(summary.split())
+                          )
+                          print(
+                              "IMAGE:",
                               "FOUND" if image else "NOT FOUND"
                           )
 
-                          print(
-                              "Summary words:",
-                              len(summary.split())
-                          )
-
-                          # لا نحفظ الخبر إذا لم نحصل على
-                          # محتوى فعلي؛ حتى لا يظهر العنوان
-                          # مرة ثانية داخل خانة الملخص.
-
-                          if len(summary.split()) < 40:
-
-                              print(
-                                  "SKIPPED: insufficient article content"
-                              )
-
-                              continue
-
-
-                          # ---------------------------------
-                          # الخبر
-                          # ---------------------------------
-
-                          article = {
-
-                              "category":
-                                  category,
-
-                              "title_ar":
-                                  (
-                                      title
-                                      if title
-                                      else page_title
-                                  ),
-
-                              "summary_ar":
-                                  summary,
-
-                              "image":
-                                  image,
-
-                              "source":
-                                  source
-                                  or "NOWNEX FOOTBALL",
-
-                              "link":
-                                  source_link,
-
-                              "published":
-                                  pub_date,
-
-                              "date":
-                                  pub_date,
-
-                              "_key":
-                                  normalized_title
-
-                          }
-
-
-                          category_articles.append(
-                              article
-                          )
-
+                          time.sleep(0.25)
 
                   except Exception as error:
-
                       print(
-                          "RSS error:",
-                          error
+                          "RSS ERROR:",
+                          str(error)[:500]
                       )
 
-
-              # -------------------------------------------
-              # إضافة أخبار القسم
-              # -------------------------------------------
-
-              for article in category_articles:
-
-                  articles.append(
-                      article
-                  )
-
+              articles.extend(category_articles)
 
               print(
-                  "Category articles:",
+                  "CATEGORY ARTICLES:",
                   len(category_articles)
               )
 
-
-          # =================================================
           # إزالة التكرار بين الأقسام
-          # =================================================
-
           unique = {}
 
           for article in articles:
-
-              key = (
-                  article["title_ar"]
-                  .lower()
-                  .strip()
-              )
-
+              key = article["_key"]
 
               if key not in unique:
-
                   unique[key] = article
 
+          articles = list(unique.values())
 
-          articles = list(
-              unique.values()
-          )
-
-
-          # =================================================
-          # ترتيب الأخبار
-          # =================================================
-
-          def sort_key(article):
-
-              return (
-                  article.get(
-                      "published",
-                      ""
-                  )
-                  or ""
-              )
-
-
+          # الأحدث أولًا
           articles.sort(
-              key=sort_key,
+              key=lambda x: x.get("published", "") or "",
               reverse=True
           )
 
-
-          # =================================================
-          # حذف المفتاح الداخلي
-          # =================================================
+          articles = articles[:MAX_TOTAL]
 
           for article in articles:
-
-              article.pop(
-                  "_key",
-                  None
-              )
-
-
-          # =================================================
-          # حفظ الملف
-          # =================================================
+              article.pop("_key", None)
 
           output = {
-
-              "updatedAt":
-                  datetime.now(
-                      timezone.utc
-                  ).isoformat(),
-
-              "count":
-                  len(articles),
-
-              "news":
-                  articles
-
+              "updatedAt": datetime.now(timezone.utc).isoformat(),
+              "count": len(articles),
+              "news": articles
           }
 
+          # حماية مهمة:
+          # لا نستبدل news.json بملف فارغ إذا فشل Google News.
+          if len(articles) == 0:
+              print("ERROR: No articles collected.")
+              print("Keeping the existing data/news.json unchanged.")
+              raise SystemExit(1)
 
           with open(
               NEWS_FILE,
               "w",
               encoding="utf-8"
           ) as file:
-
               json.dump(
                   output,
                   file,
@@ -1658,61 +706,35 @@ jobs:
                   indent=2
               )
 
-
           print("")
-          print(
-              "======================================"
-          )
-
+          print("======================================")
           print(
               "NOWNEX FOOTBALL NEWS SAVED:",
               len(articles)
           )
-
-          print(
-              "======================================"
-          )
-
-
-          # =================================================
-          # إحصائيات الأقسام
-          # =================================================
+          print("======================================")
 
           for feed in feeds:
-
-              category = feed["category"]
-
               count = sum(
                   1
                   for article in articles
-                  if article["category"] == category
+                  if article["category"] == feed["category"]
               )
 
               print(
-                  category,
+                  feed["category"],
                   ":",
                   count
               )
 
-
-      # =====================================================
-      # حفظ التحديث في GitHub
-      # =====================================================
-
       - name: Commit updated news
-
         run: |
-
-          git config user.name \
-            "NOWNEX Football News Bot"
-
-          git config user.email \
-            "actions@users.noreply.github.com"
+          git config user.name "NOWNEX Football News Bot"
+          git config user.email "actions@users.noreply.github.com"
 
           git add data/news.json
 
           git diff --cached --quiet || \
-            git commit \
-            -m "Update NOWNEX FOOTBALL news"
+            git commit -m "Update NOWNEX FOOTBALL news"
 
           git push
