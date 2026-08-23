@@ -1,62 +1,117 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================================================
-       NOWNEX FOOTBALL — NEWS SYSTEM
-       Compatible with data/news.json
-       ========================================================= */
+       NOWNEX FOOTBALL — NEWS ENGINE
+       متوافق مع index.html الحالي
+       ومتوافق مع data/news.json
+    ========================================================= */
 
     const NEWS_FILE = "data/news.json";
 
+
     /* =========================================================
        التصنيفات
-       يجب أن تطابق category الموجودة في news.json
-       ========================================================= */
+    ========================================================= */
 
     const categories = {
+
         football: "أخبار كرة القدم",
+
         stars: "أخبار النجوم",
+
         world: "الكرة العالمية",
+
         bigMatches: "قمم كروية",
+
         competitions: "البطولات الكبرى",
-        starMatches: "مباريات النجوم"
+
+        starMatches: "مباريات النجوم",
+
+        Matches: "أقوى المواجهات",
+
+        Transfers: "أخبار الانتقالات",
+
+        Stars: "أخبار النجوم",
+
+        NationalTeams: "المنتخبات",
+
+        History: "تاريخ في الكرة",
+
+        transfers: "أخبار الانتقالات",
+
+        national: "المنتخبات",
+
+        history: "تاريخ في الكرة"
+
     };
+
 
     /* =========================================================
        أيقونات التصنيفات
-       ========================================================= */
+    ========================================================= */
 
     const categoryIcons = {
+
         football: "⚽",
+
         stars: "⭐",
+
         world: "🌍",
+
         bigMatches: "🔥",
+
         competitions: "🏆",
-        starMatches: "🌟"
+
+        starMatches: "🌟",
+
+        Matches: "⚔️",
+
+        Transfers: "💰",
+
+        Stars: "⭐",
+
+        NationalTeams: "🌍",
+
+        History: "🏆",
+
+        transfers: "💰",
+
+        national: "🌍",
+
+        history: "🏆"
+
     };
 
 
     /* =========================================================
-       حماية النصوص من HTML
-       ========================================================= */
+       حماية HTML
+    ========================================================= */
 
     function escapeHTML(value) {
 
         return String(value ?? "")
+
             .replace(/&/g, "&amp;")
+
             .replace(/</g, "&lt;")
+
             .replace(/>/g, "&gt;")
+
             .replace(/"/g, "&quot;")
+
             .replace(/'/g, "&#039;");
     }
 
 
     /* =========================================================
-       تنسيق التاريخ
-       ========================================================= */
+       التاريخ
+    ========================================================= */
 
     function formatDate(date) {
 
-        if (!date) return "";
+        if (!date) {
+            return "";
+        }
 
         const d = new Date(date);
 
@@ -64,21 +119,26 @@ document.addEventListener("DOMContentLoaded", () => {
             return "";
         }
 
-        return d.toLocaleDateString("ar-DZ", {
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        });
+        return d.toLocaleDateString(
+            "ar-DZ",
+            {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
     }
 
 
     /* =========================================================
-       تنسيق الوقت
-       ========================================================= */
+       الوقت
+    ========================================================= */
 
     function formatTime(date) {
 
-        if (!date) return "";
+        if (!date) {
+            return "";
+        }
 
         const d = new Date(date);
 
@@ -86,266 +146,708 @@ document.addEventListener("DOMContentLoaded", () => {
             return "";
         }
 
-        return d.toLocaleTimeString("ar-DZ", {
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+        return d.toLocaleTimeString(
+            "ar-DZ",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
     }
 
 
     /* =========================================================
        التحقق من الخبر
-       ========================================================= */
+    ========================================================= */
 
     function isValidArticle(article) {
 
         return (
+
             article &&
+
             typeof article === "object" &&
-            article.title &&
+
+            (
+
+                article.title ||
+
+                article.title_ar
+
+            ) &&
+
             article.category
+
+        );
+    }
+
+
+    /* =========================================================
+       الحصول على العنوان العربي
+    ========================================================= */
+
+    function getTitle(article) {
+
+        return (
+
+            article.title_ar ||
+
+            article.title ||
+
+            "خبر كرة القدم"
+
+        );
+    }
+
+
+    /* =========================================================
+       الحصول على الملخص
+    ========================================================= */
+
+    function getSummary(article) {
+
+        return (
+
+            article.summary_ar ||
+
+            article.summary ||
+
+            article.description ||
+
+            ""
+
+        );
+    }
+
+
+    /* =========================================================
+       الحصول على التاريخ
+    ========================================================= */
+
+    function getArticleDate(article) {
+
+        return (
+
+            article.publishedAt ||
+
+            article.published ||
+
+            article.date ||
+
+            article.createdAt ||
+
+            ""
+
         );
     }
 
 
     /* =========================================================
        إنشاء صورة الخبر
-       ========================================================= */
+    ========================================================= */
 
     function createNewsImage(article) {
 
         const icon =
-            categoryIcons[article.category] || "📰";
 
-        /*
-         * إذا كان هناك رابط صورة
-         */
+            categoryIcons[
+                article.category
+            ] || "⚽";
 
-        if (article.image && article.image.trim() !== "") {
+
+        const image =
+
+            article.image ||
+
+            article.image_url ||
+
+            article.thumbnail ||
+
+            "";
+
+
+        if (image.trim() !== "") {
 
             return `
+
                 <img
-                    src="${escapeHTML(article.image)}"
-                    alt="${escapeHTML(article.title)}"
+
+                    class="trend-image"
+
+                    src="${escapeHTML(image)}"
+
+                    alt="${escapeHTML(
+                        getTitle(article)
+                    )}"
+
                     loading="lazy"
+
+                    referrerpolicy="no-referrer"
+
                     onerror="
+
                         this.onerror=null;
+
                         this.style.display='none';
-                        this.parentElement
-                            .querySelector('.news-image-placeholder')
-                            .style.display='flex';
+
+                        const p=this.parentElement.querySelector('.news-image-placeholder');
+
+                        if(p)p.style.display='flex';
+
                     "
+
                 >
 
                 <div
+
                     class="news-image-placeholder"
-                    style="display:none;"
+
+                    style="
+
+                        display:none;
+
+                        width:100%;
+
+                        height:100%;
+
+                        align-items:center;
+
+                        justify-content:center;
+
+                        font-size:55px;
+
+                        background:#071126;
+
+                    "
+
                 >
-                    <span>${icon}</span>
+
+                    ${icon}
+
                 </div>
+
             `;
+
         }
 
 
-        /*
-         * إذا لم توجد صورة
-         */
-
         return `
-            <div class="news-image-placeholder">
-                <span>${icon}</span>
+
+            <div
+
+                class="news-image-placeholder"
+
+                style="
+
+                    width:100%;
+
+                    height:100%;
+
+                    display:flex;
+
+                    align-items:center;
+
+                    justify-content:center;
+
+                    font-size:55px;
+
+                    background:#071126;
+
+                "
+
+            >
+
+                ${icon}
+
             </div>
+
         `;
     }
 
 
     /* =========================================================
-       إنشاء بطاقة خبر
-       ========================================================= */
+       إنشاء بطاقة الخبر
+       
+       مهم جدًا:
+       البطاقة نفسها تستدعي openArticle(article)
+    ========================================================= */
 
-    function createNewsCard(article) {
+    function createNewsCard(article, index = 0) {
 
         if (!isValidArticle(article)) {
             return "";
         }
 
 
+        const title =
+            getTitle(article);
+
+
+        const summary =
+            getSummary(article);
+
+
         const categoryName =
-            categories[article.category] ||
+
+            categories[
+                article.category
+            ] ||
+
             "أخبار كرة القدم";
 
 
+        const icon =
+
+            categoryIcons[
+                article.category
+            ] ||
+
+            "⚽";
+
+
         const date =
-            formatDate(article.date);
+
+            formatDate(
+                getArticleDate(article)
+            );
 
 
         const time =
-            formatTime(article.date);
+
+            formatTime(
+                getArticleDate(article)
+            );
 
 
         const source =
+
             article.source ||
-            "NOWNEX";
+
+            "NOWNEX FOOTBALL";
 
 
-        const description =
-            article.description ||
-            "";
+        /*
+         * نحتفظ بالمقال داخل رقم داخلي.
+         * لكن الفتح يتم من خلال window.nownexArticles.
+         */
 
+        const articleIndex =
 
-        const url =
-            article.url ||
-            "";
+            window.nownexArticles.indexOf(
+                article
+            );
 
 
         return `
+
             <article
-                class="news-card"
-                data-category="${escapeHTML(article.category)}"
+
+                class="trend-card news-card"
+
+                data-category="${escapeHTML(
+                    article.category
+                )}"
+
+                data-article-index="${articleIndex}"
+
+                tabindex="0"
+
+                role="button"
+
+                aria-label="فتح الخبر"
+
+                onclick="window.openNownexArticle(${articleIndex})"
+
+                onkeydown="
+
+                    if(event.key==='Enter' || event.key===' '){
+
+                        event.preventDefault();
+
+                        window.openNownexArticle(${articleIndex});
+
+                    }
+
+                "
+
             >
 
-                <!-- صورة الخبر -->
 
-                <div class="news-image">
+                <!-- =================================================
+                     IMAGE
+                ================================================== -->
+
+                <div class="trend-image-wrapper">
 
                     ${createNewsImage(article)}
 
-                    <span class="news-image-category">
-                        ${escapeHTML(categoryName)}
-                    </span>
 
-                </div>
+                    <div
 
+                        style="
 
-                <!-- محتوى الخبر -->
+                            position:absolute;
 
-                <div class="news-content">
+                            top:12px;
 
-                    <!-- معلومات الخبر -->
+                            right:12px;
 
-                    <div class="news-meta">
+                            z-index:5;
 
-                        <span class="news-category">
-                            ${escapeHTML(categoryName)}
-                        </span>
+                            padding:6px 10px;
 
-                        ${
-                            date
-                            ? `
-                                <span class="news-date">
-                                    ${escapeHTML(date)}
-                                </span>
-                              `
-                            : ""
-                        }
+                            border-radius:20px;
+
+                            background:rgba(2,7,20,.78);
+
+                            border:1px solid rgba(255,255,255,.12);
+
+                            color:#ffd978;
+
+                            font-size:10px;
+
+                            font-weight:800;
+
+                            backdrop-filter:blur(8px);
+
+                        "
+
+                    >
+
+                        ${icon}
+
+                        ${escapeHTML(
+                            categoryName
+                        )}
 
                     </div>
 
 
-                    <!-- العنوان -->
+                </div>
 
-                    <h3 class="news-title">
 
-                        ${escapeHTML(article.title)}
+                <!-- =================================================
+                     CONTENT
+                ================================================== -->
+
+                <div class="trend-card-content">
+
+
+                    <div class="trend-number">
+
+                        ${String(
+                            index + 1
+                        ).padStart(2, "0")}
+
+                    </div>
+
+
+                    <div class="trend-icon">
+
+                        ${icon}
+
+                    </div>
+
+
+                    <h3>
+
+                        ${escapeHTML(title)}
 
                     </h3>
 
 
-                    <!-- الوصف -->
-
                     ${
-                        description
-                        ? `
-                            <p class="news-description">
-                                ${escapeHTML(description)}
-                            </p>
-                          `
-                        : ""
+                        summary
+
+                        ?
+
+                        `
+
+                            <div
+
+                                style="
+
+                                    color:#9aa7bc;
+
+                                    font-size:11px;
+
+                                    line-height:1.7;
+
+                                    margin-top:6px;
+
+                                "
+
+                            >
+
+                                ${escapeHTML(
+                                    summary
+                                ).substring(
+                                    0,
+                                    150
+                                )}
+
+                                ${
+                                    summary.length > 150
+                                    ? "..."
+                                    : ""
+                                }
+
+                            </div>
+
+                        `
+
+                        :
+
+                        ""
+
                     }
 
 
-                    <!-- أسفل البطاقة -->
+                    <div class="trend-meta">
 
-                    <div class="news-footer">
+                        ${escapeHTML(source)}
 
-                        <span class="news-source">
-
-                            ${escapeHTML(source)}
-
-                        </span>
-
+                        ${
+                            date
+                            ? ` · ${escapeHTML(date)}`
+                            : ""
+                        }
 
                         ${
                             time
-                            ? `
-                                <span class="news-time">
-                                    ${escapeHTML(time)}
-                                </span>
-                              `
+                            ? ` · ${escapeHTML(time)}`
                             : ""
                         }
 
                     </div>
 
 
-                    <!-- رابط الخبر -->
+                    <span class="news-link">
 
-                    ${
-                        url
-                        ? `
-                            <a
-                                class="news-read-more"
-                                href="${escapeHTML(url)}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                اقرأ الخبر
-                                <span>←</span>
-                            </a>
-                          `
-                        : ""
-                    }
+                        اقرأ الخبر
+
+                        ←
+
+                    </span>
+
 
                 </div>
 
+
             </article>
+
         `;
     }
 
 
     /* =========================================================
        ترتيب الأخبار
-       الأحدث أولًا
-       ========================================================= */
+    ========================================================= */
 
     function sortByDate(articles) {
 
-        return [...articles].sort((a, b) => {
+        return [...articles].sort(
 
-            const dateA =
-                new Date(a.date || 0).getTime();
+            (a, b) => {
 
-            const dateB =
-                new Date(b.date || 0).getTime();
+                const dateA =
 
-            return dateB - dateA;
-        });
+                    new Date(
+                        getArticleDate(a) || 0
+                    ).getTime();
+
+
+                const dateB =
+
+                    new Date(
+                        getArticleDate(b) || 0
+                    ).getTime();
+
+
+                return dateB - dateA;
+
+            }
+
+        );
     }
 
 
     /* =========================================================
-       عرض قسم محدد
-       ========================================================= */
+       حفظ الأخبار عالميًا
+       
+       هذا مهم جدًا للبحث وفتح البطاقات
+    ========================================================= */
 
-    function renderCategory(
-        category,
-        articles,
-        limit = 6
-    ) {
+    function exposeNews(articles) {
+
+        window.nownexNews = articles;
+
+        window.nownexArticles = articles;
+
+    }
+
+
+    /* =========================================================
+       فتح الخبر
+       
+       هذه هي النقطة الأساسية التي كانت ناقصة
+    ========================================================= */
+
+    window.openNownexArticle = function(index) {
+
+        const article =
+
+            window.nownexArticles &&
+            window.nownexArticles[index];
+
+
+        if (!article) {
+
+            console.error(
+                "NOWNEX: لم يتم العثور على الخبر:",
+                index
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * استخدام openArticle الموجودة في index.html
+         */
+
+        if (
+            typeof window.openArticle ===
+            "function"
+        ) {
+
+            window.openArticle(article);
+
+            return;
+
+        }
+
+
+        console.error(
+            "NOWNEX: openArticle غير موجودة."
+        );
+
+    };
+
+
+    /* =========================================================
+       عرض آخر الأخبار في newsGrid
+    ========================================================= */
+
+    function renderMainNews(articles, limit = 9) {
 
         const grid =
-            document.querySelector(
-                `[data-news-category="${category}"]`
+
+            document.getElementById(
+                "newsGrid"
+            );
+
+
+        if (!grid) {
+
+            console.warn(
+                "NOWNEX: newsGrid غير موجود."
+            );
+
+            return;
+
+        }
+
+
+        const sorted =
+
+            sortByDate(articles);
+
+
+        const latest =
+
+            sorted.slice(
+                0,
+                limit
+            );
+
+
+        if (!latest.length) {
+
+            grid.innerHTML = `
+
+                <div class="empty-news">
+
+                    <strong>
+
+                        لا توجد أخبار حاليًا
+
+                    </strong>
+
+                    سيتم تحديث الأخبار تلقائيًا.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        grid.innerHTML =
+
+            latest
+
+                .map(
+                    (article, index) =>
+
+                        createNewsCard(
+                            article,
+                            index
+                        )
+                )
+
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       تحديث عداد الأخبار
+    ========================================================= */
+
+    function updateNewsCount(articles) {
+
+        const counter =
+
+            document.getElementById(
+                "newsCount"
+            );
+
+
+        if (!counter) {
+            return;
+        }
+
+
+        counter.textContent =
+
+            `${articles.length} خبر متاح`;
+    }
+
+
+    /* =========================================================
+       عرض تصنيف معين
+    ========================================================= */
+
+    function renderFilteredCategory(category) {
+
+        const grid =
+
+            document.getElementById(
+                "newsGrid"
             );
 
 
@@ -355,430 +857,452 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const filtered =
-            articles
-                .filter(article =>
-                    article.category === category
-                );
+
+            sortByDate(
+
+                window.nownexArticles.filter(
+
+                    article => {
+
+                        const articleCategory =
+
+                            String(
+                                article.category ||
+                                ""
+                            ).toLowerCase();
 
 
-        const sorted =
-            sortByDate(filtered);
+                        const requestedCategory =
+
+                            String(
+                                category ||
+                                ""
+                            ).toLowerCase();
 
 
-        const limited =
-            sorted.slice(0, limit);
+                        /*
+                         * التصنيفات المتوافقة
+                         */
+
+                        const aliases = {
+
+                            matches: [
+                                "matches",
+                                "bigmatches",
+                                "bigMatches".toLowerCase()
+                            ],
+
+                            transfers: [
+                                "transfers",
+                                "transfer"
+                            ],
+
+                            stars: [
+                                "stars"
+                            ],
+
+                            nationalteams: [
+                                "nationalteams",
+                                "national",
+                                "national_teams"
+                            ],
+
+                            history: [
+                                "history"
+                            ]
+
+                        };
+
+
+                        if (
+                            aliases[
+                                requestedCategory
+                            ]
+                        ) {
+
+                            return aliases[
+                                requestedCategory
+                            ].includes(
+                                articleCategory
+                            );
+
+                        }
+
+
+                        return (
+
+                            articleCategory ===
+                            requestedCategory
+
+                        );
+
+                    }
+
+                )
+
+            );
 
 
         /*
-         * لا توجد أخبار
+         * تفعيل البطاقة المختارة
          */
 
-        if (!limited.length) {
+        document
+            .querySelectorAll(
+                ".category-card"
+            )
+            .forEach(card => {
+
+                card.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+        if (!filtered.length) {
 
             grid.innerHTML = `
-                <div class="news-empty">
 
-                    <div class="news-empty-icon">
-                        ${categoryIcons[category] || "📰"}
-                    </div>
+                <div class="empty-news">
 
-                    <p>
-                        لا توجد أخبار جديدة حاليًا.
-                    </p>
+                    <strong>
+
+                        لا توجد أخبار في هذا القسم
+
+                    </strong>
+
+                    سيتم عرض الأخبار الجديدة
+                    عند توفرها.
 
                 </div>
+
             `;
 
             return;
+
+        }
+
+
+        grid.innerHTML =
+
+            filtered
+
+                .map(
+                    (article, index) =>
+
+                        createNewsCard(
+                            article,
+                            index
+                        )
+                )
+
+                .join("");
+
+
+        /*
+         * النزول إلى الأخبار
+         */
+
+        const section =
+
+            document.getElementById(
+                "trending"
+            );
+
+
+        if (section) {
+
+            section.scrollIntoView({
+
+                behavior: "smooth",
+
+                block: "start"
+
+            });
+
+        }
+
+    }
+
+
+    /* =========================================================
+       filterByCategory
+       
+       كانت مستعملة في index.html لكنها غير موجودة
+    ========================================================= */
+
+    window.filterByCategory = function(
+        category,
+        element
+    ) {
+
+        /*
+         * إزالة الحالة من جميع البطاقات
+         */
+
+        document
+            .querySelectorAll(
+                ".category-card"
+            )
+            .forEach(card => {
+
+                card.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+        /*
+         * تفعيل البطاقة
+         */
+
+        if (element) {
+
+            element.classList.add(
+                "active"
+            );
+
         }
 
 
         /*
-         * عرض الأخبار
+         * عرض القسم
          */
 
-        grid.innerHTML =
-            limited
-                .map(createNewsCard)
-                .join("");
-    }
+        renderFilteredCategory(
+            category
+        );
+
+    };
 
 
     /* =========================================================
-       عرض جميع الأقسام
-       ========================================================= */
+       عرض جميع الأخبار
+       
+       مرتبطة بزر "عرض الكل"
+    ========================================================= */
 
-    function renderAllCategories(articles) {
+    window.showAllNews = function() {
 
-        Object.keys(categories)
-            .forEach(category => {
+        if (
+            !Array.isArray(
+                window.nownexArticles
+            )
+        ) {
 
-                renderCategory(
-                    category,
-                    articles,
-                    6
+            return;
+
+        }
+
+
+        /*
+         * إزالة active
+         */
+
+        document
+            .querySelectorAll(
+                ".category-card"
+            )
+            .forEach(card => {
+
+                card.classList.remove(
+                    "active"
                 );
 
             });
-    }
+
+
+        renderMainNews(
+
+            window.nownexArticles,
+
+            window.nownexArticles.length
+
+        );
+
+    };
 
 
     /* =========================================================
-       آخر الأخبار
-       ========================================================= */
+       دعم البحث القديم
+    ========================================================= */
 
-    function renderLatestNews(articles) {
+    function setupOldSearch(articles) {
 
-        const latest =
-            document.getElementById(
-                "latestNews"
-            );
+        const input =
 
-
-        if (!latest) {
-            return;
-        }
-
-
-        const sorted =
-            sortByDate(articles);
-
-
-        const latestArticles =
-            sorted.slice(0, 8);
-
-
-        if (!latestArticles.length) {
-
-            latest.innerHTML = `
-                <div class="news-empty">
-
-                    <div class="news-empty-icon">
-                        📰
-                    </div>
-
-                    <p>
-                        لا توجد أخبار حاليًا.
-                    </p>
-
-                </div>
-            `;
-
-            return;
-        }
-
-
-        latest.innerHTML =
-            latestArticles
-                .map(createNewsCard)
-                .join("");
-    }
-
-
-    /* =========================================================
-       تحديث عدادات الأخبار
-       ========================================================= */
-
-    function updateCategoryCounters(articles) {
-
-        Object.keys(categories)
-            .forEach(category => {
-
-                const count =
-                    articles.filter(
-                        article =>
-                            article.category === category
-                    ).length;
-
-
-                /*
-                 * البحث عن أي عنصر يحمل:
-                 * data-news-count="football"
-                 */
-
-                const counter =
-                    document.querySelector(
-                        `[data-news-count="${category}"]`
-                    );
-
-
-                if (counter) {
-
-                    counter.textContent =
-                        count;
-                }
-
-            });
-    }
-
-
-    /* =========================================================
-       تحديث تاريخ آخر تحديث
-       ========================================================= */
-
-    function updateNewsTimestamp(updatedAt) {
-
-        const updated =
-            document.getElementById(
-                "newsUpdated"
-            );
-
-
-        if (!updated || !updatedAt) {
-            return;
-        }
-
-
-        const date =
-            formatDate(updatedAt);
-
-
-        const time =
-            formatTime(updatedAt);
-
-
-        if (!date) {
-            return;
-        }
-
-
-        updated.textContent =
-            `آخر تحديث: ${date}${time ? " - " + time : ""}`;
-    }
-
-
-    /* =========================================================
-       البحث في الأخبار
-       ========================================================= */
-
-    function setupNewsSearch(articles) {
-
-        const searchInput =
             document.querySelector(
                 "#newsSearch"
             );
 
 
-        if (!searchInput) {
+        if (!input) {
             return;
         }
 
 
-        searchInput.addEventListener(
+        input.addEventListener(
             "input",
             () => {
 
                 const query =
-                    searchInput.value
+
+                    input.value
                         .trim()
                         .toLowerCase();
 
 
-                /*
-                 * إذا كان البحث فارغًا
-                 */
-
                 if (!query) {
 
-                    renderAllCategories(
-                        articles
-                    );
-
-                    renderLatestNews(
+                    renderMainNews(
                         articles
                     );
 
                     return;
+
                 }
 
-
-                /*
-                 * البحث في:
-                 * العنوان
-                 * الوصف
-                 * المصدر
-                 * التصنيف
-                 */
 
                 const results =
-                    articles.filter(article => {
 
-                        const title =
-                            String(
-                                article.title || ""
-                            ).toLowerCase();
+                    articles.filter(
+                        article => {
 
+                            const text = [
 
-                        const description =
-                            String(
-                                article.description || ""
-                            ).toLowerCase();
+                                article.title,
 
+                                article.title_ar,
 
-                        const source =
-                            String(
-                                article.source || ""
-                            ).toLowerCase();
+                                article.summary,
 
+                                article.summary_ar,
 
-                        const category =
-                            String(
-                                categories[
-                                    article.category
-                                ] || ""
-                            ).toLowerCase();
+                                article.description,
 
+                                article.source,
 
-                        return (
-                            title.includes(query) ||
-                            description.includes(query) ||
-                            source.includes(query) ||
-                            category.includes(query)
-                        );
-                    });
+                                article.category
+
+                            ]
+
+                                .filter(Boolean)
+
+                                .join(" ")
+
+                                .toLowerCase();
 
 
-                /*
-                 * إخفاء الأقسام
-                 * وعرض نتائج البحث في latestNews
-                 */
-
-                Object.keys(categories)
-                    .forEach(category => {
-
-                        const grid =
-                            document.querySelector(
-                                `[data-news-category="${category}"]`
+                            return text.includes(
+                                query
                             );
 
-
-                        if (grid) {
-                            grid.innerHTML = "";
                         }
-
-                    });
-
-
-                const latest =
-                    document.getElementById(
-                        "latestNews"
                     );
 
 
-                if (!latest) {
-                    return;
-                }
-
-
-                if (!results.length) {
-
-                    latest.innerHTML = `
-                        <div class="news-empty">
-
-                            <div class="news-empty-icon">
-                                🔍
-                            </div>
-
-                            <p>
-                                لم يتم العثور على أخبار مطابقة.
-                            </p>
-
-                        </div>
-                    `;
-
-                    return;
-                }
-
-
-                latest.innerHTML =
-                    sortByDate(results)
-                        .slice(0, 20)
-                        .map(createNewsCard)
-                        .join("");
-            }
-        );
-    }
-
-
-    /* =========================================================
-       أزرار عرض المزيد
-       ========================================================= */
-
-    function setupShowMoreButtons(articles) {
-
-        document
-            .querySelectorAll(
-                "[data-news-more]"
-            )
-            .forEach(button => {
-
-                button.addEventListener(
-                    "click",
-                    () => {
-
-                        const category =
-                            button.dataset.newsMore;
-
-
-                        if (
-                            !categories[category]
-                        ) {
-                            return;
-                        }
-
-
-                        const grid =
-                            document.querySelector(
-                                `[data-news-category="${category}"]`
-                            );
-
-
-                        if (!grid) {
-                            return;
-                        }
-
-
-                        const filtered =
-                            sortByDate(
-                                articles.filter(
-                                    article =>
-                                        article.category ===
-                                        category
-                                )
-                            );
-
-
-                        grid.innerHTML =
-                            filtered
-                                .map(createNewsCard)
-                                .join("");
-
-
-                        button.style.display =
-                            "none";
-                    }
+                renderSearchResultsInGrid(
+                    results
                 );
 
-            });
+            }
+        );
+
     }
 
 
     /* =========================================================
-       تحميل ملف الأخبار
-       ========================================================= */
+       عرض نتائج البحث داخل newsGrid
+    ========================================================= */
+
+    function renderSearchResultsInGrid(
+        results
+    ) {
+
+        const grid =
+
+            document.getElementById(
+                "newsGrid"
+            );
+
+
+        if (!grid) {
+            return;
+        }
+
+
+        if (!results.length) {
+
+            grid.innerHTML = `
+
+                <div class="empty-news">
+
+                    <strong>
+
+                        لم نجد أخبارًا مطابقة
+
+                    </strong>
+
+                    جرّب كلمة بحث أخرى.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        grid.innerHTML =
+
+            sortByDate(results)
+
+                .map(
+                    (article, index) =>
+
+                        createNewsCard(
+                            article,
+                            index
+                        )
+                )
+
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       تحميل الأخبار
+    ========================================================= */
 
     async function loadNews() {
 
         try {
 
+            console.log(
+                "NOWNEX: جاري تحميل الأخبار..."
+            );
+
+
             const response =
+
                 await fetch(
+
                     NEWS_FILE +
+
                     "?v=" +
+
                     Date.now(),
+
                     {
+
                         cache: "no-store"
+
                     }
+
                 );
 
 
@@ -787,63 +1311,85 @@ document.addEventListener("DOMContentLoaded", () => {
                 throw new Error(
                     `HTTP ${response.status}`
                 );
+
             }
 
 
             const data =
+
                 await response.json();
 
 
             /*
-             * التأكد من وجود مصفوفة الأخبار
+             * دعم:
+             *
+             * {
+             *   "news": [...]
+             * }
+             *
+             * وأيضًا المصفوفة المباشرة
              */
 
-            const articles =
+            const rawArticles =
+
+                Array.isArray(data)
+
+                    ?
+
+                data
+
+                    :
+
                 Array.isArray(data.news)
-                    ? data.news.filter(
-                        isValidArticle
-                    )
-                    : [];
+
+                    ?
+
+                data.news
+
+                    :
+
+                [];
+
+
+            const articles =
+
+                rawArticles.filter(
+                    isValidArticle
+                );
+
+
+            /*
+             * حفظ الأخبار عالميًا
+             */
+
+            exposeNews(
+                articles
+            );
 
 
             console.log(
+
                 `NOWNEX: تم تحميل ${articles.length} خبر`
+
             );
 
 
             /*
-             * عرض الأقسام
+             * عرض الأخبار الرئيسية
              */
 
-            renderAllCategories(
+            renderMainNews(
+                articles,
+                9
+            );
+
+
+            /*
+             * تحديث العدد
+             */
+
+            updateNewsCount(
                 articles
-            );
-
-
-            /*
-             * آخر الأخبار
-             */
-
-            renderLatestNews(
-                articles
-            );
-
-
-            /*
-             * العدادات
-             */
-
-            updateCategoryCounters(
-                articles
-            );
-
-
-            /*
-             * تاريخ آخر تحديث
-             */
-
-            updateNewsTimestamp(
-                data.updatedAt
             );
 
 
@@ -851,21 +1397,24 @@ document.addEventListener("DOMContentLoaded", () => {
              * البحث
              */
 
-            setupNewsSearch(
+            setupOldSearch(
                 articles
             );
 
 
             /*
-             * أزرار المزيد
+             * تحديث العناصر الأخرى إن وجدت
              */
 
-            setupShowMoreButtons(
+            updateOptionalElements(
+                data,
                 articles
             );
 
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.error(
                 "NOWNEX News Error:",
@@ -874,70 +1423,148 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             /*
-             * رسالة الخطأ في جميع الأقسام
+             * مهم:
+             * لا نترك الشاشة فارغة بدون تفسير
              */
 
-            document
-                .querySelectorAll(
-                    "[data-news-category]"
-                )
-                .forEach(grid => {
+            const grid =
 
-                    grid.innerHTML = `
-                        <div class="news-empty">
-
-                            <div class="news-empty-icon">
-                                ⚠️
-                            </div>
-
-                            <p>
-                                تعذر تحميل الأخبار حاليًا.
-                            </p>
-
-                            <small>
-                                حاول تحديث الصفحة مرة أخرى.
-                            </small>
-
-                        </div>
-                    `;
-
-                });
-
-
-            /*
-             * رسالة الخطأ في آخر الأخبار
-             */
-
-            const latest =
                 document.getElementById(
-                    "latestNews"
+                    "newsGrid"
                 );
 
 
-            if (latest) {
+            if (grid) {
 
-                latest.innerHTML = `
-                    <div class="news-empty">
+                grid.innerHTML = `
 
-                        <div class="news-empty-icon">
-                            ⚠️
-                        </div>
+                    <div class="empty-news">
 
-                        <p>
-                            تعذر تحميل الأخبار حاليًا.
-                        </p>
+                        <strong>
+
+                            ⚠️ تعذر تحميل الأخبار
+
+                        </strong>
+
+                        تأكد من وجود الملف:
+
+                        <br>
+
+                        <code>
+                            data/news.json
+                        </code>
+
+                        <br><br>
+
+                        ثم أعد تحميل الصفحة.
 
                     </div>
+
                 `;
+
             }
+
         }
+
     }
 
 
     /* =========================================================
-       تشغيل النظام
-       ========================================================= */
+       تحديث عناصر اختيارية
+    ========================================================= */
+
+    function updateOptionalElements(
+        data,
+        articles
+    ) {
+
+        /*
+         * newsUpdated
+         */
+
+        const updated =
+
+            document.getElementById(
+                "newsUpdated"
+            );
+
+
+        if (
+            updated &&
+            data &&
+            data.updatedAt
+        ) {
+
+            const date =
+
+                formatDate(
+                    data.updatedAt
+                );
+
+
+            const time =
+
+                formatTime(
+                    data.updatedAt
+                );
+
+
+            if (date) {
+
+                updated.textContent =
+
+                    `آخر تحديث: ${date}` +
+
+                    (
+
+                        time
+                            ? ` - ${time}`
+                            : ""
+
+                    );
+
+            }
+
+        }
+
+
+        /*
+         * عدادات الأقسام إن وجدت
+         */
+
+        document
+            .querySelectorAll(
+                "[data-news-count]"
+            )
+            .forEach(counter => {
+
+                const category =
+
+                    counter.dataset.newsCount;
+
+
+                const count =
+
+                    articles.filter(
+                        article =>
+                            article.category ===
+                            category
+                    ).length;
+
+
+                counter.textContent =
+                    count;
+
+            });
+
+    }
+
+
+    /* =========================================================
+       تشغيل
+    ========================================================= */
 
     loadNews();
+
 
 });
