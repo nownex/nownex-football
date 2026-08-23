@@ -1,10 +1,12 @@
-name: Update NOWNEX News
+name: Update NOWNEX FOOTBALL News
 
 on:
+
   workflow_dispatch:
 
   schedule:
-    - cron: "7,37 * * * *"
+    # تحديث الأخبار كل 3 ساعات
+    - cron: "7 */3 * * *"
 
 permissions:
   contents: write
@@ -17,11 +19,22 @@ jobs:
 
     steps:
 
+      # =====================================================
+      # تحميل المشروع
+      # =====================================================
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Fetch football news
+
+      # =====================================================
+      # جلب أخبار NOWNEX FOOTBALL
+      # =====================================================
+
+      - name: Fetch NOWNEX FOOTBALL News
+
         shell: python
+
         run: |
 
           import json
@@ -33,36 +46,35 @@ jobs:
           import re
 
 
+          # =================================================
+          # الأقسام الرئيسية
+          # =================================================
+
           feeds = [
 
               {
-                  "category": "football",
-                  "query": "كرة القدم أخبار"
+                  "category": "matches",
+                  "query": "كرة القدم مباريات المواجهات القمة مباراة اليوم"
+              },
+
+              {
+                  "category": "transfers",
+                  "query": "كرة القدم انتقالات صفقات مفاوضات انتقالات اللاعبين"
               },
 
               {
                   "category": "stars",
-                  "query": "كرة القدم اللاعبين النجوم"
+                  "query": "كرة القدم النجوم اللاعبين إصابات تصريحات أرقام"
               },
 
               {
-                  "category": "world",
-                  "query": "كرة القدم العالمية"
+                  "category": "national",
+                  "query": "المنتخبات كأس العالم كأس أمم إفريقيا تصفيات كرة القدم"
               },
 
               {
-                  "category": "bigMatches",
-                  "query": "مباريات كرة القدم اليوم"
-              },
-
-              {
-                  "category": "competitions",
-                  "query": "دوري أبطال أوروبا الدوري الأوروبي كأس العالم"
-              },
-
-              {
-                  "category": "starMatches",
-                  "query": "ريال مدريد برشلونة ليفربول مانشستر سيتي"
+                  "category": "history",
+                  "query": "تاريخ كرة القدم أساطير كرة القدم نهائيات تاريخية"
               }
 
           ]
@@ -70,6 +82,10 @@ jobs:
 
           articles = []
 
+
+          # =================================================
+          # تنظيف النص
+          # =================================================
 
           def clean_text(text):
 
@@ -79,8 +95,22 @@ jobs:
               text = unescape(text)
 
               text = re.sub(
-                  r"<[^>]+>",
+                  r"<script.*?</script>",
                   "",
+                  text,
+                  flags=re.I | re.S
+              )
+
+              text = re.sub(
+                  r"<style.*?</style>",
+                  "",
+                  text,
+                  flags=re.I | re.S
+              )
+
+              text = re.sub(
+                  r"<[^>]+>",
+                  " ",
                   text
               )
 
@@ -93,6 +123,10 @@ jobs:
               return text.strip()
 
 
+          # =================================================
+          # استخراج عنصر XML
+          # =================================================
+
           def get_text(item, tag):
 
               element = item.find(tag)
@@ -103,24 +137,177 @@ jobs:
               return element.text or ""
 
 
+          # =================================================
+          # استخراج صورة الخبر
+          #
+          # Google News RSS قد يضع الصورة:
+          # media:content
+          # media:thumbnail
+          # enclosure
+          # أو داخل description
+          # =================================================
+
+          def get_image(item):
+
+              # ---------------------------------------------
+              # namespaces
+              # ---------------------------------------------
+
+              media_content = item.find(
+                  "{http://search.yahoo.com/mrss/}content"
+              )
+
+              if media_content is not None:
+
+                  image_url = (
+                      media_content.attrib.get("url")
+                      or
+                      media_content.attrib.get("href")
+                  )
+
+                  if image_url:
+                      return image_url
+
+
+              media_thumbnail = item.find(
+                  "{http://search.yahoo.com/mrss/}thumbnail"
+              )
+
+              if media_thumbnail is not None:
+
+                  image_url = (
+                      media_thumbnail.attrib.get("url")
+                      or
+                      media_thumbnail.attrib.get("href")
+                  )
+
+                  if image_url:
+                      return image_url
+
+
+              # ---------------------------------------------
+              # enclosure
+              # ---------------------------------------------
+
+              enclosure = item.find("enclosure")
+
+              if enclosure is not None:
+
+                  image_url = (
+                      enclosure.attrib.get("url")
+                      or
+                      enclosure.attrib.get("href")
+                  )
+
+                  media_type = (
+                      enclosure.attrib.get("type")
+                      or
+                      ""
+                  )
+
+                  if (
+                      image_url
+                      and (
+                          "image" in media_type
+                          or
+                          media_type == ""
+                      )
+                  ):
+
+                      return image_url
+
+
+              # ---------------------------------------------
+              # البحث داخل description
+              # ---------------------------------------------
+
+              description = get_text(
+                  item,
+                  "description"
+              )
+
+              if description:
+
+                  match = re.search(
+                      r'<img[^>]+src=["\']([^"\']+)["\']',
+                      description,
+                      flags=re.I
+                  )
+
+                  if match:
+
+                      return unescape(
+                          match.group(1)
+                      )
+
+
+              return ""
+
+
+          # =================================================
+          # إنشاء ملخص عربي
+          # =================================================
+
+          def create_summary(title, description):
+
+              description = clean_text(
+                  description
+              )
+
+              if description:
+
+                  # الحد الأقصى للملخص
+                  if len(description) > 350:
+
+                      description = (
+                          description[:350]
+                          + "..."
+                      )
+
+                  return description
+
+              return (
+                  "يتابع NOWNEX FOOTBALL "
+                  "أحدث تفاصيل هذا الخبر "
+                  "في عالم كرة القدم."
+              )
+
+
+          # =================================================
+          # جلب الأخبار من Google News RSS
+          # =================================================
+
           for feed in feeds:
 
               category = feed["category"]
 
               query = feed["query"]
 
-              encoded_query = urllib.parse.quote(query)
+              encoded_query = urllib.parse.quote(
+                  query
+              )
 
-              url = (
+
+              rss_url = (
                   "https://news.google.com/rss/search?"
                   "q="
                   + encoded_query
-                  + "&hl=ar&gl=DZ&ceid=DZ:ar"
+                  +
+                  "&hl=ar&gl=DZ&ceid=DZ:ar"
               )
 
 
               print(
-                  "Loading:",
+                  "===================================="
+              )
+
+              print(
+                  "Loading category:",
+                  category
+              )
+
+              print(
+                  "Query:",
                   query
               )
 
@@ -128,11 +315,17 @@ jobs:
               try:
 
                   request = urllib.request.Request(
-                      url,
+
+                      rss_url,
+
                       headers={
                           "User-Agent":
-                          "Mozilla/5.0"
+                          "Mozilla/5.0 "
+                          "(X11; Linux x86_64) "
+                          "AppleWebKit/537.36 "
+                          "Chrome/120 Safari/537.36"
                       }
+
                   )
 
 
@@ -154,21 +347,37 @@ jobs:
                   )
 
 
-                  for item in items[:10]:
+                  print(
+                      "Items found:",
+                      len(items)
+                  )
+
+
+                  # -------------------------------------------------
+                  # نأخذ حتى 12 خبرًا من كل قسم
+                  # -------------------------------------------------
+
+                  for item in items[:12]:
+
+                      raw_title = get_text(
+                          item,
+                          "title"
+                      )
+
+
+                      raw_description = get_text(
+                          item,
+                          "description"
+                      )
+
 
                       title = clean_text(
-                          get_text(
-                              item,
-                              "title"
-                          )
+                          raw_title
                       )
 
 
                       description = clean_text(
-                          get_text(
-                              item,
-                              "description"
-                          )
+                          raw_description
                       )
 
 
@@ -190,11 +399,40 @@ jobs:
                       ).strip()
 
 
+                      image = get_image(
+                          item
+                      )
+
+
                       if not title:
                           continue
 
 
-                      articles.append({
+                      # -------------------------------------------
+                      # إنشاء ملخص
+                      # -------------------------------------------
+
+                      summary = create_summary(
+                          title,
+                          description
+                      )
+
+
+                      # -------------------------------------------
+                      # البيانات الموحدة
+                      #
+                      # نضع أكثر من اسم للحقل حتى تكون
+                      # متوافقة مع news.js و index.html
+                      # -------------------------------------------
+
+                      article = {
+
+                          "id":
+                              re.sub(
+                                  r"[^a-zA-Z0-9]+",
+                                  "-",
+                                  title.lower()
+                              )[:100],
 
                           "category":
                               category,
@@ -202,48 +440,80 @@ jobs:
                           "title":
                               title,
 
+                          "title_ar":
+                              title,
+
                           "description":
                               description,
+
+                          "summary":
+                              summary,
+
+                          "summary_ar":
+                              summary,
+
+                          "image":
+                              image,
+
+                          "source":
+                              source
+                              or
+                              "Google News",
 
                           "url":
                               link,
 
-                          "source":
-                              source
-                              or "Google News",
+                          "link":
+                              link,
 
                           "date":
                               pub_date,
 
-                          "image":
-                              ""
+                          "published":
+                              pub_date
 
-                      })
+                      }
+
+
+                      articles.append(
+                          article
+                      )
 
 
               except Exception as error:
 
                   print(
-                      "Feed error:",
+                      "ERROR:",
+                      category,
                       error
                   )
 
 
+          # =====================================================
           # إزالة الأخبار المكررة
+          # =====================================================
 
           unique = {}
 
           for article in articles:
 
-              key = (
-                  article["title"]
-                  .lower()
+              title_key = (
+                  article.get(
+                      "title_ar",
+                      ""
+                  )
                   .strip()
+                  .lower()
               )
 
-              if key not in unique:
 
-                  unique[key] = article
+              if not title_key:
+                  continue
+
+
+              if title_key not in unique:
+
+                  unique[title_key] = article
 
 
           articles = list(
@@ -251,22 +521,87 @@ jobs:
           )
 
 
+          # =====================================================
           # ترتيب الأخبار
+          # =====================================================
+
+          def sort_key(article):
+
+              return (
+                  article.get("published")
+                  or
+                  article.get("date")
+                  or
+                  ""
+              )
+
 
           articles.sort(
-              key=lambda article:
-                  article.get(
-                      "date",
-                      ""
-                  ),
+              key=sort_key,
               reverse=True
           )
 
 
-          # الاحتفاظ بآخر 60 خبرًا
+          # =====================================================
+          # الحد الأقصى
+          #
+          # 10 أخبار لكل قسم تقريبًا
+          # =====================================================
 
-          articles = articles[:60]
+          max_articles = 60
 
+          articles = articles[
+              :max_articles
+          ]
+
+
+          # =====================================================
+          # إحصائيات الأقسام
+          # =====================================================
+
+          category_counts = {}
+
+          for article in articles:
+
+              category = article.get(
+                  "category"
+              )
+
+              category_counts[category] = (
+                  category_counts.get(
+                      category,
+                      0
+                  )
+                  + 1
+              )
+
+
+          print(
+              "===================================="
+          )
+
+          print(
+              "TOTAL NEWS:",
+              len(articles)
+          )
+
+          print(
+              "CATEGORY COUNTS:"
+          )
+
+
+          for category, count in category_counts.items():
+
+              print(
+                  category,
+                  ":",
+                  count
+              )
+
+
+          # =====================================================
+          # ملف JSON النهائي
+          # =====================================================
 
           output = {
 
@@ -275,11 +610,33 @@ jobs:
                       timezone.utc
                   ).isoformat(),
 
+              "count":
+                  len(articles),
+
+              "categories":
+                  category_counts,
+
               "news":
                   articles
 
           }
 
+
+          # =====================================================
+          # إنشاء مجلد data إذا لم يكن موجودًا
+          # =====================================================
+
+          import os
+
+          os.makedirs(
+              "data",
+              exist_ok=True
+          )
+
+
+          # =====================================================
+          # حفظ الأخبار
+          # =====================================================
 
           with open(
               "data/news.json",
@@ -296,17 +653,33 @@ jobs:
 
 
           print(
-              "News saved:",
+              "===================================="
+          )
+
+          print(
+              "NOWNEX FOOTBALL NEWS SAVED"
+          )
+
+          print(
+              "Articles:",
               len(articles)
           )
 
+          print(
+              "===================================="
+          )
+
+
+      # =====================================================
+      # حفظ التحديث في GitHub
+      # =====================================================
 
       - name: Commit updated news
 
         run: |
 
           git config user.name \
-            "NOWNEX News Bot"
+            "NOWNEX Football News Bot"
 
           git config user.email \
             "actions@users.noreply.github.com"
@@ -315,6 +688,6 @@ jobs:
 
           git diff --cached --quiet || \
             git commit \
-            -m "Update NOWNEX news"
+            -m "Update NOWNEX FOOTBALL news"
 
           git push
