@@ -1,5 +1,486 @@
 {
-  "updatedAt": "2026-08-23T14:47:29.003916+00:00",
-  "count": 0,
-  "news": []
+  "updatedAt": "2026-08-23T14:56:43.190067+00:00",
+  "count": 48,
+  "news": [
+    {
+      "category": "stars",
+      "title_ar": "ثورة المخضرمين.. كيف هزم نجوم كرة القدم ساعة العمر؟ - العربي الجديد",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "العربي الجديد",
+      "link": "https://news.google.com/rss/articles/CBMijANBVV95cUxPbUVjS3pqQnFYTnN2SWpOczNpTHpMWlpRdFZ3TkNTM0pTUkJfam5HeEZmRnRIUndYUkY0eDNNMWg4MXNMM29TLXlFZEw3ME9ISEh0WGxITDk1UTRTeXczZkRwcWtKa3FQY3pZZXdXbkFNOUNxZmRiN1hwTVJDRXR0RXp5NlhMV3pvd0ptX1cwZTNIWVlUTmV5a0I0SjZtc2xJX2hCbGNuSVh5aFlBUjBEUHRnRVpUNlV3RGtxTk1MbHhSVEw0TURRQUtlb2lKQ1RZc3lWbE9hZEF5YXhjY0RidnFPaGpTM05oVTh4RXJtUjJoM3IxUENYeGlGTlNyWTQ5c3NzcFUxMERnWjhFTXZiRWNJZG5yUEdXNy1PelBYMzh3c2FfeV9ieXlWNzEzUkZPQlkxdTRaa3pueEo5OG1pWVAyRVBtUzRsZHVnc1NkdDFESjRXSHJRZFc4THhiRlNLaUNnWmxzanpZTWd1RTA3b0RTZkRfaFlibm9xMFQ4bWZZTmpscjFiZ3psTW4?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 29 Jul 2026 07:00:00 GMT",
+      "date": "Wed, 29 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "عربيات خطفن قلوب نجوم كرة القدم العالميين - annahar.com",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "annahar.com",
+      "link": "https://news.google.com/rss/articles/CBMipgJBVV95cUxNd042VnByM2g0Z2RDU2tQSW9wT1lRek96cVJxM3RDTHM1bFhJQW1KdUY1dnM4dURkWWhXQVh5RVE4c2VDcTE5T0FyQU00aE9ZLXZUSmNfVVBoOVVSZGdQT2hmeFAyc3p4Zlk4Mmpramg5NmpFY2FSbHJUTFZEaTQxSmtnUEF3ZG1qQWM2QTVkSGFUb1VMQ1k0NXRTUk1ma1hUZ3UtLVdFUkNwam43dlRPRHZtaGdHSkZ2a3VkMUpVZjNnOWJqVDB6cDR6b0V1QzVVc0x2Q2JQdDN5dDFaQ3lIZEtmVlJpRDFxU3dSaHpkWmpUZlNXRlRwelFyMGZ5eFd6N1BlU0RBaEtSZmVVMVBYdHIxYzBKc0xwY1NZZVBnVmVDMlZhd0E?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 19 Aug 2026 21:45:00 GMT",
+      "date": "Wed, 19 Aug 2026 21:45:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "جميع صفقات الدوري الإسباني في الانتقالات الصيفية 2026 - 365Scores",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOSW1pNEJMMW9ZazdMeFNLMFZHeXRrb3IzVEZSWlVfWVhXaHduSkozQ1M3SXFaa25XU3BRMnZYbjE1WmpKNXVxd2x5YzFKX05mamExY3MwdjE0bkVYYVU3RXAwY1RGd0NzdnNJUXhHTk5UUWR4LWRaMUx4cmpaYjJWeVJsOGdVVkFNYmZTTU9wbGxfYkVnWUxvZTRtSmFIM0Q2TmZBVkQ0WU83MnRvUEdjSzRZdWZQaFZ0cjJqcmtVUWFoOHlNUFk4RDRZMjVEV2ZyTDNWeVB4SlNndWo1Y3lkQlVNVzVhc2Q4clZ1enNZOGNqbWZ0elVlNQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 19 Aug 2026 17:50:00 GMT",
+      "date": "Wed, 19 Aug 2026 17:50:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "جميع صفقات الدوري الإماراتي في الانتقالات الصيفية 2026 - 365Scores",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi4AJBVV95cUxNV3pfaGdrRzNvZDZlRDBpalY4YTNwc1p6d1AtTUJwWlBLaTZqRk9pRnl6enBJM0FLWEZDMEdhRHdGX080WlBlRTEwYmVMRVhpRjl4SGFKTEFCMmxPYmZKNXh6MFFGM0s4SURERWRJVGJnNnFiQVVwSWJ1VzBLeFh1bmZ1WFNwNFkxVjRLYXJHX2dVZEdOUTZhamRZajBLelFselFwZmdjT1B3cnkzdDU2SFItcnc3VzgtbUkxcWN5UmpLel9zR1BiOFg3S3h4cTF5dzJzend1dzdmazk3TlhJWWh2Zlc1QkRsSW9wUDFkVXcxSHBacFVIalctRUxpLVRpVGc4dzQzNkhuRDdJWjEweHZUMVprTkdNUkdXMzctRkxKZ05NR2piSWVRUXZMUmZZN0xSdHJkSVdtWlBUbG9TVFdKeWNoMEc4cEthb2JfcEFTQWhZWG1WN2FyZnNBVGtz?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 19 Aug 2026 17:45:00 GMT",
+      "date": "Wed, 19 Aug 2026 17:45:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "سوق الانتقالات .. جميع صفقات أندية الدوري الإنجليزي الممتاز في ميركاتو صيف 2026 - Kooora",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMizgVBVV95cUxQX09IUm1pTk5CUDdiU2loT0hodk1USjh0TVJoQXlwMlhWVmItN3I4d0pGRHZNS2NoX01HR1BpSTNDdUgzYU1GTVFqMzRfenBzbGNZZGZ3d09uZU5qZDhIMU5iQTR4LWo5Ni0zaGUwX19IUG9PVDFoRWFiLWR6WDQ2VUR3V0pSQnA5eDk5SlJlZVdNUGowQmJ0SXUtWHFUd093RE0wWGMyVDBSMTg1eVpYSl9mX2pfVDUweHBSamdLYWxRUjVmYndMMjBDdnpBd3FfeGhIbjZxWWYxemQyLVNqSklkb2xRUk5qOGVxWmZLN1lTN0ZwOUo3YWVaWWZ4ZGphT2dqeGt2ZUNlWWVZdGJNVDNGLUNzT2U5OERrLVdyVVo4bjNSd0xBbDdLVVBYRGZlVWlRVWsza21RMnVYczRBNlZyY2dkV2xwMXlqUndrYWt5djBJeE04NFR1b0k3N1pqS0JZT2hmZzV0bDA2MVNiV2ZCNmtmNFFrVkxMQTNEblJVRUtuNk1MdVktbkY0TXJtQ01PZWJiYWpDZEk2MlhULXpRQm1CVHBTWHpZWWZOelo0b1U2TnREQ0x5TWVpc1AzSzBnVVFPaGJxN3V3WkQwVHhzbHFLV284SjhGZm93TzBNMmhkaW8yUGY4Q2V0dVFLTmVOaWFKMEVvQnFLc0kxdE8yRk5oRldUR1F6WmFKQjdrWUR2R1ZiR1k3ZU1fYW9VQW5TMHVJRnhybnFBYjE4M3h0eUFHdXZ1Ylc3V1J2YWdtMmg1RjVydVl6Y3VHTEE0R25DX0hsNy1SWUxKbEJzZlhxNjFCdVZvWXhjRW81Sm1xdThKVDE2OFBjdF9wamNxbE5QbklzZHpYa2NKTWhsRXRvSHZmTHo2SVVMaHE2dGVINkNyakVjSzBFaHdqY1hfVnpKelEwWW9sVklXNElObi1ZSElCR2kzQWg2VGpR?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 19 Aug 2026 14:00:00 GMT",
+      "date": "Wed, 19 Aug 2026 14:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "أحدثهن جورجينا رودريغيز.. إطلالات عرائسية مميزة لزوجات أشهر نجوم كرة القدم - hiamag.com",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "hiamag.com",
+      "link": "https://news.google.com/rss/articles/CBMitwVBVV95cUxNTE1aRUM0OTZWa0QwRVZ6SHZZOGxlaFJ4QWEwQjNTUGw2U1kzOF9xN1ZvZ1ZlQ3AtZ21TQnIxNmtKcS1FV3pYQXFKMVJaMzFTNElMWmhaU2lhM2cwQnIyazdBVTVzX1dBZzdpbWxBczFQRlpyT3haZGMwQ21oR3NFbjhCNnRwVWNMYlllOEQ2MS1YRHZ1TEUtZVZtNDBKOE5iV0lDcGljQkNfa0dpZVZjcEVZYUhKSFVBYUhOenRRTWdINkxRNlhiSnVxdUJiT3ZyM2tBOGFTSm4tSHYwMWduTWt3Wm8tc3V6X1hxZll5NnZ2amtZU25pWmRNYUVIdnZCN0lTd194X2VtaERPeXUwV1cxSldpNVdNQ3hHcXdYWlpnLS1oWkhNNTJUSFVjQWNYc0JGY0MySE9kSGs1dUJ4WXRqT1NhdUFiQllqTEQzazUtX0FsbnpqZ2R3TUFwbU9QaHpKTmx4VTlWbldfemNQN2VjYzRGZXdIU01uOWpNV2MzNWRlRlNMMml6enpjR1ZNY2t6R0NTQmRhdFVXdWYzODQ4ZFBwUVUwU2txT3k4QlR5T2tZZnJ1ZEx3WHVjLTBqM0lKUWdobzI0RGh0Qi11R1ZzR0VrRld5NGYwUHN3aTlrOFlpZWpkTXRTQ1psZWhpRkRvbC0xNU9hSW0zdXJzS0FtVnNWcEEzMDYxQlpEUUI2MEw4REZrbTF2QUxtb1hvWkJNck9pdDhUQ2FfZFZ1TTJ3cFNSaXBqSE1lM1R2SW1XekhNbWlZMy1hSXJEbUIxYUkta3RGaDJEZGlfOTE5aWhuMTdmY0NRRzdFTDBaV0NEUGNwQVJxMzAwUzVnZFdYZU5yQ3ZqOUxiRjBhOWdDYXRpMTlXX1NSYkNneFlCNXZpcW53MWk1Tmo3TUQ5R2FwcWhDZ0Fhcw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 19 Aug 2026 06:58:10 GMT",
+      "date": "Wed, 19 Aug 2026 06:58:10 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "ما هي صفقات أندية الدوري السعودي في سوق الانتقالات الصيفية 2026؟ - Goal.com",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Goal.com",
+      "link": "https://news.google.com/rss/articles/CBMiswRBVV95cUxOSW9rU3FjN3d2bkZKMUZOVHdqc25YcHlZeVBOdWx0eE9hQWpkTXA2cWxsYUhuN2I5UTROVkU1Nm52aGtpNzE1aGJwOGd5akdmZHhGLWdkRnBucTNaX0poU1Q5TnBpTXhadS0wM0RRRG5tRlNUMU5fN3F1OVFsb0JLcW1hTnR3dGJDVVdta0YyRXY3R0hHb3dPX1hYd05tYmY1Wk81MDk0VThyVHQwdFlUcFFRSVo3bnphQmZvYkNXTFVuSUhTR0hydjNpdzZRbERETktOb3BJMUFWemo0a0pLSkdaVnAxVlNBTG9jbXIyUUY5ZjZpSFozVy1pVjVOVW5rWDRiOHNoOGpsUVJiXzdqNjBFTHZPSXZxRGlDMjJtU09iWG5oU0tERVFWdnNiNDRGcExSVlV4Y0NMblpKNjNYQ2VxU2N0cmlfMmVfQzVHMEhNeDBHN1V2b1pHZExqbE9aZXVkMGdJeDdWTjNyeExxQm5Cblp6WUM2NFpUTGVNTXQ2Qkw4R0ZQNkRNUktvdC1uNXZucnFxMjVsVTVUQVNkUlU0aVlTdnVvblBiNkd0VENneVlPVFdLdkdjaWFmdVhMbU9NdTlZVHlBSkMyVFpVVTFHVmpqZmtJeksxT2ltYnpjZ2dtZWVZVVRTdlRYQjhhb1VUd2dfTDc3dmh5U1JhdlQzYjdNN2puOWloVVRqRC1aNVhqdEs5NFpKTDFxTUJ2a0QxaktuUVZfLTFBLUpxS1NzMA?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 19 Aug 2026 00:00:00 GMT",
+      "date": "Wed, 19 Aug 2026 00:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "نجوم كرة عالميون: مصر \"تعرضت للسرقة\" أمام ميسي ورفاقه - سكاي نيوز عربية",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "سكاي نيوز عربية",
+      "link": "https://news.google.com/rss/articles/CBMisgNBVV95cUxOM3lHdzBFRWo4aS1DTkk1ZjA3SEE1a1NqdlR0bHUwNTBEQVdXLXB3SE9DTEI0QnZvbzhXaV9fMVFlalplWWRaVWpvVTdCbVhVTDZ2NzNuTGdtVW1HcFRBdTRWLTBFOEFMTEh3Zkg1WnJHUTM2Q1FONUg4T3FMbXl2aVFVT3Naa3lQRGZ3dzJfWXhLSVh5Z1BzQkd5VFJlN1FkemE0V1d5UWpQWkdBZmRxaW50OFJtM2hvaC1rb1JaVUVSTzd1eFd3aElPTW1KbGxxNngtZks3Y1ByaWE0ZUlrZDR5VW93QzI3YnZYMlBPZ2hHY0hLOGYzN0JtcU4xeGJUdmJWWmpLMC1haU9pLVgyNFZ1VmE4ZFBVcHhMbHZvRUVjUExrRzlYYVdsZ3g3dlo3aDRXWHNUWWxTcTcxVzlzaVdtZGlPTFRPT05mU1NRazM1bVNFbkFJZ0NHei01T0tkX25TUXFMemVfQS02aW5JMjFDek01UEFXSld5dmdJNHFVdEhtY0ZVeGpRc1VuLU82VHVzV004czlGVFNGWDM0X0VGY0d6ZE5IYUtyNDY3WF8xUdIBtwNBVV95cUxNTlZrQ18zdDVhaTFOSE1rcUdwb29RSFpySEN4NXVDVUgxY2piU3Z6aGVOS3NoRkJsOTVTcG9TQ0VrMkc0eUJNdjBCOGJEdnJxelE4bXllUGkwSzZyamxDU0RvRlZPSGYxZldXX3c4bk5CT1hQUk1scks0cXh2UUc4el9tb2RIVTY5YUR2RkNXR1RHUjc4aFd3aVU1U1RIWlVRUllCa2hNZUVrVl84ZzFfZ3pGWGpHbi1JY3c4dHNKZllQWFhSS1NhSXZDaXRpMV9qMWg5Q192elBlTDJyMHVfVWR5WTRJWUdCSWk3LTFaM0hEZVpaV1NpNnRfbXlHUEV2aDBVdXBQM1pFa2pmS3NEd1I4bzFBd3ltZTdHc1Y2Nm10bVY1eHl2ZmJFUE5CTnpndHc1SHN4ZHh3dkhjbF80bndDdGlDQ3ZpdzJaTWlyRFY4dDBaeXdfclViN2NJcy1RYXdacWxGNlBVU0hWaWpBMTBxaXRoVWR0UWt5YmhvMzBHV0o2ODdTMU5nWUlZN19Rc1BpSFdabS1QRF9HbTBnckc4cEttRDhLXzBXY2N4Unl0Y2ZNNkw4?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 08 Jul 2026 07:00:00 GMT",
+      "date": "Wed, 08 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "كيف أصبحت أندية تركيا قادرة على تمويل صفقات نجوم كرة القدم؟ - الجزيرة نت",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الجزيرة نت",
+      "link": "https://news.google.com/rss/articles/CBMizgJBVV95cUxOdUVxeXZUcmNLTTQtc3UxbndmQ2gtMy0xWlZsbTAwamNOcDlqWEdwUUZtVnI4WUZta2JDSS1iYllqQl8xTWZEanNvNUJBaUFSSHVQMDM4dm43OTFfT3k5QzZreXB5MlVDT2hxQlFUMGFqek9OZXZUQTQwd04weEhsb1ZRSUx1RDJvbGdmdDlXVTVicmNmR1VLMnRGTjF1eGVlRlJFV0kzakdieXY2cE5uSEJmR3RVN09oVmxKOFJ4cDdUV3dsMFlvX1FaZm5tWkFKd090YU40UmdZSUxtY2JWbkVJSWZTQVcxUGNaMzg0Z1hBdmJKZkZmOGl3WjE2cnhKSjhkR01zal92aGxPdzBJeVBka090UU9QS0JycFpkbWZfQ0JmUlZNYzVlZFZ0ZS1qOTgwbHczbkRYalJ0QktNV3VYV3U5M0RITFc2Wm530gHTAkFVX3lxTE4xeGt6cENmNzhpdktpNjFQeURISjZXdUl5RkNxQnN6ZUl4QkNyRG9jcjNDYllCZUpBRHQ3UnRCSWJJMGk0YjBUUXZ0TG1nc05lV2gxRUlrQUd6NU5mZzdmeGVRR0dVakd5NURrdEphSkd5Q2NoaXdLalRWR2pRNXVnaEU5UFZYWFlneVBQRll2S0x5ckJEaXRSSWFJWXg0TlVWYnRFZ2tvd3g1M1FhRlNNWlF6eFJZX1dWUFA5a0t0WW9HTzVsdDl6N3hHaWV5NmtBTmxCbjBJN2ZuLXlBYnpPMEpmYXU0WGZ4ekVkMmNWdms2b09FanNFN2kxaExFeXRXLWZTQ3dhUTJ3bUxrTUwxZ0lHY0tnMkVZWUF5V0NmUDBCM2Ruam1sTTRuTUUxblFRSzhiUVhmZDg5UTZaNEowa1Fabzh0dl9qZGc2dmtISEdLVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 05 Aug 2026 07:00:00 GMT",
+      "date": "Wed, 05 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "انطلاق معسكر يوليو لمنتخب الشباب بمشاركة جميع اللاعبين - اليوم السابع",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMiQ0FVX3lxTE54Z0o3dXdPam9DNnlMOXB0Q1JneTI1TUtGUFl3LXVzRE9uckFCTEQ3ODBHU1M4NkpnMlJBUGxSeXhEWmfSAdQDQVVfeXFMUC1IR0pHQkJaTHZkdUdDYktheWdVRHM4bS1wQko4THkxbEtwOUx4dl9QUENEZ2xlM2pOcmlTT3NSSkk3SmNoQlAtRG01a1o3cmdYSTIzVElnN3FBblBublpMTkhReTZMOUM1SEd1WTk0LWJWdjlHb2l4aXdreHpnRm5NS2lvR2RQcWhxUGsyNnZIOUx1YXl1dHNhSkxmVm1UejJEeDU1YzlLZUQySHh3SGZCUDF4M1JvSlFod0U2bWFYZVg0Yl9ROWI4aUpIQmdlamJLdE1GdC1MUVVLcTdOUDBQYWNjQm1xRlZTdmozZURsOV9yZ1pJTFAydUQtWDhIQkdocFBBUXhnaXg5dVNGREZJT0FWN3lQZ0NVVjZRdGxGX0lxQ1RSX0JLU1RBZTFUaE9zd3BmMTcwMmtaTk1PdVNOQnlVOGJlTV91XzVyNEZCTlZER3VXYlp4YjlWdXZCcnpZN01abE83V3RSWHByV24zYnc3d3lzYTdyRFAyZktIbi14ZVR5TVhjMWZ2N1VKaWhFWWNlazRGMC1wZ3lDVmx1T2NjT01lb1pWVDZ5dm0xMVNPQi1sRWFEMmpKR3QxYW5zU3ZCck94bjFDR0Y5UkR2TkxR?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Wed, 01 Jul 2026 07:00:00 GMT",
+      "date": "Wed, 01 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "روبرتو كارلوس آخرهم.. أشهر 5 نجوم كرة قدم عالميين اعتنقوا الإسلام - إرم نيوز",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "إرم نيوز",
+      "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFAtRWZZRE9PZWRSRzQtOVZSR09ac0xGTVFhNlJYSDRDckRaNVhxWm5jM1lickpIamdCWmxxdWptQzE0dk93bHdFMVNXZXlfS1NW?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Tue, 18 Aug 2026 20:33:30 GMT",
+      "date": "Tue, 18 Aug 2026 20:33:30 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "سوق الانتقالات .. جميع صفقات أندية أوروبا في ميركاتو صيف 2026 - Kooora",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMi1gRBVV95cUxOSm9keE45YWlwUEZyYlFhNEMzU0k0ODIyTmx3TTNnNWpRLXpRTEd2bGxuRkpJc3NYaEpLZks5UFVHbmRqMUtOMVhRS3BpTnM4WDI3UHpSNjRSX25qX3JJcjBqNDNwZVdXM3JQT1UwTk9DTEdmZzBaN3ZFOGlGbmNsclRvN1Bab0FSX1RHSU9KUHQ1QlpEVGxVNE9hbHN3N3NYSEpBY09Ta3NRZWZNb19xTlhfeU1WRkNlcUtBYlJoMmNubU9HdE51MWxLV18zeW1xanM0VFdORzQ0SkNqZG5wOEtMU0NzbExBR3JlaXJjU0g3ZU0yRldNLUxvSkhELU45TlA1cFY2TjlicjFGV3ZvcjZvWGNjcWlvUmdDZnFtUTJMN19raGVwUXV1MWFUdWVXMXhHaG1FRVRSWTJkRXBld3VnZThuY3R4Slp1SzJTZFFXeldLRG10NC1vdHJzY3pabDdOZjdYeFQwVFlMVHoyNkpFdWEzVnd2VG1VbjZKRTdCQTY4ZTV2ZkR6TUY1bW50SS1fTUFtdU9GRlhtQ0ozMTF6RGdpTHpzcTc1RWtPSUVRV0s5Z2NxNjk0ZDZyN0dQX0RkTWpmVnh1dWxyQVVndTNkWVRqMmhCVzJmc0JqMjViaThzaDB1ZFBIUXUtN1pNUEZvdFhYdDNOUmdPMVMzUFlZSjV0WU4tS2NPbzYyOHk0RVN0MFIzYXdGTEdHWXoxVEdtY2JqOWU2bVFLektNQ0xDZTVDRjhMMU15UXpQZjFVZGFMaGNHS0prUkJ6eEhjRENHeDlB?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Tue, 18 Aug 2026 14:00:00 GMT",
+      "date": "Tue, 18 Aug 2026 14:00:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "34 لاعبًا و4 صفقات جديدة.. قائمة بيراميدز في الموسم الجديد (صور) - يلاكورة",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "يلاكورة",
+      "link": "https://news.google.com/rss/articles/CBMi7wNBVV95cUxOOGE1b0NONk5kNlQxLU94Zl8tNER4NXN3ODkyZVZXZ2hfY002MnByeHVvcGd0M0dEamdRa1ZSbWFvZ25rdm9pS1h6LWlzQTVJS2lOaW1kS2JVc25ZaEtwRW5tVnlIYXZsTnVGWDVsWjhUS2kzRjN1SmpwYUNVRmt2elExQmR4dFdSV2thMS0xMlNrRFhiRkxRRVQ0RngzbDBLbHhJUGVlOXdianoyMzlNOG1ZOTlNVWtoOU9fQmNoeFg0RkFWaExGamlBbnIzb3JVYkp1dDJrcjhnVHdoVjRvdzZQWFdZNmVPc1YtY0VXVnI4R0RFVTR4VFZXUXNDOGRuSVR2RWlSTGJhR241YmdsZkZpU3NMN1J1RjRsY0xRcU1YTmNwT1NTNUI5Y1h2SUZZbTNiQ1VRVXpVYXdZY3psRGstblJQMkJWLUpCMVdPSm1RYmI0SGNOakc4TWRRckItalF1cTQ2MUNiNTFnZkIwbV9uQTVxUUhQSFktdVB6cDBxdl9mdWNRTHJHczhMYzRRTkMxWXpMYjRVUVhfMmR0SU9FY1RVaGxhZWpuN1lpUy1wU0lxdXB3b1J4U3pVek1jQXlKaFlRT29Bb3Z1ZE05VkhpUzJQOVFpNG82dFY0UHNKRnpRci1LOG1Zbkh1dzjSAfQDQVVfeXFMT2FQTlEzNmVkTThLWE9idDh3VHd0WmpKcWFPanI3NjZfaFAyUklXQ2RzZ041N3hWcEdvTENyYjM1MTZVakFvcHJlM21iREc1SXE4SUdZY0pKOU9BWmF2akhKcmpISjNYRlBYdm1jcHJZOEdzSkc1LXBoQVNCeTgxYm5TS0JmQWszVWVqN1JCdkg5QXlsSHpVTnhTcDNGMkwwcEZpUU9FcFRiYzFZOTEzUXpwMHo0dmE2ajBUeXBaSEtFaE1qRFI4VzNaUnNGUl9NTXVEZDkyRzZtelB0QU9XQkE0Z1F3YWxHNUZMVkEyZWxXaWkwQVBXNlpIRktzQngxQ0FLTHpUU3piZUY5R096dldSa013ckdwUS1hQjU1cDdpVWkyU3lWUDJub2ptV3hoUDBpYnM2ZGRvOUtWdFhBeTFOcmlfNzNjNFdsaUQtYlFlaEw2eUc5NkQ2NjQ4TGZCNmhMM19EQ1lHVlJhVzFSVGVEQTN2Z3otVF8tYzNmYXAzWnNwQmt3a1lCaUIwYlQ2YVRfOEE1SFVTWHN2ZktxR0k4M3QtcG9ST21rei1EczM4RDZyem5iZ3ByOEhTcTVlZHFkVUR4RFR4QnNpQURQcUxfU0tPU3F0MHFOVDhzcllSVGI3YWw3MElqM1RIZHdFajhRQVA?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Tue, 18 Aug 2026 13:21:00 GMT",
+      "date": "Tue, 18 Aug 2026 13:21:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "أساطير الكرة يشاركون في جنازة فرانكو باريزي - العربية",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "العربية",
+      "link": "https://news.google.com/rss/articles/CBMihgNBVV95cUxOTC1FQzVnX0FJRHpDSU5pUlp0QXAzNjJuSDdjLTc3ZTNQQkRGdkRxOE9aam12WFhKUDV0VXdJNjhwM1p5eDNxUlNsTUdYSnZXcGNISFVLQmVEVWRUd0dpNGQtTGdHcXZBa3BLSVN2OFJLNE5VYUh6LXRLTXBMOGM4WXFjVkR1LTRqMzZBWURfb3lLb2I0cWxXSWhjS0FfVWVDWm9vdjVJbTg4ODJyLUtmZWZBSS1ZdEZJX254aldsMm1ZSmwyUGxBRl9RblZZSXBfazBiVzhQZjZsVFFZc0RRY1llU2tHbmtOVm9GN00wcl9vQjNvWFZ5Y3RueUQ1V1Q5aXFEVUgxbUc1aEZwUkFwRUNYQ3QzRWgyTG1xbzAwSXRmdEsyQVJWMDBreTQzWnFoT1BRSHJ0WkRzbVIybFl3d2pId21rWVVHUEVxdlk1NFNNZnNDNUtnWFVKNWdqNWRYX0VJN1pQRmJyalJMZXpTN1VZMWNVV3BrSlRoV3JUNnh6WHgwd3fSAYsDQVVfeXFMTTlUcGFvUWg4UTZoendObGVwRFhINmU1VVU5V0pqY3dJdnloRDZMMk91OThkTE03bHF2NDdaamtiVmtRaFR4MllERjFja1ZrdTV2NVl5bUdsMmRwYWpwcGdhVTNRd1lyVF9pY2NWdlJVcnE3UW43RkxhMHNub08tUENNUUpiTEtZVTRfZF9YODZXN3BfQldXdFlVTExQWkU2eC1DZnlyUnZmTkJXeU8wWXpXeDVCSDMtSnVJdmNYOUgwWVBhUVFmSktDNU5WNV9Zck9ZTVlSNUVNMnQ0RWtRVkwxQk9ES0dtYkRiSmstV1I3NVM3X0xNTExySzhUeXhtQXdaSkpWcmxkWG5xVXk0Z0dEYTNVQ01ZZWd5MDByekpIUk9jenVIdklUanRyYzl1VFpOMlpsMndMNEVhczFQSWlhdUVSQjBwZV9jdGxjWEN2WllPZV9JNkFSaExXUndWTm1OeDVpbThnVFdhVDhweXZMeWpmSHdVbFVyUVJuaTZGYmFFVGV5LTFpLTg?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Tue, 04 Aug 2026 07:00:00 GMT",
+      "date": "Tue, 04 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "بعد خسارة اليوم.. موعد مباراة طرابزون سبور المقبلة - Masrawy",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Masrawy",
+      "link": "https://news.google.com/rss/articles/CBMiywNBVV95cUxQRUh1MnUwSWRHQmxFV2hGVm11X1gxT1lvT09CWkdZUEZwNDdwR0hrOEhMdkVSTk9LWmhKalh0UjlpS2tSWFhSZjVDcllrd05LOXJLdy1rQzNLOVJ2dDAzUGNwVGFTNVJrdmlsSWctbHVuUzduOEc3NFZQWkJxLW4tNXlfUVJGUEZOY0MwcDlkOFlQN0hOYnVnc3pFRUJPMmctdkh3N0NkWTZJQWlqckdpR01fVzdtTjN3MzJCTUxHN0tJdG14aU9WQnluX3d2WUpVMEMyQUVGOVFDVjgxb0wxMUlfYnlkMnhWYTQwVUFGUEN3Z2EtRWVPZ3VlMU9EMGFrbDRWUzZjRVl6T2JYbUtzUnpsem9EQ1FCQzRKa1FIVWpMeVZGcE51R1pGM1RtY3BOcWtlM2t3SjBVcmtNOVMyRVhYdmc5NmltLU12M1FXTVlhWl9TeGVpT0dNMHRCLXA4MGl2a3lxZHRpWXJLUkpVWkdkSTRzY0RkaGtSQVZEVzFOTFdYWjd1VXEyRWd2SHdudHlGU1ZSWXlaTlBVR3A5TF9VeDItd0JiQTExM3NSS0lJNHptVGJOVVE2a0haM0RJcms0TUFPLWtZMDDSAdADQVVfeXFMTzNCRHNfRGVRRDRGYnZ0LWw2X2toMFdka20xcHJoZzVfVHFSWUtRakUwQTYyYU0xNlpNS1A2eklKR0RoX21FNG5wZi14S2JxRXh2b1FPMXN2elJVT2VtVG1mUzJ5d3I1VmstNmlzYklwdDBWYXVlVUg0QTJ0d193YU5ZaXp3d0g5LUdjM2g4d21ROUFjNlltWlVLU0pwSDQ5a2tZamRSb0JOc0txVlM5R1RMcTFJc3VHWlRqNXVvZWVjNHl2OEJSMDk5Rm5SZXp2cm5FSHlTX29nUDFocnh2NF9rTExDNFJCN3Zyc0w2bHB4QUd4UEZPUjR0aTNPQ3hhcnBDTWEzdDJSWjNCNTQxNE9XVjdhcjdUTUFSZDIwVDRWSGEtdEQ2LWQxeDE2MEx3WXMwUmNpbEFCLVZsR3ItVHZUSExMTkRpc3BEaGdtUTR2LXl3UGg0OXh5eVNzamxCLTVkOTJwcENfQnhZZThyQTRNMFozMFF2SU1rV3hZY0Y0WDQ4NGJybGF0MHRDMTBHWGVXUHVxNjh5WVZLV1kycmxZRUxFSWc2eVBHb2czenFNV1hlTWJMeVY0LUw2eGhMNGh6dWNPTEszY1lMUG5hUG0?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Thu, 20 Aug 2026 19:42:52 GMT",
+      "date": "Thu, 20 Aug 2026 19:42:52 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "أكبر انتقالات الصيف في كرة القدم العالمية - جريدة الأهالي المصرية",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "جريدة الأهالي المصرية",
+      "link": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE02aVVVcmFXdzA4Smh1QlFuNlFtWDZmOTM3eDhLbDc1Zm83R283dFc2NWw3SjVjUTRab253ZE44d1hxWDYtRzFtbXhDc1Jmcmpi?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Thu, 20 Aug 2026 19:13:45 GMT",
+      "date": "Thu, 20 Aug 2026 19:13:45 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "بعد تقارير عن اعتناقه الإسلام.. روبرتو كارلوس يحسم الجدل - سكاي نيوز عربية",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "سكاي نيوز عربية",
+      "link": "https://news.google.com/rss/articles/CBMirANBVV95cUxPcjFLbGJKVEpJRG9JRG0tVk5XWFE3MkF1b3dnNE5xVkw3NzJRQ1hneGtrY0hSaWhGUG45NEYtTTNyN1R1aVFJY2RucHZReS05WWZ1VWc0aXBKQVVHM3dlLW9DRXk4MVpKSGtGTlB1ZXpXT1JPdVNTZ1ZzQWlIZC1udjRfTndmTEl2T2t2SktMd2VSVERleEo1MTNHdHZoMU92Vkk4ZkJHekItWmpMeW1hQWREY2VFZl9lTXJfM0gtdDY1RUcxSXpJTkpuZFZRTUJoMWpwSmFoOUJmQi10RngxcS1UaFhPRTJFUzZFWlhCWUxVZkUtV2dFYjRWMjRPdzdjN2gwbGRaUmhKVGgyQU0xVC1HTVRxZGdndjNQRVJFVWRuYkNIcnJjRHpmUW1QMDN5RFBaWkxaNjJ2NWlRdTZGckFvbnl5RXJfMmkwYk0ybHlCMDNIVVpibE9OMGh3NGc5cGs4NFlfWTROOEluWC1HMk9veTlRTl9JOFN6U3UwVjk5TnFnSHFtRnJsM2duUmF6M0R2UE5VblRjTWJiM3M0RUhySWFZdHc1STVoWNIBsgNBVV95cUxORkcwSlhmVlFJeFgwazQ0UC1SSG1nb2tsS0tTUmt6QTZVZ04xTzF5U3lqNDF1ckVtT2JVa3Eyei1fZ3JvZ25GdGRrS2xrbUZXU1V0REp6SUJZZXQ4V0hsTDRVdmtTZ1VsVHg5U1FMampiWlQ2N0pFX0xFOG9qb3VUaEhsWXJvMGlTLU8zeUtEdjk1eDdjcHdFODF4NjRLZllBQXN6QnM2dmt3ekFuU2dZektHSlN4dV84cXVTRm9mVW0xaklQdGdfLVI4YVY0RlhRNjA5V2FhMktfbU1HOFFXeFhnOFRTVUR5cDFnbU9wbzNYZk1sZ1FLREhXZWtKcFY5cldOU3RKOVNiWUNvb3cwek44dEtnU1hITHN6dmlKOE8tZ1NTRks4aXNLeUVJcmQyd0lzWHJTcVVrMGM5cG80d0xrMDZNQ2ZCRFlrc0pybjF2ZkJXZHdiTWk0b1ZCMWYyWkRFRnlGUzJESFVpWWFiSDlWTWtfYktINlg1SmRHNTdLdDZIQ3ZPR0NzMktaRFpxT19TSHVYTjR2N3dMTEpSZzVNM0xBVEVCY0FmOWRhc3RBZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Thu, 20 Aug 2026 14:54:00 GMT",
+      "date": "Thu, 20 Aug 2026 14:54:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "من روبرتو كارلوس إلى ديمبيلي.. نساء عربيات في حياة أشهر نجوم كرة القدم - العين الإخبارية",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "العين الإخبارية",
+      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1Cc1AwcG5JSXUtNnFrUE1YMFZCazNNc3BXTDZlS3JsOW9wQlFnZVp2emV5UkduODM0WW5EOGozQ1hwOGJqWEIxQ3Rwbjd1dkFkX0VwYTZyZllTTFZuWGp4TnlyUGk4R1lMMDlJaUZ6NGxUZm51TjQ3RU05ay1uMlU?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Thu, 20 Aug 2026 09:43:50 GMT",
+      "date": "Thu, 20 Aug 2026 09:43:50 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "مباريات اليوم.. ظهور منتظر لصلاح.. دوري القسم الثاني.. وانطلاق جولة جديدة في \"روشن\" - يلاكورة",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "يلاكورة",
+      "link": "https://news.google.com/rss/articles/CBMi8gRBVV95cUxNX2FBTWlZb3psMGZfWGhWWFp6QWxkQnQ2VmR1dXpLT2haWFpiQ1NpNXl6blhnTXRQRDhWckdOd1h4WUdkQlJ1dTNLb3dmVk8yQXJ0Vkc2M01ScW9OQ09NUGtTcDY4dWQ5SzNfamZFNXhtbzRhMWpseVVuRktiMXNib3RzVi1YbVRjOWxRd3hSeG5kU3lfV2ZCVkpNUnRqbGZlZXdPbTJjb1FYWHFCWk00VE94RkF3UGFna29abkV3VUx2ZWxMWDAxZkZPV0lPVk96R0dySWJ5Rl9fUXVHR21nYWVLTV9kWGRmLXN3YTY5YUgzVWdJTm5jSElOdUhYblY0UFRzb0pLNUljMloycEdRN3JQU2J2c1pFNjJhWWxXbGpoSlFQMm9hVFdDc056ZE1wZ1R2MkwzRFF5Z01nWjgyaG54UENIWklSYVFYeXVPeTdycldaTlZvN0tycEQ5dS1qNkpuMmxJUDhSVlRGc3AtUDJuNFhVTGVhaW43QWNpQS0wbk04blc1ajBVbGFVQ1g5NmRiaTVkdExZQUo5YXMyVUlwN0tyZ21SMlhWaE1DZXVPN1VDTU5mbDBjRkhFNDdrWnc4bGtuT2N3dHJGVGJMN0p3OFNVUUxUTDRrOUlrV19kTHFXaG5ram5CbzBFc2p6QnZaN2xkakJ2RWkwSnpUQ1BYNFk3aEFYTkNpeThvNFRKZkl5T1lIYWhNWThYQlQyazlCcE1HWXkwUGluRWxGVC1Nc3dVUkYteFJuTENvVzBGWXN3Z2RlOWZ3aThfVktkcVRrUS04UGFDZ2w4b0plYTNlWDliU0hRSFMwYlZsbWgwZ9IB9wRBVV95cUxOR0w3Tkc5NVB6NUdadkI3RElyREY3Vk1LZkk5MnZ3REptajR3ZU94ZUtrY2trQzZrNWljc0hDZkxRLWw0NDRrUE9oMFBHcDY5ckpCb25WVTJzaG9lbWdmRWxyQTVhTkVibndLODFKWGRCaTlxNUotdnBoaEFJZ2VGY0FZX0pGVVIzYzhGQ1d5a1BRb0ZmYlY5MnplZnNUT3pud2JBZmVfN1pzY0p1QlNnM2dnSzhkVmxmWmRjeE5pSUZYUjNBamVZOHNVRkh2cXFLZzJrcVFScVF5LU1jOEExTENBNEpFT2x4OWk2SFhsVHZDZElreGlNVXl0OERmNzJZeFRwV25lRFVFS0szNno3cHNDZzJITTNxOWE5TWZ0UW1fNWlobGM3Um81U1lVb3RnWGhnRFl3ZTdjYXhRMTBoWm4wVG1udm1YNmdTUkRtRjZrV0lsYlZLMlV1a1VfZDhXVHIwbE8xS3hTLW10dEhxTEpRUnZpWDhWYk5qV2F6SjJMbFRwS0xKM0J5b1Q4LXRpVlJ0VzdIVG9wTzBhZ3poY21rby1mbnM5UGxoa0ZrMHdYSWNQTXNuYWIzVEZqbk5YQ3doTExRSFZXNzh5MHlzWFVtb19QVHBBUEh0bkNRM1BTS21hTHk3MUpzcFZBcVJVRHp1REgxS1BIZ2Rsei1PTjdRN2x2T3FJUE1hWGxSSVhfZk1VODFVczU4X1hHOFc4WnktTDVaS3M4RlZLQVZkamFwNFg3MDhUWlIwMnkwYXdRci1Cak9ab1hldDJCb25PTndwcjA4ck4wemlEdV9wWkhrWE5UNkpWMmU4dS1UZVNhZEU3V1Zz?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Thu, 20 Aug 2026 07:16:00 GMT",
+      "date": "Thu, 20 Aug 2026 07:16:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "منتخب السلة يتوجه إلى الفلبين استعدادا لتصفيات المونديال - هلا اخبار",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "هلا اخبار",
+      "link": "https://news.google.com/rss/articles/CBMiygJBVV95cUxNcjdpU2luclZiVXNJdUEzamNRamprblZPRG1wWTUwM1R3UVVydkNuR182Y1djSWlDWnR5OW1uRXVkNDZrRGZ5WlVTalRsZEczTkNqRWNMamVaLXVVWWUwY20zZ1pFeUZqMTBxUlhyZ2hQZkxSdDNDcmlWcGlzc0VWVzlqQy1jbXVBRlJzV0dpMzg2dlZWRG9RcXlMMk00a2hXODg3Wnh4QlRpNlhNS1NLS1lKNnJPQTZLQjk5MFMtZUxNTFI1empfekM0NjhrRG5PVllwQkFwVy1jN21Vb1Rvc0E5ZUtLdWpCV09rakxXcTRCWmE0NmY3WXpzVXgwenM1WmZpZUcwMEtCTWpDTS13QnA0QUFfTHNTcUdBaWh0ZW9NNU1KZEVqWlgxb3RJamxqMTJUeHVaZktRX0s0OUJVNTRtTlRpNXRwdXc?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sun, 23 Aug 2026 11:53:00 GMT",
+      "date": "Sun, 23 Aug 2026 11:53:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "انضمام حمزة واستبعاد مثير.. فليك يعلن قائمة برشلونة لمباراة إلتشي - Kooora",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMi_wRBVV95cUxQY3hGSzMwUDNZUk9nelZKYThnQXUzelQ2VWVVc3N0TERtY2VJczNiRFVHd0luTTFmYlhkZlNKVDBmaU5WSC13cEpIQmEtMHlCVFo1ckxwdDRwZjN5cWNMcGN0SDlBSFUwbVVFaEtWTjFDWm9yV21IeVpZM1pfdk95MjFRUmFsMWwwRXVhWUdkWGhqYzBFbjBwTkhPYkg1bUdzRHJMc2h4LWN4S3h6MC1hZkpLcFZFRTBId2VCNFVfT0h6dGF1WlJ0SE43cm1RNmkzeHQ4N1hMX3RmVHpTUXZSNXRNcW1IaHRMUmhtRkZKQ1ctUDNfcVpPQUhwSGVWWVpmcEJHMGwzRjE2c1B5Z2k0aUhxNm5oUDd6anRfRDFPRnp0cnlsZlFNNEN6TXBmdEZSWVV3NXkwOHpfQkpBWnIwbDd5dWRSMEF5REROWE9jRDg3cEZJWU4yWGVJb2RfOGo0RC0tUlMyUkZ6Z1otQmoxVjdBOGUzd3dWRHpQQ2p0cUN5V2dlT2p2YWRXOHZaMDBIREhLWGRXRnNuNzhMZUF3eXN1NHl0ZTYxbXRwUmdMSXNIeE45V1NQYXBXN043TDVQUjQ3dVBwSTFHcGo1NW44MnVHTWpIR216NGJ6eGxsS0xOVlNsN0l1NjUtWHpiUUt2cDlwSlR0N0FqMl85RjF3VjFQVjhhaXFiVzNidDV6NFVUMlNQZThlSDVfVUhBZVJNMVJvUm1iU2x4cDhlOUN2QjYtUVEzMG15dEY5dzJwbmJ3dW1LTVFEdy1KbTNIZEZBOEVJeFR0UmJKX0w0a1JSRElMTGQ1Y3hseUh4ajVqRjBQVWZXODdOSVY0S3BpMGc?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sun, 23 Aug 2026 09:24:33 GMT",
+      "date": "Sun, 23 Aug 2026 09:24:33 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "صلاح يترقب.. موعد والقناة الناقلة لمباراة طرابزون سبور ضد إسطنبول باشاكشهير - يلاكورة",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "يلاكورة",
+      "link": "https://news.google.com/rss/articles/CBMi8wRBVV95cUxNUmtmZ2VxV0ZaSWtoc1ZWa1RBNjdDRk1veGpURExaVC02U3VQbzFyNzRZS2pQOUVsUGh2emtIcG9WbW91LWtlYTdJMG5ZMFpfemhMRkx5Y0h5X1Q1T01PUDVBbk45Z1cxb01YLXd2WElNSTNURDloR0NrQ21JdFYyUXMzVEluTWtOaTl5bktMdVE0b0wwaDlTUWJlbGZpSzBYMExkRUxFVGdlWm0ySDJNdGZzbm1JenIzdjVTUkZIWUY3akxqOF9yWkRBVjZLS0o5WjJUd0tWcDZlU1Q5VkdXYnFPQnlqSmY1Vmt2RlFDUXJHZU96d2Z5cWxNLU50S0J2RW1sYkEzWVlfMURPX3FIN0dSUWd4OXJDd3liNF95blNHM1VDMmI2dFgxdHlLSlFDUkowNW5vTVFRaXRRd1VtRExqVGtGY2NrTURsNXRacm5qUWlFTmRwYnFlTVRHb1RVY3A3TnIxQmJvbXFBX1ZWRHFCTTdRcGhzVlJKcU15MGNlbGstN1VnX0RSZXh0bjZTTEdvNGs0TUNNVmIxWUM2dERCS0JaY1Izb05YT3ZMT0V1SE51azJHclFxOUZuM2FvVTQwRzZfZXVJNjRnSHh0VUpwSkUwN2wwdmhRaWxkc0c0Y2VscTR4cC1SYm5PcFdTVzZOM0pwRl92VXc4Q00wUG1OX1lXc0VwV3hTWm5yZDZYY25RdV9EeEZNQUY5MTFkMGlnLUFkRXUzN0h2dkFjVkc5Q3B3ajZGUmgtd0c5VGRsTndZVUQ0RG1WWWZxbU1TSkpuSTlaclJlUnlNM1d1NzU2bzZCX3pCM0pqc205eE9jTGvSAfgEQVVfeXFMTTVVdFJDWEtZWFJHeGhUYW5nU3liMklRblI4QXROQ2xuM3lzaDlmdEJNUC1jWGRmVm1yYmRSZU45RFNBYml0REw2UkdvbXZuTzFhZkpwNWlBYW9tMUlWOW5UY0FjS0VPdHFQWEVPejBvNHgyclgyYU8wZE5JclRMZkxnTXNzZ3Z3V2ZKTlNieEthUEFEQ2E4M1ZVWmhXN25VTlYxcDk0X1FQWWJScV9jTmxNc2xrNElfZ1hLSnpBcmxXUGx0QWVVWDdZTE5lVEVLY2RtT3R1eWRHVlVkdmFMTDhKNUYxanJqR0c1TWRLc3pjb3owY195WjZ3RFN1ZTUxM2NiS1hVcTcxZThRemJLdTRUTmlCMkpUd1hxRzJZaGRmRVZaVWd3c08xdWNCQkh2NXE2QlZCUThaRFJzVWdKSmxsRFIxZGxPdGRIMVVLX0ZMMUtqN2NnczJXTjRPbTBaTWEwbGJFcjU5YXZ1Rm9TSVNLMHo0ZnpzUnR2RURIdTNTSVhGV0xfb01Uc1ZPWUZqTVlWaHBRd2JFS0Y3WFlIWHJsSGpmaTZ6Tk9QbDh0bXdPV24xOUdpeTkxblgwQ2NuMTY1cjlkQWdlQ01DN1JQN0FoR3Y2eTh0U3ozSHpMdXNCNmltMENSRDFsQ0l2dE5tREhpLW1sYlB2RzctNXo5Y3ZxSTdkRDlMOG1xSGlXcXA1ZDJNTEVwUkNuTm1ZTjRFOEJ0WDVTaVo2dk9JVHdLYk0wYUhSZl9Mc0loeWo3Y00yX2IzTkp3bnp4TW1qck9mNHdOLWZBVmVwQ3lkUVpmTm1hZUNuLTdHMlVJX0ozMjRBcWR3ODlrckw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sun, 23 Aug 2026 08:06:00 GMT",
+      "date": "Sun, 23 Aug 2026 08:06:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "مواعيد مباريات اليوم الأحد 23 أغسطس 2026.. والقنوات الناقلة - بوابة الأهرام",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "بوابة الأهرام",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTFBlQWFNaVhlM09ESUU1NzF5bWVGYk1SQWJadFJIV3U5UGpqSU9iR0xxalY0T0g1dkRrMnFzM1hmc0szajhONVNPTUdvOGNqMmRoRG5qTmFR?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sun, 23 Aug 2026 03:26:00 GMT",
+      "date": "Sun, 23 Aug 2026 03:26:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "سوق الانتقالات: أرسنال يسعى لضم جوليان ألفاريز، وتوتنهام ينهي صفقة عمر مرموش. - Vietnam.vn",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Vietnam.vn",
+      "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQM0ZnNmV5RnBWX05PdV83X25qek0xbXg2WWFxdEt5UmU3dC1TRGU0U0daS3dSblRDc21oYnlmcG1fT2cwalZRc3hzTkFzY2xkQ1B6OXFZUGZXODdEWTk4aDZFR2hhNjRlcFlWXzhwazJUQ3V5QVE2dUtWSFk3YkVQbFpGZzlHM2pIc3FuYkxDWUd5STJ2S2VXUUZpeUhyZ3IxTGM4SjdhMFdXUzd6N3h5WnNn?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sun, 23 Aug 2026 02:44:51 GMT",
+      "date": "Sun, 23 Aug 2026 02:44:51 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "المنتخب الوطني يواصل استعداداته لودية روسيا بمشاركة ربيعة - الاتحاد المصري لكرة القدم",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الاتحاد المصري لكرة القدم",
+      "link": "https://news.google.com/rss/articles/CBMikwRBVV95cUxNQ3lWVm51THdIUExyaGFEYUk4OVVKV2p6QjRibHhsWWFDcWdDbXdSYzE3engwdTNSZUZyaUp5bHluejhxR3k4eGFGamhFUlBpanNZZnVMRDBNOElkY0R0eU5CcDFQY0xOVkdPa0Z6aFdUdWdpQTRKX0oxUGpsNjdkc0o0T3VSSXhKWmFhZFFjM3Npb0NXNnhmZ05fT1hWdzk4czdPcXZhUzgyVlZNNXU1Z3J3Q0M2ZjlSLWptSTVrVGNMMWZxNkFrUFFKSGU4bjYwZW1fTGVLSXQ3eURpYTdhVmVFY3RGbm5JTjA0SlEwQTdTT3NpSHNROUVSMzBQX1djSE54V2VqY2FobXZGNDZTaEYxU05JN1BmTzRxNEtfM21Gc21ndmhRVTNEa2FYbVJpSmVveWJWejUwVWxsYWo3WWlob1ZpMnc3NEhpYzJ0d2ZxX2dHRDZvdzVMaEF0d053ejJkbnZNRDZCa0dsSXhkSEtWZkw1WTZZNG55VE5kbkpJNGd0bkNwdksyZ0xLMnVCaHhjZ2ZiTWN2eTU2QXcwLWw4OWlxQk0zQmxxeWpKVXhmWXNETkNFQ2hWU2ZWYXZPYkxtd2ZYbF85eHVwYVhGZ0pGWnVSZ2d1ejJJLUxnNkdIclJJb0NQWkRKUEJCS09RVzNTaGtwckN3dVZvS0d4ZHFiOWpqQV9BMndxSUhRN2pmV3M?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 23 May 2026 07:00:00 GMT",
+      "date": "Sat, 23 May 2026 07:00:00 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "نجوم عرب حلّقوا بكرة القدم وحفروا أسماءهم في تاريخ كأس العالم - الشرق الأوسط",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الشرق الأوسط",
+      "link": "https://news.google.com/rss/articles/CBMinwRBVV95cUxOczgySnpZa1lwNkQ4ZndIZVJxTXFIaHlHN0hia05MT3RXYWN1eFEtNS1NOUg2Smg0STJ0bV9CSnUtOWhmcW5xaENwN2pVbmhUMlBTdkRBZE50bUJJTFhwN1hkUGFtX3RQVnQ1a2czbzJyUlI1Z1ZZb0ZHVjRUZDlkZWtxWkRLbXBicVlUVWtmMWtod3cyaUNXeFBaMHlFMUJ2LThHYUhWVlNVTWVnclg3N2N5UG1NWWd5bm1rRkNXelBkOGxZRTNGTmpHVHdFYlhkaThiWHgxX3BHU3FhVnVrZzBQMVlHeUdJd0NqdENaUEpBVUZmdllZdzZKNFgtR1ZnMDlCRDl5cy1aYzRRSHAxaEVUMlNDVk5GSXIyZGdtUGVHdTlpUnlfME1DdHFPaU5KV0g2TDJPdll2bmtWa01CaUtBeDQ0aVJkdEZTTThEV0xFVmtoQzl6bFZjUVFNZ2FLc215M2xmMWNqdWpKd2ZVUFNiTFBjdjRGdTF4Znp4N3M3OWR5THUxbElDUkhmbWpUX1dtSzNzOVlnZ3JvV0o2QkZVcVRkQWZGemFHd25YU1RUZmNlaTh4eVlROG1vQkJjaXlWemV1dkcwNXZKNU42eDVEQzdPZjZqOVVCb2VFcHMwNEEwbjJOUUM0RE5ucndZVDJkMklKTWY4OVM5VU4tWVlhSWxPaXZNMUlGamVETUpIQXZmRXQyMVFrZlB5TTQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 21:44:11 GMT",
+      "date": "Sat, 22 Aug 2026 21:44:11 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "كان يجب أن يُطرد!.. قرار صادم غيّر مسار مباراة ريال مدريد وإسبانيول - Kooora",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMi-gRBVV95cUxQRmxNVVVNdlpIQ3lYV09VYjlXM1lJV2RFZDIweEdkUmNsV1VuR3h6SXlZQ1pJeTlvWmg4ZV96bzNpX1BOVTA5eE1XRFBfOTBhX2xnUEFmaG96U0ZfU3lNVDZIQXJFUmZ2dWg1VTJDdTF3c2lVZ3ZLbG5hVl9hRjhOeThSS25zSEVpOG1EQUU2OUlySFBXdzRVam5CbDdkREV4VjhwVC1BcW41dTFhQl9kX3hac0dSSXFqQ3NWSjdZeWxOZnFHeVo0V21kUl9HNlMtXzhjbFpCbkRxNjA3WVF4dVdQR1FVbVFNQUU4d0w2MmlJRkVyVkxFX3c4cVN5elRpdWR5UHNHSkRjaGExSmlSQ1RSX1FwaTNIeXpkLTVScWt0M3VYU2ZyNkM0RUROQS01ajdwb0FFclRlRUJpaVNITWs5T2lkVm41SWotNlY2Vm9XckFRUlFXME1LME54T00wTTJ6THdROUpWel9IMDNiNzNfdmlnLTNRZTliVmZHYzBKTVhqbGFfRjJFaGsxM2VzTVh0S05BQVFCdWdTNi1aRENxSFA5cm5aTEVNYTZGOTBCTTUwWVNKd3plSkhDdlRjWVdrYmpqcS0ycFh4bVNVREpCY3AzaDBMVUNCYUtXeUxTZEZLejNPOG95Mm9KYzUyQzJxRHZkdEZRcktZVm1QMFFIci03VDZBRVZ1LVNYdDdhQlBlbUJoVm1kb0NkSUlCcGxoLVBwWDZSTndmWW1FYnVicDVWVXVZWlJLZUZaaG1jTkpZT1VCNzF6Nms0SDlVTk9LbDVTLUZ0UjVmV05rcWtyYmwzNWhPR2NRdmVwTFB3aTN4cEpBZlZB?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 21:13:40 GMT",
+      "date": "Sat, 22 Aug 2026 21:13:40 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "تركيا تقلب الطاولة على المنتخب الوطني بالتعادل الإيجابي - موقع رياضي مغربي",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "موقع رياضي مغربي",
+      "link": "https://news.google.com/rss/articles/CBMiwgJBVV95cUxNeHI5MVVlWVhJVi13SE9QYUtJdWlHSERYU3U1TGlyZVI2Y3VsQ2FpSGVkeWtYR25ndHN2a2dSRFBmTUZfN3JWYU5QMElxazBiaGxJWC1VdlJYT3U1ZG44Z2JXcE1jZlF0eW9DUDVmeVItVWVlQ1JXcUNmNlFWY2Q4b1V0eHRfOEVfWmFKYzRRTDJkSGRwNFlUSXJLUTFXQVY3V2FxOS1NQ1lPWmlMbHNDT3dtR0lPbXhTMUZSTlFkT0FXcV82ZVJTc0lzdXVRWHpNQXlmdlhOZGZDLUhLbWNBbl8xUFhkTnd4b0xtQk91ajRLUDdJeVhNY0twQUZKN29MRkhBX1dVcU1NckNlYVRDQm5keDJ4MEp6QlBmZFI3Z2V1RzB5LWMyOTlTVV9UXzFhR2o5bUg2WlU3MG9tVGFYQzd3?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 21:09:53 GMT",
+      "date": "Sat, 22 Aug 2026 21:09:53 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "جدول مباريات اليوم الأحد 23 أغسطس 2026 .. القنوات الناقلة والمعلقين - Kooora",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Kooora",
+      "link": "https://news.google.com/rss/articles/CBMi3wRBVV95cUxPbk42by1zYXk0ajdDaTRRcUptSUlQbVlNTGRIZHRnbG1BUGdLcnV4ZXItMWVQcmlYWXFaUUQtT1JVZVBTOXQzMXJSMDhacHhPYVhQaE5OOXVaTG1jS3JIWm1IaHM3d0pteE5qRVFxRGZaM05Jd2ptYUJ3RU8zclZJem9NSTQzSC15T2NsSTZhVUFOLXB2VGRadzBuVWsxQ0NPeTQ5VDE3cFBXbVc4S3c2eHNuT3NfOElvYkZlNWpqbWpyR2pRR3BTQnVHUXdTVERCbmJYRG1kUjZ6clN4MnNiUWZKOS02N0xKNDdkMU5yT0dzS2RCVjFPNFRTU3hsRzJaN2NyazdaazBLdDAzbmh0Nmp5UlJTSFBuS2F3RHdVamxjS1lxVXhmdkYxUExqTzhNVE5URFhMTlgwRVYzVVgwUjFfWjVKTDB0ZFBac2FNSnR6ZzBDaGpoeklid0lkU21iMEFIMjd4VVBUMHJPUXNPRmV1cjlUR0xsQlY1SmRVMXpCblZ3RWhnWGVuVEd5aENxanRSVzZMVjBydklyaTcwREtmaC15Y1RSdGsxdUFKZEJjSWg3ZVNQaW1VNUJ4Q3VxVDhSeGI1QjZTRGZxYXJrRl80ZWo3a3VfY1FURVV4V19FYVVnQ3FsWkJiYmJMaDNiNGdrdkFYek1GT29vMVhXM3BDa3laa05vbzlfUS0wYUotUFVnQ3oxcHlWbzNOMTJqbnpkakVMYWdBZWNKdFZud3lwdVd1cnF3cGx5WTJaaVZCVjBaejJiQVM0VTh1TmxZcTdyOTQ1cU00QjBPOEln?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 20:58:58 GMT",
+      "date": "Sat, 22 Aug 2026 20:58:58 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "\"فوز بيراميدز والمصري\".. نتائج مباريات الدوري المصري اليوم السبت - Masrawy",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Masrawy",
+      "link": "https://news.google.com/rss/articles/CBMitwRBVV95cUxNSjJmLUVTV0pjSXdrWlBwaEZZMDlJNUJuM0ZDa0RUaXBRcndEMWs5aDMxa0VYeElVV1R0RmliMHV5ZmVKUkpTWTQ4YVk2aldCVHJyMEdjakxTZUx3REN4Mzd5MG45a09Qb2xQYlVjTUFHZmptdnlQRkNBenNWaDAxQVNFbFhnZlZfVzB2TGZvZUMwU203T0tvWVl4UUV4NXZqV0duRHpyWFB2WTRqQ0hpYzF1T0NxQ3ZzeTFLSG9DU2R3dkl0blhvdllHS2JRcXI2LTNMcEJtZnJZTkJwM3NsLUJIdmRYZVl5emIydFoyczNnbG51dW5vZ25GZUZCMGVsc0M1V3JfSGloSVFsVjFmdlhEX3dsX3BqV2Q2VGZHTnN4S3ZpQ1hCbkdxMkg5aVg3Z1BRemU2a2JTLWhmdUtKZGdUZG04dEhIbVlRQk0taGZRZmxpTy1URHM1VkFUY1dENFpTQ1pLZnoycXQ1eExDVVQ1NnZiN1g0MmJQUXZKSFltTjlxSmN1TENOTkVNOWxuTWkxOFROZmRheE9qYk5wb0NVN0Z5VzI1eE1vYU91cmlic3BvUTY1WDRyckNlcXEtWmc5Qnk5M0lLN0U1MU1QZUNfME1VQXBiX2MxY2FkbGVoLTRXWUFxZ0lTUXd3d2FIOVFTYTlwZTRpblBRRnJXRHpSbVFGenRUZnl6MUNLdzdJMVVKVzVjTmRIT2hFeVpQbFU1UmVFZVpwV0JHSWp4T0JnSHlRbzTSAbwEQVVfeXFMUDlOWGRrbmZnWUtrNDBmSk9tN2kyR3FYSkNJLXBrNy1Pd2VGdTFuYzhzRTNmc0JOT2RTVFFyd0pHaUJWWl8yTHRaNWFCYWNkZy12VGRnNzF3NEhNZDZqOGFkc1M0T2g4dVQweHl6U29Cel9UZU4xSkl6cUZNcFhNSmhnMGhuWmtBLVlZZWZFeXk1LXBBX0ZEc3BIZkpGVG1LUU14R3I3eG1ldGxYMzRiLTZRQnQ2MEhUSmVadnQ4Vk05bXJBeHNQSlhpbWRfMHBUVU01QTl2M2ZWUDdDZWQ5Z2plQm5SUHoxMm4xN1NwbGp5TzA1UWxzQW1lMHBrZkVnOW95d1ktdVY5Tm5pZkZJWHViTmJoTktvbm5fdVZ1QmpYTTluWTBNaDF3UjNqQ2NUa0kyRU50TzZNcEVXT3ZQbndvOThCZmhITXdlSU9EdzR6bHlDZGlPbDFlWDU1QnBmT2tnSU1abnBrOExhMHU3RFh2bjdGc2FDNXl0OVZYdUtfWTd1TU1MMWU0RlRIYW1jSGJpcUpaeEVXVUhrcmdiRmVBUnFnU0NPcEhadGg5aEJ6ZTlSVjZwUjNwT3h1bFl4bmJlX0dNQUdNWjYtWFRkRzM3U1JXS084eWF0eDRxNGFpTTAtYkEzUk9INk56Sk5SMnEzR0Q2bTVPSHBkUGo5V3BwRUxORzBIZk9Nb1BxcDNOVEZxbUFGOGFLNlBELXlnTTVJejFaVGJHdWtHV2U2VXQ5TkpvMndvWnczQkI?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 20:46:01 GMT",
+      "date": "Sat, 22 Aug 2026 20:46:01 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "ألعاب البحر الأبيض المتوسط تارانتو-2026 : المنتخب الوطني لكرة القدم لأقل من 21 سنة يفوز على كوسوفو بنتيجة (2-1) في الجولة الأولى - التلفزيون الجزائري",
+      "summary_ar": "ألعاب البحر الأبيض المتوسط تارانتو-2026 : المنتخب الوطني لكرة القدم لأقل من 21 سنة يفوز على كوسوفو بنتيجة (2-1) في الجولة الأولى التلفزيون الجزائري",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "التلفزيون الجزائري",
+      "link": "https://news.google.com/rss/articles/CBMi_gRBVV95cUxOY1VvWkJUSUJTZFd0N2pkUzlRWTdvbXB4cW9JeWVqOURoWjlIUXlWYjJlVXdkWGd0SGs5SEhSajBxYTZpZGNaQWU4S1lEMElqOHNuN2RhWnoyRmNRTkhkSG1vYmdnSTNfTkx2OW1aUjlodDRVYWxVRnVMQ1VXWXphZWxHOHFHWjlxM2QzeUZib3BRRUtVMnVCSWRvSkZXUUFKemx1ckN3VWtHUWhLSWJTb1ZkUVRXX0FDdEhGRXl3VlhucjJGel8tSFBLclByOVJSajR2TWExUjZHOHEyRU5VT0pReTRQaWc5eHJQMS1ha0hHZ09zcjNMaktlSTlldjVha0xkdlJUS0gxa0ZhU2R3RWs2S0J0QTFjd2lBRFFYQXBWenZjZEhJamlnMk81NU56NFM4UUd3cEJsTzhQcnZmNkhDTnI3c1UtaTlBRVktcHozeWlPQ3czaG5CX3g2bExRTGZtb0EweVlpSWxBRzROdkF3ZGdLWXRUc2ZtTU1MM18yRU9td3hNVlR5NEdELXdIempqNmVLRXQ1a09vTjl1QXFZYUd6SGVNbzlJSXc1MUdBTWE0UkI4Yk5xZFdFcndyNFRjQlVKZDVoXzRLU0RDaHROTzdMQWlzWHZ5eFhUb1RnWEpWSTZJUjhzc3RZR2dhaEVaZkNoa3ZIR0hMcE00aFoxc2U4ZUdzYnNsSkNUTzI4dUVPMUc3NnBFX2oyTTFTZmNjekZkZVJKT0xkNUZPcFhfcC1uYzVKVzN5Y2hzbnRPUzN2YUZyTGZheGJJdmRDb2phcVkyVFBTLUlDZjZNR3NRSHMyaS1sWnRPQmlqWm1HZWtjYmdhdlV3VjRoUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 18:11:55 GMT",
+      "date": "Sat, 22 Aug 2026 18:11:55 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "وسط اشتباكات متكررة.. صلاح محسن يقود المصري للفوز على سموحة بالدوري - يلاكورة",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "يلاكورة",
+      "link": "https://news.google.com/rss/articles/CBMisARBVV95cUxOQ3ZaTnZ3UFA5dzZDeUo0ZlJfcXg3NFU5RU52Uy0ydlg3VWwxQkhVWTQzeHp5Vk4wVGpFdGQzM1lXRkYwTXhyZkxiaUwwdTl2c2EyUzdrMGVLZFduSWNSRzN5Ukp1LUo0MkR0ejZ2c0UwQmNZNzd0dHFCMmJMNXQ1Q3pmSG0xR0FRVkNsbGFMcDVVbFdoblhuQndjUVFBRkIzQzQtQ3JDVmJWdHRRellPR0RMS05xeFBxVUhQMGZpNmh4QXJ1V2JJNnRRay1kWVhaQVdSMlhQamQ1TXVJYUJTWG9laVU3RGtVQktQc1lGLU4tajRUdE5GT2FVTHgzQ1YySHNka0w0eVBpVWFHMHR0MVZ1RFJnb3Vzckc3bnVRclVQb28zVFhFYzI4eU4zWmhpZ1hJdGg2X2w3YlV1QkdlZllkb0lzcml6R256THA0WmN2ZGw5RG1IUHhjUE1KWkUtSTNtX2lpY0JGQ1VRNWF5YXNDYWU4UWdvOVRNejBkZTNFc2s2U3h2NGpRN2FRWGx0bldPVG9WNU44M0dlR2syS29tckpHVTB3dzhhb0N6YkNoRVM4ZnMzaThqVHlteGVVdHhrT2hiNDV5M0ZDZWFMYVo0Rm1PUlItSWVGMi1LZUpodjRYQWgzcEVGLUpuWHVhcU9IMXZIM0o4MTNOZ0EtSzFxS2hKZUtYMnhlYzhDUEdrY2otY3dPbURhT1lvbEV5VDdEdzFlY2plVWhMWEdjMNIBtgRBVV95cUxQNFVDUlZicC1ySFNfSG9FeGNoZjFZampicDZGQnJFbVdjVWUyNWlWbE5fSjh3NDhaUVlPbjJOdmJWdEdpSktQTVFPc3pSNUxScTJDaldYTHk5QkEwLWNlUndpd0J5aGFSWUpkNW0zb0wyVkRYSGwzZzE0SlBMUkY0VFBUXzVJM0pDc0FyLTNiSTBaOWYyRGhyd1NGQW4yd3FuYmQtSTVVYVk0SGZGRUt4elduNllROUlCM2dYc09QemFkM1VVc1ZOd2UyYmZLbnNnd1ppemVFa05pRG5EUk1ET2hpLWNXdGJkZFM0VUctTEJJaHFSeUJaaHlIQWsyeTVWb3NES0o5UEVEd2RKdF9TSEJxU1JIUTBwS3M5Qy0taVhFSDJJUUZFczdxR1RCcl9FQjhqb3lVMFpMaUsyOWl4cjhTeXRIblFMaUdwdG11YTRuOGJ2VG0zTFk2RmkxZ0xXdm1zMGtaWGl6cEpSOVQ4V1VWSXNKU3RuM1BOcEVfSGwzb2lGbTlVaHVrMEo2Ym5wb0ZJRFNXbGh3N1RCdUEtWHplNEJmSDhOTXVoZ09mODNRREQzbjVBazE0aF9JM08xTVJwcW5za2hHYlVyU3lCMUtoeXgxVW9HdnMza01yRUhveUduUTB5bnduc0VKZFZrSTVxTEJDS3ZzTDQ3bWg1OHhVS2lPOGVxWThMLVpWdUs0aW0xdkl1VDRhNmpxTzhUQWEycVJTOEh4VThVSkdCUlNxT21Kdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 16:45:00 GMT",
+      "date": "Sat, 22 Aug 2026 16:45:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "أسرع رجل في العالم.. يوسين بولت يعود لكرة القدم ويزامل أساطير الدوري الإنجليزي في دوري الهواة - Goal.com",
+      "summary_ar": "أسرع رجل في العالم.. يوسين بولت يعود لكرة القدم ويزامل أساطير الدوري الإنجليزي في دوري الهواة Goal.com",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Goal.com",
+      "link": "https://news.google.com/rss/articles/CBMi6gVBVV95cUxNSnBCdFpEclhoak9wVGNQOWdlOW0xeFp0ZTNRNzdFaUpkTWZWU1prR0pqVEd6YjhnUEZ1RFh2Sk1razlQQTJoSVUydVgyYjBvQ3c3cG1FZ2JnNGlvUktvbnBnNFhZdTU2VUNiYVFJX3FLbGJIa1RhTldINEZfdEJTVE9KbzRTWEJpV1hoVDVUVmZTWnAxczYzUGZtU3ZOUFlFcGhsTTBTMXJpdEtDZWUzTndQbDJMd09wTGhZMXlhcFd2QWhjZGJ3Q0xxRUhmWWNRdVZYNi16N1RoaWtXWENGU1RCZjVPR3B1elJuTElBUUt4TkF2VVp3NFZ1UTB2b2kxM21PUzVVcVF5YktOc29ST3llMXhKWnRON24wRl85Y29Cdm1SZlB3YnVBVWJhNVFIRGRqQUQtRjA5MWI4VHZheHk5RndiY3hHLUhLalo2Q2lHd3F6b3lZYzVQMmQ5X09LWTNKYTdYOXExUUJYQVctMFowQ2liazlZVEY2R0ZJUHFWcGdjaGlwdldBRk5pZUt5TTh0dWFNMkRVSEV6RWVNaUMxREc5Vkd6RE9PU3Z0cDZBVWxFN0RIQ0EzQnNwa3pqcHJkanJDNEZ6Skx1SHBrM1FlNDFIZUhYMmdDUGpJZkkzYkFFM0d1OTBKQjNFSlVMNHF6ZjRIcXh0cXFrNG9QYzZhbnEzNWRLQlYtemFVeE1MWk1OR042VTFpdXllWDdOZ3NKLVR3eFp3UXNsUjNIdUx1SENiNHBGQnlmaHYyaVV4bS1XZUo2QlZOZ0tyYmZGcnU1aHZReENLNi1fU2F2d0EzWUJmcjBRdXYzc1hWZzVxeDhMN3dCY1BTeTU0ZFJTNW1SaXMzLXNoanpFMlVoTDRDNUhWdXhpVnBaa3F2SVpJT204WUpObnFQRzFFLXVqWDlITVNBY3lGWkFVZGNfdnh5b2pDZ1dtd1RkUVBnSnFSSUs4S213eG1hUnVldDRlSzVsUVFFd2pJQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 16:42:03 GMT",
+      "date": "Sat, 22 Aug 2026 16:42:03 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "الحب والزواج.. مفتاح اعتناق نجوم كرة عالميين الإسلام بعد الاعتزال - صدى البلد",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "صدى البلد",
+      "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTE1kNUIzNkZhdFpMcTRmUmQzaGxuSEJUTnpDdnBwQWFmbE9FRjdDUzdLRDlxNXJZSDZlWjlCWWJEOUxaNXJ6NGFN?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 13:32:00 GMT",
+      "date": "Sat, 22 Aug 2026 13:32:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "حسن ربيعة الكواري: دوري JETOUR هدفه اكتشاف المواهب ودعم المنتخبات الوطنية - جريدة الراية",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "جريدة الراية",
+      "link": "https://news.google.com/rss/articles/CBMinARBVV95cUxOY1BzSWkwZDdTaExqcHpNNmFPVGxjV1dxblkwck9vcTJvSmprVUJJcS1ybmtPMFhKLXVrYXhiVXRMUGhqbTFQLUFNWW5Pb1pIMmhnNkxvYnlxY05fd2RzMjVKbnlHYm9wTlhGb0Rua19jczBEOG43WDJpclRlazg5aVpRb250a0tZODdfVzN2cTRFY3FXMEhYTGZkTzcyZ2lRLXpTWFBvUnVxLV92ampkN2szbVZ2QXFDZ0hpWHhGSTRtWUJ3eDMzVk02eEIwV3I2WGh0aWdILVRocDQ5eWc2THJpMTVHT1dwZGExTjR1R2s2bE5sRFFja1FadUxjMFIwRG9XeHBRSFVYenB1Ti1fWnplS3hXRWk4U3ZVSWVERFpTRk9zZHlQMFE5c2JCLVYtLUZLRV9kOU52STJJUlVNRXJLbW1uTkxTNUc2NnpYUWxVVVdGSV9xYTd1QUt6Uk9MeEtMWWg0XzlpZXdpNEctVmRrTk1zT2x4am1zQXZMdGEtNmdyb3huSFk2Z3dYSTJVQVd4eENGVjNHNVFrZ3ozMWdBc05qM0FQcE80eDZUek1vT3ZVRVFfUTJBS29DSWFFZTJJdFYtRXkxQ2xySkloUmdSOFpDZUFINzlabmVVVFA1dUotZy1UNi1YYzRDYWxSR1V5bmE1X2RkUjd6Uk5tQzZtZGM5R2syVkRQSnVjc3M0UEJvLXZaU2JUR0bSAaIEQVVfeXFMTVJMYU96emdraGZmd3BtbWpjYkE0Rll0SXFnS3laZnE0NDJBTjJDRWF3Y2RUcWZyYjRMelJmQVQ2X2J5R0pXMWN6RFZLdVA1Y3hRSHFIa295MXUtbmJrY21xSk9IYkltSjdXMk5wLXB2eWtINWdOZmFnUWlhWFR1MTRWRnVNcFpiWXFRdE5ocVRSV2Zodm5IdzZZRlJrM01FLUhzeUlrdjQzRkdHZE5rX1BJTHQzWlc4QUNuUUFfcWVBVE1rcWRMenJtMDVYNEVXU0hhbndiMXRrdjlteVZCd2pSeWZybkNTMGpaVmFZeDJFTWROdmMtSUR5R2l6N2FGZjZuWnhQV0lVNlViM1FvZTBnaHdzbHJQZDNuaGNHa2hkLThwUVBmVzVBc3FEbFQ4czJ4T2x1Uk1VSjMyNlA2b1VaOEo5TS11bHlBVGczaXhrdW93X21Va1NVeXJuZS1NWFY1aW5yeWlybF9IbUxWVFJ3ZEVhMllfY291cEZabUJsaERLeVhscmtST0ctTVAyeVNZdkJOSXFwRWlaTXZlTE5WZUdGa3BFaWVWYXRNeGJUYzBOVVJSWk9obkJ3TnFYVDQtN1VScnBYX2Z2XzlPNTBRb2J5N09BaUt4RjBGcWllSzJjRU5rUm1ibGhvZGdtQzVfMjF1cjZodnZhN3pXSk41SDB3YXFoRVJvWC04M0Jfd0taZVRvdWpRTC1KeUx0NUJB?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 11:36:11 GMT",
+      "date": "Sat, 22 Aug 2026 11:36:11 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "المنتخب الوطني لكرة السلة يلتقي الفلبين وأستراليا في تصفيات كأس العالم - وكالة الانباء الاردنية",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "وكالة الانباء الاردنية",
+      "link": "https://news.google.com/rss/articles/CBMisARBVV95cUxNLWg1dXExeU5oeEhjZTlPRUQzUE1tVktiODl2eVdPRXlTZ2J0b19nX3dDU1czcHUxblpZampodDBOa29DSld6OExOOFVxU3hqX09kSDNwRGFPRnpqODhkdXdXdjF5ejFxNEdYcGxrYlU0bnNuNzQwLUY0MGVhRFc1S25DbnZFZ3JqQmpkYVk2YjFnYzBnYlZxaC1hMXNZczhkbW9DclJnXzMzbndjUnU2cXpBd0ZWdzQ0ZFNRRUZBeHMyT1dKMlBqSWRsWC13Q093am9xaFI4a0VlV2wtVHY2Z1VycjdrTEJ6c1dMenVUVklyTnl2WlgtZDJsd0FhX0lqdThIVVl6QUU1LUh3OVoxejBwOUtkeHFRMmd3a1BFSkJFZTBrdGI3dHF6SFdmTG41c3F4QmVBZmlCQ0NaZTYxN0N3T1RkSzR0aXRobkROeFBmTDBmYnQ2dGNrUjZRcHoxeGpMOUMtYXpJTXVCUDhIQXBRZHEwenRsMGZDZHlteE91aFZGczItelE4LU1NUVVzVS1Qa1phd1NCLUd0cmwwbE1GNHJUaHlKb0ctUFV0eTVXQWJxVC14RHUzNjc5R1FMbEVua29HUVF0MnVZVjU2YVc1SHd3bk5kMDBRendGUXJ2V3poc3BPSngxWmMyN1lJLWpIY21SaTM2Wjh5M3N1cTVsTGhScUM5anRhTnFaZm1JaTNQQndMemN4aFkybTBRdi1YOGp2cVRUWllNX2VQQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 22 Aug 2026 09:52:30 GMT",
+      "date": "Sat, 22 Aug 2026 09:52:30 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "محمد صلاح وأبرز الصفقات في تاريخ كرة القدم التركية. - Vietnam.vn",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Vietnam.vn",
+      "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOYU9YS052WUxnLWhsbkZUc0dUdWpFcW1QaVA3TjRSd1JvY2FrR0FRZkd3SW9PVzNVTndGT0pqUDR6d2kxY0lBc1kyTm85S0RFVENBbEpTYmJMZjFKVUpKN2hJRk1sMnFZMTNCM0J0cUhSUUh1aWVGc3BsUDNFOXhmZTNnOXJqblBHdFpaY0VpeHJoNzBYb2VYd1RXYWJlU082aXpmbjF0SEtHVC02?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Sat, 08 Aug 2026 07:00:00 GMT",
+      "date": "Sat, 08 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "ترتيب أفضل 10 لاعبين في تاريخ كرة القدم ومركز كريستيانو رونالدو - 365Scores",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "365Scores",
+      "link": "https://news.google.com/rss/articles/CBMi3AJBVV95cUxQTVhrRndzZjM1YnpTVmdaWmZSc1djR0VmN3FGcGtJVVZzdUxHRFFVWE9wTkJUQjBLWElJUGN1cks4bDA2S2Z6WFNZSy1ILXJnT0I3SDhMelVzR2tCNll5TlEyN1lsSXdqLU8yNFpsYW9SbnVfa3JVa0JMbEZ0LWk1OEhBNGlHVEtTd1dkRkRxOW05TlNSR2RGcWdqYnRuVmxkVS02VmhFQWdqVUlBMFJHbDd1UlV0clhHODdSaTZJNXl2eFpRYk15Tk5vMlowYmd4R1BscEJ2M1FWVXNRVl9vV05UWlY4TkwtbDFQeE11WENqRmcwSGxnWnQ4Q1RTR2EzYzl2RVZDNVlZeFg1dDRndk5wenlqc3lZVzZlbV9fdlc0S3Q4SXAwRl9KOWd6cHh2VUJEcDI3OGwySzVmRXE3V2duV1lTTzh1MDdmakdDdWU1X244dXlFcm0zYWc?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Mon, 06 Jul 2026 07:00:00 GMT",
+      "date": "Mon, 06 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "محمد صلاح يقتحم قائمة أساطير القرن الـ21 بجوار ميسي ورونالدو - اليوم السابع",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMi7wNBVV95cUxQamN4dzNSRkVlVDRVNnJqaVZUNVVZdWx3RFptemJBNnlTblJLUWdkOGZOWWNzNWQ4QmpSNDVNU0ptM2cxcFZQcjN1NF80bF9EcmR3ekp4clNWNUc3SzFjNHE4TUVscTd5MWtNZjdadzgyT1NodEg2U0dJekhLV3IzTFFydjktRG4xbS0wNTBJNDFQV0Iwdk5Rdm9UeWdKa09DdDlyWGszZXVqRWVIUVpCb0E2SEp2STBmN0FYYWJXT3BiSDVLaTBfOUtRTnlIM0tmc1gwNmpVc0pONF9rRHZoT1lXd09PNzBKLThwQ3FoTmxkbVlMS0JpM3JDWDJkUVlzUkh6WVRMUmdBX1EydjN4a21vRFdYZ0N5Tk5Wd3NIZmI3UVpBVFdFNTNtYmhEQXMzLVAtUHUwQ3FOdDhNTk53QXItZ2NKb1d3dUNIY1pFcEFXZDFLSkVSVUF6Z2l4Tzk5NXBvMUJNYlpUMGhIN0tCc0p2SzV3RGJTRmFjZnFoZVgxSXNzVzFneHdnb2Q0QXhZNWtRdVVxeDRQQkdzVk56OEFIc2ZQYU9FWXAtdVVWUklOVjVnTHVkU1ZSS0NaMFZmSG1pVTFYeElPUFJoNnAtUlVCdmRmbjlaX1VkTm12MXgyVVlzNW5OWXhZMFlpcU3SAeoDQVVfeXFMUFNQLXNzYVJ6amxGdFc4Q1FMRUdsZTVXekkyXzBtNzV6NEVWbHB5T1E5a1YtdWh1aS1MbHVmdmtzbVJhUmxwSjZ4TjVsa2ZucDhic1FXYVRIaVk1NjgtbENRQkdnalRhRkRNd3gtbXJ1andNbnhqTWgwWXFMTFBuM0pqR1ZCV0hiaWtIVmxWQ0FfM0xKdDNXWVlZZHN1N2YxLTQ0VmJKSTczbUk2QzIwSXZkUVFmTjJVOVRJQzR5Y1g0WG01R0FZZC1qdkJ4a3l0anViV2ZIZ3FsWDVYbTB4VnRMTkdPbUtoZHlfdV9lZVFZUkw2U1dxbGpsSjJjcEtleF9NLWVTSHg0Wk5JUWktMUx2SmE4V1ZhWV9FNDZVQ1E0MEpaUDVxN3JJSGxWS1dlVHU5WndWaVM4VFZtMGF5TkNGN05vVkVQU1RMUDJEdW82a0FVbFRhLWsycGJmQkJpU1NpTWpjSV8za2Y1czlONGUycmNhQkdlZ2tYNk4yR1M1cUc5U3J5Y1JPeEFLT1RERWFqUlVVdnR0Z3NRN3JPT2M5WS0yVkQ4SnZyOW1fckdCOFhIQUNKQnEzZ3lBRTRmQklfSFJxWWd2WW5aTUhMRzc3aXdkZ2pmb0huNDFBakhXclJZS1lTM2FxZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Mon, 03 Aug 2026 07:00:00 GMT",
+      "date": "Mon, 03 Aug 2026 07:00:00 GMT"
+    },
+    {
+      "category": "matches",
+      "title_ar": "مواعيد مباريات اليوم السبت 22- 8- 2026 والقنوات الناقلة - اليوم السابع",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "اليوم السابع",
+      "link": "https://news.google.com/rss/articles/CBMingNBVV95cUxPTHRsM213b19TMmJFeXBkS1JmY2ZqMC1CYlRwNUdQRXRXTjZiRFRpM1dZUEQtZmdFd3JqR2pqSE9nSkx4dzZoRWZNLXQ0S0x0OUFOOWJQQ1BINllYcDhGNm00ZC1ob3lGQ0dHTHRud1M0UVVaRXVyUTh5Y1ptT0NaZW9aZlZGdzZqRWI0NlgyV0plSFBRaDY2UUZ2N3FtQnhlaWdmbk1fRUYwQUlhOXZlSTBFX0dra3BZWjFCaUZwaUVFQ1pnTUVXd2dLaXZjN0xjVW5CYVVmREdqNmFfZExLdmpKRndlajh1U3FXeWpWeVh4aC1XdGV1cEx1Zk9Td1lKRzQwTFY1MkJUcXo4WlBxeWlBaURIV2x1M1dwd2Y0SXRKUUNuVUxwRS1lc0RKWjEtdl93YkdDc1NIanFnT3RmV2p5OGh2SkhQMm9VTXRYUGRJRnBlUmxnb2JMbWhPSUZTRFBGSktoZEdGYXJPNDBaUTlfckVxcmNIeERLMFgwMEtHS3lnTFlfWWJ5dzJvV3JMUVphNVFUMFgzZmVPdGfSAZgDQVVfeXFMUEJoR3gta2h2M2lvZmtoOHNNYWJNaG5kVG5ralhWUE1GYW9Kb3RZVEI3MjhLZGlUNUZUeHRfVTVhSDhkZVBpbGg3Q2dYeWwtY2NKWV8yQUM2NHFIdnBQX3Z5Y2RHWnBjTnRVc0dGZjQ3LWU2bm1YZV9sWFNKYlNHLUdWSWczVTE3QmdLaW8zYmF0S2s0Rk9sS05MVVdmeVp5MlRpSmFRaDY5UDdLTnhlTGt2aFQtQy1rQThQWkZWNmZIS1R5dUxCOWVqM2JsZkdpei1Bd3otWk9sd1NVR09Id0lQeVVBUzVlWVlfZ3Q5ZkNVS1pmN1U5SHFQdEhZclBPdFZYMktlYi01clhWbDRUOXFLamZ2c0RheHFBT0xrWmNhS1VtQUc0WkhyQ180SDY0TERqSlVNeHltTU9OQUVMUkFlNGZjTFZXZzNndzFDQ3JSczlwMVdnQTJrVzE5NlVCSEJsLXNFajRuV2t6ZGIxaTBpbUs2eWNnR0NjT2I3Q1Z6V2l5UlQtRzJHamFWZlFQbGpFOVpVV0J2?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 21 Aug 2026 23:00:00 GMT",
+      "date": "Fri, 21 Aug 2026 23:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "مكتشف لامين يامال لـ مصراوي: أتوقع أن يكون حمزة عبد الكريم أحد أساطير الكرة الأوروبية - Masrawy",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Masrawy",
+      "link": "https://news.google.com/rss/articles/CBMizgVBVV95cUxOQzVrN09WU2NjVUtHT1lmVWpjUXMyY2NSX1NhRVhJWW1ja29vUGVWUmZRajlUNnNaMHp6bXg3M3l3cDRCc2F3SzVReU95Y0V0TTFuUElCVTZKeDBlOURKUkNWOUsxUTVCd1dXMHhpOW11bFpfV3NEbUg5ZzBqUWxxVXFMWDdLNnZoeWZnT2hjTHNnaDJYam5ZRnNqZGdmMFJ4SkNqNkJuMksyVDFoYS13UDJBV3g3Tk1oTzRfazRnR2dZSE5KWllFVEpicWJ3T2R6a3pmb3dUdTNEdm53MjlMVm85MXdUaEJibmhzNlNaa0tGdW9kRHFKSEZHeHpDZVBvdFNLRFlyOU1OX2ZxVUdJUngwSHE2THo4azNzaDBmdU85SERmZlY4Tnlpb3JNbFlDWEFJN2xCQS1WWlZPZ2RIY0l1TmV5czQzOVdxWDBMbHl1RUxwaTVmekZpWWF3S05VSVBMNTE4eXMzWFFIQjJUTlBlaGZaNWU0S3lrUks2ekZyUVUyNTl3VXlTcXNjZzBMS2NPcDRDdXlaX2xFektfSmRHZjNEczdfWTM1NllkUzBfdWd0SmhQOURjT3k4ODVMc2FxajRpZjhvLVFQRElsYmgzdkpkUHpFZ0xpY2IwZjJtMXRLakZVVVJQYkR4UjRLSnp3RFBBT0Z6TnBCaXhocmxrdTF5eHI4cjgtNHA3QmNCc3BEd3JURHdvSmhDSU1fRURucWdiOUQ2WVhUX0M2cF80S2diS3hwb3pjT2VGVV9VcVlSS1otQTUtOXdUbXZkNDBOYTZHUy0tbDNWVlFHaGdIRnk5UmhKYjVEQTJCLXRWcEN4SUMtWWhjMkE1ODhMYW5RUHVBYlRUVGFCM1g0TldwS2Ezc2pycWFjYkwxVEJaT3Z6bkxvb2pNNzFZQ0RkQXR4SWlHVzlkMVpGNXhkTnRKd2M4V0dQMzdrOERn0gHTBUFVX3lxTE9SOFNaWkdSTjZVME96VWxLd2xwc2FiSUltTHN4QTRwcEVlX29lanpvVlRLU2FHYU53MnpqRjc3NFJoSHVXN016bm5xUFRqM2lWQXYzeXdqMFBnZk5MREo1V18yMXNYNWVudDdaOHBLcXhhNEk0dVBYOEY4UjQ2ZUZKd1A5eVozbXpDeEdISzlGQ0xYQkJybWd5MmhuWEI5enFnRUtHVUhERFVYeXBUVWkyZmRRdzB5WXVFMS1oWmVsNjhUM2xvTFZ2QldQTXJjTjNqcDdQcU1JMjI4bVdaTlVQTGZZR293TzFxWF9zZUVuVzZfSWJLRllpZ2lNUWRmNmMxNVJmMEJQcV9xQUNiY3M1Mkl2a1lqVDRIM3NDbEhGXzVpWGYxVktFWnNGWDBYMXEtM0NFa3ZvQ3ZVdUU5Zm1QWTE5RDFFZUxuTnhmbnhFekJGd1FPbEg3dEJvd0hsbmljN05ELS1EdkdkU3FwTkgwaE0wekhvMTNXem16Ym13ZWNtZ2EzUDlWLXFXa216azJPUVpfX1E0NWZySEJTdUo3aFVyZllybzg2NVRYNkJ4T2ZmaVBXbjgzMS16WW9jYVA4QnRWUXgwbjJaUVZGakUzT2JGenNOTDNoNXlnWTlMeE9KUkZ5V082NDA5S3kyMDRURmFTeXZybnBoZjc1bTlSMzNKeGF3UUhjTUZZYUNmd1hzY2dNMzJ0QVhQam1yOFpzbmQ4YU1lY29tSUJmM3V3SkdBNDJQMGk2YU84eGpRY202QnUzZmJBWmRMcVFaaktFR252UHFKS2FvTVl6T2lfbnlNZHc0ZUxMVlhlVnVnMHk5aHRhNHZRcWlKZDNNYVQ4MWwtakx1cUpFYUhjRlJqNjhOcUhaWWJqNjFPTzlvMzMwWFhSQWxkNFZEMUFSNWpzV2VXLVY4OThKQ0dSQ2JzNlRLcDM3alVoZkNzdEVBYVZfRQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 21 Aug 2026 21:24:00 GMT",
+      "date": "Fri, 21 Aug 2026 21:24:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "لا غالب ولا مغلوب في مباراة النجوم أمام الشباب - beIN SPORTS",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "beIN SPORTS",
+      "link": "https://news.google.com/rss/articles/CBMiygRBVV95cUxPUWRzeFpIc1Z2VF9rTXpqLTAtWmtPaVBMbGUxRDUxNzZZVGM3dFlBODNycHMyTWV5MHVLZzlaVVNydXJWdlV6UWtwdjdrbk1jMWFNRXlQTm9abGl2RnNIallkZnR0dXllUGRkMjQ3dWhHZENiWEozVHpqcFJ4UFFmdjFyajZCX2NJLWszc1pPWV91X2JITHJidU5aUl9GZTZ0MFhHV1dpMVFhUDkyZzlSdm5WYWQxdEw3aGx3VGJRUW5QS3VsSnRoMjZCWTIxNDlpZnRpOUY2V01fRF93NXF3VFZ4U05rQmpaRjJDSF8xYTZCNEFBR19BTjhqWGZjdWYzR3VrVlBuQkU5UENqYk9WSjlsX3NKN3R6OXAtbnhqMnhfbWRPY01qbFhXS2xOXzVZMFBUSzRfSTNBNld4WHI0UUwzUjdNVnk1NUNINGNqaExKUS1KbFRiQjVmWDd1bEIzSHJIVXRtR2hZMFZTWjItbUtVb01oR1lVdlFET2Y4ZDZtamE3YTNESEhyZEx3VEFFOExHT1hGai05eEJ6b05WMGdKQmxlYkdjTWlwMm1xcFE0LU4yZHFJclIyb3JkM1ZodWk5Z1FoSUVWS3JNYm9STXlnQnJIRFhfcmsxVWlyZmxsYnFzQmRvVEVJbmR1TW5lTy1fT3MxNHVvVUxKN1ZEZURweDdWczZzTEhhZFA4Q0FnX2xWZ2VqYmJRSDBiNHJVb3VmVzVVRWl5aEdxa0VDblBSUWQxbXd5c2NGbF8wLTVzUndUTkMzanF3?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 21 Aug 2026 20:20:00 GMT",
+      "date": "Fri, 21 Aug 2026 20:20:00 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "منتخب السلة يحل سادسا في بطولة ويليام جونز... - جريدة الغد",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "جريدة الغد",
+      "link": "https://news.google.com/rss/articles/CBMiqwNBVV95cUxPelZZdktSTGQzRlgtaS1EaEpaOEhCVHVsaG5YUUEySU8zcThkbC1LckdHREFDOFNyWFMycVJRN25TTnBsVUZjWlY5TlRZMzJwZ1ZaT2ZUMGpCazJfT2V1WldZbDJVejktaGRRQmdZRXBib2NHVlVkZVVMUUlSc1hjZWRtRzZwWXZqTFM5SGphYzUwQklDNFdWX0NwMGhZTW9jRVVRaXJpdW0xc2dUeGxrX29xbkF0a3cyTWJhMWpHYUQ1NFNteWJRbVFKOU1RNkxUb1dNVUlLY2F3U1hHbDJETUtxeURwRVFsUnVLRUhuWW1XcmtqTE93Yk9YcHQyMXVkVTgtOS00dUZUQkQyRGJ5YVFaRHdmM0ExLVd5eG9TdUY5Y0J2ZWwzbDJWdFRVSGxnWmpXUGpnZ2xrR0lfVWxGNEdNN004XzBMQVJGb0Z4R3lKbjV6RURtazlsSWNDOWY4Y0kzdWR5NmQ0U1l6OTdIR082b0NRNUh6Z3NkLTdSRDJXMG44Wm9rczhLZkl0TktWUEZEQl8yNlVaaklmT0NkWVJWWWdkNmU1RUNN?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 21 Aug 2026 18:21:27 GMT",
+      "date": "Fri, 21 Aug 2026 18:21:27 GMT"
+    },
+    {
+      "category": "stars",
+      "title_ar": "عندما يخضع أساطير الملاعب لسحر الشرق.. جميلات عربيات سحرن نجوم كرة القدم - عكاظ",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "عكاظ",
+      "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBxdThuVFZpVEUwdDFXWHNEcTNWc1l2cGF3YU9lb2lMWVF5TTdxVW9fMXEwQjBidWFVRTFQTU5jQ2Itek9mQ0pOeGtrR3dmRGduUHFMR9IBVEFVX3lxTE5sRms1TDItYmxIbGlfY2NuSjFSbG9fTTFfdmpjZldhaFFvTmNoelpNQWJGNkxTWndSeGpIUXl4UWlYcjNSSEdUNlRfQWV6bl9sRy1yVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 21 Aug 2026 09:23:00 GMT",
+      "date": "Fri, 21 Aug 2026 09:23:00 GMT"
+    },
+    {
+      "category": "transfers",
+      "title_ar": "انتقالات كرة القدم - FanPiece",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "FanPiece",
+      "link": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxOdVBaR2xmRGxWU1dsRFZvNVdwanV1RDNNYlZycXNBTU9vdDlNd3V1T3hrLW5OR1o3bDRfMzY0UUV5ZlFmYzhaQ254SmVNSWRfNk9FUGlDMnFoWTh5LXRVLTBZYWFHcXJvdklVVDNvR1VOZmpMMHZRekI1LU1Gc0gwX3dyWjU3dUNYRU1nT0R5ZmxNVEd0cTVjMjdDc3RZbFU1M1VsdC1ycGRHVm9McnhQbnRmQUJYU1JNa3VYdVdncGs0MVJ3bjhNcFFiTTMxZ08wR083dk96OXpGSGFkdmc?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 21 Aug 2026 06:12:40 GMT",
+      "date": "Fri, 21 Aug 2026 06:12:40 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "تلقى المنتخب الوطني الفيتنامي أخباراً سارة قبل نهائي كأس الآسيان 2026. - Vietnam.vn",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "Vietnam.vn",
+      "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxPY2phck13OE1mbEwxcEk3Z2xfUGVUeXRLMjh5Rk1JM1ZRNGFLY0xTMVg4NG9CTmdGNEtoQUJGOWVCUmptWV9jRWF1d1NOdWUwa0lLTDBvUjB1WHZhSVNQMllFUk9Wa3Z3SUxhNDFUN3hlV1U2eTlJaXFhWDFhMFlyNE4wU01HU3lOLXRmTg?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 21 Aug 2026 02:51:53 GMT",
+      "date": "Fri, 21 Aug 2026 02:51:53 GMT"
+    },
+    {
+      "category": "national",
+      "title_ar": "صور..المنتخب الوطني يعود لأرض الوطن بعد مشاركة مشرفة فى كأس العالم 2026 - الهيئة الوطنية للإعلام",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الهيئة الوطنية للإعلام",
+      "link": "https://news.google.com/rss/articles/CBMioARBVV95cUxPRkxJTTY1Zlo1WjNjTml4WVhSNGdOcU9DZXZCSWZfcElqTkRWSGZ0My15V2pNa0RqS0xVanJ0QWRNSTFNWERIalhwVGttakYyVVZJQW1MMk1ISW5IMHZpaHJCR0ZzUDV4N2NVYXBTcHFWdld5VTJyR2VHT0QtR2Y5VjBJRURrc0swOGdXYjRBdXNWbVdsNVdMc21CU2V6MXJDU1hCZXlwb0dtWnBXX3RQbDRYcWVuNUYwLXMxdzRaNk9VY0YxdnpFUmhqZDgySFJScTdTVEtENjVFUklZZnp5NlFNc0ZqVmt5NWVXVWsza1hGOWdyRkF1d1FLWEkyV2Jua1pMRWFiYXlQRmpQTE4yMEhHY2swa1NjeUIwU0trNGtDaGZqMUpBc0RHUmR5T1RMemJFRUJJYmcyQmlUd3V6T25sci1zYXBZZzVuUVRVRUhVNkN0dGVsbUFLaXlWWm5INDR0ZGwtaWtucTNybjh1bXVzSnhDVmg5WFhRNDhUT1hZRF9BZm92czFKLWxvRW14OU5wSHFOQUFiQXdLT0Riemx4N2lpTHZhWUJONTRIV1lVdTZzZnpOeDh0Znh4aU9WbEs4S19SSlVvd25mbHFMWFNRdmNHQlBVQkR3UFI4SEpNOHBwNkJPcUs3Q29jQXBuYkk1ZUtJd3Q0QmNrQUJxaU9DOG80cGVHU3BPLTdQZXp0OEJNSUhFLS1PdjZrRnhH?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 10 Jul 2026 07:00:00 GMT",
+      "date": "Fri, 10 Jul 2026 07:00:00 GMT"
+    },
+    {
+      "category": "history",
+      "title_ar": "\"انتهى الأمر\".. مُدلك مارادونا يكشف للمحكمة أسرار الأيام الأخيرة - الجزيرة نت",
+      "summary_ar": "Comprehensive up-to-date news coverage, aggregated from sources all over the world by Google News.",
+      "image": "https://lh3.googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrpY4bEeIBuc=s0-w300-rw",
+      "source": "الجزيرة نت",
+      "link": "https://news.google.com/rss/articles/CBMiqAJBVV95cUxNTl91SnFMQWxiY3JtQm9RNHJ2anp5NE52cU5rOGc0NEo4UUx2WjRySHo1YUVDQjVoSTF5MnJMSVg5YnpnQVdrZVkzNWxIUDVEeFFyVHZEdHV0VkNaN2xGdlYzZ2tFQW5iV0VzZEFWWVlORW83UFIzemNvU2JRcjg3T0puXzRPcVJRT0Y5bVpEMmoxblVORXJlSkgxMFhEOGd5bTF1ZVctTkx3ZDZtSW1pMjBkYV9sbzFPRHUxZlduRERfZmdGMHVmVDQzdGZmZzBwVDU3WEYtWDQ1bDc2X2pmbFpjRkRqbDQtX2FaUVJ1cGNtMXo0b0dOOVdVTnRPdTM1UENWVjIzX0VOSm0ybmdpc3FsUnNITHJzQnN1TzVGbnIzRnJoTEdZVNIBrgJBVV95cUxNdkRnMWRKMElUMjYxQWwyTk9WaDZELWRoeDhYeUFPYXUxdlE1VHJOQnJVZ2pseW1Db3dJNllrVk94NjVTdUIwbmo4bUhzbXhqRVhSS0VvaWVWYjdjMlB2VXIxRHJlbGtMR3FLcjBoempZS3RuUndqVVVtNXh0YkVXTGk0SmR6QndIUlBMRFVqRDB4N1B4cW5GN1RVQkRHbXVGaExSTHNuOWIxVjBhU1BnQWt1elpYQWJKbE9UVEcwYzM4dy16TW5YcWRSZkx6TnNUN3BnRkZ1UWNVak5WNXN3RmFTcnc3MEo5ZE1qMWptMXJRRExVZU1uREcySGNjUXFtYWk1eVJmZkY1cHpmTHViSDUxdUZiUG5XMWhZUlNYX0lzeEJUcGJQRXl2eVFJZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "published": "Fri, 07 Aug 2026 07:00:00 GMT",
+      "date": "Fri, 07 Aug 2026 07:00:00 GMT"
+    }
+  ]
 }
