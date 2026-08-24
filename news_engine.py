@@ -4,7 +4,6 @@ import re
 import html
 import time
 import calendar
-import hashlib
 from datetime import datetime, timezone
 from urllib.parse import quote_plus, urljoin
 
@@ -16,28 +15,26 @@ import feedparser
 # NOWNEX FOOTBALL NEWS ENGINE
 # ============================================================
 # RSS
-#   ↓
-# Fresh football news
-#   ↓
-# Images
-#   ↓
-# Gemini
-#   ↓
-# Arabic title + Arabic summary
-#   ↓
+# ↓
+# أخبار حديثة
+# ↓
+# استخراج الصور
+# ↓
+# Gemini 3.6 Flash
+# ↓
+# ترجمة عربية
+# ↓
+# ملخص عربي
+# ↓
 # data/news.json
-#
-# Images are downloaded to:
-# assets/news/
 # ============================================================
 
 
 # ============================================================
-# PATHS
+# FILE
 # ============================================================
 
 NEWS_FILE = "data/news.json"
-IMAGE_DIR = "assets/news"
 
 
 # ============================================================
@@ -52,9 +49,10 @@ if not API_KEY:
     )
 
 
+# Gemini 3.6 Flash
 GEMINI_MODEL = os.environ.get(
     "GEMINI_MODEL",
-    "gemini-2.5-flash"
+    "gemini-3.6-flash"
 )
 
 GEMINI_URL = (
@@ -67,6 +65,26 @@ GEMINI_URL = (
 # SETTINGS
 # ============================================================
 
+MAX_PER_CATEGORY = 10
+MAX_TOTAL = 50
+
+MIN_PER_CATEGORY = 10
+
+MAX_AGE_HOURS = 48
+
+ENTRIES_PER_FEED = 25
+
+REQUEST_TIMEOUT = 15
+GEMINI_TIMEOUT = 90
+
+GEMINI_BATCH_SIZE = 5
+GEMINI_BATCH_DELAY = 4
+
+
+# ============================================================
+# CATEGORIES
+# ============================================================
+
 CATEGORIES = [
     "matches",
     "transfers",
@@ -75,38 +93,33 @@ CATEGORIES = [
     "history"
 ]
 
+
+# ============================================================
+# CATEGORY NAMES
+# ============================================================
+
 CATEGORY_NAMES = {
-    "matches": "أخبار المباريات",
-    "transfers": "أخبار الانتقالات",
-    "stars": "أخبار النجوم",
-    "national": "المنتخبات",
-    "history": "تاريخ كرة القدم"
+
+    "matches":
+        "أخبار المباريات",
+
+    "transfers":
+        "أخبار الانتقالات",
+
+    "stars":
+        "أخبار النجوم",
+
+    "national":
+        "المنتخبات",
+
+    "history":
+        "تاريخ كرة القدم"
+
 }
-
-MAX_PER_CATEGORY = 10
-MAX_TOTAL = 50
-
-MIN_PER_CATEGORY = 10
-
-# لا نقبل أخبارًا أقدم من 48 ساعة
-MAX_AGE_HOURS = 48
-
-ENTRIES_PER_FEED = 30
-
-REQUEST_TIMEOUT = 15
-GEMINI_TIMEOUT = 90
-
-# Gemini يعالج 5 أخبار في كل طلب
-GEMINI_BATCH_SIZE = 5
-
-GEMINI_BATCH_DELAY = 4
-
-# حجم الصورة الأقصى التي نحفظها
-MAX_IMAGE_BYTES = 4_000_000
 
 
 # ============================================================
-# GOOGLE NEWS RSS
+# GOOGLE NEWS URL
 # ============================================================
 
 def google_news_url(
@@ -114,6 +127,7 @@ def google_news_url(
     language="ar",
     country="DZ"
 ):
+
     query = f"{query} when:2d"
 
     return (
@@ -126,17 +140,17 @@ def google_news_url(
 
 
 # ============================================================
-# RSS SOURCES
+# RSS FEEDS
 # ============================================================
 
 RSS_FEEDS = [
 
-    # --------------------------------------------------------
+    # ========================================================
     # MATCHES
-    # --------------------------------------------------------
+    # ========================================================
 
     (
-        "Google News Football Matches Arabic",
+        "Google News Matches Arabic",
         google_news_url(
             "كرة القدم مباريات نتائج أهداف تشكيلات",
             "ar",
@@ -146,31 +160,11 @@ RSS_FEEDS = [
     ),
 
     (
-        "Google News Champions League",
+        "Google News Football Matches",
         google_news_url(
-            "دوري أبطال أوروبا مباريات نتائج أهداف",
-            "ar",
-            "DZ"
-        ),
-        "matches"
-    ),
-
-    (
-        "Google News Premier League",
-        google_news_url(
-            "الدوري الإنجليزي مباريات نتائج أهداف",
-            "ar",
-            "DZ"
-        ),
-        "matches"
-    ),
-
-    (
-        "Google News La Liga",
-        google_news_url(
-            "الدوري الإسباني مباريات نتائج أهداف",
-            "ar",
-            "DZ"
+            "football matches results goals lineups",
+            "en",
+            "US"
         ),
         "matches"
     ),
@@ -182,18 +176,29 @@ RSS_FEEDS = [
     ),
 
     (
-        "Google News Football Matches English",
+        "Google News Champions League",
         google_news_url(
-            "football matches results goals lineups",
-            "en",
-            "US"
+            "دوري أبطال أوروبا مباريات نتائج",
+            "ar",
+            "DZ"
         ),
         "matches"
     ),
 
-    # --------------------------------------------------------
+    (
+        "Google News Premier League",
+        google_news_url(
+            "الدوري الإنجليزي مباريات نتائج",
+            "ar",
+            "DZ"
+        ),
+        "matches"
+    ),
+
+
+    # ========================================================
     # TRANSFERS
-    # --------------------------------------------------------
+    # ========================================================
 
     (
         "Google News Transfers Arabic",
@@ -201,6 +206,26 @@ RSS_FEEDS = [
             "انتقالات كرة القدم صفقات ميركاتو",
             "ar",
             "DZ"
+        ),
+        "transfers"
+    ),
+
+    (
+        "Google News Football Transfers",
+        google_news_url(
+            "football transfers transfer news signings",
+            "en",
+            "US"
+        ),
+        "transfers"
+    ),
+
+    (
+        "Fabrizio Romano Google News",
+        google_news_url(
+            "Fabrizio Romano football transfers",
+            "en",
+            "US"
         ),
         "transfers"
     ),
@@ -216,43 +241,24 @@ RSS_FEEDS = [
     ),
 
     (
-        "Google News Football Transfers English",
+        "Google News Transfers Europe",
         google_news_url(
-            "football transfers transfer news signings",
-            "en",
-            "US"
-        ),
-        "transfers"
-    ),
-
-    (
-        "Google News Real Madrid Transfers",
-        google_news_url(
-            "ريال مدريد انتقالات صفقات",
+            "انتقالات أوروبا ريال مدريد برشلونة مانشستر",
             "ar",
             "DZ"
         ),
         "transfers"
     ),
 
-    (
-        "Google News Barcelona Transfers",
-        google_news_url(
-            "برشلونة انتقالات صفقات",
-            "ar",
-            "DZ"
-        ),
-        "transfers"
-    ),
 
-    # --------------------------------------------------------
+    # ========================================================
     # STARS
-    # --------------------------------------------------------
+    # ========================================================
 
     (
-        "Google News Football Stars",
+        "Google News Stars Arabic",
         google_news_url(
-            "نجوم كرة القدم لاعبين مبابي هالاند صلاح رونالدو",
+            "نجوم كرة القدم صلاح مبابي رونالدو هالاند",
             "ar",
             "DZ"
         ),
@@ -260,7 +266,17 @@ RSS_FEEDS = [
     ),
 
     (
-        "Google News Mohamed Salah",
+        "Google News Football Players",
+        google_news_url(
+            "football players stars Mbappe Ronaldo Messi Haaland",
+            "en",
+            "US"
+        ),
+        "stars"
+    ),
+
+    (
+        "Google News Salah",
         google_news_url(
             "محمد صلاح كرة القدم",
             "ar",
@@ -289,19 +305,10 @@ RSS_FEEDS = [
         "stars"
     ),
 
-    (
-        "Google News Haaland",
-        google_news_url(
-            "هالاند كرة القدم",
-            "ar",
-            "DZ"
-        ),
-        "stars"
-    ),
 
-    # --------------------------------------------------------
+    # ========================================================
     # NATIONAL
-    # --------------------------------------------------------
+    # ========================================================
 
     (
         "Google News National Teams",
@@ -309,6 +316,16 @@ RSS_FEEDS = [
             "المنتخبات كرة القدم كأس العالم تصفيات",
             "ar",
             "DZ"
+        ),
+        "national"
+    ),
+
+    (
+        "Google News FIFA",
+        google_news_url(
+            "FIFA national teams football",
+            "en",
+            "US"
         ),
         "national"
     ),
@@ -343,19 +360,10 @@ RSS_FEEDS = [
         "national"
     ),
 
-    (
-        "Google News FIFA National Teams",
-        google_news_url(
-            "FIFA national teams football",
-            "en",
-            "US"
-        ),
-        "national"
-    ),
 
-    # --------------------------------------------------------
+    # ========================================================
     # HISTORY
-    # --------------------------------------------------------
+    # ========================================================
 
     (
         "Google News Football History",
@@ -378,6 +386,16 @@ RSS_FEEDS = [
     ),
 
     (
+        "Google News On This Day Football",
+        google_news_url(
+            "في مثل هذا اليوم كرة القدم",
+            "ar",
+            "DZ"
+        ),
+        "history"
+    ),
+
+    (
         "Google News Historic Matches",
         google_news_url(
             "مباريات تاريخية كرة القدم نهائيات",
@@ -395,33 +413,26 @@ RSS_FEEDS = [
             "DZ"
         ),
         "history"
-    ),
-
-    (
-        "Google News On This Day Football",
-        google_news_url(
-            "في مثل هذا اليوم كرة القدم",
-            "ar",
-            "DZ"
-        ),
-        "history"
     )
+
 ]
 
 
 # ============================================================
-# HTTP SESSION
+# SESSION
 # ============================================================
 
 SESSION = requests.Session()
 
 SESSION.headers.update({
+
     "User-Agent":
         "Mozilla/5.0 (compatible; NOWNEX-Football/7.0)",
 
     "Accept":
         "application/rss+xml, application/xml, "
         "text/xml, text/html, image/*"
+
 })
 
 
@@ -456,7 +467,9 @@ def clean_text(value):
 
 def normalize_title(title):
 
-    title = clean_text(title).lower()
+    title = clean_text(
+        title
+    ).lower()
 
     title = re.sub(
         r"[^\w\u0600-\u06FF]+",
@@ -468,10 +481,10 @@ def normalize_title(title):
 
 
 # ============================================================
-# VALID URL
+# VALID IMAGE URL
 # ============================================================
 
-def valid_url(url):
+def valid_image_url(url):
 
     if not url:
         return ""
@@ -497,14 +510,10 @@ def valid_url(url):
 
 
 # ============================================================
-# EXTRACT IMAGE FROM RSS
+# RSS IMAGE
 # ============================================================
 
 def extract_rss_image(entry):
-
-    # --------------------------------------------------------
-    # media_content
-    # --------------------------------------------------------
 
     media_content = entry.get(
         "media_content",
@@ -530,14 +539,13 @@ def extract_rss_image(entry):
                 or media.get("src")
             )
 
-            image = valid_url(image)
+            image = valid_image_url(
+                image
+            )
 
             if image:
                 return image
 
-    # --------------------------------------------------------
-    # media_thumbnail
-    # --------------------------------------------------------
 
     media_thumbnail = entry.get(
         "media_thumbnail",
@@ -563,14 +571,13 @@ def extract_rss_image(entry):
                 or media.get("src")
             )
 
-            image = valid_url(image)
+            image = valid_image_url(
+                image
+            )
 
             if image:
                 return image
 
-    # --------------------------------------------------------
-    # enclosure
-    # --------------------------------------------------------
 
     enclosures = entry.get(
         "enclosures",
@@ -595,7 +602,9 @@ def extract_rss_image(entry):
                 or enclosure.get("url")
             )
 
-            image = valid_url(image)
+            image = valid_image_url(
+                image
+            )
 
             if not image:
                 continue
@@ -616,16 +625,24 @@ def extract_rss_image(entry):
                     re.I
                 )
             ):
+
                 return image
 
-    # --------------------------------------------------------
-    # IMAGE INSIDE DESCRIPTION
-    # --------------------------------------------------------
 
     sources = [
-        entry.get("summary", ""),
-        entry.get("description", "")
+
+        entry.get(
+            "summary",
+            ""
+        ),
+
+        entry.get(
+            "description",
+            ""
+        )
+
     ]
+
 
     content = entry.get(
         "content",
@@ -651,12 +668,17 @@ def extract_rss_image(entry):
                     )
                 )
 
+
     patterns = [
+
         r'<img[^>]+src=["\']([^"\']+)["\']',
+
         r'<img[^>]+data-src=["\']([^"\']+)["\']',
-        r'<img[^>]+data-original=["\']([^"\']+)["\']',
+
         r'<img[^>]+data-lazy-src=["\']([^"\']+)["\']'
+
     ]
+
 
     for source in sources:
 
@@ -674,41 +696,43 @@ def extract_rss_image(entry):
 
             for image in matches:
 
-                image = valid_url(image)
+                image = valid_image_url(
+                    image
+                )
 
                 if image:
                     return image
+
 
     return ""
 
 
 # ============================================================
-# EXTRACT IMAGES FROM ARTICLE PAGE
+# PAGE IMAGE
 # ============================================================
 
-def extract_page_images(
-    article_url
-):
+def extract_page_image(url):
 
-    if not article_url:
-        return []
+    if not url:
+        return ""
 
     try:
 
         response = SESSION.get(
-            article_url,
+            url,
             timeout=REQUEST_TIMEOUT,
             allow_redirects=True
         )
 
         if response.status_code != 200:
-            return []
+            return ""
 
-        page = response.text[:1_500_000]
+        page = response.text[:1000000]
 
         final_url = response.url
 
         candidates = []
+
 
         # ----------------------------------------------------
         # OG IMAGE
@@ -726,10 +750,10 @@ def extract_page_images(
 
             r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)["\']',
 
-            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image["\']',
+            r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+name=["\']twitter:image["\']'
 
-            r'<link[^>]+rel=["\']image_src["\'][^>]+href=["\']([^"\']+)["\']'
         ]
+
 
         for pattern in patterns:
 
@@ -746,10 +770,15 @@ def extract_page_images(
                     )
                 )
 
-                image = valid_url(image)
+                image = valid_image_url(
+                    image
+                )
 
                 if image:
-                    candidates.append(image)
+                    candidates.append(
+                        image
+                    )
+
 
         # ----------------------------------------------------
         # JSON-LD
@@ -764,42 +793,57 @@ def extract_page_images(
             page,
 
             re.I | re.S
+
         )
+
 
         for raw in jsonld:
 
             try:
 
-                data = json.loads(raw)
+                data = json.loads(
+                    raw
+                )
 
             except Exception:
 
                 continue
 
+
             objects = []
+
 
             if isinstance(
                 data,
                 dict
             ):
 
-                objects.append(data)
+                objects.append(
+                    data
+                )
 
-                graph = data.get("@graph")
+                graph = data.get(
+                    "@graph"
+                )
 
                 if isinstance(
                     graph,
                     list
                 ):
 
-                    objects.extend(graph)
+                    objects.extend(
+                        graph
+                    )
 
             elif isinstance(
                 data,
                 list
             ):
 
-                objects.extend(data)
+                objects.extend(
+                    data
+                )
+
 
             for obj in objects:
 
@@ -809,7 +853,11 @@ def extract_page_images(
                 ):
                     continue
 
-                image = obj.get("image")
+
+                image = obj.get(
+                    "image"
+                )
+
 
                 if isinstance(
                     image,
@@ -822,35 +870,37 @@ def extract_page_images(
                         image.get("contentUrl")
                     )
 
+
                 if isinstance(
                     image,
                     list
                 ):
 
-                    for item in image:
+                    for x in image:
 
                         if isinstance(
-                            item,
+                            x,
                             dict
                         ):
 
-                            item = (
-                                item.get("url")
+                            x = (
+                                x.get("url")
                                 or
-                                item.get("contentUrl")
+                                x.get("contentUrl")
                             )
 
                         if isinstance(
-                            item,
+                            x,
                             str
                         ):
 
                             candidates.append(
                                 urljoin(
                                     final_url,
-                                    item
+                                    x
                                 )
                             )
+
 
                 elif isinstance(
                     image,
@@ -863,6 +913,7 @@ def extract_page_images(
                             image
                         )
                     )
+
 
         # ----------------------------------------------------
         # IMG TAGS
@@ -877,17 +928,17 @@ def extract_page_images(
             r'<img[^>]+data-original=["\']([^"\']+)["\']',
 
             r'<img[^>]+data-lazy-src=["\']([^"\']+)["\']'
+
         ]
+
 
         for pattern in img_patterns:
 
-            matches = re.findall(
+            for image in re.findall(
                 pattern,
                 page,
                 re.I
-            )
-
-            for image in matches[:100]:
+            )[:50]:
 
                 image = urljoin(
                     final_url,
@@ -896,16 +947,22 @@ def extract_page_images(
                     )
                 )
 
-                image = valid_url(image)
+                image = valid_image_url(
+                    image
+                )
 
                 if image:
-                    candidates.append(image)
+                    candidates.append(
+                        image
+                    )
+
 
         # ----------------------------------------------------
-        # FILTER
+        # FILTER BAD IMAGES
         # ----------------------------------------------------
 
-        bad_words = [
+        bad = [
+
             "logo",
             "avatar",
             "favicon",
@@ -915,236 +972,45 @@ def extract_page_images(
             "advert",
             "banner",
             "pixel",
-            "tracking",
-            "loader"
+            "tracking"
+
         ]
 
-        result = []
 
-        seen = set()
+        cleaned = []
+
 
         for image in candidates:
-
-            image = valid_url(image)
-
-            if not image:
-                continue
 
             low = image.lower()
 
             if any(
                 word in low
-                for word in bad_words
+                for word in bad
             ):
                 continue
 
-            if image in seen:
-                continue
+            if image not in cleaned:
 
-            seen.add(image)
-
-            result.append(image)
-
-        return result
-
-    except Exception as error:
-
-        print(
-            "PAGE IMAGE ERROR:",
-            str(error)[:200]
-        )
-
-        return []
-
-
-# ============================================================
-# GET IMAGE CANDIDATES
-# ============================================================
-
-def get_image_candidates(
-    article_url,
-    rss_image
-):
-
-    result = []
-
-    if rss_image:
-
-        rss_image = valid_url(
-            rss_image
-        )
-
-        if rss_image:
-            result.append(rss_image)
-
-    page_images = extract_page_images(
-        article_url
-    )
-
-    result.extend(page_images)
-
-    unique = []
-
-    seen = set()
-
-    for image in result:
-
-        if image in seen:
-            continue
-
-        seen.add(image)
-
-        unique.append(image)
-
-    return unique
-
-
-# ============================================================
-# DOWNLOAD IMAGE
-# ============================================================
-
-def download_image(
-    image_url,
-    article_key
-):
-
-    image_url = valid_url(
-        image_url
-    )
-
-    if not image_url:
-        return ""
-
-    try:
-
-        response = SESSION.get(
-            image_url,
-            timeout=REQUEST_TIMEOUT,
-            stream=True,
-            allow_redirects=True
-        )
-
-        if response.status_code != 200:
-            return ""
-
-        content_type = (
-            response.headers
-            .get(
-                "Content-Type",
-                ""
-            )
-            .lower()
-        )
-
-        if (
-            "image" not in content_type
-            and
-            not re.search(
-                r"\.(jpg|jpeg|png|webp)(\?|$)",
-                image_url,
-                re.I
-            )
-        ):
-            return ""
-
-        extension = ".jpg"
-
-        if "png" in content_type:
-            extension = ".png"
-
-        elif "webp" in content_type:
-            extension = ".webp"
-
-        elif "gif" in content_type:
-            extension = ".gif"
-
-        elif (
-            "jpeg" in content_type
-            or
-            "jpg" in content_type
-        ):
-            extension = ".jpg"
-
-        filename = (
-            hashlib.sha256(
-                article_key.encode(
-                    "utf-8"
+                cleaned.append(
+                    image
                 )
-            ).hexdigest()[:24]
-            +
-            extension
-        )
 
-        os.makedirs(
-            IMAGE_DIR,
-            exist_ok=True
-        )
 
-        filepath = os.path.join(
-            IMAGE_DIR,
-            filename
-        )
+        if cleaned:
 
-        if os.path.exists(
-            filepath
-        ):
+            return cleaned[0]
 
-            return (
-                "assets/news/"
-                + filename
-            )
-
-        total = 0
-
-        with open(
-            filepath,
-            "wb"
-        ) as file:
-
-            for chunk in response.iter_content(
-                chunk_size=65536
-            ):
-
-                if not chunk:
-                    continue
-
-                total += len(chunk)
-
-                if total > MAX_IMAGE_BYTES:
-
-                    file.close()
-
-                    try:
-                        os.remove(filepath)
-                    except Exception:
-                        pass
-
-                    return ""
-
-                file.write(chunk)
-
-        if total < 10_000:
-
-            try:
-                os.remove(filepath)
-            except Exception:
-                pass
-
-            return ""
-
-        return (
-            "assets/news/"
-            + filename
-        )
 
     except Exception as error:
 
         print(
-            "IMAGE DOWNLOAD ERROR:",
+            "IMAGE PAGE ERROR:",
             str(error)[:180]
         )
 
-        return ""
+
+    return ""
 
 
 # ============================================================
@@ -1152,89 +1018,27 @@ def download_image(
 # ============================================================
 
 def get_best_image(
-    article
+    article_url,
+    rss_image
 ):
 
-    article_url = article.get(
-        "link",
-        ""
+    if rss_image:
+
+        image = valid_image_url(
+            rss_image
+        )
+
+        if image:
+            return image
+
+
+    image = extract_page_image(
+        article_url
     )
 
-    rss_image = article.get(
-        "image",
-        ""
-    )
+    if image:
+        return image
 
-    candidates = get_image_candidates(
-        article_url,
-        rss_image
-    )
-
-    if not candidates:
-
-        return ""
-
-    print(
-        "IMAGE CANDIDATES:",
-        len(candidates)
-    )
-
-    article_key = (
-        article.get(
-            "link",
-            ""
-        )
-        or
-        article.get(
-            "title",
-            ""
-        )
-    )
-
-    # --------------------------------------------------------
-    # جرّب الصور بالترتيب
-    # --------------------------------------------------------
-
-    for index, image_url in enumerate(
-        candidates[:12],
-        start=1
-    ):
-
-        print(
-            f"IMAGE TRY {index}:",
-            image_url[:120]
-        )
-
-        local_image = download_image(
-            image_url,
-            article_key
-        )
-
-        if local_image:
-
-            print(
-                "IMAGE SAVED:",
-                local_image
-            )
-
-            return local_image
-
-    # --------------------------------------------------------
-    # fallback للرابط الخارجي
-    # --------------------------------------------------------
-
-    if candidates:
-
-        print(
-            "IMAGE LOCAL DOWNLOAD FAILED."
-        )
-
-        print(
-            "USING REMOTE IMAGE:",
-            candidates[0][:120]
-        )
-
-        return candidates[0]
 
     return ""
 
@@ -1243,9 +1047,7 @@ def get_best_image(
 # DATE
 # ============================================================
 
-def get_timestamp(
-    entry
-):
+def get_timestamp(entry):
 
     parsed = entry.get(
         "published_parsed"
@@ -1271,28 +1073,18 @@ def get_timestamp(
     return 0
 
 
-def timestamp_to_iso(
-    timestamp
-):
+def timestamp_to_iso(timestamp):
 
     if not timestamp:
         return ""
 
-    try:
-
-        return datetime.fromtimestamp(
-            timestamp,
-            timezone.utc
-        ).isoformat()
-
-    except Exception:
-
-        return ""
+    return datetime.fromtimestamp(
+        timestamp,
+        timezone.utc
+    ).isoformat()
 
 
-def age_hours(
-    timestamp
-):
+def age_hours(timestamp):
 
     if not timestamp:
         return 999999
@@ -1311,15 +1103,13 @@ def age_hours(
 # DUPLICATES
 # ============================================================
 
-def remove_duplicates(
-    articles
-):
+def remove_duplicates(articles):
 
     result = []
 
     titles = set()
-
     links = set()
+
 
     for article in articles:
 
@@ -1337,32 +1127,46 @@ def remove_duplicates(
             )
         ).strip().lower()
 
+
         if not title:
             continue
+
 
         if title in titles:
             continue
 
+
         if link and link in links:
             continue
 
-        titles.add(title)
+
+        titles.add(
+            title
+        )
+
 
         if link:
-            links.add(link)
+            links.add(
+                link
+            )
 
-        result.append(article)
+
+        result.append(
+            article
+        )
+
 
     return result
 
 
 # ============================================================
-# READ RSS
+# GET NEWS
 # ============================================================
 
 def get_news():
 
     articles = []
+
 
     for (
         source,
@@ -1372,7 +1176,7 @@ def get_news():
 
         print("")
         print(
-            "------------------------------------------"
+            "=========================================="
         )
 
         print(
@@ -1385,6 +1189,7 @@ def get_news():
             category
         )
 
+
         try:
 
             response = SESSION.get(
@@ -1392,27 +1197,32 @@ def get_news():
                 timeout=REQUEST_TIMEOUT
             )
 
+
             if response.status_code != 200:
 
                 print(
-                    "HTTP:",
+                    "HTTP ERROR:",
                     response.status_code
                 )
 
                 continue
 
+
             feed = feedparser.parse(
                 response.content
             )
+
 
             entries = feed.entries[
                 :ENTRIES_PER_FEED
             ]
 
+
             print(
                 "ENTRIES:",
                 len(entries)
             )
+
 
             for entry in entries:
 
@@ -1423,6 +1233,7 @@ def get_news():
                     )
                 )
 
+
                 link = str(
                     entry.get(
                         "link",
@@ -1430,12 +1241,15 @@ def get_news():
                     )
                 ).strip()
 
+
                 if not title or not link:
                     continue
+
 
                 timestamp = get_timestamp(
                     entry
                 )
+
 
                 if not timestamp:
 
@@ -1446,9 +1260,11 @@ def get_news():
 
                     continue
 
+
                 age = age_hours(
                     timestamp
                 )
+
 
                 if age > MAX_AGE_HOURS:
 
@@ -1459,7 +1275,9 @@ def get_news():
 
                     continue
 
+
                 description = clean_text(
+
                     entry.get(
                         "summary",
                         entry.get(
@@ -1467,7 +1285,9 @@ def get_news():
                             ""
                         )
                     )
+
                 )
+
 
                 if not description:
 
@@ -1476,14 +1296,11 @@ def get_news():
                         []
                     )
 
-                    if (
-                        isinstance(
-                            content,
-                            list
-                        )
-                        and
-                        content
-                    ):
+
+                    if isinstance(
+                        content,
+                        list
+                    ) and content:
 
                         first = content[0]
 
@@ -1499,11 +1316,14 @@ def get_news():
                                 )
                             )
 
+
                 image = extract_rss_image(
                     entry
                 )
 
+
                 published = clean_text(
+
                     entry.get(
                         "published",
                         entry.get(
@@ -1511,7 +1331,9 @@ def get_news():
                             ""
                         )
                     )
+
                 )
+
 
                 articles.append({
 
@@ -1541,7 +1363,9 @@ def get_news():
 
                     "_age":
                         age
+
                 })
+
 
         except Exception as error:
 
@@ -1550,60 +1374,80 @@ def get_news():
                 str(error)[:250]
             )
 
+
     articles = remove_duplicates(
         articles
     )
 
+
     articles.sort(
-        key=lambda item:
-            item.get(
+        key=lambda x:
+            x.get(
                 "_timestamp",
                 0
             ),
         reverse=True
     )
 
+
     print("")
+    print(
+        "=========================================="
+    )
+
     print(
         "TOTAL FRESH ARTICLES:",
         len(articles)
     )
 
+    print(
+        "=========================================="
+    )
+
+
     return articles
 
 
 # ============================================================
-# SELECT NEWS
+# SELECT ARTICLES
 # ============================================================
 
-def select_articles(
-    articles
-):
+def select_articles(articles):
 
     selected = []
+
 
     for category in CATEGORIES:
 
         candidates = [
+
             article
+
             for article in articles
+
             if article.get(
                 "category"
             ) == category
+
         ]
 
+
+        print("")
         print(
             category,
             "AVAILABLE:",
             len(candidates)
         )
 
+
         count = 0
+
 
         for article in candidates:
 
             if count >= MAX_PER_CATEGORY:
                 break
+
 
             selected.append(
                 article
@@ -1611,35 +1455,42 @@ def select_articles(
 
             count += 1
 
+
         print(
             category,
             "SELECTED:",
             count
         )
 
+
         if count < MIN_PER_CATEGORY:
 
             raise RuntimeError(
+
                 f"Not enough fresh news for "
                 f"{category}: "
                 f"{count}/{MIN_PER_CATEGORY}"
+
             )
 
-    return selected[:MAX_TOTAL]
+
+    return selected[
+        :MAX_TOTAL
+    ]
 
 
 # ============================================================
-# GEMINI REQUEST
+# GEMINI
 # ============================================================
 
-def ask_gemini(
-    articles
-):
+def ask_gemini(articles):
 
     if not articles:
         return []
 
+
     blocks = []
+
 
     for index, article in enumerate(
         articles,
@@ -1653,15 +1504,18 @@ def ask_gemini(
             )
         )
 
+
         if not description:
 
             description = (
                 "لا يوجد وصف إضافي. "
-                "اعتمد على العنوان فقط "
-                "ولا تضف معلومات غير مؤكدة."
+                "اعتمد فقط على العنوان "
+                "ولا تضف أي معلومة غير مؤكدة."
             )
 
+
         blocks.append(
+
             f"""
 ARTICLE {index}
 
@@ -1680,72 +1534,87 @@ ORIGINAL TITLE:
 AVAILABLE INFORMATION:
 {description}
 """
+
         )
+
 
     prompt = f"""
 أنت محرر الأخبار الرئيسي في NOWNEX FOOTBALL.
 
-حوّل الأخبار التالية إلى أخبار عربية احترافية.
+مهمتك تحويل الأخبار التالية إلى محتوى عربي احترافي.
 
 القواعد الإلزامية:
 
-- اكتب عنوانًا عربيًا واضحًا.
-- اكتب ملخصًا عربيًا مفصلًا.
-- لا تترك العنوان باللغة الإنجليزية.
-- لا تستخدم الإنجليزية إلا لأسماء الأندية أو اللاعبين أو العلامات التجارية عند الضرورة.
-- لا تخترع أي معلومة.
-- لا تخترع نتائج.
-- لا تخترع أرقامًا.
-- لا تخترع أسماء.
-- لا تخترع تصريحات.
-- لا تخترع اقتباسات.
-- لا تضف رأيًا شخصيًا.
-- استخدم المعلومات الموجودة فقط.
-- الملخص من 70 إلى 130 كلمة تقريبًا.
-- الملخص يجب أن يكون من 3 إلى 6 جمل.
-- لا تجعل الملخص مجرد إعادة صياغة للعنوان.
-- لا تضع روابط.
-- لا تستخدم Markdown.
-- أعد JSON فقط.
+1. ترجم عنوان كل خبر إلى العربية.
+2. اكتب title_ar بالعربية.
+3. اكتب summary_ar بالعربية.
+4. لا تترك العنوان باللغة الإنجليزية.
+5. لا تختصر الخبر إلى جملة واحدة.
+6. اكتب ملخصًا من 70 إلى 130 كلمة تقريبًا.
+7. الملخص يجب أن يتكون من عدة جمل مترابطة.
+8. اذكر أهم تفاصيل الخبر الموجودة في المعلومات المتاحة.
+9. لا تخترع أي معلومة.
+10. لا تخترع أسماء.
+11. لا تخترع نتائج.
+12. لا تخترع أرقامًا.
+13. لا تخترع تصريحات.
+14. لا تخترع اقتباسات.
+15. لا تضف رأيًا شخصيًا.
+16. إذا كانت المعلومات المتاحة محدودة، اكتب ملخصًا مفيدًا فقط من المعلومات المتوفرة.
+17. أسماء الأندية واللاعبين والعلامات التجارية يمكن كتابتها كما هي إذا كان ذلك ضروريًا.
+18. لا تضع روابط.
+19. لا تستخدم Markdown.
+20. أعد JSON فقط.
+21. يجب إعادة عنصر واحد لكل ARTICLE.
+22. يجب الحفاظ على رقم ARTICLE داخل id.
 
-الشكل:
+الشكل المطلوب:
 
 [
   {{
     "id": 1,
-    "title_ar": "عنوان عربي",
-    "summary_ar": "ملخص عربي مفصل..."
+    "title_ar": "العنوان العربي",
+    "summary_ar": "ملخص عربي مفصل من عدة جمل"
   }}
 ]
-
-يجب إعادة عنصر لكل ARTICLE وبنفس رقم ARTICLE.
 
 الأخبار:
 
 {chr(10).join(blocks)}
 """
 
+
     payload = {
 
         "contents": [
+
             {
-                "role": "user",
+
+                "role":
+                    "user",
+
                 "parts": [
+
                     {
-                        "text": prompt
+                        "text":
+                            prompt
                     }
+
                 ]
+
             }
+
         ],
 
         "generationConfig": {
 
-            "temperature": 0.2,
-
             "responseMimeType":
                 "application/json"
+
         }
+
     }
+
 
     headers = {
 
@@ -1754,7 +1623,9 @@ AVAILABLE INFORMATION:
 
         "x-goog-api-key":
             API_KEY
+
     }
+
 
     for attempt in range(
         1,
@@ -1764,8 +1635,11 @@ AVAILABLE INFORMATION:
         try:
 
             print(
-                f"GEMINI REQUEST {attempt}/3"
+                "GEMINI REQUEST:",
+                attempt,
+                "/3"
             )
+
 
             response = requests.post(
 
@@ -1776,12 +1650,19 @@ AVAILABLE INFORMATION:
                 json=payload,
 
                 timeout=GEMINI_TIMEOUT
+
             )
+
 
             print(
                 "GEMINI STATUS:",
                 response.status_code
             )
+
+
+            # ------------------------------------------------
+            # RATE LIMIT
+            # ------------------------------------------------
 
             if response.status_code == 429:
 
@@ -1795,11 +1676,12 @@ AVAILABLE INFORMATION:
                     90
                 )
 
+
                 print(
-                    "RATE LIMIT:",
-                    wait,
-                    "seconds"
+                    "RATE LIMIT. WAIT:",
+                    wait
                 )
+
 
                 time.sleep(
                     wait
@@ -1807,26 +1689,57 @@ AVAILABLE INFORMATION:
 
                 continue
 
+
+            # ------------------------------------------------
+            # OTHER API ERROR
+            # ------------------------------------------------
+
             if response.status_code != 200:
 
                 print(
-                    "GEMINI ERROR:",
-                    response.text[:1500]
+                    "GEMINI ERROR:"
                 )
+
+                print(
+                    response.text[:3000]
+                )
+
+                if attempt < 3:
+
+                    time.sleep(
+                        10
+                    )
+
+                    continue
 
                 return []
 
+
+            # ------------------------------------------------
+            # JSON RESPONSE
+            # ------------------------------------------------
+
             data = response.json()
+
 
             candidates = data.get(
                 "candidates",
                 []
             )
 
+
             if not candidates:
+
+                print(
+                    "GEMINI ERROR: "
+                    "No candidates returned."
+                )
+
                 return []
 
+
             text = (
+
                 candidates[0]
                 .get(
                     "content",
@@ -1840,13 +1753,24 @@ AVAILABLE INFORMATION:
                     "text",
                     ""
                 )
+
             )
 
+
             if not text:
+
+                print(
+                    "GEMINI ERROR: "
+                    "Empty response text."
+                )
+
                 return []
+
 
             text = text.strip()
 
+
+            # إزالة Markdown إن ظهر
             text = re.sub(
                 r"^```json\s*",
                 "",
@@ -1854,15 +1778,37 @@ AVAILABLE INFORMATION:
                 flags=re.I
             )
 
+
             text = re.sub(
                 r"\s*```$",
                 "",
                 text
             )
 
-            result = json.loads(
-                text
-            )
+
+            try:
+
+                result = json.loads(
+                    text
+                )
+
+            except json.JSONDecodeError as error:
+
+                print(
+                    "GEMINI JSON ERROR:",
+                    str(error)
+                )
+
+                print(
+                    "RAW GEMINI RESPONSE:"
+                )
+
+                print(
+                    text[:5000]
+                )
+
+                return []
+
 
             if isinstance(
                 result,
@@ -1874,27 +1820,43 @@ AVAILABLE INFORMATION:
                     []
                 )
 
+
             if not isinstance(
                 result,
                 list
             ):
 
+                print(
+                    "GEMINI ERROR: "
+                    "Response is not a list."
+                )
+
                 return []
 
+
+            print(
+                "GEMINI ARTICLES RETURNED:",
+                len(result)
+            )
+
+
             return result
+
 
         except Exception as error:
 
             print(
-                "GEMINI EXCEPTION:",
+                "GEMINI ERROR:",
                 str(error)[:500]
             )
+
 
             if attempt < 3:
 
                 time.sleep(
                     10
                 )
+
 
     return []
 
@@ -1916,22 +1878,25 @@ def valid_summary(
         summary
     )
 
-    if not summary:
-        return False
 
     if len(summary) < 250:
         return False
 
+
     if summary.lower() == title.lower():
         return False
 
+
     words = summary.split()
+
 
     if len(words) < 45:
         return False
 
+
     if len(words) > 220:
         return False
+
 
     sentences = len(
         re.findall(
@@ -1940,25 +1905,27 @@ def valid_summary(
         )
     )
 
+
     if sentences < 3:
         return False
+
 
     return True
 
 
 # ============================================================
-# PROCESS GEMINI
+# PROCESS BATCH
 # ============================================================
 
-def process_batch(
-    articles
-):
+def process_batch(articles):
 
     results = ask_gemini(
         articles
     )
 
+
     by_id = {}
+
 
     for result in results:
 
@@ -1967,6 +1934,7 @@ def process_batch(
             dict
         ):
             continue
+
 
         try:
 
@@ -1980,11 +1948,14 @@ def process_batch(
 
             continue
 
+
         by_id[
             article_id
         ] = result
 
+
     final = []
+
 
     for index, article in enumerate(
         articles,
@@ -1994,6 +1965,7 @@ def process_batch(
         ai = by_id.get(
             index
         )
+
 
         if not ai:
 
@@ -2007,53 +1979,68 @@ def process_batch(
 
             continue
 
+
         title_ar = clean_text(
+
             ai.get(
                 "title_ar",
                 ""
             )
+
         )
 
+
         summary_ar = clean_text(
+
             ai.get(
                 "summary_ar",
                 ""
             )
+
         )
 
+
         if not title_ar:
+
             continue
 
+
         # ----------------------------------------------------
-        # منع العنوان الإنجليزي
+        # Reject full English title
         # ----------------------------------------------------
 
-        arabic_chars = len(
+        arabic = len(
             re.findall(
                 r"[\u0600-\u06FF]",
                 title_ar
             )
         )
 
-        latin_chars = len(
+
+        latin = len(
             re.findall(
                 r"[A-Za-z]",
                 title_ar
             )
         )
 
+
         if (
-            latin_chars > 15
-            and
-            latin_chars > arabic_chars * 2
+            latin > 15
+            and latin > arabic * 2
         ):
 
             print(
-                "REJECT ENGLISH TITLE:",
+                "ENGLISH TITLE REJECTED:",
                 title_ar
             )
 
             continue
+
+
+        # ----------------------------------------------------
+        # Validate summary
+        # ----------------------------------------------------
 
         if not valid_summary(
             title_ar,
@@ -2061,30 +2048,20 @@ def process_batch(
         ):
 
             print(
-                "REJECT BAD SUMMARY:",
+                "BAD SUMMARY:",
                 title_ar[:100]
             )
 
             continue
+
 
         timestamp = article.get(
             "_timestamp",
             0
         )
 
-        final.append({
 
-            "id":
-                hashlib.sha256(
-                    (
-                        article.get(
-                            "link",
-                            ""
-                        )
-                    ).encode(
-                        "utf-8"
-                    )
-                ).hexdigest()[:16],
+        final.append({
 
             "category":
                 article.get(
@@ -2152,23 +2129,24 @@ def process_batch(
                     ),
                     1
                 )
+
         })
+
 
         print(
             "CREATED:",
             title_ar[:120]
         )
 
+
     return final
 
 
 # ============================================================
-# DOWNLOAD ALL ARTICLE IMAGES
+# IMAGES
 # ============================================================
 
-def complete_images(
-    articles
-):
+def complete_images(articles):
 
     print("")
     print(
@@ -2176,41 +2154,65 @@ def complete_images(
     )
 
     print(
-        "DOWNLOADING NEWS IMAGES"
+        "CHECKING ARTICLE IMAGES"
     )
 
     print(
         "=========================================="
     )
 
+
     for index, article in enumerate(
         articles,
         start=1
     ):
 
-        print("")
         print(
-            f"[{index}/{len(articles)}]"
-        )
-
-        print(
+            f"[{index}/{len(articles)}]",
             article.get(
-                "title_ar",
+                "title",
                 ""
             )[:100]
         )
 
-        image = get_best_image(
-            article
+
+        existing = article.get(
+            "image",
+            ""
         )
 
-        article["image"] = image
 
-        if image:
+        if existing:
+
+            article["image"] = (
+                valid_image_url(
+                    existing
+                )
+            )
+
+
+        if not article.get(
+            "image"
+        ):
+
+            article["image"] = get_best_image(
+
+                article.get(
+                    "link",
+                    ""
+                ),
+
+                existing
+
+            )
+
+
+        if article.get(
+            "image"
+        ):
 
             print(
-                "IMAGE ✓:",
-                image
+                "IMAGE ✓"
             )
 
         else:
@@ -2219,9 +2221,11 @@ def complete_images(
                 "IMAGE ✗"
             )
 
+
         time.sleep(
             0.2
         )
+
 
     return articles
 
@@ -2230,96 +2234,369 @@ def complete_images(
 # CATEGORY COUNTS
 # ============================================================
 
-def category_counts(
-    articles
-):
+def category_counts(articles):
 
-    result = {}
+    return {
 
-    for category in CATEGORIES:
+        category:
+            len([
 
-        result[category] = len([
-            article
-            for article in articles
-            if article.get(
-                "category"
-            ) == category
-        ])
+                x
 
-    return result
+                for x in articles
+
+                if x.get(
+                    "category"
+                ) == category
+
+            ])
+
+        for category in CATEGORIES
+
+    }
 
 
 # ============================================================
 # TRENDING
 # ============================================================
 
-def create_trending(
-    articles
-):
+def create_trending(articles):
 
     result = []
 
     seen = set()
 
+
     for category in CATEGORIES:
 
         category_articles = [
-            article
-            for article in articles
-            if article.get(
+
+            x
+
+            for x in articles
+
+            if x.get(
                 "category"
             ) == category
+
         ]
+
 
         for article in category_articles[:2]:
 
             key = normalize_title(
+
                 article.get(
                     "title_ar",
                     ""
                 )
+
             )
+
 
             if not key:
                 continue
 
+
             if key in seen:
                 continue
+
 
             item = dict(
                 article
             )
 
+
             item["category"] = "Trending"
+
 
             result.append(
                 item
             )
 
+
             seen.add(
                 key
             )
+
 
             if len(result) >= 10:
 
                 return result
 
+
     return result
 
 
 # ============================================================
-# SAVE JSON
+# MAIN
 # ============================================================
 
-def save_news(
-    final_news,
-    trending
-):
+def main():
+
+    print("")
+    print(
+        "=========================================="
+    )
+
+    print(
+        " NOWNEX FOOTBALL NEWS ENGINE"
+    )
+
+    print(
+        " RSS + GEMINI 3.6 FLASH + IMAGES"
+    )
+
+    print(
+        "=========================================="
+    )
+
+
+    print(
+        "GEMINI MODEL:",
+        GEMINI_MODEL
+    )
+
+
+    # --------------------------------------------------------
+    # CREATE DATA DIRECTORY
+    # --------------------------------------------------------
 
     os.makedirs(
         "data",
         exist_ok=True
     )
+
+
+    # --------------------------------------------------------
+    # 1. RSS
+    # --------------------------------------------------------
+
+    articles = get_news()
+
+
+    if not articles:
+
+        raise RuntimeError(
+            "No fresh football news found."
+        )
+
+
+    # --------------------------------------------------------
+    # 2. SELECT
+    # --------------------------------------------------------
+
+    selected = select_articles(
+        articles
+    )
+
+
+    print("")
+    print(
+        "SELECTED:",
+        len(selected)
+    )
+
+
+    selected_counts = category_counts(
+        selected
+    )
+
+
+    for category in CATEGORIES:
+
+        print(
+            category,
+            ":",
+            selected_counts[category]
+        )
+
+
+    # --------------------------------------------------------
+    # 3. IMAGES
+    # --------------------------------------------------------
+
+    selected = complete_images(
+        selected
+    )
+
+
+    # --------------------------------------------------------
+    # 4. GEMINI
+    # --------------------------------------------------------
+
+    final_news = []
+
+
+    total_batches = (
+
+        len(selected)
+        +
+        GEMINI_BATCH_SIZE
+        -
+        1
+
+    ) // GEMINI_BATCH_SIZE
+
+
+    for batch_number, start in enumerate(
+
+        range(
+            0,
+            len(selected),
+            GEMINI_BATCH_SIZE
+        ),
+
+        start=1
+
+    ):
+
+        batch = selected[
+            start:
+            start + GEMINI_BATCH_SIZE
+        ]
+
+
+        print("")
+        print(
+            "=========================================="
+        )
+
+        print(
+            f"GEMINI BATCH "
+            f"{batch_number}/{total_batches}"
+        )
+
+        print(
+            "ARTICLES:",
+            len(batch)
+        )
+
+
+        results = process_batch(
+            batch
+        )
+
+
+        print(
+            "BATCH RESULT:",
+            len(results)
+        )
+
+
+        final_news.extend(
+            results
+        )
+
+
+        if batch_number < total_batches:
+
+            print(
+                "WAITING:",
+                GEMINI_BATCH_DELAY,
+                "seconds"
+            )
+
+            time.sleep(
+                GEMINI_BATCH_DELAY
+            )
+
+
+    # --------------------------------------------------------
+    # 5. CHECK
+    # --------------------------------------------------------
+
+    counts = category_counts(
+        final_news
+    )
+
+
+    print("")
+    print(
+        "=========================================="
+    )
+
+    print(
+        "CATEGORY RESULTS"
+    )
+
+    print(
+        "=========================================="
+    )
+
+
+    for category in CATEGORIES:
+
+        print(
+            category,
+            ":",
+            counts[category],
+            "/",
+            MIN_PER_CATEGORY
+        )
+
+
+    missing = [
+
+        category
+
+        for category in CATEGORIES
+
+        if counts[category]
+        < MIN_PER_CATEGORY
+
+    ]
+
+
+    if missing:
+
+        print(
+            "MISSING:",
+            missing
+        )
+
+        raise RuntimeError(
+
+            "Not enough valid Arabic football news. "
+            "Existing news.json was not modified."
+
+        )
+
+
+    # --------------------------------------------------------
+    # 6. SORT
+    # --------------------------------------------------------
+
+    final_news.sort(
+
+        key=lambda x:
+            x.get(
+                "publishedAt",
+                ""
+            ),
+
+        reverse=True
+
+    )
+
+
+    final_news = final_news[
+        :MAX_TOTAL
+    ]
+
+
+    # --------------------------------------------------------
+    # 7. TRENDING
+    # --------------------------------------------------------
+
+    trending = create_trending(
+        final_news
+    )
+
+
+    # --------------------------------------------------------
+    # 8. OUTPUT
+    # --------------------------------------------------------
 
     output = {
 
@@ -2339,267 +2616,72 @@ def save_news(
 
         "trending":
             trending
+
     }
 
-    temp_file = (
-        NEWS_FILE
-        +
-        ".tmp"
-    )
+
+    # --------------------------------------------------------
+    # 9. SAVE
+    # --------------------------------------------------------
 
     with open(
-        temp_file,
+        NEWS_FILE,
         "w",
         encoding="utf-8"
     ) as file:
 
         json.dump(
+
             output,
+
             file,
+
             ensure_ascii=False,
+
             indent=2
+
         )
 
-    os.replace(
-        temp_file,
-        NEWS_FILE
-    )
-
-
-# ============================================================
-# MAIN
-# ============================================================
-
-def main():
-
-    print("")
-    print(
-        "=========================================="
-    )
-
-    print(
-        " NOWNEX FOOTBALL NEWS ENGINE"
-    )
-
-    print(
-        " RSS + GEMINI + LOCAL IMAGES"
-    )
-
-    print(
-        "=========================================="
-    )
-
-    os.makedirs(
-        "data",
-        exist_ok=True
-    )
-
-    os.makedirs(
-        IMAGE_DIR,
-        exist_ok=True
-    )
 
     # --------------------------------------------------------
-    # 1. RSS
+    # 10. REPORT
     # --------------------------------------------------------
 
-    articles = get_news()
+    images = len([
 
-    if not articles:
+        x
 
-        raise RuntimeError(
-            "No fresh football news found."
-        )
+        for x in final_news
 
-    # --------------------------------------------------------
-    # 2. SELECT
-    # --------------------------------------------------------
-
-    selected = select_articles(
-        articles
-    )
-
-    print("")
-    print(
-        "TOTAL SELECTED:",
-        len(selected)
-    )
-
-    # --------------------------------------------------------
-    # 3. GEMINI
-    # --------------------------------------------------------
-
-    final_news = []
-
-    total_batches = (
-        len(selected)
-        +
-        GEMINI_BATCH_SIZE
-        -
-        1
-    ) // GEMINI_BATCH_SIZE
-
-    for batch_number, start in enumerate(
-        range(
-            0,
-            len(selected),
-            GEMINI_BATCH_SIZE
-        ),
-        start=1
-    ):
-
-        batch = selected[
-            start:
-            start + GEMINI_BATCH_SIZE
-        ]
-
-        print("")
-        print(
-            "=========================================="
-        )
-
-        print(
-            f"GEMINI BATCH "
-            f"{batch_number}/{total_batches}"
-        )
-
-        print(
-            "ARTICLES:",
-            len(batch)
-        )
-
-        results = process_batch(
-            batch
-        )
-
-        final_news.extend(
-            results
-        )
-
-        print(
-            "BATCH RESULT:",
-            len(results)
-        )
-
-        if batch_number < total_batches:
-
-            time.sleep(
-                GEMINI_BATCH_DELAY
-            )
-
-    # --------------------------------------------------------
-    # 4. CHECK GEMINI RESULT
-    # --------------------------------------------------------
-
-    counts = category_counts(
-        final_news
-    )
-
-    print("")
-    print(
-        "=========================================="
-    )
-
-    print(
-        "CATEGORY RESULTS"
-    )
-
-    print(
-        "=========================================="
-    )
-
-    for category in CATEGORIES:
-
-        print(
-            category,
-            ":",
-            counts[category],
-            "/",
-            MIN_PER_CATEGORY
-        )
-
-    missing = [
-        category
-        for category in CATEGORIES
-        if counts[category]
-        < MIN_PER_CATEGORY
-    ]
-
-    if missing:
-
-        raise RuntimeError(
-            "Not enough valid Arabic news. "
-            f"Missing: {missing}"
-        )
-
-    # --------------------------------------------------------
-    # 5. IMAGES
-    # --------------------------------------------------------
-
-    final_news = complete_images(
-        final_news
-    )
-
-    # --------------------------------------------------------
-    # 6. SORT
-    # --------------------------------------------------------
-
-    final_news.sort(
-        key=lambda item:
-            item.get(
-                "publishedAt",
-                ""
-            ),
-        reverse=True
-    )
-
-    final_news = final_news[
-        :MAX_TOTAL
-    ]
-
-    # --------------------------------------------------------
-    # 7. TRENDING
-    # --------------------------------------------------------
-
-    trending = create_trending(
-        final_news
-    )
-
-    # --------------------------------------------------------
-    # 8. SAVE
-    # --------------------------------------------------------
-
-    save_news(
-        final_news,
-        trending
-    )
-
-    # --------------------------------------------------------
-    # 9. REPORT
-    # --------------------------------------------------------
-
-    images_count = len([
-        article
-        for article in final_news
-        if article.get(
+        if x.get(
             "image"
         )
+
     ])
 
-    summaries_count = len([
-        article
-        for article in final_news
+
+    summaries = len([
+
+        x
+
+        for x in final_news
+
         if valid_summary(
-            article.get(
+
+            x.get(
                 "title_ar",
                 ""
             ),
-            article.get(
+
+            x.get(
                 "summary_ar",
                 ""
             )
+
         )
+
     ])
+
 
     print("")
     print(
@@ -2607,7 +2689,7 @@ def main():
     )
 
     print(
-        " NOWNEX FOOTBALL UPDATED SUCCESSFULLY"
+        "NOWNEX FOOTBALL UPDATED SUCCESSFULLY"
     )
 
     print(
@@ -2615,20 +2697,20 @@ def main():
     )
 
     print(
-        "NEWS:",
+        "TOTAL:",
         len(final_news)
     )
 
     print(
         "IMAGES:",
-        images_count,
+        images,
         "/",
         len(final_news)
     )
 
     print(
         "SUMMARIES:",
-        summaries_count,
+        summaries,
         "/",
         len(final_news)
     )
@@ -2638,6 +2720,17 @@ def main():
         len(trending)
     )
 
+
+    for category in CATEGORIES:
+
+        print(
+            category,
+            ":",
+            counts[category]
+        )
+
+
+    print("")
     print(
         "FILE:",
         NEWS_FILE
@@ -2653,4 +2746,5 @@ def main():
 # ============================================================
 
 if __name__ == "__main__":
+
     main()
